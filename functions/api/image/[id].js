@@ -3,6 +3,13 @@ import { CORS, json } from '../../_lib.js';
 export async function onRequestGet(context) {
   const id = context.params.id;
   if (!id) return json({ ok: false, error: 'Не указан ID' }, 400);
+
+  // Кэш на границе Cloudflare: картинки неизменяемые, origin дёргаем один раз
+  const cache = caches.default;
+  const cacheKey = new Request(new URL(context.request.url).toString());
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
   const obj = await context.env.R2.get(id);
   if (!obj) return json({ ok: false, error: 'Не найдено' }, 404);
   const headers = {
@@ -11,5 +18,7 @@ export async function onRequestGet(context) {
     etag: obj.httpEtag,
     ...CORS,
   };
-  return new Response(obj.body, { headers });
+  const resp = new Response(await obj.arrayBuffer(), { headers });
+  context.waitUntil(cache.put(cacheKey, resp.clone()));
+  return resp;
 }
