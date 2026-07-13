@@ -37,3 +37,30 @@ export async function kvGetJson(env, key, fallback) {
 export async function kvPutJson(env, key, value) {
   await env.KV.put(key, JSON.stringify(value));
 }
+
+// --- edge-кэш для публичных GET API ---
+// Ключ канонизируется (без query), чтобы GET и инвалидация из POST совпадали.
+export function apiCacheKey(context, pathname) {
+  const url = new URL(context.request.url);
+  if (pathname) url.pathname = pathname;
+  url.search = '';
+  url.searchParams.set('vv', '1');
+  return new Request(url.toString());
+}
+
+export async function edgeJson(context, ttl, build) {
+  const cache = caches.default;
+  const key = apiCacheKey(context);
+  const hit = await cache.match(key);
+  if (hit) return hit;
+  const data = await build();
+  const resp = json(data, 200, { 'cache-control': 'public, max-age=0, s-maxage=' + ttl });
+  context.waitUntil(cache.put(key, resp.clone()));
+  return resp;
+}
+
+export async function purgeApiCache(context, pathname) {
+  try {
+    await caches.default.delete(apiCacheKey(context, pathname));
+  } catch (e) {}
+}

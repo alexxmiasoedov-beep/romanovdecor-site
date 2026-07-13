@@ -1,10 +1,12 @@
-import { json, isAuthed, unauthorized, genId, kvGetJson, kvPutJson } from '../_lib.js';
+import { json, isAuthed, unauthorized, genId, kvGetJson, kvPutJson, edgeJson, purgeApiCache } from '../_lib.js';
 
 const KEY = 'portfolio:list';
 
 export async function onRequestGet(context) {
-  const items = await kvGetJson(context.env, KEY, []);
-  return json({ ok: true, items });
+  return edgeJson(context, 120, async () => {
+    const items = await kvGetJson(context.env, KEY, []);
+    return { ok: true, items };
+  });
 }
 
 export async function onRequestPost(context) {
@@ -19,5 +21,6 @@ export async function onRequestPost(context) {
   const item = Object.assign({}, body, { id: genId(), createdAt: Date.now() });
   items.unshift(item);
   await kvPutJson(context.env, KEY, items);
+  await purgeApiCache(context);
   return json({ ok: true, item });
 }

@@ -1,10 +1,12 @@
-import { json, isAuthed, unauthorized, kvGetJson, kvPutJson } from '../_lib.js';
+import { json, isAuthed, unauthorized, kvGetJson, kvPutJson, edgeJson, purgeApiCache } from '../_lib.js';
 
 const KEY = 'slots:map';
 
 export async function onRequestGet(context) {
-  const slots = await kvGetJson(context.env, KEY, {});
-  return json({ ok: true, slots });
+  return edgeJson(context, 120, async () => {
+    const slots = await kvGetJson(context.env, KEY, {});
+    return { ok: true, slots };
+  });
 }
 
 export async function onRequestPost(context) {
@@ -25,5 +27,6 @@ export async function onRequestPost(context) {
     slots[key] = value;
   }
   await kvPutJson(context.env, KEY, slots);
+  await purgeApiCache(context);
   return json({ ok: true, slots });
 }

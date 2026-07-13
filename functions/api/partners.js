@@ -1,10 +1,12 @@
-import { json, isAuthed, unauthorized, kvGetJson, kvPutJson } from '../_lib.js';
+import { json, isAuthed, unauthorized, kvGetJson, kvPutJson, edgeJson, purgeApiCache } from '../_lib.js';
 
 const KEY = 'partners:list';
 
 export async function onRequestGet(context) {
-  const partners = await kvGetJson(context.env, KEY, []);
-  return json({ ok: true, partners });
+  return edgeJson(context, 120, async () => {
+    const partners = await kvGetJson(context.env, KEY, []);
+    return { ok: true, partners };
+  });
 }
 
 export async function onRequestPost(context) {
@@ -17,5 +19,6 @@ export async function onRequestPost(context) {
   }
   const partners = Array.isArray(body && body.partners) ? body.partners : [];
   await kvPutJson(context.env, KEY, partners);
+  await purgeApiCache(context);
   return json({ ok: true, partners });
 }

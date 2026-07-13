@@ -1,10 +1,12 @@
-import { json, isAuthed, unauthorized, kvGetJson, kvPutJson } from '../_lib.js';
+import { json, isAuthed, unauthorized, kvGetJson, kvPutJson, edgeJson, purgeApiCache } from '../_lib.js';
 
 const KEY = 'carousel:slides';
 
 export async function onRequestGet(context) {
-  const slides = await kvGetJson(context.env, KEY, []);
-  return json({ ok: true, slides });
+  return edgeJson(context, 120, async () => {
+    const slides = await kvGetJson(context.env, KEY, []);
+    return { ok: true, slides };
+  });
 }
 
 export async function onRequestPost(context) {
@@ -17,5 +19,6 @@ export async function onRequestPost(context) {
   }
   const slides = Array.isArray(body && body.slides) ? body.slides : [];
   await kvPutJson(context.env, KEY, slides);
+  await purgeApiCache(context);
   return json({ ok: true, slides });
 }
