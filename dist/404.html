@@ -22,10 +22,15 @@ a{display:inline-block;padding:13px 24px;border-radius:14px;font-size:13px;font-
 .b2{background:none;border:1px solid rgba(184,150,90,.25);color:#b8965a}.b2:hover{background:rgba(184,150,90,.06)}
 @media(max-width:600px){.code{font-size:80px}h1{font-size:20px}}
 </style>
-<meta property="og:image" content="https://romanovdecor.by/img/og-cover.png">
+<meta property="og:image" content="https://romanovdecor.by/img/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta name="twitter:image" content="https://romanovdecor.by/img/og-cover.png">
+<meta name="twitter:image" content="https://romanovdecor.by/img/og-cover.jpg">
+<style>/* stage1 fixes */
+html{overflow-x:clip}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #b8965a;outline-offset:1px}
+a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2px}
+</style>
 </head>
 <body>
 <div class="w">
@@ -37,5 +42,37 @@ a{display:inline-block;padding:13px 24px;border-radius:14px;font-size:13px;font-
 <a href="/portfolio" class="b2">Портфолио</a>
 </div>
 </div>
+<script>
+/* stage1: маска телефона + скрытие пустых мессенджеров */
+(function(){
+  document.querySelectorAll('input[type=tel]').forEach(function(inp){
+    inp.setAttribute('autocomplete','tel');
+    inp.setAttribute('inputmode','tel');
+    inp.setAttribute('pattern','\\+?[0-9\\s()\\-]{7,20}');
+    inp.setAttribute('title','Введите номер телефона, например +375 (29) 123-45-67');
+    inp.setAttribute('maxlength','20');
+    inp.addEventListener('input', function(){
+      var v = inp.value.replace(/[^\d+]/g,'').replace(/(?!^)\+/g,'');
+      var d = v.replace(/^\+/,'');
+      if(/^375\d{0,9}$/.test(d)){
+        var p = '+375';
+        if(d.length > 3) p += ' (' + d.slice(3,5);
+        if(d.length >= 5) p += ')';
+        if(d.length > 5) p += ' ' + d.slice(5,8);
+        if(d.length > 8) p += '-' + d.slice(8,10);
+        if(d.length > 10) p += '-' + d.slice(10,12);
+        inp.value = p;
+      } else {
+        inp.value = v;
+      }
+    });
+  });
+  fetch('/api/contacts').then(function(r){return r.json()}).then(function(j){
+    var c = j && j.contacts || {};
+    if(!c.telegram) document.querySelectorAll('a[href^="https://t.me"]').forEach(function(a){a.style.display='none'});
+    if(!c.viber) document.querySelectorAll('a[href^="viber:"]').forEach(function(a){a.style.display='none'});
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

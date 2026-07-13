@@ -457,16 +457,21 @@ footer{padding:20px;border-top:1px solid rgba(255,255,255,.05);background:#2c2c2
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Romanov Decor Studio">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:image" content="https://romanovdecor.by/img/og-cover.png">
+<meta property="og:image" content="https://romanovdecor.by/img/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta name="twitter:image" content="https://romanovdecor.by/img/og-cover.png">
+<meta name="twitter:image" content="https://romanovdecor.by/img/og-cover.jpg">
 <meta property="og:url" content="https://romanovdecor.by/">
 <meta property="og:title" content="Romanov Decor Studio — Микроцемент и наливные полы в Минске">
 <meta property="og:description" content="Romanov Decor Studio — микроцемент, наливные эпоксидные и полиуретановые полы в Минске. Стены, полы, мебель, столешницы.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Romanov Decor Studio — Микроцемент и наливные полы в Минске">
 <meta name="twitter:description" content="Romanov Decor Studio — микроцемент, наливные эпоксидные и полиуретановые полы в Минске. Стены, полы, мебель, столешницы.">
+<style>/* stage1 fixes */
+html{overflow-x:clip}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #b8965a;outline-offset:1px}
+a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2px}
+</style>
 </head>
 <body>
 
@@ -492,7 +497,7 @@ footer{padding:20px;border-top:1px solid rgba(255,255,255,.05);background:#2c2c2
 <a class="dr-a2" href="/portfolio" onclick="closeDrawer()">Портфолио</a><a class="dr-a2" href="/price" onclick="closeDrawer()">Цены</a><a class="dr-a2" href="/calculator" onclick="closeDrawer()">Калькулятор</a><a class="dr-a2" href="/blog" onclick="closeDrawer()">Блог</a><a class="dr-a2" href="/about" onclick="closeDrawer()">О студии</a>
 <div class="dr-div"></div>
 <div class="dr-lb">Контакты</div>
-<div class="dr-it"><h4>Телефон</h4><a href="tel:+375XXXXXXXX">+375 (XX) XXX-XX-XX</a></div>
+<div class="dr-it"><h4>Телефон</h4><a href="tel:+375336280486">+375 (33) 628-04-86</a></div>
 <div class="dr-it"><h4>Email</h4><a href="mailto:info@romanovdecor.by">info&#64;romanovdecor.by</a></div>
 <div class="dr-it"><h4>Адрес</h4><p>г. Минск, Беларусь</p></div>
 <div class="dr-it"><h4>Режим работы</h4><p>Пн-Пт: 9:00-19:00 Сб: 10:00-15:00</p></div>
@@ -736,7 +741,7 @@ footer{padding:20px;border-top:1px solid rgba(255,255,255,.05);background:#2c2c2
 <div class="tag">Контакты</div>
 <h2 class="ttl">Обсудим <b>ваш проект</b></h2>
 <div class="line"></div>
-<div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h4l2 5-2.5 1.5A11 11 0 009.5 13l1.5-2.5 5 2v4c-7 1-14-6-13-13z"/></svg><div><h4>Телефон</h4><p>+375 (XX) XXX-XX-XX</p></div></div>
+<div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h4l2 5-2.5 1.5A11 11 0 009.5 13l1.5-2.5 5 2v4c-7 1-14-6-13-13z"/></svg><div><h4>Телефон</h4><p>+375 (33) 628-04-86</p></div></div>
 <div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7l7 5 7-5M4 15h12a1 1 0 001-1V6a1 1 0 00-1-1H4a1 1 0 00-1 1v8a1 1 0 001 1z"/></svg><div><h4>Email</h4><p>info&#64;romanovdecor.by</p></div></div>
 <div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 11a3 3 0 100-6 3 3 0 000 6z"/><path d="M10 18s-6-5.3-6-10a6 6 0 1112 0c0 4.7-6 10-6 10z"/></svg><div><h4>Адрес</h4><p>г. Минск, Беларусь</p></div></div>
 </div>
@@ -803,7 +808,7 @@ footer{padding:20px;border-top:1px solid rgba(255,255,255,.05);background:#2c2c2
 </div>
 <div class="ft-col" id="ftContacts">
 <h4>контакты</h4>
-<a href="tel:+375XXXXXXXX">+375 (XX) XXX-XX-XX</a>
+<a href="tel:+375336280486">+375 (33) 628-04-86</a>
 <a href="mailto:info@romanovdecor.by">info&#64;romanovdecor.by</a>
 <p>г. Минск, Беларусь</p>
 <p>Пн-Пт: 9:00-19:00</p>
@@ -914,7 +919,7 @@ async function submitContactForm(e){
     var j = await r.json();
     var c = j && j.contacts || {};
     if(c.phone){
-      document.querySelectorAll('a[href^="tel:"]').forEach(function(a){a.href='tel:'+c.phone.replace(/[\s()-]/g,'');a.textContent=c.phone});
+      document.querySelectorAll('a[href^="tel:"]').forEach(function(a){a.href='tel:'+c.phone.replace(/[\s()-]/g,'');a.textContent=c.phone.replace(/^\+375(\d{2})(\d{3})(\d{2})(\d{2})$/,"+375 ($1) $2-$3-$4")});
     }
     if(c.email){
       document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){a.href='mailto:'+c.email;a.textContent=c.email});
@@ -930,7 +935,7 @@ async function submitContactForm(e){
     if(fc){
       var esc=function(s){return String(s||'').replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};
       var h='<h4>контакты</h4>';
-      if(c.phone) h+='<a href="tel:'+esc(c.phone).replace(/[\s()-]/g,'')+'">'+esc(c.phone)+'</a>';
+      if(c.phone) h+='<a href="tel:'+esc(c.phone).replace(/[\s()-]/g,'')+'">'+esc(c.phone).replace(/^\+375(\d{2})(\d{3})(\d{2})(\d{2})$/,"+375 ($1) $2-$3-$4")+'</a>';
       if(c.email) h+='<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a>';
       if(c.address) h+='<p>'+esc(c.address)+'</p>';
       if(c.hours) h+='<p>'+esc(c.hours)+'</p>';
@@ -1418,11 +1423,20 @@ if('IntersectionObserver' in window){
 <script>
 // Яндекс.Карты — асинхронная загрузка, чтобы зависший CDN не блокировал страницу
 (function(){
-  var s = document.createElement('script');
-  s.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
-  s.async = true;
-  s.onload = function(){ if (typeof ymaps !== 'undefined') initYMap(); };
-  document.head.appendChild(s);
+  function loadMaps(){
+    var s = document.createElement('script');
+    s.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
+    s.async = true;
+    s.onload = function(){ if (typeof ymaps !== 'undefined') initYMap(); };
+    document.head.appendChild(s);
+  }
+  var el = document.getElementById('ymap');
+  if (el && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(en){
+      if (en[0].isIntersecting) { io.disconnect(); loadMaps(); }
+    }, {rootMargin: '600px'});
+    io.observe(el);
+  } else { loadMaps(); }
 })();
 function initYMap(){
 ymaps.ready(function(){
@@ -1476,7 +1490,8 @@ h1 b,h2 b,h3 b,h4 b,.ttl b,.hero h1 b,.hero-headline b,.hero-content h1 b{color:
 /* Mobile compact buttons (.btn-sm + auto-fit для парных hero-кнопок) */
 @media(max-width:600px){
   .btn-g.btn-sm,.btn-o.btn-sm{padding:10px 14px;font-size:11px;letter-spacing:1.2px;white-space:nowrap;flex:1;text-align:center}
-  .hero-btns,.hero-text .btns,div[style*="display:flex"][style*="gap:8px"][style*="flex-wrap:wrap"]{flex-wrap:nowrap!important}
+  .hero-btns,.hero-text .btns{flex-wrap:nowrap!important}
+  div[style*="display:flex"][style*="gap:8px"][style*="flex-wrap:wrap"]:has(> a.btn-g){flex-wrap:nowrap!important}
   .hero-btns .btn,.hero-text .btn-g,.hero-text .btn-o{padding:10px 14px;font-size:11px;letter-spacing:1.2px;white-space:nowrap;flex:1;text-align:center}
 }
 
@@ -1811,5 +1826,37 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
 })();
 
 (function(){var d=document.getElementById('drawer');if(!d||d.dataset.closeBtnInit)return;d.dataset.closeBtnInit='1';var b=document.createElement('button');b.className='dr-close-btn';b.setAttribute('aria-label','Закрыть меню');b.setAttribute('type','button');b.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>';b.addEventListener('click',function(){if(typeof closeDrawer==='function'){closeDrawer();return}d.classList.remove('show');var ov=document.getElementById('overlay');if(ov)ov.classList.remove('show')});d.insertBefore(b,d.firstChild)})();</script>
+<script>
+/* stage1: маска телефона + скрытие пустых мессенджеров */
+(function(){
+  document.querySelectorAll('input[type=tel]').forEach(function(inp){
+    inp.setAttribute('autocomplete','tel');
+    inp.setAttribute('inputmode','tel');
+    inp.setAttribute('pattern','\\+?[0-9\\s()\\-]{7,20}');
+    inp.setAttribute('title','Введите номер телефона, например +375 (29) 123-45-67');
+    inp.setAttribute('maxlength','20');
+    inp.addEventListener('input', function(){
+      var v = inp.value.replace(/[^\d+]/g,'').replace(/(?!^)\+/g,'');
+      var d = v.replace(/^\+/,'');
+      if(/^375\d{0,9}$/.test(d)){
+        var p = '+375';
+        if(d.length > 3) p += ' (' + d.slice(3,5);
+        if(d.length >= 5) p += ')';
+        if(d.length > 5) p += ' ' + d.slice(5,8);
+        if(d.length > 8) p += '-' + d.slice(8,10);
+        if(d.length > 10) p += '-' + d.slice(10,12);
+        inp.value = p;
+      } else {
+        inp.value = v;
+      }
+    });
+  });
+  fetch('/api/contacts').then(function(r){return r.json()}).then(function(j){
+    var c = j && j.contacts || {};
+    if(!c.telegram) document.querySelectorAll('a[href^="https://t.me"]').forEach(function(a){a.style.display='none'});
+    if(!c.viber) document.querySelectorAll('a[href^="viber:"]').forEach(function(a){a.style.display='none'});
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

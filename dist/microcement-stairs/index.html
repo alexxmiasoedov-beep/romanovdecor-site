@@ -172,16 +172,21 @@ strong{font-weight:600}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Romanov Decor Studio">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:image" content="https://romanovdecor.by/img/og-cover.png">
+<meta property="og:image" content="https://romanovdecor.by/img/og-cover.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta name="twitter:image" content="https://romanovdecor.by/img/og-cover.png">
+<meta name="twitter:image" content="https://romanovdecor.by/img/og-cover.jpg">
 <meta property="og:url" content="https://romanovdecor.by/microcement-stairs">
 <meta property="og:title" content="Микроцемент на лестнице в Минске — бесшовное покрытие ступеней | Romanov Decor Studio">
 <meta property="og:description" content="Микроцемент на лестнице под ключ: ступени, подступенки, площадки, косоуры монолитом. Бесшовность, износостойкость, противоскольжение. Собственное производство. Гарантия 5 лет. Минск.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Микроцемент на лестнице в Минске — бесшовное покрытие ступеней | Romanov Decor Studio">
 <meta name="twitter:description" content="Микроцемент на лестнице под ключ: ступени, подступенки, площадки, косоуры монолитом. Бесшовность, износостойкость, противоскольжение. Собственное производство. Гарантия 5 лет. Минск.">
+<style>/* stage1 fixes */
+html{overflow-x:clip}
+input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #b8965a;outline-offset:1px}
+a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2px}
+</style>
 </head>
 <body>
 
@@ -206,7 +211,7 @@ strong{font-weight:600}
 <a class="dr-a2" href="/portfolio" onclick="closeDrawer()">Портфолио</a><a class="dr-a2" href="/price" onclick="closeDrawer()">Цены</a><a class="dr-a2" href="/calculator" onclick="closeDrawer()">Калькулятор</a><a class="dr-a2" href="/blog" onclick="closeDrawer()">Блог</a><a class="dr-a2" href="/about" onclick="closeDrawer()">О студии</a><a class="dr-a2" href="/#contact" onclick="closeDrawer()">Контакты</a>
 <div class="dr-div"></div>
 <div class="dr-lb">Контакты</div>
-<div class="dr-it"><h4>Телефон</h4><a href="tel:+375XXXXXXXX">+375 (XX) XXX-XX-XX</a></div>
+<div class="dr-it"><h4>Телефон</h4><a href="tel:+375336280486">+375 (33) 628-04-86</a></div>
 <div class="dr-it"><h4>Email</h4><a href="mailto:info@romanovdecor.by">info&#64;romanovdecor.by</a></div>
 <div class="dr-btns"><a href="https://t.me/" style="background:#2AABEE">Telegram</a><a href="viber://chat?number=" style="background:#7360F2">Viber</a></div>
 </div>
@@ -352,7 +357,7 @@ strong{font-weight:600}
 <div class="ft-col"><div class="ft-logo">romanov <span>decor</span> studio</div><div style="font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1.5px;margin-top:6px">Поверхности, которые создают пространство</div><p class="ft-desc">Собственное производство микроцемента на немецких компонентах. Официальные дилеры Remmers — монтаж полиуретановых и эпоксидных полов под ключ.</p></div>
 <div class="ft-col"><h4>материалы</h4><a href="/microcement">микроцемент</a><a href="/epoxy">эпоксидные полы</a><a href="/polyurethane">полиуретановые полы</a><a href="/calculator">калькулятор</a></div>
 <div class="ft-col"><h4>применение</h4><a href="/garage">гараж</a><a href="/warehouse">склад</a><a href="/production">производство</a><a href="/food">пищевой цех</a><a href="/office">офис</a><a href="/restaurant">ресторан</a></div>
-<div class="ft-col" id="ftContacts"><h4>контакты</h4><a href="tel:+375XXXXXXXX">+375 (XX) XXX-XX-XX</a><a href="mailto:info@romanovdecor.by">info&#64;romanovdecor.by</a><p>г. Минск, Беларусь</p></div>
+<div class="ft-col" id="ftContacts"><h4>контакты</h4><a href="tel:+375336280486">+375 (33) 628-04-86</a><a href="mailto:info@romanovdecor.by">info&#64;romanovdecor.by</a><p>г. Минск, Беларусь</p></div>
 </div>
 <div class="ft-bottom"><div class="ft-copy">© 2026 romanov decor studio</div><div style="display:flex;gap:12px"><a href="/portfolio" style="font-size:11px;color:#666;letter-spacing:2px">портфолио</a><a href="/about" style="font-size:11px;color:#666;letter-spacing:2px">о студии</a><a href="/blog" style="font-size:11px;color:#666;letter-spacing:2px">блог</a><a href="/price" style="font-size:11px;color:#666;letter-spacing:2px">цены</a></div></div>
 </footer>
@@ -362,7 +367,7 @@ function toggleDrawer(){var d=document.getElementById('drawer');var o=document.g
 function closeDrawer(){document.getElementById('drawer').classList.remove('show');document.getElementById('overlay').classList.remove('show')}
 var f=document.querySelectorAll('.fi');for(var i=0;i<f.length;i++){f[i].addEventListener('click',function(){if(this.classList.contains('open')){this.classList.remove('open')}else{this.classList.add('open')}})}
 (async function(){try{var r=await fetch('/api/slots');if(!r.ok)return;var j=await r.json();var map=j&&j.slots||{};Object.keys(map).forEach(function(key){if(/__pos$|__x$|__y$|__zoom$/.test(key))return;var el=document.querySelector('[data-slot="'+key+'"]');if(!el||!map[key])return;var url='/api/image/'+map[key];var x=Number(map[key+'__x']);var y=Number(map[key+'__y']);var zoom=Number(map[key+'__zoom'])||100;if(isNaN(x))x=50;if(isNaN(y)){var legacy=map[key+'__pos'];y=legacy==='top'?0:legacy==='bottom'?100:50}el.style.backgroundImage='url("'+url+'")';el.style.backgroundRepeat='no-repeat';el.style.backgroundPosition=x+'% '+y+'%';el.style.backgroundSize=zoom === 100 ? 'cover' : (zoom+'%')})}catch(e){}})();
-(async function(){try{var r=await fetch('/api/contacts');if(!r.ok)return;var j=await r.json();var c=j&&j.contacts||{};if(c.phone)document.querySelectorAll('a[href^="tel:"]').forEach(function(a){a.href='tel:'+c.phone.replace(/[\s()-]/g,'');a.textContent=c.phone});if(c.email)document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){a.href='mailto:'+c.email;a.textContent=c.email});if(c.telegram)document.querySelectorAll('a[href^="https://t.me"]').forEach(function(a){a.href=c.telegram});if(c.viber)document.querySelectorAll('a[href^="viber:"]').forEach(function(a){a.href='viber://chat?number='+c.viber.replace(/[^+\d]/g,'')});var fc=document.getElementById('ftContacts');if(fc){var esc=function(s){return String(s||'').replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};var h='<h4>контакты</h4>';if(c.phone)h+='<a href="tel:'+esc(c.phone).replace(/[\s()-]/g,'')+'">'+esc(c.phone)+'</a>';if(c.email)h+='<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a>';if(c.address)h+='<p>'+esc(c.address)+'</p>';if(c.hours)h+='<p>'+esc(c.hours)+'</p>';fc.innerHTML=h}}catch(e){}})();
+(async function(){try{var r=await fetch('/api/contacts');if(!r.ok)return;var j=await r.json();var c=j&&j.contacts||{};if(c.phone)document.querySelectorAll('a[href^="tel:"]').forEach(function(a){a.href='tel:'+c.phone.replace(/[\s()-]/g,'');a.textContent=c.phone.replace(/^\+375(\d{2})(\d{3})(\d{2})(\d{2})$/,"+375 ($1) $2-$3-$4")});if(c.email)document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){a.href='mailto:'+c.email;a.textContent=c.email});if(c.telegram)document.querySelectorAll('a[href^="https://t.me"]').forEach(function(a){a.href=c.telegram});if(c.viber)document.querySelectorAll('a[href^="viber:"]').forEach(function(a){a.href='viber://chat?number='+c.viber.replace(/[^+\d]/g,'')});var fc=document.getElementById('ftContacts');if(fc){var esc=function(s){return String(s||'').replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};var h='<h4>контакты</h4>';if(c.phone)h+='<a href="tel:'+esc(c.phone).replace(/[\s()-]/g,'')+'">'+esc(c.phone).replace(/^\+375(\d{2})(\d{3})(\d{2})(\d{2})$/,"+375 ($1) $2-$3-$4")+'</a>';if(c.email)h+='<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a>';if(c.address)h+='<p>'+esc(c.address)+'</p>';if(c.hours)h+='<p>'+esc(c.hours)+'</p>';fc.innerHTML=h}}catch(e){}})();
 </script>
 <div class="sticky-cta"><div class="sticky-pop" id="stickyPop"><a href="https://t.me/" style="background:#2AABEE">telegram</a><a href="viber://chat?number=" style="background:#7360F2">viber</a></div><button class="sticky-btn" onclick="document.getElementById('stickyPop').classList.toggle('show')" aria-label="Связаться"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/></svg></button></div>
 <!-- CONTACT + CALC MODALS (gm) -->
@@ -396,7 +401,8 @@ h1 b,h2 b,h3 b,h4 b,.ttl b,.hero h1 b,.hero-headline b,.hero-content h1 b{color:
 /* Mobile compact buttons (.btn-sm + auto-fit для парных hero-кнопок) */
 @media(max-width:600px){
   .btn-g.btn-sm,.btn-o.btn-sm{padding:10px 14px;font-size:11px;letter-spacing:1.2px;white-space:nowrap;flex:1;text-align:center}
-  .hero-btns,.hero-text .btns,div[style*="display:flex"][style*="gap:8px"][style*="flex-wrap:wrap"]{flex-wrap:nowrap!important}
+  .hero-btns,.hero-text .btns{flex-wrap:nowrap!important}
+  div[style*="display:flex"][style*="gap:8px"][style*="flex-wrap:wrap"]:has(> a.btn-g){flex-wrap:nowrap!important}
   .hero-btns .btn,.hero-text .btn-g,.hero-text .btn-o{padding:10px 14px;font-size:11px;letter-spacing:1.2px;white-space:nowrap;flex:1;text-align:center}
 }
 
@@ -541,4 +547,36 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
 
 (function(){var d=document.getElementById('drawer');if(!d||d.dataset.accInit)return;d.dataset.accInit='1';var labels=Array.from(d.querySelectorAll('.dr-lb,.dr-label'));labels.forEach(function(lbl){var n=lbl.nextElementSibling;if(!n||n.tagName!=='A')return;var ls=[],c=n;while(c&&c.tagName==='A'){ls.push(c);c=c.nextElementSibling}if(ls.length<3)return;var w=document.createElement('div');w.className='dr-sub';lbl.parentNode.insertBefore(w,ls[0]);ls.forEach(function(a){w.appendChild(a)});lbl.classList.add('dr-toggle');lbl.setAttribute('role','button');lbl.setAttribute('tabindex','0');lbl.setAttribute('aria-expanded','false');function t(){var o=lbl.classList.toggle('open');w.classList.toggle('open',o);lbl.setAttribute('aria-expanded',String(o))}lbl.addEventListener('click',t);lbl.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}})})})();
 (function(){var d=document.getElementById('drawer');if(!d||d.dataset.closeBtnInit)return;d.dataset.closeBtnInit='1';var b=document.createElement('button');b.className='dr-close-btn';b.setAttribute('aria-label','Закрыть меню');b.setAttribute('type','button');b.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><polyline points="12 5 19 12 12 19"/></svg>';b.addEventListener('click',function(){if(typeof closeDrawer==='function'){closeDrawer();return}d.classList.remove('show');var ov=document.getElementById('overlay');if(ov)ov.classList.remove('show')});d.insertBefore(b,d.firstChild)})();</script>
+<script>
+/* stage1: маска телефона + скрытие пустых мессенджеров */
+(function(){
+  document.querySelectorAll('input[type=tel]').forEach(function(inp){
+    inp.setAttribute('autocomplete','tel');
+    inp.setAttribute('inputmode','tel');
+    inp.setAttribute('pattern','\\+?[0-9\\s()\\-]{7,20}');
+    inp.setAttribute('title','Введите номер телефона, например +375 (29) 123-45-67');
+    inp.setAttribute('maxlength','20');
+    inp.addEventListener('input', function(){
+      var v = inp.value.replace(/[^\d+]/g,'').replace(/(?!^)\+/g,'');
+      var d = v.replace(/^\+/,'');
+      if(/^375\d{0,9}$/.test(d)){
+        var p = '+375';
+        if(d.length > 3) p += ' (' + d.slice(3,5);
+        if(d.length >= 5) p += ')';
+        if(d.length > 5) p += ' ' + d.slice(5,8);
+        if(d.length > 8) p += '-' + d.slice(8,10);
+        if(d.length > 10) p += '-' + d.slice(10,12);
+        inp.value = p;
+      } else {
+        inp.value = v;
+      }
+    });
+  });
+  fetch('/api/contacts').then(function(r){return r.json()}).then(function(j){
+    var c = j && j.contacts || {};
+    if(!c.telegram) document.querySelectorAll('a[href^="https://t.me"]').forEach(function(a){a.style.display='none'});
+    if(!c.viber) document.querySelectorAll('a[href^="viber:"]').forEach(function(a){a.style.display='none'});
+  }).catch(function(){});
+})();
+</script>
 </body></html>
