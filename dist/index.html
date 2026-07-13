@@ -472,6 +472,22 @@ footer{padding:20px;border-top:1px solid rgba(255,255,255,.05);background:#2c2c2
 html{overflow-x:clip}
 input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #b8965a;outline-offset:1px}
 a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2px}
+.ft2{background:#1a1a1a;border-top:1px solid rgba(184,150,90,.18);padding:56px 20px 22px;color:#a09a92}
+.ft2-mx{max-width:1100px;margin:0 auto}
+.ft2-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;padding-bottom:36px}
+.ft2-desc{font-size:13px;font-weight:300;line-height:1.7;margin:0 0 18px;max-width:34ch;color:#a09a92}
+.ft2-phone{display:inline-block;font-size:19px;font-weight:600;color:#b8965a;letter-spacing:.5px;margin-bottom:6px}
+.ft2-phone:hover{color:#d8b478}
+.ft2-mail{display:block;font-size:13px;color:#a09a92;margin-bottom:12px}
+.ft2-mail:hover{color:#efece7}
+.ft2-meta{font-size:11.5px;color:rgba(255,255,255,.38);letter-spacing:1px}
+.ft2-col h4{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#b8965a;margin:0 0 14px}
+.ft2-col a{display:block;font-size:13px;font-weight:300;color:#a09a92;line-height:2.1;transition:color .2s}
+.ft2-col a:hover{color:#efece7}
+.ft2-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.07);padding-top:18px;font-size:11px;letter-spacing:1.5px;color:rgba(255,255,255,.35)}
+.ft2 .ft-logo{margin-bottom:14px}
+@media(max-width:860px){.ft2-grid{grid-template-columns:1fr 1fr;gap:30px}.ft2-brand{grid-column:1/-1}}
+@media(max-width:420px){.ft2-grid{gap:24px 14px}}
 </style>
 </head>
 <body>
@@ -518,10 +534,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="hero-min-brand">microcement</div>
 <div class="hero-min-studio">romanov <span>decor</span> studio</div>
 <div class="hero-min-tag">Поверхности, которые создают пространство</div>
-<div class="hero-min-cta">
-<a href="javascript:void(0)" onclick="gmOpen('Calc')" class="btn-g btn-sm">рассчитать стоимость</a>
-<a href="#contact" class="btn-o btn-sm">обсудить проект</a>
-</div>
+<div class="hero-min-tag" style="margin-top:14px;opacity:.72">микроцемент · наливные полы · производство и монтаж · минск</div>
 </div>
 <div class="hero-scroll" aria-hidden="true"><span></span></div>
 </section>
@@ -547,7 +560,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="marquee-track">
 <span class="marquee-item">romanov <b>decor</b> studio</span>
 <span class="marquee-dot">✦</span>
-<span class="marquee-item">микроцемент собственного производства</span>
+<span class="marquee-item">микроцемент · стены · полы · мебель</span>
 <span class="marquee-dot">✦</span>
 <span class="marquee-item">romanov <b>decor</b> studio</span>
 <span class="marquee-dot">✦</span>
@@ -560,7 +573,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <!-- duplicate for seamless loop -->
 <span class="marquee-item">romanov <b>decor</b> studio</span>
 <span class="marquee-dot">✦</span>
-<span class="marquee-item">микроцемент собственного производства</span>
+<span class="marquee-item">микроцемент · стены · полы · мебель</span>
 <span class="marquee-dot">✦</span>
 <span class="marquee-item">romanov <b>decor</b> studio</span>
 <span class="marquee-dot">✦</span>
@@ -586,7 +599,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="manifesto-right">
 <div class="tag" style="border-bottom:2px solid #b8965a;display:inline-block;padding-bottom:5px;margin-bottom:12px">О нас</div>
 <!-- H1 страницы — SEO. Перенесён сюда из hero (там теперь .hero-headline). Откат: вернуть <h2 class="ttl"> + h1 в hero. -->
-<h1 class="ttl" style="font-size:clamp(16px,2.2vw,24px);line-height:1.35;margin-bottom:16px;color:#fff;font-weight:500">Собственное производство микроцемента<br>и наливные полы в Минске</h1>
+<h1 class="ttl" style="font-size:clamp(16px,2.2vw,24px);line-height:1.35;margin-bottom:16px;color:#fff;font-weight:500">Микроцемент и наливные полы<br>под ключ в Минске</h1>
 <p style="font-size:14px;line-height:1.35;color:#a09a92;font-weight:300;margin-bottom:4px">romanov decor studio — команда специалистов в области микроцемента, наливных полов и декоративных покрытий. Производим собственный микроцемент и монтируем эпоксидные и полиуретановые системы. Официальный дилер Remmers в Республике Беларусь.<br>Выполняем монтаж под ключ:</p>
 <ul style="list-style:none;padding:0;margin:0 0 10px;font-size:14px;line-height:1.35;color:#a09a92;font-weight:300">
 <li style="padding-left:16px;position:relative"><span style="position:absolute;left:0;color:#b8965a">—</span>в квартирах и домах</li>
@@ -678,24 +691,29 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <h2 class="ttl" style="margin-bottom:36px">Материал, который <b>не подводит</b></h2>
 <div class="why-grid">
 <div class="wi">
-<div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M32,216V104.34a8,8,0,0,1,12.44-6.66L96,131.81V104.34a8,8,0,0,1,12.44-6.66L160,131.81V40a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8V216a8,8,0,0,1-8,8H40A8,8,0,0,1,32,216Z"/><path d="M64,184v8M104,184v8M144,184v8M184,184v8"/></svg></div>
-<h4>Собственное производство</h4>
-<p>Микроцемент на премиальных немецких компонентах</p>
+<div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M40,114V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58c0,84-72,112-88,112S40,198,40,114Z"/><path d="M88,128l32,32,56-56"/></svg></div>
+<h4>Немецкие компоненты Remmers</h4>
+<p>Покрытия на строительной химии Remmers — немецкое качество, проверенное с 1949 года. Работает десятилетиями.</p>
 </div>
 <div class="wi">
 <div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M208,144c0,44.18-35.82,72-80,72s-80-27.82-80-72c0-72,80-128,80-128S208,72,208,144Z"/><path d="M152,176a40,40,0,0,1-40-40"/></svg></div>
-<h4>Полиуретановый лак не на водной основе</h4>
-<p>Лучшая защита в СНГ и Европе</p>
+<h4>Самый крепкий лак в СНГ</h4>
+<p>Полиуретановый лак не на водной основе: не боится каблуков, когтей и передвинутой мебели. Покрытие служит 15–25 лет.</p>
 </div>
 <div class="wi">
 <div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><circle cx="128" cy="128" r="56"/><path d="M128,32V48M128,208v16M59.6,59.6l11.3,11.3M185.1,185.1l11.3,11.3M32,128H48M208,128h16M59.6,196.4l11.3-11.3M185.1,70.9l11.3-11.3"/></svg></div>
-<h4>УФ-стойкость</h4>
-<p>На все материалы в линейке без исключений</p>
+<h4>Не выгорает и не желтеет</h4>
+<p>Солнце из окна не вредит: цвет остаётся тем же и через годы, без жёлтых пятен на светлых полах и столешницах.</p>
 </div>
 <div class="wi">
-<div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M40,114V56a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8v58c0,84-72,112-88,112S40,198,40,114Z"/><path d="M88,128l32,32,56-56"/></svg></div>
-<h4>Европейские сертификаты</h4>
-<p>Экологии и безопасности для жилых пространств</p>
+<div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M128,28l17,66,67,17-67,17-17,66-17-66-67-17,67-17Z"/><path d="M208,40v32M224,56h-32M48,184v24M60,196H36"/></svg></div>
+<h4>Легко убирается</h4>
+<p>Ни швов, ни затирки — грязи негде скапливаться. Влажная тряпка и обычное средство: пять минут — и чисто.</p>
+</div>
+<div class="wi">
+<div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M48,208C48,96 128,40 216,40c0,112-80,168-168,168Z"/><path d="M48,208c48-48,96-88,136-120"/></svg></div>
+<h4>Европейские сертификаты экологии</h4>
+<p>Безопасно для дома: без вредных испарений, подходит для спален и детских комнат.</p>
 </div>
 </div>
 </div>
@@ -789,39 +807,44 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </div>
 
 <!-- FOOTER -->
-<footer class="ft">
-<div class="ft-grid">
-<div class="ft-col">
+<footer class="ft2">
+<div class="ft2-mx">
+<div class="ft2-grid">
+<div class="ft2-brand">
 <div class="ft-logo">romanov <span>decor</span> studio</div>
-<div style="font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1.5px;margin-top:6px">Поверхности, которые создают пространство</div>
-<p class="ft-desc">Собственное производство микроцемента на немецких компонентах. Официальные дилеры Remmers — монтаж полиуретановых и эпоксидных полов под ключ.</p>
+<p class="ft2-desc">Микроцемент и наливные полы под ключ. Делаем сами — от материала до готовой поверхности. Гарантия 5 лет в договоре.</p>
+<a class="ft2-phone" href="tel:+375336280486">+375 (33) 628-04-86</a>
+<a class="ft2-mail" href="mailto:info@romanovdecor.by">info&#64;romanovdecor.by</a>
+<div class="ft2-meta">Пн–Пт 9:00–19:00 · г. Минск</div>
 </div>
-<div class="ft-col">
-<h4>материалы</h4>
-<a href="/microcement">микроцемент</a>
-<a href="/epoxy">эпоксидные полы</a>
-<a href="/polyurethane">полиуретановые полы</a>
-<a href="/calculator">калькулятор</a>
+<nav class="ft2-col" aria-label="Услуги">
+<h4>Услуги</h4>
+<a href="/microcement">Микроцемент</a>
+<a href="/epoxy">Эпоксидные полы</a>
+<a href="/polyurethane">Полиуретановые полы</a>
+<a href="/price">Цены</a>
+<a href="/calculator">Калькулятор</a>
+</nav>
+<nav class="ft2-col" aria-label="Применение">
+<h4>Применение</h4>
+<a href="/garage">Гараж</a>
+<a href="/warehouse">Склад</a>
+<a href="/production">Производство</a>
+<a href="/food">Пищевой цех</a>
+<a href="/office">Офис</a>
+<a href="/restaurant">Ресторан</a>
+</nav>
+<nav class="ft2-col" aria-label="Компания">
+<h4>Компания</h4>
+<a href="/portfolio">Портфолио</a>
+<a href="/about">О студии</a>
+<a href="/blog">Блог</a>
+<a href="/#contact">Контакты</a>
+</nav>
 </div>
-<div class="ft-col">
-<h4>применение</h4>
-<a href="/garage">гараж</a><a href="/warehouse">склад</a><a href="/production">производство</a><a href="/food">пищевой цех</a><a href="/office">офис</a><a href="/restaurant">ресторан</a>
-</div>
-<div class="ft-col" id="ftContacts">
-<h4>контакты</h4>
-<a href="tel:+375336280486">+375 (33) 628-04-86</a>
-<a href="mailto:info@romanovdecor.by">info&#64;romanovdecor.by</a>
-<p>г. Минск, Беларусь</p>
-<p>Пн-Пт: 9:00-19:00</p>
-</div>
-</div>
-<div class="ft-bottom">
-<div class="ft-copy">© 2026 romanov decor studio</div>
-<div style="display:flex;gap:12px">
-<a href="/portfolio" style="font-size:11px;color:#666;letter-spacing:2px">портфолио</a>
-<a href="/about" style="font-size:11px;color:#666;letter-spacing:2px">о студии</a>
-<a href="/blog" style="font-size:11px;color:#666;letter-spacing:2px">блог</a>
-<a href="/price" style="font-size:11px;color:#666;letter-spacing:2px">цены</a>
+<div class="ft2-bottom">
+<span>© 2026 Romanov Decor Studio</span>
+<span>Минск и вся Беларусь</span>
 </div>
 </div>
 </footer>

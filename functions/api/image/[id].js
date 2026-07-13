@@ -7,7 +7,7 @@ export async function onRequestGet(context) {
   // Кэш на границе Cloudflare: картинки неизменяемые, origin дёргаем один раз
   const cache = caches.default;
   const keyUrl = new URL(context.request.url);
-  keyUrl.searchParams.set('v', '2'); // версия кэша: поднять при массовой замене картинок
+  keyUrl.searchParams.set('v', '3'); // версия кэша: поднять при массовой замене картинок
   const cacheKey = new Request(keyUrl.toString());
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
