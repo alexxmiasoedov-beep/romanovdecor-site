@@ -1,0 +1,11 @@
+name = "romanov-decor"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-04-22"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "70061c8cfc454e0c8455d8e58af9ea41"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "romanov-decor-images"

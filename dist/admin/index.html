@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админка — Romanov Decor Studio</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{font-family:'Geologica',sans-serif;background:#1e1e1e;color:#efece7;min-height:100vh;padding:20px;max-width:1140px;margin:0 auto}
+
+/* LOGIN */
+.login-w{max-width:400px;margin:80px auto;background:#2c2c2c;border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:40px}
+.login-w h1{font-size:22px;font-weight:600;margin-bottom:6px}
+.login-w h1 b{color:#b8965a;font-weight:500}
+.login-w p{font-size:13px;color:#a09a92;margin-bottom:20px;font-weight:300}
+.login-w form{display:flex;flex-direction:column;gap:10px}
+input,textarea,select{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#1e1e1e;color:#efece7;font-family:'Geologica',sans-serif;font-size:14px;outline:none;width:100%}
+input:focus,textarea:focus,select:focus{border-color:#b8965a}
+textarea{resize:vertical;min-height:70px}
+.btn{padding:12px 18px;border-radius:12px;font-family:'Geologica',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;border:none;letter-spacing:2px}
+.btn-p{background:#b8965a;color:#1a1a1a}.btn-p:hover{background:#d4b883}
+.btn-s{background:rgba(255,255,255,.05);color:#efece7;border:1px solid rgba(255,255,255,.1)}.btn-s:hover{background:rgba(255,255,255,.08)}
+.btn-d{background:rgba(200,60,60,.15);color:#ff8888;border:1px solid rgba(200,60,60,.3)}.btn-d:hover{background:rgba(200,60,60,.25)}
+.err{background:rgba(200,60,60,.15);color:#ff8888;border:1px solid rgba(200,60,60,.3);padding:10px 14px;border-radius:10px;font-size:13px;margin-top:8px;display:none}
+.err.show{display:block}
+.ok-msg{background:rgba(80,180,80,.15);color:#88dd88;border:1px solid rgba(80,180,80,.3);padding:10px 14px;border-radius:10px;font-size:13px;margin-top:8px;display:none}
+.ok-msg.show{display:block}
+
+/* ADMIN */
+.admin{max-width:100%;margin:0 auto;display:none}
+.admin.show{display:block}
+header.bar{display:flex;justify-content:flex-start;align-items:center;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:24px;flex-wrap:wrap;gap:10px}
+.logout-btn{width:34px;height:34px;padding:0!important;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.logout-btn:hover{background:rgba(200,60,60,.15)!important;color:#ff8888;border-color:rgba(200,60,60,.3)!important}
+
+/* Чекбоксы для multi-select материалов / применения */
+.chk-grid{display:flex;flex-wrap:wrap;gap:8px}
+.chk{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:50px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#a09a92;cursor:pointer;font-size:12px;font-weight:500;letter-spacing:.5px;user-select:none;transition:.15s}
+.chk input{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+.chk span{position:relative;padding-left:22px}
+.chk span::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:14px;height:14px;border:1.5px solid rgba(184,150,90,.4);border-radius:4px;background:transparent;transition:.15s}
+.chk span::after{content:'';position:absolute;left:3px;top:50%;transform:translateY(-60%) rotate(45deg) scale(0);width:5px;height:9px;border:solid #1a1a1a;border-width:0 2px 2px 0;transition:transform .15s}
+.chk:hover{background:rgba(184,150,90,.08);color:#efece7;border-color:rgba(184,150,90,.25)}
+.chk input:checked + span{color:#1a1a1a}
+.chk:has(input:checked){background:#b8965a;border-color:#b8965a;color:#1a1a1a;font-weight:600}
+.chk:has(input:checked) span::before{background:#1a1a1a;border-color:#1a1a1a}
+.chk:has(input:checked) span::after{transform:translateY(-65%) rotate(45deg) scale(1);border-color:#b8965a}
+header.bar h1{font-size:20px;font-weight:600}
+header.bar h1 b{color:#b8965a;font-weight:500}
+header.bar a{color:#b8965a;font-size:12px;text-decoration:none}
+
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0 8px;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:8px 14px;border-radius:50px;background:rgba(255,255,255,.05);color:#a09a92;cursor:pointer;font-size:12px;font-weight:500;letter-spacing:2px;border:1px solid transparent;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.tab.act{background:#b8965a;color:#1a1a1a;border-color:#b8965a}
+
+.panel{display:none}
+.panel.show{display:block}
+
+.add-btn{margin-bottom:18px;display:inline-block}
+.add-circle{width:42px;height:42px;padding:0!important;border-radius:50%!important;font-size:24px;font-weight:300;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:0!important;box-shadow:0 4px 14px rgba(184,150,90,.25);transition:transform .15s,box-shadow .2s}
+.add-circle:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(184,150,90,.4)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.item{background:#2c2c2c;border-radius:16px;border:1px solid rgba(255,255,255,.06);overflow:hidden;display:flex;flex-direction:column}
+.item-img{height:160px;background:#1a1a1a;position:relative;overflow:hidden}
+.item-img img{width:100%;height:100%;object-fit:cover;display:block}
+.item-img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px}
+.item-body{padding:16px;flex:1;display:flex;flex-direction:column}
+.item-body h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.item-body .meta{font-size:11px;color:#b8965a;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.item-body p{font-size:13px;color:#a09a92;font-weight:300;line-height:1.5;margin-bottom:12px;flex:1}
+.item-actions{display:flex;gap:6px}
+.item-actions button{flex:1;padding:8px 10px;font-size:11px;font-weight:600;border-radius:10px;cursor:pointer;text-transform:uppercase;letter-spacing:2px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#efece7}
+.item-actions button:hover{background:rgba(255,255,255,.08)}
+.item-actions button.del{background:rgba(200,60,60,.1);color:#ff8888;border-color:rgba(200,60,60,.3)}
+.item-actions button.del:hover{background:rgba(200,60,60,.2)}
+
+.empty{padding:60px;text-align:center;color:#666;background:#2c2c2c;border-radius:16px;border:1px dashed rgba(255,255,255,.08)}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;overflow-y:auto}
+.modal.show{display:flex}
+.modal-body{background:#2c2c2c;border-radius:20px;max-width:520px;width:100%;padding:28px;border:1px solid rgba(255,255,255,.08);max-height:90vh;overflow-y:auto}
+.modal-body h2{font-size:20px;margin-bottom:16px}
+.modal-body h2 b{color:#b8965a;font-weight:500}
+.row{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.row label{font-size:11px;color:#b8965a;text-transform:uppercase;letter-spacing:2px;font-weight:600}
+.row .hint{font-size:11px;color:#666;margin-top:2px;font-weight:300}
+.row-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-actions{display:flex;gap:8px;margin-top:18px;justify-content:flex-end}
+
+.gal-mgr{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.gthumb{position:relative;background:#1a1a1a;border-radius:10px;overflow:hidden;aspect-ratio:1}
+.gthumb>img{width:100%;height:100%;object-fit:cover;display:block}
+.gthumb .cov{position:absolute;top:4px;left:4px;background:#b8965a;color:#1a1a1a;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 6px;border-radius:4px;z-index:2}
+.gthumb .gpos{position:absolute;bottom:4px;left:4px;right:4px;display:flex;gap:2px;z-index:2}
+.gthumb .gpos button{flex:1;background:rgba(0,0,0,.65);color:#efece7;font-size:9px;font-weight:600;border:none;padding:3px 0;border-radius:3px;cursor:pointer;letter-spacing:1px;font-family:'Geologica',sans-serif}
+.gthumb .gpos button.act{background:#b8965a;color:#1a1a1a}
+.gthumb .gact{position:absolute;top:4px;right:4px;display:flex;gap:2px;z-index:2}
+.gthumb .gact button{width:22px;height:22px;border:none;background:rgba(0,0,0,.7);color:#efece7;border-radius:4px;cursor:pointer;font-size:11px;font-weight:700;padding:0;display:flex;align-items:center;justify-content:center}
+.gthumb .gact button.del{background:rgba(200,60,60,.8)}
+.gthumb .gact button:hover{background:rgba(184,150,90,.9);color:#1a1a1a}
+.gadd{aspect-ratio:1;border:2px dashed rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#a09a92;cursor:pointer;font-size:11px;text-align:center;padding:8px;transition:.2s;letter-spacing:1px}
+.gadd:hover{border-color:#b8965a;color:#b8965a;background:rgba(184,150,90,.05)}
+.gthumb.loading::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.6);border-radius:10px}
+.gthumb.loading::before{content:'';position:absolute;top:50%;left:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border:3px solid rgba(184,150,90,.3);border-top-color:#b8965a;border-radius:50%;animation:spin .6s linear infinite;z-index:3}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(184,150,90,.3);border-top-color:#b8965a;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SLOT CARD */
+.slot{background:#2c2c2c;border-radius:16px;border:1px solid rgba(255,255,255,.06);overflow:hidden;position:relative}
+.slot-img{height:140px;background:#1a1a1a;position:relative;overflow:hidden;cursor:pointer}
+.slot-img img{width:100%;height:100%;object-fit:cover;display:block}
+.slot-img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px;padding:12px;text-align:center;border:2px dashed rgba(255,255,255,.08)}
+.slot-img:hover .ph{border-color:#b8965a;color:#b8965a}
+.slot-img input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.slot-body{padding:14px}
+.slot-body h4{font-size:14px;font-weight:600;margin-bottom:2px}
+.slot-body p{font-size:11px;color:#a09a92;font-weight:300}
+.slot-actions{display:flex;gap:6px;margin-top:10px}
+.slot-actions button{flex:1;padding:7px 10px;font-size:11px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#efece7;cursor:pointer;text-transform:uppercase;letter-spacing:2px;font-weight:600}
+.slot-actions button:hover{background:rgba(255,255,255,.08)}
+.slot-actions button.del{background:rgba(200,60,60,.1);color:#ff8888;border-color:rgba(200,60,60,.3)}
+.slot-loading{position:absolute;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:5}
+
+/* POSITION PICKER (legacy) */
+.pos-pick{display:flex;gap:4px;margin-top:6px}
+.pos-pick button{flex:1;padding:6px;border-radius:6px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#a09a92;font-size:10px;font-weight:600;cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-family:'Geologica',sans-serif}
+.pos-pick button:hover{border-color:rgba(184,150,90,.3)}
+.pos-pick button.act{background:#b8965a;color:#1a1a1a;border-color:#b8965a}
+/* POSITION PAD + ZOOM */
+.pos-ctrl{margin-top:8px;padding:8px;background:rgba(0,0,0,.2);border-radius:8px}
+.pos-pad{display:grid;grid-template-columns:repeat(3,26px);grid-template-rows:repeat(3,26px);gap:3px;margin:0 auto 6px;width:fit-content}
+.pos-pad button{padding:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#efece7;border-radius:5px;cursor:pointer;font-size:13px;line-height:1;font-family:monospace;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.pos-pad button:hover{background:#b8965a;color:#1a1a1a}
+.pos-pad button:active{transform:scale(.9)}
+.pp-up{grid-column:2;grid-row:1}
+.pp-left{grid-column:1;grid-row:2}
+.pp-center{grid-column:2;grid-row:2;opacity:.7;font-size:10px}
+.pp-right{grid-column:3;grid-row:2}
+.pp-down{grid-column:2;grid-row:3}
+.zoom-ctl{display:flex;gap:4px;align-items:center;justify-content:center;margin-top:4px}
+.zoom-ctl button{width:26px;height:24px;padding:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#efece7;border-radius:5px;cursor:pointer;font-size:14px;font-weight:700;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.zoom-ctl button:hover{background:#b8965a;color:#1a1a1a}
+.zoom-ctl span{font-size:10px;color:#a09a92;min-width:42px;text-align:center;letter-spacing:1px;font-weight:600}
+
+/* HERO SLIDES */
+.hslide{background:#2c2c2c;border-radius:14px;border:1px solid rgba(255,255,255,.06);padding:14px;margin-bottom:10px;display:flex;gap:14px;align-items:center}
+.hslide-thumb{width:100px;height:60px;border-radius:8px;overflow:hidden;background:#1a1a1a;flex-shrink:0;position:relative}
+.hslide-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.hslide-thumb .vbadge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);color:#b8965a;font-size:11px;font-weight:600;letter-spacing:2px}
+.hslide-body{flex:1;min-width:0}
+.hslide-body h5{font-size:13px;font-weight:600;margin-bottom:2px;color:#efece7}
+.hslide-body p{font-size:12px;color:#a09a92;font-weight:300;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hslide-actions{display:flex;gap:4px;flex-shrink:0}
+.hslide-actions button{padding:7px 9px;font-size:11px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#efece7;cursor:pointer;font-weight:600}
+.hslide-actions button:hover{background:rgba(255,255,255,.1)}
+.hslide-actions button.del{background:rgba(200,60,60,.1);color:#ff8888;border-color:rgba(200,60,60,.3)}
+
+/* Position sliders — общие стили для карусели и слотов */
+.cs-pos input[type="range"],.media-pos input[type="range"]{-webkit-appearance:none;appearance:none;background:transparent;padding:0;margin:0;width:100%}
+.cs-pos input[type="range"]::-webkit-slider-runnable-track,.media-pos input[type="range"]::-webkit-slider-runnable-track{height:8px;background:rgba(184,150,90,.2);border-radius:4px}
+.cs-pos input[type="range"]::-moz-range-track,.media-pos input[type="range"]::-moz-range-track{height:8px;background:rgba(184,150,90,.2);border-radius:4px}
+.cs-pos input[type="range"]::-webkit-slider-thumb,.media-pos input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:#b8965a;border:2px solid #1e1e1e;box-shadow:0 2px 6px rgba(0,0,0,.4);cursor:pointer;margin-top:-8px;transition:transform .15s}
+.cs-pos input[type="range"]::-webkit-slider-thumb:active,.media-pos input[type="range"]::-webkit-slider-thumb:active{transform:scale(1.15);background:#d4b883}
+.cs-pos input[type="range"]::-moz-range-thumb,.media-pos input[type="range"]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#b8965a;border:2px solid #1e1e1e;box-shadow:0 2px 6px rgba(0,0,0,.4);cursor:pointer;transition:transform .15s}
+.cs-pos input[type="range"]::-moz-range-thumb:active,.media-pos input[type="range"]::-moz-range-thumb:active{transform:scale(1.15);background:#d4b883}
+.cs-pos input[type="range"]:focus,.media-pos input[type="range"]:focus{outline:none}
+.cs-pos input[type="range"]:focus::-webkit-slider-thumb,.media-pos input[type="range"]:focus::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(184,150,90,.25)}
+
+/* Slot card — новый дизайн с превью-фотом и слайдерами как в карусели */
+.slot-v2{background:#2c2c2c;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.slot-v2 .sv-thumb{width:100%;aspect-ratio:4/3;border-radius:10px;background-color:#1a1a1a;background-repeat:no-repeat;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#a09a92;font-size:12px;text-align:center;padding:12px;transition:border-color .2s;position:relative;overflow:hidden}
+.slot-v2 .sv-thumb.empty{border:2px dashed rgba(255,255,255,.15)}
+.slot-v2 .sv-thumb.empty:hover{border-color:#b8965a;color:#b8965a}
+.slot-v2 .sv-meta h4{font-size:14px;font-weight:600;margin:0 0 2px;color:#efece7}
+.slot-v2 .sv-meta p{font-size:11px;color:#a09a92;font-weight:300;line-height:1.45;margin:0}
+.slot-v2 .sv-actions{display:flex;gap:6px}
+.slot-v2 .sv-actions button{flex:1;padding:8px 10px;font-size:11px;font-weight:600;border-radius:10px;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#efece7;font-family:inherit}
+.slot-v2 .sv-actions button:hover{background:rgba(255,255,255,.1)}
+.slot-v2 .sv-actions button.del{background:rgba(200,60,60,.1);color:#ff8888;border-color:rgba(200,60,60,.3)}
+.slot-v2 .sv-actions button.del:hover{background:rgba(200,60,60,.2)}
+@media(max-width:600px){
+  .media-pos input[type="range"]::-webkit-slider-thumb{width:32px;height:32px;margin-top:-12px}
+  .media-pos input[type="range"]::-moz-range-thumb{width:32px;height:32px}
+}
+
+@media(max-width:600px){.login-w{margin:40px auto;padding:28px}.modal-body{padding:20px}.row-two{grid-template-columns:1fr}}
+@media(max-width:600px){
+  /* Карточка слайда — стек на мобиле, фото сверху */
+  #carouselList > div{grid-template-columns:1fr!important;gap:14px!important}
+  #carouselList .cs-thumb{width:100%!important;max-width:100%!important;height:240px!important}
+  /* Ползунок ещё крупнее на тач-экранах */
+  .cs-pos input[type="range"]::-webkit-slider-thumb{width:32px;height:32px;margin-top:-12px}
+  .cs-pos input[type="range"]::-moz-range-thumb{width:32px;height:32px}
+  .cs-pos input[type="range"]::-webkit-slider-runnable-track{height:10px}
+  .cs-pos input[type="range"]::-moz-range-track{height:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-w" id="loginW">
+<h1>Админка <b>Romanov Decor</b></h1>
+<p>Введите пароль для доступа</p>
+<form id="loginForm">
+<input type="password" id="pwd" placeholder="Пароль" required autofocus>
+<button type="submit" class="btn btn-p">Войти</button>
+<div class="err" id="loginErr"></div>
+</form>
+</div>
+
+<!-- ADMIN -->
+<div class="admin" id="admin">
+<header class="bar">
+<h1>Romanov Decor <b>Admin</b></h1>
+<div style="display:flex;gap:10px;align-items:center;margin-left:auto">
+<a href="/" target="_blank" style="font-size:12px">Открыть сайт →</a>
+<button class="btn btn-s logout-btn" onclick="logout()" title="Выйти" aria-label="Выйти">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+</button>
+</div>
+</header>
+
+<div class="tabs">
+<div class="tab act" data-tab="portfolio" onclick="showTab('portfolio')">Портфолио</div>
+<div class="tab" data-tab="slots" onclick="showTab('slots')">Фотографии сайта</div>
+<div class="tab" data-tab="carousel" onclick="showTab('carousel')">Карусель</div>
+<div class="tab" data-tab="contacts" onclick="showTab('contacts')">Контакты</div>
+<div class="tab" data-tab="partners" onclick="showTab('partners')">Партнёры</div>
+</div>
+
+<div class="panel show" id="panel-portfolio">
+<div style="display:flex;gap:14px;align-items:flex-end;margin-bottom:16px;flex-wrap:wrap">
+<div id="pfSegFilter" style="flex:1;min-width:200px"></div>
+<button class="btn btn-p add-circle" onclick="openAdd()" title="Добавить проект" aria-label="Добавить проект">+</button>
+</div>
+<div class="grid" id="list"></div>
+<div class="empty" id="empty" style="display:none">Пока ни одного проекта. Нажмите «+» справа от фильтра.</div>
+</div>
+
+<div class="panel" id="panel-slots">
+<p style="color:#a09a92;font-size:13px;font-weight:300;margin-bottom:12px">Фотографии для всех страниц сайта. Изменения появляются сразу, без деплоя.</p>
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px" id="slotPageFilter"></div>
+<div class="grid" id="slotsGrid"></div>
+</div>
+
+<div class="panel" id="panel-carousel">
+<p style="color:#a09a92;font-size:13px;font-weight:300;margin-bottom:16px">Карусель «Наши материалы» на главной странице. Каждая карточка — фото + бирка (тип материала) + заголовок + описание + ссылка на страницу. Изменения сохраняются и появляются на сайте без деплоя.</p>
+<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center">
+<button class="btn btn-p" onclick="addCarouselSlide()">+ Добавить слайд</button>
+<button class="btn btn-s" onclick="saveCarousel(true)">Сохранить всё</button>
+<button class="btn btn-s" onclick="importCarouselFromSlots()" title="Перенести фото из старых слотов (microcement-vintage и т.п.) в карусель">↩ Импорт из старых слотов</button>
+<span id="carouselSaveMsg" style="color:#7a9a5a;font-size:12px"></span>
+</div>
+<div id="carouselList"></div>
+<div class="empty" id="carouselEmpty" style="display:none">Слайдов пока нет. Нажмите «+ Добавить слайд» чтобы создать первый.</div>
+<input type="file" id="carouselFile" accept="image/*" style="display:none">
+</div>
+
+<div class="panel" id="panel-partners">
+<p style="color:#a09a92;font-size:13px;font-weight:300;margin-bottom:16px">Добавляйте логотипы партнёров. Они появятся на главной в блоке «Наши партнёры».</p>
+<div style="display:flex;gap:8px;margin-bottom:18px">
+<button class="btn btn-p" onclick="addPartnerLogo()">+ Загрузить логотип</button>
+<button class="btn btn-s" onclick="addPartnerText()">+ Текстовый</button>
+</div>
+<div class="grid" id="partnersList"></div>
+<div class="empty" id="partnersEmpty" style="display:none">Пока нет партнёров.</div>
+<input type="file" id="partnerFile" accept="image/*" style="display:none">
+</div>
+
+<div class="panel" id="panel-contacts">
+<p style="color:#a09a92;font-size:13px;font-weight:300;margin-bottom:16px">Измените контактные данные — они подтянутся на все страницы сайта автоматически.</p>
+<div style="background:#2c2c2c;border-radius:16px;border:1px solid rgba(255,255,255,.06);padding:24px">
+<form id="contactsForm">
+<div class="row"><label>Телефон</label><input type="text" id="ct_phone" placeholder="+375 (29) 123-45-67"></div>
+<div class="row"><label>Email</label><input type="email" id="ct_email" placeholder="info@romanovdecor.by"></div>
+<div class="row"><label>Адрес</label><input type="text" id="ct_address" placeholder="г. Минск, ул. Примерная, 1"></div>
+<div class="row"><label>Режим работы</label><input type="text" id="ct_hours" placeholder="Пн-Пт: 9:00-19:00, Сб: 10:00-15:00"></div>
+<div class="row"><label>Telegram (ссылка)</label><input type="text" id="ct_telegram" placeholder="https://t.me/username"></div>
+<div class="row"><label>Viber (номер)</label><input type="text" id="ct_viber" placeholder="+375291234567"></div>
+<div class="row"><label>Instagram (ссылка)</label><input type="text" id="ct_instagram" placeholder="https://instagram.com/username"></div>
+<div class="err" id="ctErr"></div>
+<div class="ok-msg" id="ctOk"></div>
+<div style="margin-top:14px"><button type="submit" class="btn btn-p">Сохранить контакты</button></div>
+</form>
+</div>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-body">
+<h2 id="modalTitle">Новый <b>проект</b></h2>
+<form id="itemForm">
+<input type="hidden" id="itemId">
+
+<div class="row">
+<label>Фотографии (первое — обложка, до 5 МБ каждое)</label>
+<div id="galMgr" class="gal-mgr"></div>
+<input type="file" id="galFile" accept="image/*" style="display:none" multiple>
+<div class="err" id="galErr"></div>
+</div>
+
+<div class="row">
+<label>Название</label>
+<input type="text" id="title" placeholder="Бесшовная ванная комната" required>
+</div>
+
+<div class="row">
+<label>Описание</label>
+<textarea id="description" placeholder="Микроцемент Liso серый, душ без поддона, столешница под раковину"></textarea>
+</div>
+
+<div class="row">
+<label>Материалы (можно несколько)</label>
+<div class="chk-grid" id="materialChks">
+<label class="chk"><input type="checkbox" name="material" value="microcement"><span>Микроцемент</span></label>
+<label class="chk"><input type="checkbox" name="material" value="epoxy"><span>Эпоксидный пол</span></label>
+<label class="chk"><input type="checkbox" name="material" value="polyurethane"><span>Полиуретановый пол</span></label>
+</div>
+</div>
+<div class="row">
+<label>Применение (можно несколько)</label>
+<div class="chk-grid" id="applicationChks">
+<label class="chk"><input type="checkbox" name="application" value="walls"><span>Стены</span></label>
+<label class="chk"><input type="checkbox" name="application" value="floors"><span>Полы</span></label>
+<label class="chk"><input type="checkbox" name="application" value="ceiling"><span>Потолок</span></label>
+<label class="chk"><input type="checkbox" name="application" value="bathroom"><span>Ванная</span></label>
+<label class="chk"><input type="checkbox" name="application" value="furniture"><span>Мебель</span></label>
+<label class="chk"><input type="checkbox" name="application" value="stairs"><span>Лестница</span></label>
+<label class="chk"><input type="checkbox" name="application" value="facade"><span>Фасад</span></label>
+</div>
+</div>
+
+<div class="row">
+<label>Сегмент</label>
+<select id="segment">
+<option value="residential">Жилые</option>
+<option value="commercial">Коммерческие</option>
+<option value="industrial">Промышленные</option>
+</select>
+</div>
+
+<div class="row-two">
+<div class="row">
+<label>Площадь</label>
+<input type="text" id="area" placeholder="32 м²">
+</div>
+<div class="row">
+<label>Место</label>
+<input type="text" id="location" placeholder="Минск · Квартира">
+</div>
+</div>
+
+<div class="err" id="formErr"></div>
+<div class="ok-msg" id="formOk"></div>
+
+<div class="modal-actions">
+<button type="button" class="btn btn-s" onclick="closeModal()">Отмена</button>
+<button type="submit" class="btn btn-p" id="saveBtn">Сохранить</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+var PWD = sessionStorage.getItem('rds_pwd') || '';
+
+// === Универсальный preprocess фото перед загрузкой ===
+// Конвертирует ВСЕ фото в JPEG через <canvas>:
+// - решает проблему HEIC с iPhone (Android их не отображает)
+// - уменьшает размер до 2400px по длинной стороне (быстрее загрузка, меньше R2)
+// - подкладывает белый фон под PNG-прозрачность
+async function prepareImageForUpload(file){
+  return new Promise(function(resolve, reject){
+    var url = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function(){
+      try {
+        var maxDim = 2400;
+        var w = img.naturalWidth || img.width;
+        var h = img.naturalHeight || img.height;
+        var scale = Math.min(1, maxDim / Math.max(w, h));
+        w = Math.max(1, Math.round(w * scale));
+        h = Math.max(1, Math.round(h * scale));
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        canvas.toBlob(function(blob){
+          if (!blob) { reject(new Error('Не удалось конвертировать фото')); return; }
+          var fr = new FileReader();
+          fr.onload = function(){
+            resolve({ base64: fr.result.split(',')[1], mime: 'image/jpeg' });
+          };
+          fr.onerror = function(){ reject(new Error('Ошибка чтения файла')); };
+          fr.readAsDataURL(blob);
+        }, 'image/jpeg', 0.9);
+      } catch (e) {
+        URL.revokeObjectURL(url);
+        reject(e);
+      }
+    };
+    img.onerror = function(){
+      URL.revokeObjectURL(url);
+      var msg = 'Не удалось декодировать фото.';
+      var name = (file.name||'').toLowerCase();
+      if (name.endsWith('.heic') || name.endsWith('.heif')) {
+        msg = 'Файл в формате HEIC (с iPhone) — этот браузер не умеет его читать. Сохраните фото как JPG или PNG перед загрузкой (можно прямо в iPhone: «Настройки → Камера → Форматы → Наиболее совместимый»).';
+      }
+      reject(new Error(msg));
+    };
+    img.src = url;
+  });
+}
+
+// Список слотов — ключ + описание. При добавлении сюда нового слота, добавьте data-slot="ключ" в HTML страницы.
+var SLOT_PAGES = [
+  {id:'main', label:'Главная'},
+  {id:'microcement', label:'Микроцемент'},
+  {id:'about', label:'О студии'},
+  {id:'polyurethane', label:'Полиуретан'},
+  {id:'epoxy', label:'Эпоксид'},
+  {id:'garage', label:'Гараж'},
+  {id:'warehouse', label:'Склад'},
+  {id:'production', label:'Производство'},
+  {id:'food', label:'Пищевой цех'},
+  {id:'office', label:'Офис'},
+  {id:'restaurant', label:'Ресторан'},
+  {id:'mc-walls', label:'МЦ Стены'},
+  {id:'mc-floor', label:'МЦ Пол'},
+  {id:'mc-bathroom', label:'МЦ Ванная'},
+  {id:'mc-kitchen', label:'МЦ Кухня'},
+  {id:'mc-stairs', label:'МЦ Лестница'},
+  {id:'mc-furniture', label:'МЦ Мебель'},
+  {id:'mc-facade', label:'МЦ Фасад'},
+];
+var SLOTS = [
+  // Главная
+  {key:'hero', page:'main', title:'Фон Hero', hint:'Фоновая картинка за текстом на первом экране'},
+  {key:'projects-bg', page:'main', title:'Фон блока «Наши проекты»', hint:'Фиксированное фоновое фото за стеклянными карточками (parallax-эффект)'},
+  {key:'micro-detail', page:'main', title:'Карточка «Жилые интерьеры»', hint:'Фото в блоке «Наши проекты» (старая bento-версия)'},
+  {key:'poly-detail', page:'main', title:'Карточка «Коммерческие»', hint:'Фото в блоке «Наши проекты» (старая bento-версия)'},
+  {key:'epoxy-detail', page:'main', title:'Карточка «Промышленные»', hint:'Фото в блоке «Наши проекты» (старая bento-версия)'},
+  // Микроцемент
+  {key:'microcement-hero', page:'microcement', title:'Hero фото', hint:'Главное фото справа в шапке страницы'},
+  {key:'microcement-production', page:'microcement', title:'Производство', hint:'Фото в блоке «Собственное производство»'},
+  {key:'microcement-layers', page:'microcement', title:'Трёхслойная система', hint:'Фото разреза слоёв или макро покрытия'},
+  {key:'mc-apply-walls', page:'microcement', title:'Применение: стены', hint:'Фото-полоска «клавиша»'},
+  {key:'mc-apply-floors', page:'microcement', title:'Применение: полы', hint:'Фото-полоска'},
+  {key:'mc-apply-bath', page:'microcement', title:'Применение: ванные', hint:'Фото-полоска'},
+  {key:'mc-apply-counters', page:'microcement', title:'Применение: столешницы', hint:'Фото-полоска'},
+  {key:'mc-apply-backsplash', page:'microcement', title:'Применение: фартуки', hint:'Фото-полоска'},
+  {key:'mc-apply-furniture', page:'microcement', title:'Применение: мебель', hint:'Фото-полоска'},
+  {key:'mc-apply-stairs', page:'microcement', title:'Применение: лестницы', hint:'Фото-полоска'},
+  {key:'mc-apply-ceiling', page:'microcement', title:'Применение: потолки', hint:'Фото-полоска'},
+  // О студии
+  {key:'about-production', page:'about', title:'Фото производства', hint:'Блок «Собственное производство»'},
+  // Эпоксид
+  {key:'epoxy-hero', page:'epoxy', title:'Hero фото', hint:'Главное фото справа в шапке'},
+  {key:'epoxy-thin', page:'epoxy', title:'Тонкослойные', hint:'Карточка вида покрытия'},
+  {key:'epoxy-selfleveling', page:'epoxy', title:'Наливные', hint:'Карточка вида покрытия'},
+  {key:'epoxy-industrial', page:'epoxy', title:'Промышленные', hint:'Карточка вида покрытия'},
+  {key:'epoxy-decorative', page:'epoxy', title:'Декоративные', hint:'Карточка вида покрытия'},
+  {key:'epoxy-compare', page:'epoxy', title:'Фото «Что выбрать»', hint:'Большое фото в блоке сравнения материалов'},
+  {key:'epoxy-layers', page:'epoxy', title:'Этапы работы', hint:'Фото разреза слоёв или макро покрытия'},
+  {key:'epoxy-garage', page:'epoxy', title:'Эпоксид в гараже', hint:'Фото в блоке «Эпоксидный пол в гараже»'},
+  // Полиуретан
+  {key:'poly-hero', page:'polyurethane', title:'Hero фото', hint:'Главное фото справа в шапке'},
+  {key:'poly-production', page:'polyurethane', title:'Фото «Что выбрать»', hint:'Большое фото в блоке сравнения материалов'},
+  {key:'poly-layers', page:'polyurethane', title:'Этапы работы', hint:'Фото разреза слоёв или макро покрытия'},
+  // Применение — промышленно-коммерческое
+  {key:'garage-hero', page:'garage', title:'Hero фото', hint:'Главное фото справа в шапке страницы «Пол для гаража»'},
+  {key:'garage-layers', page:'garage', title:'Этапы работы', hint:'Фото в блоке этапов монтажа'},
+  {key:'warehouse-hero', page:'warehouse', title:'Hero фото', hint:'Главное фото шапки «Пол для склада»'},
+  {key:'warehouse-layers', page:'warehouse', title:'Этапы работы', hint:'Фото в блоке этапов монтажа склада'},
+  {key:'production-hero', page:'production', title:'Hero фото', hint:'Главное фото шапки «Пол для производства»'},
+  {key:'production-layers', page:'production', title:'Этапы работы', hint:'Фото в блоке этапов монтажа производства'},
+  {key:'food-hero', page:'food', title:'Hero фото', hint:'Главное фото шапки «Пол для пищевого цеха»'},
+  {key:'food-layers', page:'food', title:'Этапы работы', hint:'Фото в блоке этапов монтажа пищевого цеха'},
+  {key:'office-hero', page:'office', title:'Hero фото', hint:'Главное фото шапки «Пол для офиса»'},
+  {key:'office-layers', page:'office', title:'Этапы работы', hint:'Фото в блоке этапов монтажа офиса'},
+  {key:'restaurant-hero', page:'restaurant', title:'Hero фото', hint:'Главное фото шапки «Пол для ресторана»'},
+  {key:'restaurant-layers', page:'restaurant', title:'Этапы работы', hint:'Фото в блоке этапов монтажа ресторана'},
+  // Применение — микроцемент
+  {key:'mc-walls-hero', page:'mc-walls', title:'Hero фото', hint:'Главное фото шапки «Микроцемент для стен»'},
+  {key:'mc-walls-layers', page:'mc-walls', title:'Этапы работы', hint:'Фото в блоке этапов нанесения на стенах'},
+  {key:'mc-floor-hero', page:'mc-floor', title:'Hero фото', hint:'Главное фото шапки «Микроцемент на пол»'},
+  {key:'mc-floor-layers', page:'mc-floor', title:'Этапы работы', hint:'Фото в блоке этапов нанесения на пол'},
+  {key:'mc-bathroom-hero', page:'mc-bathroom', title:'Hero фото', hint:'Главное фото шапки «Микроцемент в ванной»'},
+  {key:'mc-bathroom-layers', page:'mc-bathroom', title:'Этапы работы', hint:'Фото в блоке этапов нанесения в ванной'},
+  {key:'mc-kitchen-hero', page:'mc-kitchen', title:'Hero фото', hint:'Главное фото шапки «Микроцемент на кухне»'},
+  {key:'mc-kitchen-layers', page:'mc-kitchen', title:'Этапы работы', hint:'Фото в блоке этапов нанесения на кухне'},
+  {key:'mc-stairs-hero', page:'mc-stairs', title:'Hero фото', hint:'Главное фото шапки «Микроцемент на лестнице»'},
+  {key:'mc-stairs-layers', page:'mc-stairs', title:'Этапы работы', hint:'Фото в блоке этапов нанесения на лестнице'},
+  {key:'mc-furniture-hero', page:'mc-furniture', title:'Hero фото', hint:'Главное фото шапки «Микроцемент на мебели»'},
+  {key:'mc-furniture-layers', page:'mc-furniture', title:'Этапы работы', hint:'Фото в блоке этапов нанесения на мебели'},
+  {key:'mc-facade-hero', page:'mc-facade', title:'Hero фото', hint:'Главное фото шапки «Микроцемент для фасада»'},
+  {key:'mc-facade-layers', page:'mc-facade', title:'Этапы работы', hint:'Фото в блоке этапов нанесения на фасаде'},
+];
+var SLOTS_FILTER = 'all';
+var SLOTS_MAP = {};
+
+function show(id){document.getElementById(id).classList.add('show')}
+function hide(id){document.getElementById(id).classList.remove('show')}
+
+function showTab(tab){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('act', t.dataset.tab === tab)});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('show', p.id === 'panel-' + tab)});
+  try{ localStorage.setItem('rds_admin_tab', tab); }catch(e){}
+  if(tab === 'slots') loadSlots();
+  if(tab === 'carousel') loadCarousel();
+  if(tab === 'contacts') loadContacts();
+  if(tab === 'partners') loadPartners();
+}
+function restoreLastTab(){
+  try{
+    var t = localStorage.getItem('rds_admin_tab');
+    if(!t) return;
+    // Проверяем что таб всё ещё существует (на случай удаления Hero и т.п.)
+    var tabEl = document.querySelector('.tab[data-tab="'+t+'"]');
+    var panelEl = document.getElementById('panel-'+t);
+    if(tabEl && panelEl) showTab(t);
+  }catch(e){}
+}
+
+// === PARTNERS ===
+var PARTNERS_LIST = [];
+async function loadPartners(){
+  try{var r=await fetch('/api/partners');var j=await r.json();PARTNERS_LIST=(j&&j.partners)||[]}catch(e){PARTNERS_LIST=[]}
+  renderPartners();
+}
+function renderPartners(){
+  var grid=document.getElementById('partnersList');
+  var empty=document.getElementById('partnersEmpty');
+  grid.innerHTML='';
+  if(!PARTNERS_LIST.length){empty.style.display='block';return}
+  empty.style.display='none';
+  PARTNERS_LIST.forEach(function(p,i){
+    var div=document.createElement('div');
+    div.className='item';
+    var thumb=p.imageId?'<img src="/api/image/'+p.imageId+'" alt="" style="object-fit:contain;padding:12px;background:#f7f5f0">':'<div class="ph" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#1e1e1e;background:#f7f5f0;letter-spacing:2px">'+escapeHtml(p.name)+'</div>';
+    div.innerHTML='<div class="item-img" style="height:100px">'+thumb+'</div><div class="item-body"><h3>'+escapeHtml(p.name)+'</h3><div class="item-actions"><button class="del" onclick="delPartner('+i+')">Удалить</button></div></div>';
+    grid.appendChild(div);
+  });
+}
+async function savePartners(){
+  await fetch('/api/partners',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Password':PWD},body:JSON.stringify({partners:PARTNERS_LIST})});
+}
+function addPartnerLogo(){
+  var inp=document.getElementById('partnerFile');
+  inp.value='';
+  inp.onchange=async function(e){
+    var file=e.target.files[0];if(!file)return;
+    var name=prompt('Название партнёра:');if(!name)return;
+    try {
+      var prep = await prepareImageForUpload(file);
+      var up=await fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Password':PWD},body:JSON.stringify({data:prep.base64,mime:prep.mime})});
+      var uj=await up.json();
+      if(!uj.ok){alert(uj.error);return}
+      PARTNERS_LIST.push({name:name,imageId:uj.imageId});
+      await savePartners();renderPartners();
+    } catch (err) {
+      alert('Ошибка: ' + err.message);
+    }
+  };inp.click();
+}
+function addPartnerText(){
+  var name=prompt('Название партнёра (текстовый логотип):');if(!name)return;
+  PARTNERS_LIST.push({name:name,imageId:''});
+  savePartners().then(renderPartners);
+}
+function delPartner(i){
+  if(!confirm('Удалить партнёра?'))return;
+  PARTNERS_LIST.splice(i,1);savePartners().then(renderPartners);
+}
+
+// === CONTACTS ===
+async function loadContacts(){
+  try{
+    var r = await fetch('/api/contacts');
+    var j = await r.json();
+    var c = (j && j.contacts) || {};
+    document.getElementById('ct_phone').value = c.phone || '';
+    document.getElementById('ct_email').value = c.email || '';
+    document.getElementById('ct_address').value = c.address || '';
+    document.getElementById('ct_hours').value = c.hours || '';
+    document.getElementById('ct_telegram').value = c.telegram || '';
+    document.getElementById('ct_viber').value = c.viber || '';
+    document.getElementById('ct_instagram').value = c.instagram || '';
+  }catch(e){}
+}
+document.getElementById('contactsForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var body = {
+    phone: document.getElementById('ct_phone').value,
+    email: document.getElementById('ct_email').value,
+    address: document.getElementById('ct_address').value,
+    hours: document.getElementById('ct_hours').value,
+    telegram: document.getElementById('ct_telegram').value,
+    viber: document.getElementById('ct_viber').value,
+    instagram: document.getElementById('ct_instagram').value
+  };
+  var r = await fetch('/api/contacts', {method:'POST', headers:{'Content-Type':'application/json','X-Admin-Password':PWD}, body:JSON.stringify(body)});
+  var j = await r.json();
+  if(j.ok) msg('ctOk','Контакты сохранены!',true);
+  else msg('ctErr', j.error || 'Ошибка');
+});
+
+var HERO_SLIDES = [];
+function uid(){return Date.now().toString(36) + Math.random().toString(36).slice(2,6)}
+
+async function loadHero(){
+  try{
+    var r = await fetch('/api/hero-slides');
+    var j = await r.json();
+    HERO_SLIDES = (j && j.slides) || [];
+  }catch(e){ HERO_SLIDES = []; }
+  renderHero();
+}
+
+function renderHero(){
+  var list = document.getElementById('heroList');
+  var empty = document.getElementById('heroEmpty');
+  list.innerHTML = '';
+  if(!HERO_SLIDES.length){ empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  HERO_SLIDES.forEach(function(s, i){
+    var thumb = '';
+    var typeLabel = '';
+    var sourceLabel = '';
+    if(s.type === 'photo'){
+      thumb = '<img src="/api/image/'+s.imageId+'" alt="">';
+      typeLabel = 'Фото';
+      sourceLabel = 'Загружено';
+    } else {
+      thumb = '<div class="vbadge">VIDEO</div>';
+      typeLabel = 'Видео';
+      sourceLabel = s.videoUrl;
+    }
+    var div = document.createElement('div');
+    div.className = 'hslide';
+    div.innerHTML =
+      '<div class="hslide-thumb">'+thumb+'</div>'+
+      '<div class="hslide-body">'+
+        '<h5>Слайд '+(i+1)+' · '+typeLabel+'</h5>'+
+        '<p>'+escapeHtml(sourceLabel)+'</p>'+
+      '</div>'+
+      '<div class="hslide-actions">'+
+        (i>0 ? '<button onclick="moveHero('+i+',-1)">↑</button>' : '')+
+        (i<HERO_SLIDES.length-1 ? '<button onclick="moveHero('+i+',1)">↓</button>' : '')+
+        '<button class="del" onclick="delHero('+i+')">✕</button>'+
+      '</div>';
+    list.appendChild(div);
+  });
+}
+
+async function saveHero(){
+  var r = await fetch('/api/hero-slides', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Admin-Password': PWD},
+    body: JSON.stringify({slides: HERO_SLIDES})
+  });
+  var j = await r.json();
+  if(!j.ok){ alert(j.error || 'Ошибка сохранения'); }
+}
+
+function addHeroPhoto(){
+  var inp = document.getElementById('heroFile');
+  inp.value = '';
+  inp.onchange = async function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    if(file.size > 4 * 1024 * 1024){ alert('Файл больше 4 МБ. Используйте сжатое фото или добавьте видео ссылкой.'); return; }
+    var reader = new FileReader();
+    reader.onload = async function(){
+      var base64 = reader.result.split(',')[1];
+      var up = await fetch('/api/upload', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-Admin-Password': PWD},
+        body: JSON.stringify({data: base64, mime: file.type})
+      });
+      var uj = await up.json();
+      if(!uj.ok){ alert(uj.error || 'Ошибка загрузки'); return; }
+      HERO_SLIDES.push({id: uid(), type:'photo', imageId: uj.imageId});
+      await saveHero();
+      renderHero();
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
+}
+
+function addHeroVideo(){
+  var url = prompt('Вставьте ссылку на видео:\n• YouTube (youtube.com/watch?v=...) \n• Vimeo (vimeo.com/...)\n• Прямая ссылка на MP4');
+  if(!url) return;
+  url = url.trim();
+  if(!/^https?:\/\//.test(url)){ alert('Ссылка должна начинаться с http:// или https://'); return; }
+  HERO_SLIDES.push({id: uid(), type:'video', videoUrl: url});
+  saveHero().then(renderHero);
+}
+
+function moveHero(i, dir){
+  var j = i + dir;
+  if(j < 0 || j >= HERO_SLIDES.length) return;
+  var tmp = HERO_SLIDES[i];
+  HERO_SLIDES[i] = HERO_SLIDES[j];
+  HERO_SLIDES[j] = tmp;
+  saveHero().then(renderHero);
+}
+
+function delHero(i){
+  if(!confirm('Удалить слайд?')) return;
+  HERO_SLIDES.splice(i, 1);
+  saveHero().then(renderHero);
+}
+
+function msg(el, text, ok){
+  var e = document.getElementById(el);
+  e.textContent = text;
+  e.className = ok ? 'ok-msg show' : 'err show';
+  if(ok) setTimeout(function(){e.classList.remove('show')}, 2500);
+}
+
+// === LOGIN ===
+if(PWD){ tryEnter(PWD); }
+
+document.getElementById('loginForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var pwd = document.getElementById('pwd').value;
+  await tryEnter(pwd);
+});
+
+async function tryEnter(pwd){
+  try{
+    var r = await fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({password: pwd})});
+    var j = await r.json();
+    if(j.ok){
+      PWD = pwd;
+      sessionStorage.setItem('rds_pwd', pwd);
+      document.getElementById('loginW').style.display = 'none';
+      show('admin');
+      loadList();
+      restoreLastTab();
+    } else {
+      msg('loginErr', j.error || 'Неверный пароль');
+      sessionStorage.removeItem('rds_pwd');
+    }
+  } catch(err){
+    msg('loginErr', 'Ошибка: ' + err.message);
+  }
+}
+
+function logout(){
+  sessionStorage.removeItem('rds_pwd');
+  location.reload();
+}
+
+// === LIST ===
+var PF_SEG_FILTER = 'all';
+var SEGS = {residential:'Жилые', commercial:'Коммерческие', industrial:'Промышленные'};
+
+function renderPfSegFilter(){
+  var div = document.getElementById('pfSegFilter');
+  var items = window._items || [];
+  var count = function(k){ return k==='all' ? items.length : items.filter(function(it){return (it.segment||'residential')===k}).length; };
+  var opts = [
+    {k:'all', l:'Все сегменты'},
+    {k:'residential', l:'Жилые'},
+    {k:'commercial', l:'Коммерческие'},
+    {k:'industrial', l:'Промышленные'}
+  ];
+  var sel = opts.map(function(o){
+    var n = count(o.k);
+    return '<option value="'+o.k+'"'+(PF_SEG_FILTER===o.k?' selected':'')+'>'+o.l+(n?' ('+n+')':'')+'</option>';
+  }).join('');
+  div.innerHTML =
+    '<label style="font-size:11px;color:#a09a92;letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:6px">Сегмент</label>'+
+    '<select onchange="filterPfSeg(this.value)" style="width:100%;max-width:360px;padding:10px 36px 10px 14px;font-size:14px;font-weight:500;letter-spacing:.5px;color:#efece7;background:#1e1e1e url(\'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22 fill=%22%23b8965a%22><path d=%22M8 11L3 6h10z%22/></svg>\') no-repeat right 12px center/14px;border:1px solid rgba(184,150,90,.25);border-radius:12px;appearance:none;-webkit-appearance:none;cursor:pointer;font-family:inherit;outline:none">'+sel+'</select>';
+}
+
+function filterPfSeg(k){PF_SEG_FILTER=k;renderPfSegFilter();renderList()}
+
+function renderList(){
+  var items = window._items || [];
+  var grid = document.getElementById('list');
+  var empty = document.getElementById('empty');
+  grid.innerHTML = '';
+  var filtered = PF_SEG_FILTER==='all' ? items : items.filter(function(it){return (it.segment||'residential')===PF_SEG_FILTER});
+  if(filtered.length === 0){
+    empty.style.display = 'block';
+    empty.textContent = items.length===0 ? 'Пока ни одного проекта. Нажмите «Добавить» выше.' : 'В выбранном сегменте нет проектов.';
+    return;
+  }
+  empty.style.display = 'none';
+  var MATS = {microcement:'Микроцемент', epoxy:'Эпоксид', polyurethane:'Полиуретан'};
+  var APPS = {walls:'Стены', floors:'Полы', ceiling:'Потолок', bathroom:'Ванная', furniture:'Мебель', stairs:'Лестница', facade:'Фасад'};
+  filtered.forEach(function(it){
+    // Cover image: первое из gallery → imageId
+    var coverId = (it.images && it.images[0] && it.images[0].id) ? it.images[0].id : it.imageId;
+    var img = coverId ? '<img src="/api/image/' + coverId + '" alt="">' : '<div class="ph">нет фото</div>';
+    var div = document.createElement('div');
+    div.className = 'item';
+    var seg = SEGS[it.segment] || 'Жилые';
+    var photoCount = (it.images && it.images.length) ? it.images.length : (it.imageId ? 1 : 0);
+    var photoStr = photoCount > 1 ? ' · 📷×'+photoCount : '';
+    var matsArr = (it.materials && it.materials.length) ? it.materials : (it.material ? [it.material] : []);
+    var appsArr = (it.applications && it.applications.length) ? it.applications : (it.application ? [it.application] : []);
+    var matsStr = matsArr.map(function(m){return MATS[m]||m}).join(' + ');
+    var appsStr = appsArr.map(function(a){return APPS[a]||a}).join(' + ');
+    div.innerHTML =
+      '<div class="item-img">' + img + '</div>' +
+      '<div class="item-body">' +
+        '<div class="meta">' + seg + ' · ' + matsStr + ' · ' + appsStr + (it.area?' · '+escapeHtml(it.area):'') + photoStr + '</div>' +
+        '<h3>' + escapeHtml(it.title) + '</h3>' +
+        '<p>' + escapeHtml(it.description || '') + (it.location?' · '+escapeHtml(it.location):'') + '</p>' +
+        '<div class="item-actions">' +
+          '<button onclick="openEdit(\'' + it.id + '\')">Редактировать</button>' +
+          '<button class="del" onclick="removeItem(\'' + it.id + '\')">Удалить</button>' +
+        '</div>' +
+      '</div>';
+    grid.appendChild(div);
+  });
+}
+
+async function loadList(){
+  var r = await fetch('/api/portfolio');
+  var j = await r.json();
+  window._items = j.items || [];
+  renderPfSegFilter();
+  renderList();
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+
+// === MODAL ===
+var GAL = []; // [{id, pos}]
+
+function renderGal(){
+  var mgr = document.getElementById('galMgr');
+  var h = '';
+  GAL.forEach(function(img, i){
+    if(img.loading){
+      h += '<div class="gthumb loading"></div>';
+      return;
+    }
+    h += '<div class="gthumb" data-i="'+i+'">' +
+      '<img src="/api/image/'+img.id+'" style="object-position:center '+img.pos+'">' +
+      (i===0 ? '<div class="cov">ОБЛОЖКА</div>' : '') +
+      '<div class="gact">' +
+        (i>0 ? '<button type="button" title="Левее" onclick="galMove('+i+',-1)">‹</button>' : '') +
+        (i<GAL.length-1 ? '<button type="button" title="Правее" onclick="galMove('+i+',1)">›</button>' : '') +
+        '<button type="button" class="del" title="Удалить" onclick="galDel('+i+')">✕</button>' +
+      '</div>' +
+      '<div class="gpos">' +
+        '<button type="button" class="'+(img.pos==='top'?'act':'')+'" onclick="galPos('+i+',\'top\')">верх</button>' +
+        '<button type="button" class="'+(img.pos==='center'?'act':'')+'" onclick="galPos('+i+',\'center\')">центр</button>' +
+        '<button type="button" class="'+(img.pos==='bottom'?'act':'')+'" onclick="galPos('+i+',\'bottom\')">низ</button>' +
+      '</div>' +
+    '</div>';
+  });
+  h += '<div class="gadd" onclick="document.getElementById(\'galFile\').click()">+ Добавить фото</div>';
+  mgr.innerHTML = h;
+}
+
+function galMove(i, dir){
+  var j = i + dir;
+  if(j < 0 || j >= GAL.length) return;
+  var t = GAL[i]; GAL[i] = GAL[j]; GAL[j] = t;
+  renderGal();
+}
+function galDel(i){ GAL.splice(i, 1); renderGal(); }
+function galPos(i, pos){ GAL[i].pos = pos; renderGal(); }
+
+function setChecks(name, vals){
+  var arr = Array.isArray(vals) ? vals : (vals ? [vals] : []);
+  document.querySelectorAll('input[type="checkbox"][name="'+name+'"]').forEach(function(cb){
+    cb.checked = arr.indexOf(cb.value) !== -1;
+  });
+}
+function getChecks(name){
+  return Array.from(document.querySelectorAll('input[type="checkbox"][name="'+name+'"]:checked')).map(function(c){return c.value});
+}
+
+function openAdd(){
+  document.getElementById('modalTitle').innerHTML = 'Новый <b>проект</b>';
+  document.getElementById('itemForm').reset();
+  document.getElementById('itemId').value = '';
+  setChecks('material', ['microcement']);
+  setChecks('application', ['walls']);
+  GAL = [];
+  renderGal();
+  show('modal');
+}
+
+function openEdit(id){
+  var it = (window._items || []).find(function(x){return x.id === id});
+  if(!it) return;
+  document.getElementById('modalTitle').innerHTML = 'Редактирование <b>проекта</b>';
+  document.getElementById('itemId').value = it.id;
+  document.getElementById('title').value = it.title || '';
+  document.getElementById('description').value = it.description || '';
+  // Поддержка старого формата (single material/application) и нового (массивы)
+  setChecks('material', it.materials && it.materials.length ? it.materials : (it.material ? [it.material] : ['microcement']));
+  setChecks('application', it.applications && it.applications.length ? it.applications : (it.application ? [it.application] : ['walls']));
+  document.getElementById('segment').value = it.segment || 'residential';
+  document.getElementById('area').value = it.area || '';
+  document.getElementById('location').value = it.location || '';
+  if(Array.isArray(it.images) && it.images.length){
+    GAL = it.images.map(function(x){return {id:x.id, pos:x.pos||'center'}});
+  } else if(it.imageId){
+    GAL = [{id:it.imageId, pos:it.imagePosition||'center'}];
+  } else {
+    GAL = [];
+  }
+  renderGal();
+  show('modal');
+}
+
+function closeModal(){ hide('modal'); }
+
+async function removeItem(id){
+  if(!confirm('Удалить проект?')) return;
+  var r = await fetch('/api/portfolio/' + id, {method:'DELETE', headers:{'X-Admin-Password': PWD}});
+  var j = await r.json();
+  if(j.ok) loadList();
+  else alert(j.error || 'Ошибка');
+}
+
+// === UPLOAD ===
+document.getElementById('galFile').addEventListener('change', async function(ev){
+  var files = Array.from(ev.target.files || []);
+  ev.target.value = '';
+  if(!files.length) return;
+  for(var i=0;i<files.length;i++){
+    await uploadOne(files[i]);
+  }
+});
+
+async function uploadOne(file){
+  if(file.size > 25 * 1024 * 1024){ msg('galErr', 'Файл "'+file.name+'" больше 25 МБ, пропущен'); return; }
+  // временная превью-плитка
+  GAL.push({id:'__loading__'+Date.now(), pos:'center', loading:true});
+  renderGal();
+  try{
+    var prep = await prepareImageForUpload(file);
+    var r = await fetch('/api/upload', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'X-Admin-Password': PWD},
+      body: JSON.stringify({data: prep.base64, mime: prep.mime})
+    });
+    var j = await r.json();
+    // убираем временный плейсхолдер
+    GAL = GAL.filter(function(x){return !x.loading});
+    if(j.ok){
+      GAL.push({id: j.imageId, pos: 'center'});
+    } else {
+      msg('galErr', j.error || 'Ошибка загрузки');
+    }
+  } catch(err){
+    GAL = GAL.filter(function(x){return !x.loading});
+    msg('galErr', 'Ошибка: ' + err.message);
+  }
+  renderGal();
+}
+
+// === SAVE ===
+document.getElementById('itemForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var id = document.getElementById('itemId').value;
+  var body = {
+    title: document.getElementById('title').value,
+    description: document.getElementById('description').value,
+    materials: getChecks('material'),
+    applications: getChecks('application'),
+    // Совместимость со старым кодом (одиночные поля = первое из массива)
+    material: getChecks('material')[0] || 'microcement',
+    application: getChecks('application')[0] || 'walls',
+    segment: document.getElementById('segment').value,
+    area: document.getElementById('area').value,
+    location: document.getElementById('location').value,
+    images: GAL.filter(function(x){return !x.loading}).map(function(x){return {id:x.id, pos:x.pos}}),
+  };
+  if (!body.materials.length) { msg('formErr','Выбери хотя бы один материал'); document.getElementById('saveBtn').disabled=false; return; }
+  if (!body.applications.length) { msg('formErr','Выбери хотя бы одно применение'); document.getElementById('saveBtn').disabled=false; return; }
+  document.getElementById('saveBtn').disabled = true;
+  try{
+    var url = id ? '/api/portfolio/' + id : '/api/portfolio';
+    var method = id ? 'PUT' : 'POST';
+    var r = await fetch(url, {method: method, headers:{'Content-Type':'application/json', 'X-Admin-Password': PWD}, body: JSON.stringify(body)});
+    var j = await r.json();
+    if(j.ok){
+      closeModal();
+      loadList();
+    } else {
+      msg('formErr', j.error || 'Ошибка сохранения');
+    }
+  } catch(err){
+    msg('formErr', 'Ошибка: ' + err.message);
+  }
+  document.getElementById('saveBtn').disabled = false;
+});
+
+// === SLOTS ===
+async function loadSlots(){
+  try{
+    var r = await fetch('/api/slots');
+    var j = await r.json();
+    SLOTS_MAP = (j && j.slots) || {};
+  }catch(e){ SLOTS_MAP = {}; }
+  renderSlots();
+}
+
+function renderSlots(){
+  // Build page filter — выпадающий список (компактнее при ~18 страницах)
+  var fDiv=document.getElementById('slotPageFilter');
+  var sel = '<option value="all"'+(SLOTS_FILTER==='all'?' selected':'')+'>Все страницы ('+SLOTS.length+')</option>';
+  SLOT_PAGES.forEach(function(pg){
+    var n = SLOTS.filter(function(s){return s.page===pg.id}).length;
+    sel += '<option value="'+pg.id+'"'+(SLOTS_FILTER===pg.id?' selected':'')+'>'+pg.label+(n?' ('+n+')':'')+'</option>';
+  });
+  fDiv.innerHTML =
+    '<label style="font-size:11px;color:#a09a92;letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:6px">Страница</label>'+
+    '<select id="slotPageSelect" onchange="filterSlotPage(this.value)" style="width:100%;max-width:360px;padding:10px 36px 10px 14px;font-size:14px;font-weight:500;letter-spacing:.5px;color:#efece7;background:#1e1e1e url(\'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22 fill=%22%23b8965a%22><path d=%22M8 11L3 6h10z%22/></svg>\') no-repeat right 12px center/14px;border:1px solid rgba(184,150,90,.25);border-radius:12px;appearance:none;-webkit-appearance:none;cursor:pointer;font-family:inherit;outline:none">'+sel+'</select>';
+
+  var grid = document.getElementById('slotsGrid');
+  grid.innerHTML = '';
+  var filtered = SLOTS.filter(function(s){return SLOTS_FILTER==='all'||s.page===SLOTS_FILTER});
+  filtered.forEach(function(s){
+    var card = document.createElement('div');
+    card.className = 'slot-v2';
+    card.dataset.key = s.key;
+    var imageId = SLOTS_MAP[s.key] || '';
+    var x = Number(SLOTS_MAP[s.key+'__x']);
+    var y = Number(SLOTS_MAP[s.key+'__y']);
+    var zoom = Number(SLOTS_MAP[s.key+'__zoom']) || 100;
+    if(isNaN(x)) x = 50;
+    if(isNaN(y)){
+      var legacy = SLOTS_MAP[s.key+'__pos'];
+      y = legacy==='top' ? 0 : legacy==='bottom' ? 100 : 50;
+    }
+    // === Thumb (background-image, точно как на сайте) ===
+    var thumb = document.createElement('div');
+    thumb.className = 'sv-thumb' + (imageId ? '' : ' empty');
+    thumb.title = imageId ? 'Кликните чтобы заменить' : '';
+    if (imageId) {
+      var bgSize = zoom === 100 ? 'cover' : (zoom + '%');
+      thumb.style.backgroundImage = 'url(/api/image/'+imageId+')';
+      thumb.style.backgroundPosition = x + '% ' + y + '%';
+      thumb.style.backgroundSize = bgSize;
+    } else {
+      thumb.textContent = '+ Загрузить или перетащите фото';
+    }
+    thumb.onclick = function(){ triggerSlot(s.key); };
+    card.appendChild(thumb);
+
+    // === Sliders (только если есть фото) ===
+    if (imageId) {
+      var pos = document.createElement('div');
+      pos.className = 'media-pos';
+      pos.style.cssText = 'display:flex;flex-direction:column;gap:10px';
+      pos.innerHTML =
+        '<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:#a09a92"><span>Сдвиг по X</span><span class="sv-x-val" style="color:#b8965a;font-weight:600">'+Math.round(x)+'%</span></div>'+
+          '<input class="sv-x" type="range" min="0" max="100" step="1" value="'+x+'"></div>'+
+        '<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:#a09a92"><span>Сдвиг по Y</span><span class="sv-y-val" style="color:#b8965a;font-weight:600">'+Math.round(y)+'%</span></div>'+
+          '<input class="sv-y" type="range" min="0" max="100" step="1" value="'+y+'"></div>'+
+        '<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:#a09a92"><span>Масштаб</span><span class="sv-zoom-val" style="color:#b8965a;font-weight:600">'+Math.round(zoom)+'%</span></div>'+
+          '<input class="sv-zoom" type="range" min="50" max="200" step="5" value="'+zoom+'"></div>'+
+        '<button type="button" class="btn btn-s" style="padding:6px;font-size:11px" onclick="slotResetPos(\''+s.key+'\')">Сбросить позицию</button>';
+      card.appendChild(pos);
+      // bind events
+      var key = s.key;
+      pos.querySelector('.sv-x').addEventListener('input', function(){ slotUpdatePos(key,'x',+this.value); });
+      pos.querySelector('.sv-y').addEventListener('input', function(){ slotUpdatePos(key,'y',+this.value); });
+      pos.querySelector('.sv-zoom').addEventListener('input', function(){ slotUpdatePos(key,'zoom',+this.value); });
+    }
+
+    // === Title + hint ===
+    var meta = document.createElement('div');
+    meta.className = 'sv-meta';
+    meta.innerHTML = '<h4>'+s.title+'</h4><p>'+s.hint+'</p>';
+    card.appendChild(meta);
+
+    // === Actions ===
+    var act = document.createElement('div');
+    act.className = 'sv-actions';
+    act.innerHTML = '<button onclick="triggerSlot(\''+s.key+'\')">'+(imageId?'Заменить фото':'Загрузить')+'</button>'+
+      (imageId ? '<button class="del" onclick="clearSlot(\''+s.key+'\')">Удалить</button>' : '');
+    card.appendChild(act);
+
+    // === Hidden file input + drag&drop ===
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.style.display = 'none';
+    input.dataset.key = s.key;
+    input.addEventListener('change', function(ev){
+      if(ev.target.files[0]) uploadSlot(s.key, ev.target.files[0], thumb);
+    });
+    card.appendChild(input);
+    ['dragenter','dragover'].forEach(function(e){thumb.addEventListener(e,function(ev){ev.preventDefault();thumb.style.boxShadow='0 0 0 2px #b8965a inset'})});
+    ['dragleave','drop'].forEach(function(e){thumb.addEventListener(e,function(ev){ev.preventDefault();thumb.style.boxShadow=''})});
+    thumb.addEventListener('drop', function(ev){
+      if(ev.dataTransfer.files[0]) uploadSlot(s.key, ev.dataTransfer.files[0], thumb);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+// === Slider-управление слотами (живое превью без re-render) ===
+function slotUpdatePos(key, field, val){
+  var v = +val;
+  if (!Number.isFinite(v)) return;
+  SLOTS_MAP[key+'__'+field] = String(v);
+  // Точечно обновляем превью + подпись
+  var card = document.querySelector('#slotsGrid .slot-v2[data-key="'+key+'"]');
+  if (card) {
+    var thumb = card.querySelector('.sv-thumb');
+    if (thumb && SLOTS_MAP[key]) {
+      var x = Number(SLOTS_MAP[key+'__x']); if (isNaN(x)) x = 50;
+      var y = Number(SLOTS_MAP[key+'__y']); if (isNaN(y)) y = 50;
+      var z = Number(SLOTS_MAP[key+'__zoom']) || 100;
+      thumb.style.backgroundPosition = x+'% '+y+'%';
+      thumb.style.backgroundSize = z === 100 ? 'cover' : (z + '%');
+    }
+    var valEl = card.querySelector('.sv-'+field+'-val');
+    if (valEl) valEl.textContent = Math.round(v) + '%';
+  }
+  // Дебаунс сохранения
+  clearTimeout(window['__slotSaveT_'+key+'_'+field]);
+  window['__slotSaveT_'+key+'_'+field] = setTimeout(function(){
+    saveSlotMeta(key+'__'+field, v);
+  }, 350);
+}
+
+function slotResetPos(key){
+  SLOTS_MAP[key+'__x'] = '50';
+  SLOTS_MAP[key+'__y'] = '50';
+  SLOTS_MAP[key+'__zoom'] = '100';
+  renderSlots();
+  saveSlotMeta(key+'__x', 50);
+  saveSlotMeta(key+'__y', 50);
+  saveSlotMeta(key+'__zoom', 100);
+}
+
+function filterSlotPage(pg){SLOTS_FILTER=pg;renderSlots()}
+
+function triggerSlot(key){
+  // новый формат
+  var card = document.querySelector('#slotsGrid .slot-v2[data-key="'+key+'"]');
+  if (card) { var inp = card.querySelector('input[type=file]'); if (inp) { inp.click(); return; } }
+  // фолбэк (старый layout если остался)
+  var el = document.querySelector('#slotsGrid .slot-img[data-key="'+key+'"] input');
+  if(el) el.click();
+}
+
+async function uploadSlot(key, file, containerEl){
+  if(file.size > 25 * 1024 * 1024){ alert('Файл больше 25 МБ. Сожмите перед загрузкой.'); return; }
+  var loader = document.createElement('div');
+  loader.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:5';
+  loader.innerHTML = '<span class="spin"></span>';
+  if (containerEl) containerEl.appendChild(loader);
+  try{
+    var prep = await prepareImageForUpload(file);
+    var up = await fetch('/api/upload', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Admin-Password': PWD},
+      body: JSON.stringify({data: prep.base64, mime: prep.mime})
+    });
+    var uj = await up.json();
+    if(!uj.ok) throw new Error(uj.error || 'Upload failed');
+    var sl = await fetch('/api/slots', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Admin-Password': PWD},
+      body: JSON.stringify({key: key, imageId: uj.imageId})
+    });
+    var sj = await sl.json();
+    if(!sj.ok) throw new Error(sj.error || 'Slot save failed');
+    SLOTS_MAP = sj.slots;
+    renderSlots();
+  }catch(err){
+    alert('Ошибка: ' + err.message);
+    loader.remove();
+  }
+}
+
+async function setSlotPos(key, pos){
+  // legacy fallback, не используется в новом UI
+  var r = await fetch('/api/slots', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Admin-Password': PWD},
+    body: JSON.stringify({key: key+'__pos', imageId: pos})
+  });
+  var j = await r.json();
+  if(j.ok){ SLOTS_MAP = j.slots; renderSlots(); }
+}
+
+async function saveSlotMeta(key, val){
+  var r = await fetch('/api/slots', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Admin-Password': PWD},
+    body: JSON.stringify({key: key, imageId: String(val)})
+  });
+  var j = await r.json();
+  if(j.ok){ SLOTS_MAP = j.slots; }
+  return j;
+}
+
+async function slotMove(key, dx, dy){
+  var x = Number(SLOTS_MAP[key+'__x']);
+  var y = Number(SLOTS_MAP[key+'__y']);
+  if(isNaN(x)) x = 50;
+  if(isNaN(y)){
+    var legacy = SLOTS_MAP[key+'__pos'];
+    y = legacy==='top' ? 0 : legacy==='bottom' ? 100 : 50;
+  }
+  x = Math.max(0, Math.min(100, x + dx));
+  y = Math.max(0, Math.min(100, y + dy));
+  // Оптимистичное обновление UI
+  SLOTS_MAP[key+'__x'] = String(x);
+  SLOTS_MAP[key+'__y'] = String(y);
+  renderSlots();
+  // Сохраняем
+  await saveSlotMeta(key+'__x', x);
+  await saveSlotMeta(key+'__y', y);
+}
+
+async function slotZoom(key, dz){
+  var z = Number(SLOTS_MAP[key+'__zoom']) || 100;
+  z = Math.max(70, Math.min(300, z + dz));
+  SLOTS_MAP[key+'__zoom'] = String(z);
+  renderSlots();
+  await saveSlotMeta(key+'__zoom', z);
+}
+
+async function slotReset(key){
+  SLOTS_MAP[key+'__x'] = '50';
+  SLOTS_MAP[key+'__y'] = '50';
+  SLOTS_MAP[key+'__zoom'] = '100';
+  renderSlots();
+  await saveSlotMeta(key+'__x', 50);
+  await saveSlotMeta(key+'__y', 50);
+  await saveSlotMeta(key+'__zoom', 100);
+}
+
+async function clearSlot(key){
+  if(!confirm('Удалить эту картинку?')) return;
+  var r = await fetch('/api/slots', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Admin-Password': PWD},
+    body: JSON.stringify({key: key, imageId: ''})
+  });
+  var j = await r.json();
+  if(j.ok){ SLOTS_MAP = j.slots; renderSlots(); }
+  else alert(j.error || 'Ошибка');
+}
+
+// === CAROUSEL ===
+var CAROUSEL = [];
+async function loadCarousel(){
+  try{
+    var r = await fetch('/api/carousel');
+    var j = await r.json();
+    CAROUSEL = (j && j.slides) || [];
+  }catch(e){ CAROUSEL = []; }
+  renderCarousel();
+}
+function renderCarousel(){
+  var list = document.getElementById('carouselList');
+  var empty = document.getElementById('carouselEmpty');
+  list.innerHTML = '';
+  if(!CAROUSEL.length){ empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  CAROUSEL.forEach(function(s, i){
+    var card = document.createElement('div');
+    card.dataset.idx = i;
+    card.style.cssText = 'background:#2c2c2c;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px;margin-bottom:12px;display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:start';
+    var imgUrl = s.imageId ? '/api/image/' + s.imageId : '';
+    var x = Number.isFinite(+s.x) ? +s.x : 50;
+    var y = Number.isFinite(+s.y) ? +s.y : 50;
+    var zoom = Number.isFinite(+s.zoom) ? +s.zoom : 100;
+    var bgPos = x + '% ' + y + '%';
+    var bgSize = zoom === 100 ? 'cover' : (zoom+'%');
+    // === LEFT: thumb + position controls ===
+    var leftCol = document.createElement('div');
+    var thumb = document.createElement('div');
+    thumb.className = 'cs-thumb';
+    thumb.style.cssText = 'width:200px;height:240px;border-radius:10px;background-color:#1a1a1a;background-repeat:no-repeat;cursor:pointer;'+(imgUrl?'':'display:flex;align-items:center;justify-content:center;color:#a09a92;font-size:12px;border:1px dashed rgba(255,255,255,.2)');
+    thumb.title = imgUrl ? 'Кликни чтобы заменить фото' : '';
+    thumb.onclick = function(){ uploadCarouselImg(i); };
+    if (imgUrl) {
+      thumb.style.backgroundImage = 'url('+imgUrl+')';
+      thumb.style.backgroundPosition = bgPos;
+      thumb.style.backgroundSize = bgSize;
+    } else {
+      thumb.textContent = '+ Загрузить фото';
+    }
+    leftCol.appendChild(thumb);
+    if (imgUrl) {
+      var pos = document.createElement('div');
+      pos.className = 'cs-pos';
+      pos.style.cssText = 'margin-top:12px;display:flex;flex-direction:column;gap:10px';
+      pos.innerHTML =
+        '<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:#a09a92"><span>Сдвиг по X</span><span class="cs-x-val" style="color:#b8965a;font-weight:600">'+Math.round(x)+'%</span></div>'+
+          '<input class="cs-x" type="range" min="0" max="100" step="1" value="'+x+'" style="width:100%;height:24px;cursor:pointer"></div>'+
+        '<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:#a09a92"><span>Сдвиг по Y</span><span class="cs-y-val" style="color:#b8965a;font-weight:600">'+Math.round(y)+'%</span></div>'+
+          '<input class="cs-y" type="range" min="0" max="100" step="1" value="'+y+'" style="width:100%;height:24px;cursor:pointer"></div>'+
+        '<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px;color:#a09a92"><span>Масштаб</span><span class="cs-zoom-val" style="color:#b8965a;font-weight:600">'+Math.round(zoom)+'%</span></div>'+
+          '<input class="cs-zoom" type="range" min="50" max="200" step="5" value="'+zoom+'" style="width:100%;height:24px;cursor:pointer"></div>'+
+        '<button type="button" class="btn btn-s" style="padding:6px;font-size:11px" onclick="resetCarouselPos('+i+')">Сбросить позицию</button>';
+      leftCol.appendChild(pos);
+      // bind events
+      var inpX = pos.querySelector('.cs-x');
+      var inpY = pos.querySelector('.cs-y');
+      var inpZ = pos.querySelector('.cs-zoom');
+      var hX = function(){ updateCarouselPos(i,'x',+this.value); };
+      var hY = function(){ updateCarouselPos(i,'y',+this.value); };
+      var hZ = function(){ updateCarouselPos(i,'zoom',+this.value); };
+      inpX.addEventListener('input', hX);
+      inpY.addEventListener('input', hY);
+      inpZ.addEventListener('input', hZ);
+    }
+    // === RIGHT: header + inputs ===
+    var rightCol = document.createElement('div');
+    rightCol.style.cssText = 'display:flex;flex-direction:column;gap:8px;min-width:0';
+    rightCol.innerHTML =
+      '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">'+
+        '<span style="color:#b8965a;font-weight:600;font-size:12px">Слайд '+(i+1)+'</span>'+
+        '<button class="btn btn-s" style="padding:4px 8px;font-size:11px" onclick="moveCarousel('+i+',-1)">↑</button>'+
+        '<button class="btn btn-s" style="padding:4px 8px;font-size:11px" onclick="moveCarousel('+i+',1)">↓</button>'+
+        '<button class="del" style="padding:4px 8px;font-size:11px;margin-left:auto" onclick="delCarousel('+i+')">Удалить</button>'+
+      '</div>'+
+      '<div><label style="font-size:11px;color:#a09a92;display:block;margin-bottom:2px">Бирка (тип материала)</label><input type="text" value="'+escapeHtml(s.tag||'')+'" placeholder="микроцемент / полиуретан / эпоксид" oninput="updateCarouselField('+i+',\'tag\',this.value)" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#1e1e1e;color:#efece7;font-family:inherit;font-size:13px"></div>'+
+      '<div><label style="font-size:11px;color:#a09a92;display:block;margin-bottom:2px">Заголовок</label><input type="text" value="'+escapeHtml(s.title||'')+'" placeholder="vintage" oninput="updateCarouselField('+i+',\'title\',this.value)" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#1e1e1e;color:#efece7;font-family:inherit;font-size:13px"></div>'+
+      '<div><label style="font-size:11px;color:#a09a92;display:block;margin-bottom:2px">Описание (короткое)</label><input type="text" value="'+escapeHtml(s.desc||'')+'" placeholder="винтажная фактура с переходами тонов" oninput="updateCarouselField('+i+',\'desc\',this.value)" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#1e1e1e;color:#efece7;font-family:inherit;font-size:13px"></div>'+
+      '<div><label style="font-size:11px;color:#a09a92;display:block;margin-bottom:2px">Ссылка при клике</label><input type="text" value="'+escapeHtml(s.link||'')+'" placeholder="/microcement или https://..." oninput="updateCarouselField('+i+',\'link\',this.value)" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#1e1e1e;color:#efece7;font-family:inherit;font-size:13px"></div>';
+    card.appendChild(leftCol);
+    card.appendChild(rightCol);
+    list.appendChild(card);
+  });
+}
+function resetCarouselPos(i){
+  if(!CAROUSEL[i]) return;
+  CAROUSEL[i].x = 50; CAROUSEL[i].y = 50; CAROUSEL[i].zoom = 100;
+  renderCarousel();
+  saveCarousel({silent:true});
+}
+function addCarouselSlide(){
+  CAROUSEL.push({id:'slide-'+Date.now(),imageId:'',tag:'',title:'',desc:'',link:'',x:50,y:50,zoom:100});
+  saveCarousel();
+}
+function delCarousel(i){
+  if(!confirm('Удалить слайд?')) return;
+  CAROUSEL.splice(i,1);
+  saveCarousel();
+}
+function moveCarousel(i, dir){
+  var j = i + dir;
+  if(j < 0 || j >= CAROUSEL.length) return;
+  var tmp = CAROUSEL[i];
+  CAROUSEL[i] = CAROUSEL[j];
+  CAROUSEL[j] = tmp;
+  saveCarousel();
+}
+function updateCarouselField(i, field, val){
+  if(!CAROUSEL[i]) return;
+  CAROUSEL[i][field] = val;
+  // дебаунс — сохраняем не на каждом нажатии, БЕЗ ре-рендера (иначе клавиатура закрывается)
+  clearTimeout(window.__carouselSaveT);
+  window.__carouselSaveT = setTimeout(function(){ saveCarousel({silent:true}); }, 800);
+}
+function updateCarouselPos(i, field, val){
+  if(!CAROUSEL[i]) return;
+  var v = +val;
+  if (!Number.isFinite(v)) return;
+  CAROUSEL[i][field] = v;
+  // живое превью без re-render: точечно обновляем thumb и подпись слайдера
+  var card = document.querySelector('#carouselList > div[data-idx="'+i+'"]');
+  if(!card) return;
+  var s = CAROUSEL[i];
+  var thumb = card.querySelector('.cs-thumb');
+  if(thumb && s.imageId){
+    var bgPos = (s.x||0) + '% ' + (s.y||0) + '%';
+    var bgSize = s.zoom === 100 ? 'cover' : (s.zoom+'%');
+    thumb.style.backgroundPosition = bgPos;
+    thumb.style.backgroundSize = bgSize;
+  }
+  var valEl = card.querySelector('.cs-'+field+'-val');
+  if(valEl) valEl.textContent = Math.round(v)+'%';
+  clearTimeout(window.__carouselSaveT);
+  window.__carouselSaveT = setTimeout(function(){ saveCarousel({silent:true}); }, 400);
+}
+function uploadCarouselImg(i){
+  var inp = document.getElementById('carouselFile');
+  inp.value = '';
+  inp.onchange = async function(e){
+    var file = e.target.files[0]; if(!file) return;
+    try {
+      var prep = await prepareImageForUpload(file);
+      var up = await fetch('/api/upload',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Password':PWD},body:JSON.stringify({data:prep.base64,mime:prep.mime})});
+      var uj = await up.json();
+      if(!uj.ok){ alert(uj.error || 'Ошибка загрузки'); return; }
+      CAROUSEL[i].imageId = uj.imageId;
+      await saveCarousel(true);
+    } catch (err) {
+      alert('Ошибка: ' + err.message);
+    }
+  };
+  inp.click();
+}
+async function importCarouselFromSlots(){
+  // Преднастроенный список ранее существовавших слотов карусели
+  var SOURCES = [
+    {key:'microcement-vintage', tag:'микроцемент', title:'vintage', desc:'винтажная фактура с переходами тонов', link:'/microcement'},
+    {key:'microcement-natural', tag:'микроцемент', title:'natural', desc:'мягкая однородная поверхность', link:'/microcement'},
+    {key:'microcement-metallic', tag:'микроцемент', title:'metallic', desc:'металлический отлив, объём', link:'/microcement'},
+    {key:'poly-color', tag:'полиуретан', title:'color', desc:'однотонный, эластичный, тёплый', link:'/polyurethane'},
+    {key:'poly-deco', tag:'полиуретан', title:'deco', desc:'декоративный, с глубиной цвета', link:'/polyurethane'},
+    {key:'epoxy-metallic', tag:'эпоксид', title:'metallic', desc:'зеркальные переливы металлика', link:'/epoxy'},
+    {key:'epoxy-flake', tag:'эпоксид', title:'flake', desc:'декоративные чипсы, ремесленный вид', link:'/epoxy'},
+    {key:'epoxy-quartz', tag:'эпоксид', title:'quartz', desc:'кварцевый наполнитель, прочность', link:'/epoxy'},
+  ];
+  try{
+    var sr = await fetch('/api/slots');
+    var sj = await sr.json();
+    var smap = (sj && sj.slots) || {};
+    var imported = [];
+    SOURCES.forEach(function(src){
+      var imageId = smap[src.key];
+      if (!imageId) return;
+      // Если уже есть слайд с таким imageId — пропускаем
+      var dup = CAROUSEL.some(function(s){return s.imageId === imageId});
+      if (dup) return;
+      var x = Number(smap[src.key+'__x']);
+      var y = Number(smap[src.key+'__y']);
+      var zoom = Number(smap[src.key+'__zoom']) || 100;
+      if (isNaN(x)) x = 50;
+      if (isNaN(y)) {
+        var legacy = smap[src.key+'__pos'];
+        y = legacy === 'top' ? 0 : legacy === 'bottom' ? 100 : 50;
+      }
+      imported.push({
+        id: 'imported-'+src.key+'-'+Date.now(),
+        imageId: imageId,
+        tag: src.tag,
+        title: src.title,
+        desc: src.desc,
+        link: src.link,
+        x: x, y: y, zoom: zoom
+      });
+    });
+    if (!imported.length) {
+      alert('В старых слотах нет фотографий для импорта.');
+      return;
+    }
+    if (!confirm('Найдено фото: ' + imported.length + '. Добавить их слайдами в карусель?')) return;
+    CAROUSEL = CAROUSEL.concat(imported);
+    await saveCarousel(true);
+  }catch(e){ alert('Ошибка импорта: ' + e.message); }
+}
+
+async function saveCarousel(opts){
+  // opts: true = показать сообщение «сохранено» + ре-рендер (старая совместимость)
+  //       {silent:true} = только сохранить, без ре-рендера (для инпутов — чтобы клавиатура не закрывалась)
+  //       {showMsg:true} = показать сообщение
+  if (opts === true) opts = {showMsg:true};
+  opts = opts || {};
+  try{
+    var r = await fetch('/api/carousel',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Admin-Password':PWD},
+      body: JSON.stringify({slides: CAROUSEL})
+    });
+    var j = await r.json();
+    if(!j.ok){ alert(j.error || 'Ошибка сохранения'); return; }
+    // Сохраняем серверный массив, но не теряем то, что уже введено локально (если silent — пользователь печатает)
+    if (opts.silent) {
+      // Серверный ответ может перезаписать поля, которые юзер прямо сейчас печатает.
+      // Поэтому в silent-режиме НЕ обновляем CAROUSEL из ответа — оставляем локальный массив.
+    } else {
+      CAROUSEL = j.slides;
+      renderCarousel();
+    }
+    if(opts.showMsg){
+      var m = document.getElementById('carouselSaveMsg');
+      if(m){ m.textContent = '✓ сохранено'; setTimeout(function(){m.textContent=''}, 2000); }
+    }
+  }catch(e){ alert('Ошибка: ' + e.message); }
+}
+</script>
+</body>
+</html>
