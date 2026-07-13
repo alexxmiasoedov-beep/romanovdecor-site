@@ -1,8 +1,10 @@
 import { CORS, json } from '../../_lib.js';
 
 export async function onRequestGet(context) {
-  const id = context.params.id;
+  let id = context.params.id;
   if (!id) return json({ ok: false, error: 'Не указан ID' }, 400);
+  // версионный префикс в пути (v2-...) — сброс годового браузерного кэша при массовой замене картинок
+  id = id.replace(/^v\d+-/, '');
 
   // Кэш на границе Cloudflare: картинки неизменяемые, origin дёргаем один раз
   const cache = caches.default;

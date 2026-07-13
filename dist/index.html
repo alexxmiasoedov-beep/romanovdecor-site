@@ -698,12 +698,12 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="wi">
 <div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M208,144c0,44.18-35.82,72-80,72s-80-27.82-80-72c0-72,80-128,80-128S208,72,208,144Z"/><path d="M152,176a40,40,0,0,1-40-40"/></svg></div>
 <h4>Самый крепкий лак в СНГ</h4>
-<p>Полиуретановый лак не на водной основе: не боится каблуков, когтей и передвинутой мебели. Покрытие служит 15–25 лет.</p>
+<p>Полиуретановый лак не на водной основе: истираемость по тесту Табера — 24 мг против 47 мг у эпоксидных лаков (техпаспорта Remmers), почти вдвое прочнее. Служит 15–25 лет.</p>
 </div>
 <div class="wi">
 <div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><circle cx="128" cy="128" r="56"/><path d="M128,32V48M128,208v16M59.6,59.6l11.3,11.3M185.1,185.1l11.3,11.3M32,128H48M208,128h16M59.6,196.4l11.3-11.3M185.1,70.9l11.3-11.3"/></svg></div>
 <h4>Не выгорает и не желтеет</h4>
-<p>Солнце из окна не вредит: цвет остаётся тем же и через годы, без жёлтых пятен на светлых полах и столешницах.</p>
+<p>Финишный лак UV-стойкий — подтверждено техпаспортом Remmers. Цвет остаётся тем же и через годы, без жёлтых пятен на светлых полах и столешницах.</p>
 </div>
 <div class="wi">
 <div class="wi-ico" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M128,28l17,66,67,17-67,17-17,66-17-66-67-17,67-17Z"/><path d="M208,40v32M224,56h-32M48,184v24M60,196H36"/></svg></div>
@@ -980,7 +980,7 @@ async function submitContactForm(e){
       var card=document.createElement('div');
       card.className='partner-card';
       if(p.imageId){
-        card.innerHTML='<img src="/api/image/'+encodeURIComponent(p.imageId)+'" alt="'+escP(p.name)+'">';
+        card.innerHTML='<img src="/api/image/v2-'+encodeURIComponent(p.imageId)+'" alt="'+escP(p.name)+'">';
       } else {
         card.innerHTML='<span style="font-size:22px;font-weight:700;letter-spacing:3px;color:#1e1e1e">'+escP(p.name)+'</span>';
       }
@@ -1027,7 +1027,7 @@ function animateCounter(el){
       var slide = document.createElement('div');
       slide.className = 'slide' + (i === 0 ? ' act' : '');
       if(s.type === 'photo' && s.imageId){
-        slide.innerHTML = '<img src="/api/image/' + encodeURIComponent(s.imageId) + '" alt="">';
+        slide.innerHTML = '<img src="/api/image/v2-' + encodeURIComponent(s.imageId) + '" alt="">';
       } else if(s.type === 'video' && s.videoUrl){
         var url = s.videoUrl;
         var yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]+)/);
@@ -1075,7 +1075,7 @@ function animateCounter(el){
       if(!imageId) return;
       var el = document.querySelector('[data-slot="'+key+'"]');
       if(!el) return;
-      var url = '/api/image/' + imageId;
+      var url = '/api/image/v2-' + imageId;
       var x = Number(map[key+'__x']);
       var y = Number(map[key+'__y']);
       var zoom = Number(map[key+'__zoom']) || 100;
@@ -1136,7 +1136,7 @@ function animateCounter(el){
       var y = Number.isFinite(+s.y) ? +s.y : 50;
       var zoom = Number.isFinite(+s.zoom) ? +s.zoom : 100;
       var bgSize = zoom === 100 ? 'cover' : (zoom+'%');
-      a.style.backgroundImage = 'url(/api/image/'+s.imageId+')';
+      a.style.backgroundImage = 'url(/api/image/v2-'+s.imageId+')';
       a.style.backgroundPosition = x+'% '+y+'%';
       a.style.backgroundSize = bgSize;
       a.style.backgroundRepeat = 'no-repeat';
@@ -1786,7 +1786,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
 
   function show(){
     var s = state.slides[state.idx]; if (!s) return;
-    if (s.imageId) { img.src = '/api/image/'+s.imageId; img.style.visibility=''; }
+    if (s.imageId) { img.src = '/api/image/v2-'+s.imageId; img.style.visibility=''; }
     else { img.removeAttribute('src'); img.style.visibility='hidden'; }
     tag.textContent = s.tag || '';
     ttl.textContent = s.title || '';

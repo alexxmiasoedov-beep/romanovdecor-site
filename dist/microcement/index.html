@@ -775,7 +775,7 @@ if('IntersectionObserver' in window){
       var y = Number.isFinite(+s.y) ? +s.y : 50;
       var zoom = Number.isFinite(+s.zoom) ? +s.zoom : 100;
       var bgSize = zoom === 100 ? 'cover' : (zoom+'%');
-      card.style.backgroundImage = 'url(/api/image/'+s.imageId+')';
+      card.style.backgroundImage = 'url(/api/image/v2-'+s.imageId+')';
       card.style.backgroundPosition = x+'% '+y+'%';
       card.style.backgroundSize = bgSize;
       card.style.backgroundRepeat = 'no-repeat';
@@ -1070,7 +1070,7 @@ if('IntersectionObserver' in window){
       if(/__pos$|__x$|__y$|__zoom$/.test(key))return;
       var el=document.querySelector('[data-slot="'+key+'"]');
       if(!el||!map[key])return;
-      var url='/api/image/'+map[key];
+      var url='/api/image/v2-'+map[key];
       var x=Number(map[key+'__x']);var y=Number(map[key+'__y']);var zoom=Number(map[key+'__zoom'])||100;
       if(isNaN(x))x=50;
       if(isNaN(y)){var legacy=map[key+'__pos'];y=legacy==='top'?0:legacy==='bottom'?100:50}
@@ -1333,7 +1333,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
   var state = {slides: [], idx: 0};
   function show(){
     var s = state.slides[state.idx]; if (!s) return;
-    if (s.imageId) { img.src = '/api/image/'+s.imageId; img.style.visibility=''; }
+    if (s.imageId) { img.src = '/api/image/v2-'+s.imageId; img.style.visibility=''; }
     else { img.removeAttribute('src'); img.style.visibility='hidden'; }
     tag.textContent = s.tag || '';
     ttl.textContent = s.title || '';

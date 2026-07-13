@@ -397,7 +397,7 @@ function closeDrawer(){document.getElementById('drawer').classList.remove('show'
     Object.keys(map).forEach(function(key){
       var el = document.querySelector('[data-slot="'+key+'"]');
       if(!el || !map[key]) return;
-      var url = '/api/image/' + map[key];
+      var url = '/api/image/v2-' + map[key];
       el.style.background = 'url("'+url+'") center/cover no-repeat';
       if(key === 'about-production'){
         var css = document.createElement('style');

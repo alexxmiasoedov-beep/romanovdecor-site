@@ -369,7 +369,7 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(c){retur
         : (it.imageId ? [{id:it.imageId, pos:it.imagePosition||'center'}] : []);
       var cover = gallery[0];
       var imgHtml = cover
-        ? '<img src="/api/image/'+cover.id+'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center '+(cover.pos||'center')+'">'
+        ? '<img src="/api/image/v2-'+cover.id+'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center '+(cover.pos||'center')+'">'
         : '<div class="p-grad" style="background:linear-gradient(135deg,#2c2820,#16130f)"></div>';
       var areaTag = it.area ? '<div class="p-tag-area">'+escapeHtml(it.area)+'</div>' : '';
       var countTag = gallery.length > 1 ? '<div class="p-count"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="1.5" fill="currentColor"/><path d="M21 15l-5-5L5 21"/></svg> '+gallery.length+'</div>' : '';
@@ -416,7 +416,7 @@ function lbRender(){
   var g = LB.gallery[LB.idx];
   var img = document.getElementById('lbImg');
   if(g && g.id){
-    img.src = '/api/image/'+g.id;
+    img.src = '/api/image/v2-'+g.id;
     img.style.background = '';
   } else if(g && g.placeholder){
     img.src = '';
@@ -432,7 +432,7 @@ function lbRender(){
   if(nav){
     tw.style.display = 'flex';
     tw.innerHTML = LB.gallery.map(function(it, i){
-      return '<img src="/api/image/'+encodeURIComponent(it.id)+'" alt="Фото проекта '+(i+1)+'" class="'+(i===LB.idx?'act':'')+'" onclick="lbGo('+i+')">';
+      return '<img src="/api/image/v2-'+encodeURIComponent(it.id)+'" alt="Фото проекта '+(i+1)+'" class="'+(i===LB.idx?'act':'')+'" onclick="lbGo('+i+')">';
     }).join('');
   } else {
     tw.style.display = 'none';

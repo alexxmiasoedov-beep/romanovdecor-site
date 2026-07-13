@@ -548,7 +548,7 @@ function renderPartners(){
   PARTNERS_LIST.forEach(function(p,i){
     var div=document.createElement('div');
     div.className='item';
-    var thumb=p.imageId?'<img src="/api/image/'+p.imageId+'" alt="" style="object-fit:contain;padding:12px;background:#f7f5f0">':'<div class="ph" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#1e1e1e;background:#f7f5f0;letter-spacing:2px">'+escapeHtml(p.name)+'</div>';
+    var thumb=p.imageId?'<img src="/api/image/v2-'+p.imageId+'" alt="" style="object-fit:contain;padding:12px;background:#f7f5f0">':'<div class="ph" style="display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#1e1e1e;background:#f7f5f0;letter-spacing:2px">'+escapeHtml(p.name)+'</div>';
     div.innerHTML='<div class="item-img" style="height:100px">'+thumb+'</div><div class="item-body"><h3>'+escapeHtml(p.name)+'</h3><div class="item-actions"><button class="del" onclick="delPartner('+i+')">Удалить</button></div></div>';
     grid.appendChild(div);
   });
@@ -639,7 +639,7 @@ function renderHero(){
     var typeLabel = '';
     var sourceLabel = '';
     if(s.type === 'photo'){
-      thumb = '<img src="/api/image/'+s.imageId+'" alt="">';
+      thumb = '<img src="/api/image/v2-'+s.imageId+'" alt="">';
       typeLabel = 'Фото';
       sourceLabel = 'Загружено';
     } else {
@@ -807,7 +807,7 @@ function renderList(){
   filtered.forEach(function(it){
     // Cover image: первое из gallery → imageId
     var coverId = (it.images && it.images[0] && it.images[0].id) ? it.images[0].id : it.imageId;
-    var img = coverId ? '<img src="/api/image/' + coverId + '" alt="">' : '<div class="ph">нет фото</div>';
+    var img = coverId ? '<img src="/api/image/v2-' + coverId + '" alt="">' : '<div class="ph">нет фото</div>';
     var div = document.createElement('div');
     div.className = 'item';
     var seg = SEGS[it.segment] || 'Жилые';
@@ -854,7 +854,7 @@ function renderGal(){
       return;
     }
     h += '<div class="gthumb" data-i="'+i+'">' +
-      '<img src="/api/image/'+img.id+'" style="object-position:center '+img.pos+'">' +
+      '<img src="/api/image/v2-'+img.id+'" style="object-position:center '+img.pos+'">' +
       (i===0 ? '<div class="cov">ОБЛОЖКА</div>' : '') +
       '<div class="gact">' +
         (i>0 ? '<button type="button" title="Левее" onclick="galMove('+i+',-1)">‹</button>' : '') +
@@ -1054,7 +1054,7 @@ function renderSlots(){
     thumb.title = imageId ? 'Кликните чтобы заменить' : '';
     if (imageId) {
       var bgSize = zoom === 100 ? 'cover' : (zoom + '%');
-      thumb.style.backgroundImage = 'url(/api/image/'+imageId+')';
+      thumb.style.backgroundImage = 'url(/api/image/v2-'+imageId+')';
       thumb.style.backgroundPosition = x + '% ' + y + '%';
       thumb.style.backgroundSize = bgSize;
     } else {
@@ -1285,7 +1285,7 @@ function renderCarousel(){
     var card = document.createElement('div');
     card.dataset.idx = i;
     card.style.cssText = 'background:#2c2c2c;border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:16px;margin-bottom:12px;display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:start';
-    var imgUrl = s.imageId ? '/api/image/' + s.imageId : '';
+    var imgUrl = s.imageId ? '/api/image/v2-' + s.imageId : '';
     var x = Number.isFinite(+s.x) ? +s.x : 50;
     var y = Number.isFinite(+s.y) ? +s.y : 50;
     var zoom = Number.isFinite(+s.zoom) ? +s.zoom : 100;
