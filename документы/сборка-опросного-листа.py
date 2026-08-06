@@ -242,16 +242,8 @@ def build_sheet(ws, title, subtitle, rows):
     s = end + 2
     ws.cell(row=s, column=2, value="Позиций в перечне").font = SUM_F
     ws.cell(row=s, column=3, value=len(rows)).font = SUM_F
-    ws.cell(row=s + 1, column=2, value="Есть на складе").font = SUM_F
-    ws.cell(row=s + 1, column=3,
-            value=f'=COUNTIF(E{FIRST}:E{end},"Есть на складе")').font = SUM_F
-    ws.cell(row=s + 2, column=2, value="Под заказ").font = SUM_F
-    ws.cell(row=s + 2, column=3,
-            value=f'=COUNTIF(E{FIRST}:E{end},"Под заказ")').font = SUM_F
-    ws.cell(row=s + 3, column=2, value="Нет").font = SUM_F
-    ws.cell(row=s + 3, column=3, value=f'=COUNTIF(E{FIRST}:E{end},"Нет")').font = SUM_F
 
-    ws.cell(row=s + 5, column=2,
+    ws.cell(row=s + 2, column=2,
             value="ИП Мясоедов Алексей Владимирович · +375 33 628-04-86 · "
                   "miasoedov95@gmail.com").font = SUB_F
 
