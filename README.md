@@ -14,6 +14,18 @@
 - `wrangler.toml` — конфигурация деплоя (привязки KV и R2)
 - `.github/workflows/deploy.yml` — автодеплой: каждый push в `main` выкладывает сайт на Cloudflare
 
+## Разработка
+
+```bash
+npm install       # только для wrangler; сам сайт зависимостей не требует
+npm run check     # проверки вместо тестов: битые ссылки, SEO-теги, sitemap, шапка/подвал, синтаксис functions
+npm run serve     # быстрый предпросмотр dist/ на http://localhost:8788 (без API)
+npm run dev       # wrangler pages dev — сайт вместе с функциями и локальными KV/R2
+```
+
+`npm run check` гонять после любой правки HTML — шапка и подвал скопированы в каждую страницу,
+и скрипт ловит расхождения между ними. Подробные правила работы — в [CLAUDE.md](CLAUDE.md).
+
 ## Автодеплой
 
 Workflow использует два секрета репозитория (Settings → Secrets and variables → Actions):
