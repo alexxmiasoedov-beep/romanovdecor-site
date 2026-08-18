@@ -9,11 +9,17 @@ RATE = 2.9133          # BYN/USD, курс НБ РБ
 DOOR_WORK = 100        # $/шт, работа по двери
 MISC = 100             # малярные расходники
 
-# ── шкала по слоям, «Памятка по ценам», раздел 2 (стены) ──────────────────
-PACK = 1300            # первые 20 м² — пакетом
-PACK_MAT, PACK_WORK = 800, 500   # официальный раздел пакета: материал / работа
-PACK_M2 = 20
-LAYERS = [(25, 40, 24), (35, 38, 22), (None, 36, 20)]   # (м², материал, работа)
+# ── шкала цен, «Памятка: цены стены и полы», разделы 1–2 ──────────────────
+# Плавная скидка по материалу от 35 до 120 м². Работа скидке не подлежит.
+MIN_M2 = 20                       # минимальный объём к оплате
+D_FROM, D_TO = 35, 120            # отрезок, на котором тает цена материала
+MAT_HI, MAT_LO = 40, 34           # материал по стенам: старт и дно (−15%)
+WORK = 24                         # работа по стенам, $/единицу, без скидки
+
+def mat_rate(a):
+    if a <= D_FROM: return float(MAT_HI)
+    if a >= D_TO:   return float(MAT_LO)
+    return MAT_HI - (MAT_HI - MAT_LO) * (a - D_FROM) / (D_TO - D_FROM)
 
 def u(v):
     s = f'{v:,.2f}'.replace(',', ' ').replace('.', ',')
@@ -89,27 +95,12 @@ ND    = sum(n for _, n in DOORS)
 D_M2  = ND * 0.8 * 2.0
 TOT_M2 = W_M2 + D_M2                             # объём для шкалы
 
-# ── ступенчатая цена ──────────────────────────────────────────────────────
-def scale(total_m2, work_units):
-    mat, wrk = PACK_MAT, PACK_WORK
-    left = total_m2 - PACK_M2
-    slices = [(PACK_M2, None, None)]
-    for qty, mr, wr in LAYERS:
-        if left <= 0: break
-        take = left if qty is None else min(qty, left)
-        mat += take * mr
-        slices.append((take, mr, wr))
-        left -= take
-    # работа: единицы распределяются между слоями пропорционально их доле в площади
-    for take, mr, wr in slices[1:]:
-        wrk += take / total_m2 * work_units * wr
-    return mat, wrk, slices
-
-MAT_SUM, WRK_SUM_RAW, SLICES = scale(TOT_M2, W_UN)
-# пакетная часть работы посчитана на 20 м²; добираем остаток единиц первого слоя
-WRK_SUM = WRK_SUM_RAW + max(0.0, PACK_M2 / TOT_M2 * W_UN - PACK_M2) * 24
-EFF_MAT = MAT_SUM / TOT_M2
-EFF_WRK = WRK_SUM / W_UN
+# ── цена по шкале ─────────────────────────────────────────────────────────
+BILL_M2 = max(TOT_M2, MIN_M2)          # меньше минимального выезда не считаем
+EFF_MAT = mat_rate(BILL_M2)
+EFF_WRK = float(WORK)
+MAT_SUM = BILL_M2 * EFF_MAT
+WRK_SUM = W_UN * EFF_WRK
 
 # ── вёрстка ───────────────────────────────────────────────────────────────
 B = '#cbbf9f'; GRID = f'border:1px solid {B}'; NUM = 'font-variant-numeric:tabular-nums'
@@ -173,9 +164,9 @@ logo = ('<svg width="44" height="44" viewBox="0 0 32 32" xmlns="http://www.w3.or
         '<text x="50%" y="54%" font-family="Geologica,Arial,sans-serif" font-size="20" font-weight="700" '
         'fill="#b8965a" text-anchor="middle" dominant-baseline="middle">r</text></svg>')
 
-sl = SLICES
-scale_txt = (f'первые {PACK_M2} м² — пакетом ${PACK}; '
-             + '; '.join(f'{a2(t)} м² по ${mr} + ${wr}' for t, mr, wr in sl[1:]))
+scale_txt = (f'скидка по материалу тает плавно с {D_FROM} до {D_TO} м², '
+             f'от ${MAT_HI} до ${MAT_LO} за м²'
+             + (f'; объём {a2(TOT_M2)} м² проходит нижнюю границу' if TOT_M2 >= D_TO else ''))
 
 html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -239,7 +230,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 
 <div style="margin-top:9px;padding:6px 12px;background:#f7f5f0;border-left:2px solid #b8965a;border-radius:3px;font-size:8.4px;color:#666;line-height:1.45">
 <b style="color:#2c2c2c"><sup>*</sup> м.п.</b> — погонные метры: поверхности со стороной менее 0,5 м (откосы, ниши, бортики) нормируются по длине, так как нанесение на них идёт медленнее, чем на сплошной стене.<br>
-<b style="color:#2c2c2c">Цена по объёму.</b> Объём {a2(TOT_M2)} м² проходит верхнюю ступень шкалы: {scale_txt}. Эффективная цена в таблице — материал {u(EFF_MAT)}/м², работа {u(EFF_WRK)}/м² вместо базовых $40 и $24.<br>
+<b style="color:#2c2c2c">Цена по объёму.</b> {scale_txt.capitalize()}. Цена в таблице — материал {u(EFF_MAT)} за м² вместо базовых ${MAT_HI}; работа {u(EFF_WRK)} за единицу, она скидке не подлежит на любом объёме.<br>
 <b style="color:#2c2c2c">Двери:</b> материал считается по площади полотна, работа — фиксированно ${DOOR_WORK} за штуку.<br>
 <b style="color:#2c2c2c">Условия:</b> микроцемент на немецких компонентах, толщина 1–1,5 мм, эффекты Vintage / Natural / Metallic на выбор. Грунт + 1–2 слоя микроцемента + 2 слоя лака Remmers PUR Top TX. Оплата в белорусских рублях по курсу НБ РБ на день оплаты. <b>Срок действия КП — 14 дней.</b>
 </div>
