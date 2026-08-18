@@ -67,9 +67,18 @@ def edit(name, ps):
 # высота потолка снижена с 2,7 до 2,6 — правится после DROP/SHRINK,
 # чтобы те по-прежнему ссылались на исходные значения файла замеров
 CEIL_FROM, CEIL_TO = 2.7, 2.6
+# 0,7 -> 0,6 везде, где встречается: и в ширине, и в высоте (8 замеров)
+SWAP = [(0.7, 0.6)]
 
 def ceiling(ps):
-    return [(a, CEIL_TO if abs(b - CEIL_FROM) < 1e-9 else b) for a, b in ps]
+    out = []
+    for a, b in ps:
+        if abs(b - CEIL_FROM) < 1e-9: b = CEIL_TO
+        for f, t in SWAP:
+            if abs(a - f) < 1e-9: a = t
+            if abs(b - f) < 1e-9: b = t
+        out.append((a, b))
+    return out
 
 zones = [(n, *measure(ceiling(edit(n, pairs(c1, c2, r1, r2) + EXTRA.get(n, [])))))
          for n, c1, c2, r1, r2 in ROOMS]
