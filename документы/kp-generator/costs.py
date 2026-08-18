@@ -4,6 +4,11 @@
 
 RATE = 2.9133  # BYN/USD, курс НБ РБ
 
+# Дилерская скидка студии на позиции Remmers. Кварцевый песок берётся
+# не у дилера, поэтому идёт по рознице.
+DISCOUNT = 0.40
+NO_DISCOUNT = {'песок'}
+
 # (цена за фасовку в BYN, вес фасовки в кг, источник)
 PRICES = {
     'bs3000': (2372.89, 25, 'Epoxy BS 3000 SG, Боден-Системс, Минск'),
@@ -30,31 +35,36 @@ MEMO = {'стены': dict(mat_hi=40, mat_lo=34, work=24),
         'полы':  dict(mat_hi=50, mat_lo=45, work=25)}
 
 
-def usd_kg(key):
+def usd_kg(key, net=True):
+    """$/кг. net=True — со скидкой студии, False — розница."""
     byn, kg, _ = PRICES[key]
-    return byn / kg / RATE
+    p = byn / kg / RATE
+    return p * (1 - DISCOUNT) if net and key not in NO_DISCOUNT else p
 
 
-def cost(recipe):
-    return sum(kg * usd_kg(k) for k, kg in recipe.items())
+def cost(recipe, net=True):
+    return sum(kg * usd_kg(k, net) for k, kg in recipe.items())
 
 
 def prices_table():
-    print('ЗАКУПКА, РОЗНИЦА МИНСК')
-    print(f'  {"материал":<18}{"фасовка":>10}{"BYN":>10}{"BYN/кг":>9}{"$/кг":>8}   источник')
+    print(f'ЗАКУПКА: РОЗНИЦА МИНСК И СКИДКА {DISCOUNT:.0%}')
+    print(f'  {"материал":<18}{"фасовка":>10}{"BYN":>10}{"розн $/кг":>11}{"со скидкой":>12}   источник')
     for k in ('bs3000', 'primer', 'aqua', 'tx', 'мука', 'песок'):
         byn, kg, src = PRICES[k]
-        print(f'  {NAMES[k]:<18}{kg:>7} кг{byn:>10.2f}{byn / kg:>9.2f}{usd_kg(k):>8.2f}   {src}')
+        mark = '' if k not in NO_DISCOUNT else '  (без скидки)'
+        print(f'  {NAMES[k]:<18}{kg:>7} кг{byn:>10.2f}{usd_kg(k, False):>11.2f}'
+              f'{usd_kg(k):>12.2f}   {src}{mark}')
 
 
 def table(recipe, title, areas=(20, 35, 50, 80, 100, 120, 150)):
     print(f'\n{title}')
-    print(f'  {"компонент":<18}{"г/м²":>7}{"$/кг":>8}{"$/м²":>8}{"доля":>7}')
-    c = cost(recipe)
+    print(f'  {"компонент":<18}{"г/м²":>7}{"$/кг":>8}{"$/м²":>8}{"доля":>7}{"розница":>10}')
+    c, gross = cost(recipe), cost(recipe, net=False)
     for k, kg in recipe.items():
         line = kg * usd_kg(k)
-        print(f'  {NAMES[k]:<18}{kg * 1000:>7.0f}{usd_kg(k):>8.2f}{line:>8.2f}{line / c * 100:>6.0f}%')
-    print(f'  {"итого":<18}{sum(recipe.values()) * 1000:>7.0f}{"":>8}{c:>8.2f}')
+        print(f'  {NAMES[k]:<18}{kg * 1000:>7.0f}{usd_kg(k):>8.2f}{line:>8.2f}'
+              f'{line / c * 100:>6.0f}%{kg * usd_kg(k, False):>10.2f}')
+    print(f'  {"итого":<18}{sum(recipe.values()) * 1000:>7.0f}{"":>8}{c:>8.2f}{"":>7}{gross:>10.2f}')
     print('\n  закупка и деньги на объём:')
     print(f'  {"м²":>5}{"кг":>9}{"$":>10}{"BYN":>10}')
     for a in areas:
