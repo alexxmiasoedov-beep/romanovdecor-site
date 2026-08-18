@@ -193,8 +193,10 @@ def our_pl():
 
 # ── дилерская шкала по месячному объёму ───────────────────────────────────
 # Скидка следующего месяца назначается по объёму текущего.
-MONTHLY = [(0,    0.45, 'старт и до 250 м²'),
-           (250,  0.47, 'от 250 м² в месяц'),
+MONTHLY = [(0,    0.30, 'до 50 м² в месяц'),
+           (50,   0.35, 'от 50 м² в месяц'),
+           (100,  0.40, 'от 100 м² в месяц'),
+           (250,  0.45, 'от 250 м² в месяц'),
            (500,  0.48, 'от 500 м² в месяц'),
            (1000, 0.50, 'от 1000 м² в месяц')]
 
@@ -232,6 +234,47 @@ def monthly_table():
               f'против прошлой ступени +{after - base:,.0f} $/мес')
 
 
+
+
+def progressive(v, k='стены'):
+    """Прогрессивная шкала: скидка применяется к объёму сверх порога.
+    Возвращает (сумма к оплате, эффективная скидка)."""
+    R = RRC[k][0]
+    total = 0.0
+    for i, (lo, disc, _) in enumerate(MONTHLY):
+        hi = MONTHLY[i + 1][0] if i + 1 < len(MONTHLY) else float('inf')
+        take = max(0.0, min(v, hi) - lo)
+        total += take * R * (1 - disc)
+    return total, 1 - total / (v * R) if v else 0.0
+
+
+def dead_zones():
+    print('\nСТУПЕНЧАТАЯ ШКАЛА: МЁРТВЫЕ ЗОНЫ')
+    print('  объём, при котором мы зарабатываем меньше, чем на метр до порога')
+    for i in range(1, len(MONTHLY)):
+        lo = MONTHLY[i][0]
+        prev = net(RRC['стены'][0] * (1 - MONTHLY[i - 1][1]), 'стены')
+        cur = net(RRC['стены'][0] * (1 - MONTHLY[i][1]), 'стены')
+        need = (lo - 1) * prev / cur
+        print(f'  порог {lo:>5} м²: до порога {(lo - 1) * prev:>7,.0f} $/мес, '
+              f'сразу после {lo * cur:>7,.0f} — догоняем только к {need:>5.0f} м²')
+
+
+def progressive_table():
+    print('\nПРОГРЕССИВНАЯ ШКАЛА — та же вилка, без мёртвых зон')
+    print(f'  {"м²/мес":>8}{"ступенчато":>13}{"прогрессивно":>15}{"эфф. скидка":>13}'
+          f'{"наш $/мес ступ":>16}{"прогр":>9}')
+    for v in (50, 100, 200, 250, 300, 500, 700, 1000, 1500):
+        d = tier(v)
+        step_pay = v * RRC['стены'][0] * (1 - d)
+        prog_pay, eff = progressive(v)
+        cost = MAT['стены'] * v
+        step_net = (step_pay - cost) / (1 + VAT) * (1 - PROFIT_TAX)
+        prog_net = (prog_pay - cost) / (1 + VAT) * (1 - PROFIT_TAX)
+        print(f'  {v:>8}{step_pay:>13,.0f}{prog_pay:>15,.0f}{eff:>13.1%}'
+              f'{step_net:>16,.0f}{prog_net:>9,.0f}')
+
+
 if __name__ == '__main__':
     print(f'Себестоимость: стены ${MAT["стены"]:.2f}   полы ${MAT["полы"]:.2f}\n')
     retail()
@@ -243,3 +286,5 @@ if __name__ == '__main__':
     osn_table()
     our_pl()
     monthly_table()
+    dead_zones()
+    progressive_table()
