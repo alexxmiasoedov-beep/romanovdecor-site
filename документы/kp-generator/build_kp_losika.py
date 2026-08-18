@@ -64,7 +64,14 @@ def edit(name, ps):
         else: raise SystemExit(f'{name}: не найдена стена {tgt} для вычета')
     return ps
 
-zones = [(n, *measure(edit(n, pairs(c1, c2, r1, r2) + EXTRA.get(n, []))))
+# высота потолка снижена с 2,7 до 2,6 — правится после DROP/SHRINK,
+# чтобы те по-прежнему ссылались на исходные значения файла замеров
+CEIL_FROM, CEIL_TO = 2.7, 2.6
+
+def ceiling(ps):
+    return [(a, CEIL_TO if abs(b - CEIL_FROM) < 1e-9 else b) for a, b in ps]
+
+zones = [(n, *measure(ceiling(edit(n, pairs(c1, c2, r1, r2) + EXTRA.get(n, [])))))
          for n, c1, c2, r1, r2 in ROOMS]
 W_M2  = sum(z[1] for z in zones)                 # площадь стен по материалу
 W_UN  = sum(z[2] + z[3] for z in zones)          # единицы работы: м² + м.п.
