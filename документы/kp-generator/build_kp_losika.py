@@ -45,9 +45,26 @@ ROOMS = [('Кабинет', 4, 5, 2, 16), ('Спальня', 7, 8, 2, 22),
          ('Кухня-гостиная', 16, 17, 2, 28), ('Коридор', 19, 20, 2, 16)]
 # добор замеров, которых нет в файле
 EXTRA = {'Коридор': [(1.36, 2.7)]}
+# правки по уточнению заказчика от 18.08
+DROP   = {'Спальня': [(4.03, 2.7)]}            # большая стена уходит целиком
+SHRINK = {'Спальня': [((4.03, 2.7), 1.25)]}    # от второй большой стены минус 1,25 м по ширине
 DOORS = [('Кабинет', 1), ('Спальня', 1), ('Коридор', 4)]
 
-zones = [(n, *measure(pairs(c1, c2, r1, r2) + EXTRA.get(n, [])))
+def near(p, q): return abs(p[0] - q[0]) < 1e-6 and abs(p[1] - q[1]) < 1e-6
+
+def edit(name, ps):
+    ps = list(ps)
+    for tgt in DROP.get(name, []):
+        for i, pr in enumerate(ps):
+            if near(pr, tgt): ps.pop(i); break
+        else: raise SystemExit(f'{name}: не найдена стена {tgt} для удаления')
+    for tgt, cut in SHRINK.get(name, []):
+        for i, pr in enumerate(ps):
+            if near(pr, tgt): ps[i] = (round(pr[0] - cut, 4), pr[1]); break
+        else: raise SystemExit(f'{name}: не найдена стена {tgt} для вычета')
+    return ps
+
+zones = [(n, *measure(edit(n, pairs(c1, c2, r1, r2) + EXTRA.get(n, []))))
          for n, c1, c2, r1, r2 in ROOMS]
 W_M2  = sum(z[1] for z in zones)                 # площадь стен по материалу
 W_UN  = sum(z[2] + z[3] for z in zones)          # единицы работы: м² + м.п.
