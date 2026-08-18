@@ -39,12 +39,16 @@ def measure(ps, thr=0.5):
         else:               sq += a * b
     return m2, sq, lin
 
-ROOMS = [('Лоджия', 1, 2, 2, 13), ('Кабинет', 4, 5, 2, 16), ('Спальня', 7, 8, 2, 22),
+# Лоджия из работ исключена по уточнению заказчика от 18.08
+ROOMS = [('Кабинет', 4, 5, 2, 16), ('Спальня', 7, 8, 2, 22),
          ('Гардероб 1', 13, 14, 2, 5), ('Гардероб 2', 10, 11, 2, 5),
          ('Кухня-гостиная', 16, 17, 2, 28), ('Коридор', 19, 20, 2, 16)]
+# добор замеров, которых нет в файле
+EXTRA = {'Коридор': [(1.36, 2.7)]}
 DOORS = [('Кабинет', 1), ('Спальня', 1), ('Коридор', 4)]
 
-zones = [(n, *measure(pairs(c1, c2, r1, r2))) for n, c1, c2, r1, r2 in ROOMS]
+zones = [(n, *measure(pairs(c1, c2, r1, r2) + EXTRA.get(n, [])))
+         for n, c1, c2, r1, r2 in ROOMS]
 W_M2  = sum(z[1] for z in zones)                 # площадь стен по материалу
 W_UN  = sum(z[2] + z[3] for z in zones)          # единицы работы: м² + м.п.
 ND    = sum(n for _, n in DOORS)
@@ -163,7 +167,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
     <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#b8965a;font-weight:600;margin-bottom:2px">Заказчик</div>
     <div><b>Заказчик:</b> 7komnat</div>
     <div><b>Адрес объекта:</b> г. Минск, ул. Лосика, 53</div>
-    <div><b>Состав работ:</b> стены и межкомнатные двери, 7 помещений</div>
+    <div><b>Состав работ:</b> стены и межкомнатные двери, {len(ROOMS)} {'помещение' if len(ROOMS) % 10 == 1 and len(ROOMS) % 100 != 11 else 'помещения' if len(ROOMS) % 10 in (2, 3, 4) and len(ROOMS) % 100 not in (12, 13, 14) else 'помещений'}</div>
     <div><b>Площадь по материалам:</b> {a2(TOT_M2)} м²</div>
   </div>
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#2c2c2c;color:#efece7">
