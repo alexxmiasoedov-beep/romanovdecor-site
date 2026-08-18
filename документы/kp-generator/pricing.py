@@ -273,6 +273,38 @@ def progressive_table():
               f'{step_net:>16,.0f}{prog_net:>9,.0f}')
 
 
+
+
+# ── стык объектной шкалы и дилерской ──────────────────────────────────────
+# Дилерская скидка считается от РРЦ КОНКРЕТНОГО объекта, а не от базовой
+# цены. Иначе на объектах от 120 м², где РРЦ уже упала до дна, дилеру
+# не остаётся ничего.
+DEALER_FROM_OBJECT_PRICE = True
+
+
+def dealer_buy(area, k, disc):
+    """Цена закупки для дилера под конкретный объект."""
+    base = rrc(area, k) if DEALER_FROM_OBJECT_PRICE else RRC[k][0]
+    return base * (1 - disc)
+
+
+def clash():
+    print('\nСТЫК ДВУХ ФОРМУЛ: объектная шкала против дилерской')
+    for disc in (0.34, 0.40):
+        print(f'\n  скидка {disc:.0%}')
+        print(f'  {"объект":>8}{"РРЦ":>8}   от базовой РРЦ: {"закуп":>7}{"дилер":>7}{"нам":>7}'
+              f'   |  от РРЦ объекта: {"закуп":>7}{"дилер":>7}{"нам":>7}')
+        for a in (20, 50, 80, 100, 120, 200):
+            k = 'стены'
+            r = rrc(a, k)
+            zA, zB = RRC[k][0] * (1 - disc), r * (1 - disc)
+            P = r * (1 - HAGGLE)
+            dA = (P - zA) / (1 + VAT) * (1 - PROFIT_TAX) - KICKBACK * P
+            dB = (P - zB) / (1 + VAT) * (1 - PROFIT_TAX) - KICKBACK * P
+            print(f'  {a:>8}{r:>8.2f}{"":>18}{zA:>7.2f}{dA:>7.2f}{net(zA, k):>7.2f}'
+                  f'{"":>21}{zB:>7.2f}{dB:>7.2f}{net(zB, k):>7.2f}')
+
+
 if __name__ == '__main__':
     print(f'Себестоимость: стены ${MAT["стены"]:.2f}   полы ${MAT["полы"]:.2f}\n')
     retail()
@@ -286,3 +318,4 @@ if __name__ == '__main__':
     monthly_table()
     dead_zones()
     progressive_table()
+    clash()
