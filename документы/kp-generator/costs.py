@@ -1,72 +1,80 @@
 #!/usr/bin/env python3
-# Себестоимость материала на 1 м². Расход — фактический, по рецептуре студии.
-# Цены закупки поставь в PRICES, всё остальное посчитается само.
+# Себестоимость материала на 1 м². Расход — фактическая рецептура студии.
+# Цены — розница по Минску, август 2026. Свою закупку подставляй в PRICES.
 
-# $/кг франко-склад в Минске. None — цену ещё не подставили.
+RATE = 2.9133  # BYN/USD, курс НБ РБ
+
+# (цена за фасовку в BYN, вес фасовки в кг, источник)
 PRICES = {
-    'bs3000':  None,   # связующее BS 3000
-    'песок':   0.20,   # кварцевый песок, рыночный ориентир
-    'мука':    0.35,   # кварцевая мука, рыночный ориентир
-    'primer':  None,   # Remmers Primer PF
-    'aqua':    None,   # лак PUR Aqua 500m (стены)
-    'tx':      None,   # лак PUR TX (полы)
+    'bs3000': (2372.89, 25, 'Epoxy BS 3000 SG, Боден-Системс, Минск'),
+    'primer': (1987.20, 30, 'Epoxy Primer PF New, Inshi, Минск'),
+    'aqua':   (1517.76, 10, 'PUR Aqua Top 500 2K M, Боден-Системс'),
+    'tx':     (3108.00, 10, 'PUR Top TX, Боден-Системс'),
+    'мука':   (39.00,   25, 'Silverbond 30 EW, Боден-Системс'),
+    'песок':  (16.00,   25, 'кварцевый песок 0,4–0,6, Dorbox, Минск'),
 }
+
+# Альтернатива по праймеру: Боден-Системс даёт Epoxy Primer PF Neutral
+# 30 кг за 1432,44 BYN — на треть дешевле. Раскомментируй, если берёшь там.
+# PRICES['primer'] = (1432.44, 30, 'Epoxy Primer PF Neutral, Боден-Системс')
 
 # кг на 1 м² готовой поверхности
 WALL = {'bs3000': 0.380, 'песок': 0.168, 'мука': 0.112, 'aqua': 0.100}
 FLOOR = {'primer': 0.700, 'bs3000': 0.280, 'песок': 0.168, 'мука': 0.112, 'tx': 0.100}
 
 NAMES = {'bs3000': 'BS 3000', 'песок': 'песок кварцевый', 'мука': 'мука кварцевая',
-         'primer': 'Primer PF Remmers', 'aqua': 'лак PUR Aqua 500m', 'tx': 'лак PUR TX'}
+         'primer': 'Primer PF', 'aqua': 'лак PUR Aqua 500', 'tx': 'лак PUR TX'}
 
-# публичная цена из памятки: строка «материал», $/м²
-PRICE_LINE = {'стены': (40, 34), 'полы': (50, 45)}
+# публичная цена из памятки: строка «материал» и «работа», $/м²
+MEMO = {'стены': dict(mat_hi=40, mat_lo=34, work=24),
+        'полы':  dict(mat_hi=50, mat_lo=45, work=25)}
+
+
+def usd_kg(key):
+    byn, kg, _ = PRICES[key]
+    return byn / kg / RATE
 
 
 def cost(recipe):
-    """Себестоимость $/м² и список неизвестных позиций."""
-    total, unknown = 0.0, []
-    for k, kg in recipe.items():
-        p = PRICES.get(k)
-        if p is None:
-            unknown.append(k)
-        else:
-            total += kg * p
-    return total, unknown
+    return sum(kg * usd_kg(k) for k, kg in recipe.items())
+
+
+def prices_table():
+    print('ЗАКУПКА, РОЗНИЦА МИНСК')
+    print(f'  {"материал":<18}{"фасовка":>10}{"BYN":>10}{"BYN/кг":>9}{"$/кг":>8}   источник')
+    for k in ('bs3000', 'primer', 'aqua', 'tx', 'мука', 'песок'):
+        byn, kg, src = PRICES[k]
+        print(f'  {NAMES[k]:<18}{kg:>7} кг{byn:>10.2f}{byn / kg:>9.2f}{usd_kg(k):>8.2f}   {src}')
 
 
 def table(recipe, title, areas=(20, 35, 50, 80, 100, 120, 150)):
     print(f'\n{title}')
-    print('  расход на 1 м²:')
+    print(f'  {"компонент":<18}{"г/м²":>7}{"$/кг":>8}{"$/м²":>8}{"доля":>7}')
+    c = cost(recipe)
     for k, kg in recipe.items():
-        print(f'    {NAMES[k]:<22} {kg * 1000:>6.0f} г')
-    print(f'    {"итого":<22} {sum(recipe.values()) * 1000:>6.0f} г')
-    print('\n  закупка на объём, кг:')
-    head = '   м²  ' + ''.join(f'{NAMES[k][:14]:>16}' for k in recipe) + f'{"всего":>10}'
-    print(head)
+        line = kg * usd_kg(k)
+        print(f'  {NAMES[k]:<18}{kg * 1000:>7.0f}{usd_kg(k):>8.2f}{line:>8.2f}{line / c * 100:>6.0f}%')
+    print(f'  {"итого":<18}{sum(recipe.values()) * 1000:>7.0f}{"":>8}{c:>8.2f}')
+    print('\n  закупка и деньги на объём:')
+    print(f'  {"м²":>5}{"кг":>9}{"$":>10}{"BYN":>10}')
     for a in areas:
-        line = f'  {a:>3}  ' + ''.join(f'{kg * a:>16.1f}' for kg in recipe.values())
-        print(line + f'{sum(recipe.values()) * a:>10.1f}')
-    c, unknown = cost(recipe)
-    if unknown:
-        print(f'\n  себестоимость: не считается — нет цены на {", ".join(NAMES[k] for k in unknown)}')
-        print(f'  посчитанная часть: ${c:.2f}/м²')
-    else:
-        print(f'\n  себестоимость материала: ${c:.2f}/м²')
+        print(f'  {a:>5}{sum(recipe.values()) * a:>9.1f}{c * a:>10.0f}{c * a * RATE:>10.0f}')
 
 
 def margin(name, recipe):
-    c, unknown = cost(recipe)
-    if unknown:
-        return
-    hi, lo = PRICE_LINE[name]
-    print(f'  {name}: себестоимость ${c:.2f} · цена ${hi}–{lo} · '
-          f'маржа ${hi - c:.2f}–{lo - c:.2f} (×{hi / c:.1f}–{lo / c:.1f})')
+    c = cost(recipe)
+    m = MEMO[name]
+    for tag, mat in (('20–35 м²', m['mat_hi']), ('120 м²+', m['mat_lo'])):
+        full = mat + m['work']
+        print(f'  {name:<6}{tag:<10} материал ${mat}  себестоимость ${c:>6.2f}  '
+              f'наценка ×{mat / c:.2f}  остаток ${mat - c:>6.2f}  '
+              f'под ключ ${full} → ${full - c:>6.2f} на работу и всё остальное')
 
 
 if __name__ == '__main__':
+    prices_table()
     table(WALL, 'СТЕНЫ')
     table(FLOOR, 'ПОЛЫ')
-    print('\nСТРОКА «МАТЕРИАЛ» В ПАМЯТКЕ')
+    print('\nСТРОКА «МАТЕРИАЛ» В ПАМЯТКЕ ПРОТИВ РОЗНИЦЫ')
     margin('стены', WALL)
     margin('полы', FLOOR)
