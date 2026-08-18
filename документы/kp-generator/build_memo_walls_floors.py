@@ -18,11 +18,11 @@ def d(v):  return '$' + f'{v:,.0f}'.replace(',', ' ')
 def byn(v): return f'{round(v * RATE):,}'.replace(',', ' ')
 
 B = '#cbbf9f'; GRID = f'border:1px solid {B}'
-TD  = f'{GRID};padding:3.2px 7px;font-size:9px;line-height:1.25;vertical-align:middle'
+TD  = f'{GRID};padding:2.5px 7px;font-size:9px;line-height:1.25;vertical-align:middle'
 TDN = f'{TD};text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums'
 TH  = f'{GRID};padding:4px 7px;font-size:8px;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;text-align:center;vertical-align:middle'
-H3  = 'font-size:9px;letter-spacing:2.4px;text-transform:uppercase;margin:0 0 5px;color:#b8965a;font-weight:600'
-TBL = 'width:100%;border-collapse:collapse;margin-bottom:11px'
+H3  = 'font-size:9px;letter-spacing:2.4px;text-transform:uppercase;margin:0 0 4px;color:#b8965a;font-weight:600'
+TBL = 'width:100%;border-collapse:collapse;margin-bottom:9px'
 GREEN, AMBER, BEIGE, DARK = '#f0f5e0', '#fdeed2', '#f5efe2', '#2c2c2c'
 
 def th(t, bg=DARK, c='#fff'): return f'<th style="{TH};background:{bg};color:{c}">{t}</th>'
@@ -38,23 +38,23 @@ scale = (f'<table style="{TBL}"><tr>{th("")}{th("0–20 м²","#1f1b14","#b8965a
          f'{th("21–45 м²")}{th("46–80 м²")}{th("81 м² и выше")}</tr>{scale_rows}</table>')
 
 # ── 2. Готовые суммы ──────────────────────────────────────────────────────
-AREAS = [10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 150, 180, 200, 250, 300]
+AREAS = [20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 120, 150, 200, 250, 300]
+BIG = ';font-size:11px;font-weight:700'
 sum_rows = ''
 for a in AREAS:
     w = price(a, 'wm') + price(a, 'ww')
     f = price(a, 'fm') + price(a, 'fw')
-    pk = a <= 20
     sum_rows += ('<tr>'
         + td(f'<b>{a} м²</b>', TDN, BEIGE)
-        + td(d(w), TDN, GREEN) + td(byn(w), TDN, GREEN) + td('пакет' if pk else f'${a2(w/a)}', TDN, GREEN)
-        + td(d(f), TDN, AMBER) + td(byn(f), TDN, AMBER) + td('пакет' if pk else f'${a2(f/a)}', TDN, AMBER)
+        + td(f'${a2(w/a)}', TDN + BIG, GREEN) + td(d(w), TDN, GREEN) + td(byn(w), TDN, GREEN)
+        + td(f'${a2(f/a)}', TDN + BIG, AMBER) + td(d(f), TDN, AMBER) + td(byn(f), TDN, AMBER)
         + '</tr>')
 sums = (f'<table style="{TBL}"><tr>'
         f'<th rowspan="2" style="{TH};background:{DARK};color:#fff">Площадь</th>'
-        f'<th colspan="3" style="{TH};background:#5a7236;color:#fff">Стены — под ключ</th>'
-        f'<th colspan="3" style="{TH};background:#a07a32;color:#fff">Полы — под ключ</th></tr>'
-        f'<tr>{th("$","#3d4a2e","#cfe0a8")}{th("руб","#3d4a2e","#cfe0a8")}{th("за м²","#3d4a2e","#cfe0a8")}'
-        f'{th("$","#4a3a1f","#e8c88a")}{th("руб","#4a3a1f","#e8c88a")}{th("за м²","#4a3a1f","#e8c88a")}</tr>'
+        f'<th colspan="3" style="{TH};background:#5a7236;color:#fff">Стены</th>'
+        f'<th colspan="3" style="{TH};background:#a07a32;color:#fff">Полы</th></tr>'
+        f'<tr>{th("Цена за м²","#3d4a2e","#cfe0a8")}{th("Всего $","#3d4a2e","#cfe0a8")}{th("Всего руб","#3d4a2e","#cfe0a8")}'
+        f'{th("Цена за м²","#4a3a1f","#e8c88a")}{th("Всего $","#4a3a1f","#e8c88a")}{th("Всего руб","#4a3a1f","#e8c88a")}</tr>'
         f'{sum_rows}</table>')
 
 # ── 3. Надбавки ───────────────────────────────────────────────────────────
@@ -107,11 +107,13 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 Цена никогда не падает при росте объёма: заказать 21 м² вместо 20 бессмысленно.
 </div>
 
-<h3 style="{H3}">2 · Готовые суммы — чтобы не считать в уме</h3>
+<h3 style="{H3}">2 · Цена за м² и сумма под ключ — чтобы не считать в уме</h3>
 {sums}
 <div style="font-size:8.2px;color:#666;line-height:1.45;margin:-6px 0 12px">
-Суммы под ключ: материал плюс работа. Рубли — по курсу НБ РБ {a2(RATE)} BYN/USD, пересчитывать на день оплаты.
-Промежуточные площади считаются по слоям из первой таблицы, между строками можно прикидывать на глаз — шаг цены мелкий.
+<b style="color:#2c2c2c">Отсчёт с 20 м².</b> Всё, что меньше, стоит столько же, сколько 20: {d(1300)} стены и {d(1500)} полы.
+Это минимальный выезд — бригада, замес и расходники одинаковы хоть на 8 м², хоть на 20.<br>
+Цена за м² — под ключ, материал плюс работа. Рубли — по курсу НБ РБ {a2(RATE)} BYN/USD, пересчитывать на день оплаты.
+Промежуточные площади считаются по слоям из первой таблицы; между строками можно прикидывать на глаз, шаг цены мелкий.
 </div>
 
 <h3 style="{H3}">3 · Как считается объём</h3>
