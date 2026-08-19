@@ -5,25 +5,32 @@ import openpyxl, os
 
 SC = os.environ.get('SC', '/tmp/kp')
 XLSX = os.environ['XLSX']
-RATE = 2.9133          # BYN/USD, курс НБ РБ
-DOOR_WORK = 100        # $/шт, работа по двери
-MISC = 100             # малярные расходники
+RATE = 3.5093          # BYN/EUR, курс НБ РБ на 19.08.2026
+DOOR_RATE = 45         # €/м² стороны полотна
+DOOR_W, DOOR_H, DOOR_T = 0.8, 2.0, 0.04
+DOOR_SIDE = DOOR_W * DOOR_H                                  # площадь одной стороны
+DOOR_FULL = 2 * DOOR_SIDE + 2 * (DOOR_W + DOOR_H) * DOOR_T   # с торцами, для материала
+DOOR_WORK = DOOR_SIDE * DOOR_RATE                            # € за сторону
+MISC = 80              # малярные расходники
 
-# ── шкала цен, «Памятка: цены стены и полы», разделы 1–2 ──────────────────
-# Плавная скидка по материалу от 35 до 100 м². Работа скидке не подлежит.
+# ── шкала цен, «Прайс под ключ» ───────────────────────────────────────────
+# Скидка тает плавно от 35 до 100 м², и по материалу, и по работе.
 MIN_M2 = 20                       # минимальный объём к оплате
-D_FROM, D_TO = 35, 100            # отрезок, на котором тает цена материала
-MAT_HI, MAT_LO = 40, 34           # материал по стенам: старт и дно (−15%)
-WORK = 24                         # работа по стенам, $/единицу, без скидки
+D_FROM, D_TO = 35, 100
+MAT_HI, MAT_LO = 35, 30           # материал по стенам, €/м²
+WRK_HI, WRK_LO = 21, 18.50        # работа по стенам, €/единицу
 
-def mat_rate(a):
-    if a <= D_FROM: return float(MAT_HI)
-    if a >= D_TO:   return float(MAT_LO)
-    return MAT_HI - (MAT_HI - MAT_LO) * (a - D_FROM) / (D_TO - D_FROM)
+def curve(a, hi, lo):
+    if a <= D_FROM: return float(hi)
+    if a >= D_TO:   return float(lo)
+    return hi - (hi - lo) * (a - D_FROM) / (D_TO - D_FROM)
+
+def mat_rate(a):  return curve(a, MAT_HI, MAT_LO)
+def work_rate(a): return curve(a, WRK_HI, WRK_LO)
 
 def u(v):
     s = f'{v:,.2f}'.replace(',', ' ').replace('.', ',')
-    return '$' + (s[:-3] if s.endswith(',00') else s)
+    return '€' + (s[:-3] if s.endswith(',00') else s)
 def a2(v): return f'{v:.2f}'.replace('.', ',')
 
 # ── замеры ────────────────────────────────────────────────────────────────
@@ -92,13 +99,13 @@ zones = [(n, *measure(ceiling(edit(n, pairs(c1, c2, r1, r2) + EXTRA.get(n, [])))
 W_M2  = sum(z[1] for z in zones)                 # площадь стен по материалу
 W_UN  = sum(z[2] + z[3] for z in zones)          # единицы работы: м² + м.п.
 ND    = sum(n for _, n in DOORS)
-D_M2  = ND * 0.8 * 2.0
+D_M2  = ND * DOOR_FULL                           # полотна с торцами, по материалу
 TOT_M2 = W_M2 + D_M2                             # объём для шкалы
 
 # ── цена по шкале ─────────────────────────────────────────────────────────
 BILL_M2 = max(TOT_M2, MIN_M2)          # меньше минимального выезда не считаем
 EFF_MAT = mat_rate(BILL_M2)
-EFF_WRK = float(WORK)
+EFF_WRK = work_rate(BILL_M2)
 MAT_SUM = BILL_M2 * EFF_MAT
 WRK_SUM = W_UN * EFF_WRK
 
@@ -147,9 +154,9 @@ for name, m2, sq, lin in zones:
 rows += sub('Итого стены', f'{a2(W_M2)} м²', u(TM),
             f'{a2(sum(z[2] for z in zones))} м² + {a2(sum(z[3] for z in zones))} м.п.', u(TW), u(TM + TW))
 
-dm = D_M2 * EFF_MAT; dw = ND * DOOR_WORK
+dm = D_M2 * EFF_MAT; dw = ND * 2 * DOOR_WORK
 TM += dm; TW += dw
-rows += row('Двери межкомнатные', f'{a2(D_M2)} м²', u(EFF_MAT), u(dm), f'{ND} шт', f'${DOOR_WORK}', u(dw), u(dm + dw))
+rows += row('Двери межкомнатные', f'{a2(D_M2)} м²', u(EFF_MAT), u(dm), f'{ND * 2} стор.', u(DOOR_WORK), u(dw), u(dm + dw))
 rows += sub('Итого двери', f'{a2(D_M2)} м²', u(dm), f'{ND} дв.', u(dw), u(dm + dw))
 
 TM += MISC
@@ -164,8 +171,8 @@ logo = ('<svg width="44" height="44" viewBox="0 0 32 32" xmlns="http://www.w3.or
         '<text x="50%" y="54%" font-family="Geologica,Arial,sans-serif" font-size="20" font-weight="700" '
         'fill="#b8965a" text-anchor="middle" dominant-baseline="middle">r</text></svg>')
 
-scale_txt = (f'скидка по материалу тает плавно с {D_FROM} до {D_TO} м², '
-             f'от ${MAT_HI} до ${MAT_LO} за м²'
+scale_txt = (f'скидка тает плавно с {D_FROM} до {D_TO} м²: материал с €{MAT_HI} до €{MAT_LO}, '
+             f'работа с €{WRK_HI} до €{a2(WRK_LO)}'
              + (f'; объём {a2(TOT_M2)} м² проходит нижнюю границу' if TOT_M2 >= D_TO else ''))
 
 html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
@@ -207,14 +214,14 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 <table style="width:100%;border-collapse:collapse;font-size:10px">
 <colgroup><col style="width:21%"><col style="width:8.5%"><col style="width:10.5%"><col style="width:10%"><col style="width:15%"><col style="width:10.5%"><col style="width:10%"><col style="width:14.5%"></colgroup>
 <thead>
-<tr><th rowspan="2" style="{STY['th_top_name']}">Наименование</th><th colspan="3" style="{STY['th_top_mat']}">Материалы</th><th colspan="3" style="{STY['th_top_work']}">Работы</th><th rowspan="2" style="{STY['th_top_tot']}">Итого, $</th></tr>
-<tr><th style="{STY['th_sub_mat']}">Объём</th><th style="{STY['th_sub_mat']};white-space:nowrap">Цена за м²</th><th style="{STY['th_sub_mat']}">Сумма, $</th><th style="{STY['th_sub_work']}">Объём</th><th style="{STY['th_sub_work']};white-space:nowrap">Цена за м²</th><th style="{STY['th_sub_work']}">Сумма, $</th></tr>
+<tr><th rowspan="2" style="{STY['th_top_name']}">Наименование</th><th colspan="3" style="{STY['th_top_mat']}">Материалы</th><th colspan="3" style="{STY['th_top_work']}">Работы</th><th rowspan="2" style="{STY['th_top_tot']}">Итого, €</th></tr>
+<tr><th style="{STY['th_sub_mat']}">Объём</th><th style="{STY['th_sub_mat']};white-space:nowrap">Цена</th><th style="{STY['th_sub_mat']}">Сумма, €</th><th style="{STY['th_sub_work']}">Объём</th><th style="{STY['th_sub_work']};white-space:nowrap">Цена</th><th style="{STY['th_sub_work']}">Сумма, €</th></tr>
 </thead>
 <tbody>{rows}</tbody>
 </table>
 
 <div style="text-align:right;margin:8px 0 0;letter-spacing:1px"><span style="font-size:11px;font-weight:600">ИТОГО К ОПЛАТЕ:</span> <span style="font-size:17px;font-weight:700;color:#b8965a">{u(TOT)}</span></div>
-<div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ {byn(TOT)} руб по курсу НБ РБ {a2(RATE)} BYN/USD на день оплаты</div>
+<div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ {byn(TOT)} руб по курсу НБ РБ {a2(RATE)} BYN/EUR на день оплаты</div>
 
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 0">
   <div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">
@@ -230,9 +237,9 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 
 <div style="margin-top:9px;padding:6px 12px;background:#f7f5f0;border-left:2px solid #b8965a;border-radius:3px;font-size:8.4px;color:#666;line-height:1.45">
 <b style="color:#2c2c2c"><sup>*</sup> м.п.</b> — погонные метры: поверхности со стороной менее 0,5 м (откосы, ниши, бортики) нормируются по длине, так как нанесение на них идёт медленнее, чем на сплошной стене.<br>
-<b style="color:#2c2c2c">Цена по объёму.</b> {scale_txt.capitalize()}. Цена в таблице — материал {u(EFF_MAT)} за м² вместо базовых ${MAT_HI}; работа {u(EFF_WRK)} за единицу, она скидке не подлежит на любом объёме.<br>
-<b style="color:#2c2c2c">Двери:</b> материал считается по площади полотна, работа — фиксированно ${DOOR_WORK} за штуку.<br>
-<b style="color:#2c2c2c">Условия:</b> микроцемент на немецких компонентах, толщина 1–1,5 мм, эффекты Vintage / Natural / Metallic на выбор. Грунт + 1–2 слоя микроцемента + 2 слоя лака Remmers PUR Top TX. Оплата в белорусских рублях по курсу НБ РБ на день оплаты. <b>Срок действия КП — 14 дней.</b>
+<b style="color:#2c2c2c">Цена по объёму.</b> {scale_txt.capitalize()}. Цена в таблице — материал {u(EFF_MAT)} за м² вместо базовых €{MAT_HI}, работа {u(EFF_WRK)} за единицу вместо €{WRK_HI}.<br>
+<b style="color:#2c2c2c">Двери:</b> материал по развёрнутой площади полотна ({a2(DOOR_FULL)} м² на дверь с торцами), работа — {u(DOOR_WORK)} за сторону.<br>
+<b style="color:#2c2c2c">Условия:</b> микроцемент на немецких компонентах, толщина 1–1,5 мм, эффекты Vintage / Natural / Metallic на выбор. Грунт + 1–2 слоя микроцемента + 2 слоя лака Remmers PUR Top TX. Цены в евро, оплата в белорусских рублях по курсу НБ РБ на день оплаты. <b>Срок действия КП — 14 дней.</b>
 </div>
 
 <div style="margin-top:auto;padding-top:8px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#888;letter-spacing:1px">
