@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # Себестоимость материала на 1 м². Расход — фактическая рецептура студии.
-# Цены — розница по Минску, август 2026. Свою закупку подставляй в PRICES.
+# Цены — розница по Минску, август 2026, в евро. Закупка в BYN, курс в RATE.
 
-RATE = 2.9133  # BYN/USD, курс НБ РБ
+RATE = 3.5093  # BYN/EUR, курс НБ РБ на 19.08.2026 (доллар — 3,0313)
+CUR = '\u20ac'  # считаем в евро: компоненты немецкие, закупка привязана к евро
 
 # Дилерская скидка студии на позиции Remmers. Кварцевый песок берётся
 # не у дилера, поэтому идёт по рознице.
@@ -39,13 +40,13 @@ NAMES = {'bs3000': 'BS 3000', 'песок': 'песок кварцевый', 'м
          'primer': 'Primer PF', 'aqua': 'лак PUR Aqua 500', 'tx': 'лак PUR TX'}
 if USE_RESIN: NAMES['primer'] = 'смола (грунт-слой)'
 
-# публичная цена из памятки: строка «материал» и «работа», $/м²
-MEMO = {'стены': dict(mat_hi=40, mat_lo=34, work=24),
-        'полы':  dict(mat_hi=50, mat_lo=45, work=25)}
+# публичная цена из памятки: строка «материал» и «работа», €/м²
+MEMO = {'стены': dict(mat_hi=35, mat_lo=30, work=21),
+        'полы':  dict(mat_hi=43, mat_lo=39, work=22)}
 
 
 def usd_kg(key, net=True):
-    """$/кг. net=True — со скидкой студии, False — розница."""
+    """€/кг. net=True — со скидкой студии, False — розница."""
     byn, kg, _ = PRICES[key]
     p = byn / kg / RATE
     return p * (1 - DISCOUNT) if net and key not in NO_DISCOUNT else p
@@ -57,7 +58,7 @@ def cost(recipe, net=True):
 
 def prices_table():
     print(f'ЗАКУПКА: РОЗНИЦА МИНСК И СКИДКА {DISCOUNT:.0%}')
-    print(f'  {"материал":<18}{"фасовка":>10}{"BYN":>10}{"розн $/кг":>11}{"со скидкой":>12}   источник')
+    print(f'  {"материал":<18}{"фасовка":>10}{"BYN":>10}{"розн €/кг":>11}{"со скидкой":>12}   источник')
     for k in ('bs3000', 'primer', 'aqua', 'tx', 'мука', 'песок'):
         byn, kg, src = PRICES[k]
         mark = '' if k not in NO_DISCOUNT else '  (без скидки)'
@@ -67,7 +68,7 @@ def prices_table():
 
 def table(recipe, title, areas=(20, 35, 50, 80, 100, 120, 150)):
     print(f'\n{title}')
-    print(f'  {"компонент":<18}{"г/м²":>7}{"$/кг":>8}{"$/м²":>8}{"доля":>7}{"розница":>10}')
+    print(f'  {"компонент":<18}{"г/м²":>7}{"€/кг":>8}{"€/м²":>8}{"доля":>7}{"розница":>10}')
     c, gross = cost(recipe), cost(recipe, net=False)
     for k, kg in recipe.items():
         line = kg * usd_kg(k)
@@ -75,7 +76,7 @@ def table(recipe, title, areas=(20, 35, 50, 80, 100, 120, 150)):
               f'{line / c * 100:>6.0f}%{kg * usd_kg(k, False):>10.2f}')
     print(f'  {"итого":<18}{sum(recipe.values()) * 1000:>7.0f}{"":>8}{c:>8.2f}{"":>7}{gross:>10.2f}')
     print('\n  закупка и деньги на объём:')
-    print(f'  {"м²":>5}{"кг":>9}{"$":>10}{"BYN":>10}')
+    print(f'  {"м²":>5}{"кг":>9}{"€":>10}{"BYN":>10}')
     for a in areas:
         print(f'  {a:>5}{sum(recipe.values()) * a:>9.1f}{c * a:>10.0f}{c * a * RATE:>10.0f}')
 
@@ -83,11 +84,11 @@ def table(recipe, title, areas=(20, 35, 50, 80, 100, 120, 150)):
 def margin(name, recipe):
     c = cost(recipe)
     m = MEMO[name]
-    for tag, mat in (('20–35 м²', m['mat_hi']), ('120 м²+', m['mat_lo'])):
+    for tag, mat in (('20–35 м²', m['mat_hi']), ('100 м²+', m['mat_lo'])):
         full = mat + m['work']
-        print(f'  {name:<6}{tag:<10} материал ${mat}  себестоимость ${c:>6.2f}  '
-              f'наценка ×{mat / c:.2f}  остаток ${mat - c:>6.2f}  '
-              f'под ключ ${full} → ${full - c:>6.2f} на работу и всё остальное')
+        print(f'  {name:<6}{tag:<10} материал €{mat}  себестоимость €{c:>6.2f}  '
+              f'наценка ×{mat / c:.2f}  остаток €{mat - c:>6.2f}  '
+              f'под ключ €{full} → €{full - c:>6.2f} на работу и всё остальное')
 
 
 if __name__ == '__main__':

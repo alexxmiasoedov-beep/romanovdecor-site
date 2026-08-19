@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-# Памятка: цены на материал за м². Продаём микроцемент, работы не выполняем.
+# Памятка: цены под ключ за м², в евро. Материал плюс работа.
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from costs import cost, WALL, FLOOR
 
 SC = os.environ.get('SC', '/tmp/kp')
-RATE = 2.9133
+from costs import RATE   # BYN/EUR, курс НБ РБ
 VAT, PROFIT_TAX = 0.20, 0.20
 
 MIN_M2 = 20
 D_FROM, D_TO = 35, 100
-PRICE = {'стены': dict(hi=40, lo=34), 'полы': dict(hi=50, lo=45)}
-# Работа тоже на скидке: стены 24 → 21,50 (−10,4%), полы 25 → 22,50 (−10%).
+PRICE = {'стены': dict(hi=35, lo=30), 'полы': dict(hi=43, lo=39)}
+# Работа тоже на скидке: стены 21 → 18,50 (−11,9%), полы 22 → 19,50 (−11,4%).
 # Ставку бригадам диктуем сами.
-WORK = {'стены': dict(hi=24, lo=21.50), 'полы': dict(hi=25, lo=22.50)}
+WORK = {'стены': dict(hi=21, lo=18.50), 'полы': dict(hi=22, lo=19.50)}
 MAT = {'стены': cost(WALL), 'полы': cost(FLOOR)}
 
 
@@ -31,8 +31,8 @@ def total(a, k): return max(a, MIN_M2) * turnkey(a, k)
 def net(p, k):   return (p - MAT[k]) / (1 + VAT) * (1 - PROFIT_TAX)
 
 def a2(v):  return f'{v:.2f}'.replace('.', ',')
-def d(v):   return '$' + f'{v:,.0f}'.replace(',', ' ')
-def byn(v): return f'{round(v * RATE):,}'.replace(',', ' ')
+def e(v):   return '€' + f'{v:,.0f}'.replace(',', ' ')
+
 
 B = '#cbbf9f'; GRID = f'border:1px solid {B}'
 TD  = f'{GRID};padding:2.6px 7px;font-size:9px;line-height:1.25;vertical-align:middle'
@@ -53,8 +53,8 @@ for a in AREAS:
     mark = BEIGE if a in (35, 120) else BEIGE
     cells = td(f'<b>{a} м²</b>', TDN, mark)
     for k, bg in (('стены', GREEN), ('полы', AMBER)):
-        cells += (td(f'${a2(rate(a, k))}', TDN, bg) + td(f'${a2(work(a, k))}', TDN, bg)
-                  + td(f'${a2(turnkey(a, k))}', TDN + BIG, bg) + td(byn(total(a, k)), TDN, bg))
+        cells += (td(f'€{a2(rate(a, k))}', TDN, bg) + td(f'€{a2(work(a, k))}', TDN, bg)
+                  + td(f'€{a2(turnkey(a, k))}', TDN + BIG, bg) + td(e(total(a, k)), TDN, bg))
     rows += f'<tr>{cells}</tr>'
 
 table = (f'<table style="{TBL}"><tr>'
@@ -62,9 +62,9 @@ table = (f'<table style="{TBL}"><tr>'
          f'<th colspan="4" style="{TH};background:#5a7236;color:#fff">Стены</th>'
          f'<th colspan="4" style="{TH};background:#a07a32;color:#fff">Полы</th></tr><tr>'
          + ''.join(th(t, '#3d4a2e', '#cfe0a8') for t in
-                   ('Материал', 'Работа', 'Под ключ за м²', 'Всего руб'))
+                   ('Материал', 'Работа', 'Под ключ за м²', 'Всего €'))
          + ''.join(th(t, '#4a3a1f', '#e8c88a') for t in
-                   ('Материал', 'Работа', 'Под ключ за м²', 'Всего руб'))
+                   ('Материал', 'Работа', 'Под ключ за м²', 'Всего €'))
          + f'</tr>{rows}</table>')
 
 # ── внутренний блок: себестоимость и маржа ────────────────────────────────
@@ -72,10 +72,10 @@ mrows = ''
 for k, bg in (('стены', GREEN), ('полы', AMBER)):
     hi, lo = PRICE[k]['hi'], PRICE[k]['lo']
     mrows += ('<tr>' + td(f'<b>{k.capitalize()}</b>', TD, BEIGE)
-              + td(f'${a2(MAT[k])}', TDN, bg)
-              + td(f'${hi} → ${lo}', TDN, bg)
-              + td(f'${a2(hi - MAT[k])} → ${a2(lo - MAT[k])}', TDN, bg)
-              + td(f'<b>${a2(net(hi, k))} → ${a2(net(lo, k))}</b>', TDN, bg)
+              + td(f'€{a2(MAT[k])}', TDN, bg)
+              + td(f'€{hi} → €{lo}', TDN, bg)
+              + td(f'€{a2(hi - MAT[k])} → €{a2(lo - MAT[k])}', TDN, bg)
+              + td(f'<b>€{a2(net(hi, k))} → €{a2(net(lo, k))}</b>', TDN, bg)
               + td(f'×{hi / MAT[k]:.1f} → ×{lo / MAT[k]:.1f}', TDN, bg) + '</tr>')
 margin_tbl = (f'<table style="{TBL}"><tr>'
               + th('') + th('Себестоимость', '#3d3d3d') + th('Цена за м²', '#3d3d3d')
@@ -104,7 +104,7 @@ EXTRA = [('Двери', 'по площади полотна, обе сторон
          ('Мебель, столешницы', 'плоскости по площади, кромка по 0,1 м² за пог. м'),
          ('Запас на подрезку и бой', 'плюс 5% к расчётной площади'),
          ('Минимальный объект', '20 м² — меньше считаем как 20'),
-         ('Оплата', 'рубли по курсу НБ РБ на день оплаты')]
+         ('Оплата', 'в рублях по курсу НБ РБ на день оплаты')]
 
 def two_col(items, bg):
     half = (len(items) + 1) // 2
@@ -144,32 +144,33 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   </div>
   <div style="flex:1;padding:7px 11px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#8a7346;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">20–35 м²</div>
-    Базовая цена без скидки: <b>$64</b> стены, <b>$75</b> полы под ключ.
+    Базовая цена без скидки: <b>€56</b> стены, <b>€65</b> полы под ключ.
     На таком объёме экономии не возникает, и мы это говорим прямо.
   </div>
   <div style="flex:1;padding:7px 11px;background:{DARK};color:#efece7;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#b8965a;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">35–100 м²</div>
     Скидка растёт плавно, без ступеней. К 100 м² под ключ доходит до
-    <b style="color:#b8965a">$55,50</b> по стенам и <b style="color:#b8965a">$67,50</b> по полам.
+    <b style="color:#b8965a">€48,50</b> по стенам и <b style="color:#b8965a">€58,50</b> по полам.
   </div>
   <div style="flex:1;padding:7px 11px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#8a7346;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">100 м² и выше</div>
-    Дальше цена не падает. <b>$55,50 и $67,50 — дно</b>, ниже начинается
+    Дальше цена не падает. <b>€48,50 и €58,50 — дно</b>, ниже начинается
     работа в убыток. Отдельного резерва торга нет.
   </div>
 </div>
 <div style="font-size:8.2px;color:#666;line-height:1.45;margin:-4px 0 10px">
 <b style="color:#2c2c2c">Формула для любой площади S от 35 до 100 м²:</b>
-материал стен = 40 − 6 × (S − 35) ÷ 65 · материал полов = 50 − 5 × (S − 35) ÷ 65 ·
-работа стен = 24 − 2,5 × (S − 35) ÷ 65 · работа полов = 25 − 2,5 × (S − 35) ÷ 65.<br>
-<b style="color:#2c2c2c">Скидка идёт и на материал, и на работу.</b> Материал теряет 15% по стенам и 10% по полам,
-работа — 10,4% и 10%. Под ключ это даёт −13,3% по стенам и −10% по полам к сотне метров.
+материал стен = 35 − 5 × (S − 35) ÷ 65 · материал полов = 43 − 4 × (S − 35) ÷ 65 ·
+работа стен = 21 − 2,5 × (S − 35) ÷ 65 · работа полов = 22 − 2,5 × (S − 35) ÷ 65.<br>
+<b style="color:#2c2c2c">Всё в евро.</b> Компоненты немецкие и закупка привязана к евро, поэтому и цена в евро —
+курсовой разрыв не съедает маржу. Оплата в рублях по курсу НБ РБ на день оплаты.
+Скидка идёт и на материал, и на работу: под ключ это −13,4% по стенам и −10% по полам к сотне метров.
 </div>
 
 <h3 style="{H3}">2 · Таблица</h3>
 {table}
 <div style="font-size:8.2px;color:#666;line-height:1.45;margin:-4px 0 10px">
-Рубли по курсу НБ РБ {a2(RATE)} BYN/USD, пересчитывать на день оплаты.
+Курс НБ РБ на 19.08.2026 — {a2(RATE)} BYN/EUR, пересчитывать на день оплаты.
 Промежуточные площади берите на глаз между строками или считайте по формуле — кривая ровная, без переломов.
 </div>
 
@@ -200,8 +201,8 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 
 os.makedirs(SC + '/kp', exist_ok=True)
 open(SC + '/kp/memo-material.html', 'w').write(html)
-print(f'себестоимость: стены ${MAT["стены"]:.2f}  полы ${MAT["полы"]:.2f}\n')
-for a in (20, 35, 50, 80, 100, 120, 200):
-    print(f'{a:3d} м²  стены ${a2(rate(a, "стены")):>6}/м²  {d(total(a, "стены")):>8}  '
-          f'{byn(total(a, "стены")):>7} руб   |   полы ${a2(rate(a, "полы")):>6}/м²  '
-          f'{d(total(a, "полы")):>8}  {byn(total(a, "полы")):>7} руб')
+print(f'себестоимость: стены €{MAT["стены"]:.2f}  полы €{MAT["полы"]:.2f}\n')
+for a in (20, 35, 50, 80, 100, 200):
+    print(f'{a:3d} м²  стены €{a2(turnkey(a, "стены")):>6}/м² ({a2(rate(a, "стены"))} + {a2(work(a, "стены"))})  '
+          f'{e(total(a, "стены")):>8}   |   полы €{a2(turnkey(a, "полы")):>6}/м² '
+          f'({a2(rate(a, "полы"))} + {a2(work(a, "полы"))})  {e(total(a, "полы")):>8}')
