@@ -11,9 +11,9 @@ VAT, PROFIT_TAX = 0.20, 0.20
 MIN_M2 = 20
 D_FROM, D_TO = 35, 100
 PRICE = {'стены': dict(hi=40, lo=34), 'полы': dict(hi=50, lo=45)}
-# Работа дешевеет вдвое медленнее материала: материал −15% и −10%,
-# работа −7,5% и −5%. Ставку бригадам диктуем сами.
-WORK = {'стены': dict(hi=24, lo=22), 'полы': dict(hi=25, lo=23.50)}
+# Работа тоже на скидке: стены 24 → 21,50 (−10,4%), полы 25 → 22,50 (−10%).
+# Ставку бригадам диктуем сами.
+WORK = {'стены': dict(hi=24, lo=21.50), 'полы': dict(hi=25, lo=22.50)}
 MAT = {'стены': cost(WALL), 'полы': cost(FLOOR)}
 
 
@@ -150,20 +150,20 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   <div style="flex:1;padding:7px 11px;background:{DARK};color:#efece7;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#b8965a;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">35–100 м²</div>
     Скидка растёт плавно, без ступеней. К 100 м² под ключ доходит до
-    <b style="color:#b8965a">$56</b> по стенам и <b style="color:#b8965a">$68,50</b> по полам.
+    <b style="color:#b8965a">$55,50</b> по стенам и <b style="color:#b8965a">$67,50</b> по полам.
   </div>
   <div style="flex:1;padding:7px 11px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#8a7346;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">100 м² и выше</div>
-    Дальше цена не падает. <b>$56 и $68,50 — дно</b>, ниже начинается
+    Дальше цена не падает. <b>$55,50 и $67,50 — дно</b>, ниже начинается
     работа в убыток. Отдельного резерва торга нет.
   </div>
 </div>
 <div style="font-size:8.2px;color:#666;line-height:1.45;margin:-4px 0 10px">
 <b style="color:#2c2c2c">Формула для любой площади S от 35 до 100 м²:</b>
 материал стен = 40 − 6 × (S − 35) ÷ 65 · материал полов = 50 − 5 × (S − 35) ÷ 65 ·
-работа стен = 24 − 2 × (S − 35) ÷ 65 · работа полов = 25 − 1,5 × (S − 35) ÷ 65.<br>
-<b style="color:#2c2c2c">Работа дешевеет вдвое медленнее материала:</b> материал теряет 15% и 10%, работа — 7,5% и 5%.
-В материале наценка тройная, там есть откуда давать; в работе — часы бригады, ставку которым диктуем мы.
+работа стен = 24 − 2,5 × (S − 35) ÷ 65 · работа полов = 25 − 2,5 × (S − 35) ÷ 65.<br>
+<b style="color:#2c2c2c">Скидка идёт и на материал, и на работу.</b> Материал теряет 15% по стенам и 10% по полам,
+работа — 10,4% и 10%. Под ключ это даёт −13,3% по стенам и −10% по полам к сотне метров.
 </div>
 
 <h3 style="{H3}">2 · Таблица</h3>
