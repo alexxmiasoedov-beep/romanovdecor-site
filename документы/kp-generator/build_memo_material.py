@@ -11,19 +11,23 @@ VAT, PROFIT_TAX = 0.20, 0.20
 MIN_M2 = 20
 D_FROM, D_TO = 35, 100
 PRICE = {'стены': dict(hi=40, lo=34), 'полы': dict(hi=50, lo=45)}
-WORK_REF = {'стены': 24, 'полы': 25}          # справка: ставка бригад
+# Работа дешевеет вдвое медленнее материала: материал −15% и −10%,
+# работа −7,5% и −5%. Ставку бригадам диктуем сами.
+WORK = {'стены': dict(hi=24, lo=22), 'полы': dict(hi=25, lo=23.50)}
 MAT = {'стены': cost(WALL), 'полы': cost(FLOOR)}
 
 
-def rate(a, k):
-    s = PRICE[k]
+def curve(a, s):
     a = max(a, MIN_M2)
     if a <= D_FROM: return float(s['hi'])
     if a >= D_TO:   return float(s['lo'])
     return s['hi'] - (s['hi'] - s['lo']) * (a - D_FROM) / (D_TO - D_FROM)
 
 
-def total(a, k): return max(a, MIN_M2) * rate(a, k)
+def rate(a, k):  return curve(a, PRICE[k])
+def work(a, k):  return curve(a, WORK[k])
+def turnkey(a, k): return rate(a, k) + work(a, k)
+def total(a, k): return max(a, MIN_M2) * turnkey(a, k)
 def net(p, k):   return (p - MAT[k]) / (1 + VAT) * (1 - PROFIT_TAX)
 
 def a2(v):  return f'{v:.2f}'.replace('.', ',')
@@ -49,9 +53,8 @@ for a in AREAS:
     mark = BEIGE if a in (35, 120) else BEIGE
     cells = td(f'<b>{a} м²</b>', TDN, mark)
     for k, bg in (('стены', GREEN), ('полы', AMBER)):
-        r, t = rate(a, k), total(a, k)
-        cells += (td(f'${a2(r)}', TDN + BIG, bg) + td(d(t), TDN, bg) + td(byn(t), TDN, bg)
-                  + td(f'${a2(r + WORK_REF[k])}', TDN, bg))
+        cells += (td(f'${a2(rate(a, k))}', TDN, bg) + td(f'${a2(work(a, k))}', TDN, bg)
+                  + td(f'${a2(turnkey(a, k))}', TDN + BIG, bg) + td(byn(total(a, k)), TDN, bg))
     rows += f'<tr>{cells}</tr>'
 
 table = (f'<table style="{TBL}"><tr>'
@@ -59,9 +62,9 @@ table = (f'<table style="{TBL}"><tr>'
          f'<th colspan="4" style="{TH};background:#5a7236;color:#fff">Стены</th>'
          f'<th colspan="4" style="{TH};background:#a07a32;color:#fff">Полы</th></tr><tr>'
          + ''.join(th(t, '#3d4a2e', '#cfe0a8') for t in
-                   ('Материал за м²', 'Всего $', 'Всего руб', 'С работой за м²'))
+                   ('Материал', 'Работа', 'Под ключ за м²', 'Всего руб'))
          + ''.join(th(t, '#4a3a1f', '#e8c88a') for t in
-                   ('Материал за м²', 'Всего $', 'Всего руб', 'С работой за м²'))
+                   ('Материал', 'Работа', 'Под ключ за м²', 'Всего руб'))
          + f'</tr>{rows}</table>')
 
 # ── внутренний блок: себестоимость и маржа ────────────────────────────────
@@ -100,8 +103,8 @@ EXTRA = [('Двери', 'по площади полотна, обе сторон
          ('Откосы, ниши, бортики', 'вся развёрнутая площадь, без вычетов'),
          ('Мебель, столешницы', 'плоскости по площади, кромка по 0,1 м² за пог. м'),
          ('Запас на подрезку и бой', 'плюс 5% к расчётной площади'),
-         ('Минимальная партия', '100 м² — ведро лака 10 кг не дробится'),
-         ('Оплата', '100% предоплата, рубли по курсу НБ РБ на день оплаты')]
+         ('Минимальный объект', '20 м² — меньше считаем как 20'),
+         ('Оплата', 'рубли по курсу НБ РБ на день оплаты')]
 
 def two_col(items, bg):
     half = (len(items) + 1) // 2
@@ -128,7 +131,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
     <div><div style="font-size:15px;letter-spacing:2px;font-weight:500;text-transform:lowercase;line-height:1.1">romanov <span style="color:#b8965a">decor</span> studio</div>
     <div style="font-size:8.5px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент на немецких компонентах</div></div></div>
   <div style="text-align:right;font-size:9px;color:#666;letter-spacing:1px">
-    <div style="font-weight:600;color:#2c2c2c;font-size:11px">Цены на материал</div>
+    <div style="font-weight:600;color:#2c2c2c;font-size:11px">Цены под ключ</div>
     <div style="margin-top:2px">внутренний документ · август 2026</div></div>
 </div>
 
@@ -141,26 +144,26 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   </div>
   <div style="flex:1;padding:7px 11px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#8a7346;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">20–35 м²</div>
-    Базовая цена без скидки: <b>$40</b> стены, <b>$50</b> полы.
+    Базовая цена без скидки: <b>$64</b> стены, <b>$75</b> полы под ключ.
     На таком объёме экономии не возникает, и мы это говорим прямо.
   </div>
   <div style="flex:1;padding:7px 11px;background:{DARK};color:#efece7;border-radius:5px;font-size:8.6px;line-height:1.45">
-    <div style="color:#b8965a;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">35–120 м²</div>
-    Скидка растёт плавно, без ступеней. К 100 м² цена доходит до
-    <b style="color:#b8965a">$34</b> по стенам (−15%) и <b style="color:#b8965a">$45</b> по полам (−10%).
+    <div style="color:#b8965a;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">35–100 м²</div>
+    Скидка растёт плавно, без ступеней. К 100 м² под ключ доходит до
+    <b style="color:#b8965a">$56</b> по стенам и <b style="color:#b8965a">$68,50</b> по полам.
   </div>
   <div style="flex:1;padding:7px 11px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#8a7346;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">100 м² и выше</div>
-    Дальше цена не падает. <b>$34 и $45 — дно рынка</b>, ниже не идём
-    ни мы, ни партнёры.
+    Дальше цена не падает. <b>$56 и $68,50 — дно</b>, ниже начинается
+    работа в убыток. Отдельного резерва торга нет.
   </div>
 </div>
 <div style="font-size:8.2px;color:#666;line-height:1.45;margin:-4px 0 10px">
 <b style="color:#2c2c2c">Формула для любой площади S от 35 до 100 м²:</b>
-стены = 40 − 6 × (S − 35) ÷ 65 · полы = 50 − 5 × (S − 35) ÷ 65.
-Каждые 10 м² объекта снимают 92 цента с метра стен и 77 центов с метра полов.<br>
-<b style="color:#2c2c2c">Работы мы не выполняем.</b> Колонка «с работой» — справочная, по типовой
-ставке бригад ${WORK_REF['стены']} за м² стен и ${WORK_REF['полы']} за м² полов. Бригада называет свою цену сама.
+материал стен = 40 − 6 × (S − 35) ÷ 65 · материал полов = 50 − 5 × (S − 35) ÷ 65 ·
+работа стен = 24 − 2 × (S − 35) ÷ 65 · работа полов = 25 − 1,5 × (S − 35) ÷ 65.<br>
+<b style="color:#2c2c2c">Работа дешевеет вдвое медленнее материала:</b> материал теряет 15% и 10%, работа — 7,5% и 5%.
+В материале наценка тройная, там есть откуда давать; в работе — часы бригады, ставку которым диктуем мы.
 </div>
 
 <h3 style="{H3}">2 · Таблица</h3>
@@ -180,11 +183,12 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 живёт часы и между заказами не дробится. Поэтому <b style="color:#2c2c2c">базовый комплект — 100 м², дальше кратно</b>.
 </div>
 
-<h3 style="{H3}">5 · Себестоимость и маржа — не отдавать</h3>
+<h3 style="{H3}">5 · Себестоимость материала и маржа — не отдавать</h3>
 {margin_tbl}
 <div style="font-size:8.2px;color:#666;line-height:1.45;margin:-4px 0 10px">
 Себестоимость — фактическая рецептура по нашим закупочным ценам. Чистая маржа посчитана после НДС 20%
-и налога на прибыль 20%, но до логистики, аренды и рекламы.
+и налога на прибыль 20%, но до логистики, аренды и рекламы. <b style="color:#2c2c2c">Здесь только материал.</b>
+Маржа по работе — это ставка клиенту минус ставка бригаде, и считается отдельно.
 </div>
 
 <div style="margin-top:auto;padding-top:7px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-size:8.5px;color:#888;letter-spacing:1px">
