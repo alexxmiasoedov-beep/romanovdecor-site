@@ -39,11 +39,13 @@ def td(t, s=TD, bg=None):     return f'<td style="{s}{";background:"+bg if bg el
 AREAS = [20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
 rows = ''
 for a in AREAS:
-    label = f'{a} м²' if a < D_TO else f'{a} м² и выше'
+    label = f'до {a} м²' if a == MIN_M2 else (f'{a} м²' if a < D_TO else f'{a} м² и выше')
     cells = td(f'<b>{label}</b>', TDN, BEIGE)
     for k, bg in (('стены', GREEN), ('полы', AMBER)):
+        val = (f'€{a2(key(a, k))}' if a > MIN_M2
+               else f'<span style="font-size:9px;font-weight:600">фикс</span> {eur(key(a, k) * MIN_M2)}')
         cells += (td(f'€{a2(mat(a, k))}', TDN, bg) + td(f'€{a2(work(a, k))}', TDN, bg)
-                  + td(f'€{a2(key(a, k))}', TDN + BIG, bg))
+                  + td(val, TDN + BIG, bg))
     rows += f'<tr>{cells}</tr>'
 
 table = (f'<table style="{TBL}"><tr>'
@@ -69,8 +71,8 @@ FIX = [('Дверь межкомнатная', '€90 за штуку + мате
        ('Примыкание с плиткой', '€6 за пог. м'),
        ('Ремонт трещин в основании', '€4,50 за пог. м')]
 
-RULES = [('Меньше 20 м²', 'считаем как 20 м²'),
-         ('До 35 м²', 'базовая цена, скидки нет'),
+RULES = [('До 20 м²', 'фикс за выезд: €1 120 стены, €1 300 полы'),
+         ('20–35 м²', 'базовая цена за м², скидки нет'),
          ('35–100 м²', 'скидка растёт плавно, по формуле'),
          ('От 100 м²', 'дно: €48,50 стены, €58,50 полы')]
 
@@ -114,6 +116,20 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   <div style="text-align:right;font-size:10px;color:#666;letter-spacing:1px">
     <div style="font-weight:600;color:#2c2c2c;font-size:13px">Прайс под ключ</div>
     <div style="margin-top:3px">евро за м² · август 2026</div></div>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:11px">
+  <div style="flex:1;padding:9px 14px;background:{DARK};color:#efece7;border-radius:6px;font-size:10px;line-height:1.5">
+    <div style="color:#b8965a;letter-spacing:1.8px;text-transform:uppercase;font-size:8px;font-weight:700;margin-bottom:3px">Минимальный выезд</div>
+    Объект до 20 м² считается фиксом, сколько бы ни было по факту:
+    <b style="color:#b8965a">€1&nbsp;120</b> по стенам, <b style="color:#b8965a">€1&nbsp;300</b> по полам.
+    Замес, фасовка, доставка и день бригады одинаковы хоть на 8 м², хоть на 20.
+  </div>
+  <div style="flex:1;padding:9px 14px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:6px;font-size:10px;line-height:1.5">
+    <div style="color:#8a7346;letter-spacing:1.8px;text-transform:uppercase;font-size:8px;font-weight:700;margin-bottom:3px">Если поверхностей две</div>
+    Стены и полы на одном объекте считаются вместе. Если суммарно вышло меньше
+    20 м², добираем до двадцати по той поверхности, которой больше.
+  </div>
 </div>
 
 <h3 style="{H3}">Цены</h3>
