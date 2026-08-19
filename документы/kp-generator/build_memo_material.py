@@ -9,7 +9,7 @@ RATE = 2.9133
 VAT, PROFIT_TAX = 0.20, 0.20
 
 MIN_M2 = 20
-D_FROM, D_TO = 35, 120
+D_FROM, D_TO = 35, 100
 PRICE = {'стены': dict(hi=40, lo=34), 'полы': dict(hi=50, lo=45)}
 WORK_REF = {'стены': 24, 'полы': 25}          # справка: ставка бригад
 MAT = {'стены': cost(WALL), 'полы': cost(FLOOR)}
@@ -43,7 +43,7 @@ def th(t, bg=DARK, c='#fff'): return f'<th style="{TH};background:{bg};color:{c}
 def td(t, s=TD, bg=None):     return f'<td style="{s}{";background:"+bg if bg else ""}">{t}</td>'
 
 # ── основная таблица ──────────────────────────────────────────────────────
-AREAS = [20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 110, 120, 150, 200, 300]
+AREAS = [20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 300]
 rows = ''
 for a in AREAS:
     mark = BEIGE if a in (35, 120) else BEIGE
@@ -146,18 +146,19 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   </div>
   <div style="flex:1;padding:7px 11px;background:{DARK};color:#efece7;border-radius:5px;font-size:8.6px;line-height:1.45">
     <div style="color:#b8965a;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">35–120 м²</div>
-    Скидка растёт плавно, без ступеней. К 120 м² цена доходит до
+    Скидка растёт плавно, без ступеней. К 100 м² цена доходит до
     <b style="color:#b8965a">$34</b> по стенам (−15%) и <b style="color:#b8965a">$45</b> по полам (−10%).
   </div>
   <div style="flex:1;padding:7px 11px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:5px;font-size:8.6px;line-height:1.45">
-    <div style="color:#8a7346;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">120 м² и выше</div>
+    <div style="color:#8a7346;letter-spacing:1.6px;text-transform:uppercase;font-size:7.6px;font-weight:700;margin-bottom:3px">100 м² и выше</div>
     Дальше цена не падает. <b>$34 и $45 — дно рынка</b>, ниже не идём
     ни мы, ни партнёры.
   </div>
 </div>
 <div style="font-size:8.2px;color:#666;line-height:1.45;margin:-4px 0 10px">
-<b style="color:#2c2c2c">Формула для любой площади S от 35 до 120 м²:</b>
-стены = 40 − 6 × (S − 35) ÷ 85 · полы = 50 − 5 × (S − 35) ÷ 85.<br>
+<b style="color:#2c2c2c">Формула для любой площади S от 35 до 100 м²:</b>
+стены = 40 − 6 × (S − 35) ÷ 65 · полы = 50 − 5 × (S − 35) ÷ 65.
+Каждые 10 м² объекта снимают 92 цента с метра стен и 77 центов с метра полов.<br>
 <b style="color:#2c2c2c">Работы мы не выполняем.</b> Колонка «с работой» — справочная, по типовой
 ставке бригад ${WORK_REF['стены']} за м² стен и ${WORK_REF['полы']} за м² полов. Бригада называет свою цену сама.
 </div>
