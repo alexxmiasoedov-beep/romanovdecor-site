@@ -7,12 +7,11 @@ SC = os.environ.get('SC', '/tmp/kp')
 XLSX = os.environ['XLSX']
 RATE = 3.5093          # BYN/EUR, курс НБ РБ на 19.08.2026
 DOOR_RATE = 45         # €/м² стороны полотна
-DOOR_W, DOOR_H, DOOR_T = 0.8, 2.0, 0.04
-DOOR_SIDES = 1         # на объекте красится одна сторона полотна
-DOOR_SIDE = DOOR_W * DOOR_H                                  # площадь одной стороны
-DOOR_FULL = (DOOR_SIDES * DOOR_SIDE                          # материал: стороны плюс торцы
-             + 2 * (DOOR_W + DOOR_H) * DOOR_T)
-DOOR_WORK = DOOR_SIDE * DOOR_RATE                            # € за сторону
+DOOR_W, DOOR_H = 0.8, 2.0
+DOOR_SIDES = 1                          # на объекте красится одна сторона, торцы не идут
+DOOR_SIDE = DOOR_W * DOOR_H             # площадь одной стороны
+DOOR_FULL = DOOR_SIDES * DOOR_SIDE      # материал: только полотно
+DOOR_WORK = DOOR_SIDE * DOOR_RATE       # € за сторону
 MISC = 80              # малярные расходники
 
 # ── шкала цен, «Прайс под ключ» ───────────────────────────────────────────
@@ -240,7 +239,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 <div style="margin-top:9px;padding:6px 12px;background:#f7f5f0;border-left:2px solid #b8965a;border-radius:3px;font-size:8.4px;color:#666;line-height:1.45">
 <b style="color:#2c2c2c"><sup>*</sup> м.п.</b> — погонные метры: поверхности со стороной менее 0,5 м (откосы, ниши, бортики) нормируются по длине, так как нанесение на них идёт медленнее, чем на сплошной стене.<br>
 <b style="color:#2c2c2c">Цена по объёму.</b> {scale_txt.capitalize()}. Цена в таблице — материал {u(EFF_MAT)} за м² вместо базовых €{MAT_HI}, работа {u(EFF_WRK)} за единицу вместо €{WRK_HI}.<br>
-<b style="color:#2c2c2c">Двери:</b> материал по развёрнутой площади полотна ({a2(DOOR_FULL)} м² на дверь: {DOOR_SIDES} сторона плюс торцы), работа — {u(DOOR_WORK)} за сторону.<br>
+<b style="color:#2c2c2c">Двери:</b> материал по развёрнутой площади полотна ({a2(DOOR_FULL)} м² на дверь, торцы не входят), работа — {u(DOOR_WORK)} за сторону.<br>
 <b style="color:#2c2c2c">Условия:</b> микроцемент на немецких компонентах, толщина 1–1,5 мм, эффекты Vintage / Natural / Metallic на выбор. Грунт + 1–2 слоя микроцемента + 2 слоя лака Remmers PUR Top TX. Цены в евро, оплата в белорусских рублях по курсу НБ РБ на день оплаты. <b>Срок действия КП — 14 дней.</b>
 </div>
 
