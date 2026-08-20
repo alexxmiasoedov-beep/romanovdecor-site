@@ -166,11 +166,22 @@ rows += row('Малярные расходники, валики', 'компл.'
 TOT = TM + TW
 rows += sub('Всего по проекту', f'{a2(TOT_M2)} м²', u(TM), '—', u(TW), u(TOT))
 
+# экономия против базовых ставок: карточка «Скидка», процент от полной цены
+FULL = BILL_M2 * MAT_HI + W_UN * WRK_HI + ND * DOOR_SIDES * DOOR_WORK + MISC
+SAVE = max(0.0, FULL - TOT)
+SAVE_PCT = round(SAVE / FULL * 1000) / 10 if FULL else 0
+CARD_COLS = 4 if SAVE > 0.01 else 3
+SAVE_CARD = ('<div style="padding:10px 14px;background:#fdf1ec;border:1px solid #eccfc2;border-radius:5px">'
+             '<div style="color:#b3402e;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Скидка</div>'
+             f'<div style="font-size:17px;font-weight:700;color:#b3402e;margin-top:3px">\u2212{u(SAVE)} '
+             f'<span style="font-size:11px">(\u2212{f"{SAVE_PCT:g}".replace(".", ",")}%)</span></div></div>'
+             ) if SAVE > 0.01 else ''
+
 byn = lambda v: f'{round(v * RATE):,}'.replace(',', ' ')
 logo = ('<svg width="44" height="44" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'
         '<rect width="32" height="32" rx="6" fill="#2c2c2c"/>'
-        '<text x="50%" y="54%" font-family="Geologica,Arial,sans-serif" font-size="20" font-weight="700" '
-        'fill="#b8965a" text-anchor="middle" dominant-baseline="middle">r</text></svg>')
+        '<path d="M 9.6 8 L 9.6 15.5 A 6.4 6.4 0 0 0 22.4 15.5 L 22.4 8" '
+        'fill="none" stroke="#b8965a" stroke-width="4"/></svg>')
 
 scale_txt = (f'скидка тает плавно с {D_FROM} до {D_TO} м²: материал с €{MAT_HI} до €{MAT_LO}, '
              f'работа с €{WRK_HI} до €{a2(WRK_LO)}'
@@ -184,8 +195,8 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;border-bottom:2px solid #b8965a;padding-bottom:5px">
   <div style="display:flex;align-items:center;gap:10px">{logo}
-    <div><div style="font-size:16px;letter-spacing:2px;font-weight:500;text-transform:lowercase;line-height:1.1">romanov <span style="color:#b8965a">decor</span> studio</div>
-    <div style="font-size:9px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент на немецких компонентах</div></div>
+    <div><div style="font-size:16px;letter-spacing:3px;font-weight:600;line-height:1.1">UNI<span style="color:#b8965a">CORE</span></div>
+    <div style="font-size:9px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент · собственное производство</div></div>
   </div>
   <div style="text-align:right;font-size:10px;color:#666;letter-spacing:1px">
     <div>18 августа 2026 г.</div>
@@ -204,7 +215,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   </div>
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#2c2c2c;color:#efece7">
     <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#b8965a;font-weight:600;margin-bottom:2px">Исполнитель</div>
-    <div><b>Romanov Decor Studio</b></div>
+    <div><b>UNICORE</b></div>
     <div>Алексей — менеджер проекта</div>
     <div>+375 (33) 628-04-86</div>
     <div style="color:#a09a92">info@romanovdecor.by · romanovdecor.by</div>
@@ -224,13 +235,14 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 <div style="text-align:right;margin:8px 0 0;letter-spacing:1px"><span style="font-size:11px;font-weight:600">ИТОГО К ОПЛАТЕ:</span> <span style="font-size:17px;font-weight:700;color:#b8965a">{u(TOT)}</span></div>
 <div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ {byn(TOT)} руб по курсу НБ РБ {a2(RATE)} BYN/EUR на день оплаты</div>
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 0">
+<div style="display:grid;grid-template-columns:repeat({CARD_COLS},1fr);gap:10px;margin:14px 0 0">
   <div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">
     <div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Материалы</div>
     <div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">{u(TM)}</div></div>
   <div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">
     <div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Работы</div>
     <div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">{u(TW)}</div></div>
+  {SAVE_CARD}
   <div style="padding:10px 14px;background:#2c2c2c;border-radius:5px">
     <div style="color:#b8965a;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Всего</div>
     <div style="font-size:18px;font-weight:700;color:#b8965a;margin-top:3px">{u(TOT)}</div></div>

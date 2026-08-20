@@ -1016,6 +1016,7 @@ function buildPdfHtml(clientInfo){
 
   // ── строки из позиций сметы ──
   var rows = '', TM = 0, TW = 0, totalMatM2 = 0, hasMp = false, hasFix = false, discNote = '';
+  var SAVE = 0; // экономия против базовых ставок — для карточки «Скидка»
   positions.forEach(function(p){
     var nm = escapeHtml(p.label);
     if (p.isExact && p.exactBreakdown) {
@@ -1030,6 +1031,7 @@ function buildPdfHtml(clientInfo){
         });
         if (b.doors.length > 1) rows += sub('Итого «' + nm + '»', a2(b.doorArea) + ' м²', u(dTM), b.doors.length + ' дв.', u(dTW), u(dTM + dTW));
         TM += dTM; TW += dTW; totalMatM2 += b.doorArea;
+        SAVE += Math.max(0, b.doorArea * MC_RATES.walls.matHi - dTM);
       } else {
         var vol = [];
         if (b.workM2 > 0) vol.push(a2(b.workM2) + ' м²');
@@ -1037,6 +1039,9 @@ function buildPdfHtml(clientInfo){
         rows += row(nm, a2(b.matM2) + ' м²', u(b.matRate), u(b.matCostEur),
                     vol.join(' + '), u(b.workRate), u(b.workCostEur), u(b.totalEur));
         TM += b.matCostEur; TW += b.workCostEur; totalMatM2 += b.matM2;
+        var exKind = (findSystem(p.sysId)||{}).microcement === 'floor' ? 'floor' : 'walls';
+        var exR = MC_RATES[exKind];
+        SAVE += Math.max(0, b.matM2 * exR.matHi + (b.workM2 + b.workMp) * exR.workHi - b.totalEur);
       }
     } else if (p.isMicrocement && p.total > 0) {
       var spl = mcSplit(p);
@@ -1053,6 +1058,10 @@ function buildPdfHtml(clientInfo){
         if (p.tier && !discNote) discNote = 'скидка тает плавно с ' + MC_D_FROM + ' до ' + MC_D_TO + ' м²: базовые ставки снижаются к нижней границе кривой';
       }
       TM += spl.mat; TW += spl.work; totalMatM2 += (parseFloat(p.area) || 0);
+      if (!p.isFix) {
+        var pkR = MC_RATES[kind];
+        SAVE += Math.max(0, p.area * (pkR.matHi + pkR.workHi) - p.total);
+      }
     } else if (p.total > 0) {
       rows += row(nm + '<br><span style="font-size:8px;color:#888">' + escapeHtml(p.sysName) + '</span>',
                   a2(parseFloat(p.area) || 0) + ' м²', '—', u(p.total), '—', '—', '—', u(p.total));
@@ -1125,17 +1134,25 @@ function buildPdfHtml(clientInfo){
   + '<div style="text-align:right;margin:8px 0 0;letter-spacing:1px"><span style="font-size:11px;font-weight:600">ИТОГО К ОПЛАТЕ:</span> <span style="font-size:17px;font-weight:700;color:#b8965a">' + u(TOT) + '</span></div>'
   + '<div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ ' + totalByn + ' руб по курсу НБ РБ ' + EUR_BYN.toFixed(4).replace('.', ',') + ' BYN/EUR на день оплаты</div>'
 
-  + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 0">'
-    + '<div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">'
-      + '<div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Материалы</div>'
-      + '<div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">' + u(TM) + '</div></div>'
-    + '<div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">'
-      + '<div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Работы</div>'
-      + '<div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">' + u(TW) + '</div></div>'
-    + '<div style="padding:10px 14px;background:#2c2c2c;border-radius:5px">'
-      + '<div style="color:#b8965a;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Всего</div>'
-      + '<div style="font-size:18px;font-weight:700;color:#b8965a;margin-top:3px">' + u(TOT) + '</div></div>'
-  + '</div>'
+  + (function(){
+      var hasSave = SAVE > 0.01;
+      var pct = hasSave ? Math.round(SAVE / (TOT + SAVE) * 1000) / 10 : 0;
+      var g = '<div style="display:grid;grid-template-columns:repeat(' + (hasSave ? 4 : 3) + ',1fr);gap:10px;margin:14px 0 0">'
+        + '<div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">'
+          + '<div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Материалы</div>'
+          + '<div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">' + u(TM) + '</div></div>'
+        + '<div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">'
+          + '<div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Работы</div>'
+          + '<div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">' + u(TW) + '</div></div>';
+      if (hasSave) g += '<div style="padding:10px 14px;background:#fdf1ec;border:1px solid #eccfc2;border-radius:5px">'
+          + '<div style="color:#b3402e;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Скидка</div>'
+          + '<div style="font-size:17px;font-weight:700;color:#b3402e;margin-top:3px">−' + u(SAVE) + ' <span style="font-size:11px">(−' + String(pct).replace('.', ',') + '%)</span></div></div>';
+      g += '<div style="padding:10px 14px;background:#2c2c2c;border-radius:5px">'
+          + '<div style="color:#b8965a;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Всего</div>'
+          + '<div style="font-size:18px;font-weight:700;color:#b8965a;margin-top:3px">' + u(TOT) + '</div></div>'
+        + '</div>';
+      return g;
+    })()
 
   + '<div style="margin-top:9px;padding:6px 12px;background:#f7f5f0;border-left:2px solid #b8965a;border-radius:3px;font-size:8.4px;color:#666;line-height:1.45">' + foot + '</div>'
 
