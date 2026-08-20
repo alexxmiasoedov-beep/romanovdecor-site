@@ -163,9 +163,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="wrap">
 <h1 style="font-size:15px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;margin:4px 0 14px">Калькулятор стоимости микроцемента и наливных полов</h1>
 <div class="step act" id="sE">
-<div class="step-tag">конструктор расчёта</div>
-<h2>Соберите <b>расчёт</b></h2>
-<p class="step-hint">Добавьте поверхности — цена считается сразу, под ключ: материал + работа. До 20 м² действует фиксированный пакет.</p>
+<p class="step-hint" style="margin-top:2px">Добавьте поверхности — цена считается сразу, под ключ: материал + работа.</p>
 <div class="chips">
   <button class="chip" onclick="addPos('walls')">+ Стены</button>
   <button class="chip" onclick="addPos('floor')">+ Полы</button>
@@ -627,10 +625,11 @@ function resetMultiList(listId, unit, initialValue){
 
 function calcMicrocement(kind, area){
   var R = MC_RATES[kind === 'floor' ? 'floor' : 'walls'];
-  if (area <= MC_MIN_M2) return {total: R.fix, perM2: Math.round(R.fix / Math.max(area, 1)), tierLabel: 'Фиксированный пакет ≤ 20 м²', fix: true};
+  if (area <= MC_MIN_M2) return {total: R.fix, perM2: 0, tierLabel: 'фиксированная стоимость до 20 м²', fix: true};
   var rate = mcCurve(kind, area, 'mat') + mcCurve(kind, area, 'work');
-  var label = area <= MC_D_FROM ? 'Базовый тариф 20–35 м²'
-    : (area >= MC_D_TO ? 'Тариф 100+ м² — максимальная скидка' : 'Тариф ' + area + ' м² — скидка по кривой');
+  var base = R.matHi + R.workHi;
+  var disc = Math.round((base - rate) * 100) / 100;
+  var label = disc > 0 ? 'скидка €' + disc.toFixed(2).replace('.', ',').replace(/,00$/, '') + '/м²' : '';
   return {total: Math.round(rate * area), perM2: Math.round(rate * 100) / 100, tierLabel: label, fix: false};
 }
 
@@ -712,6 +711,7 @@ function calcPosition(sys, area, ext){
     return {
       total: Math.round(r.total),
       perM2: r.perM2,
+      isFix: !!r.fix,
       tier: r.tierLabel,
       layers: null,
       isMicrocement: true,
@@ -909,7 +909,7 @@ function renderEstimate(){
         +breakdown
       +'</div>'
       +'<div class="est-row-sum">€'+p.total.toLocaleString('ru')
-        +(p.perM2 ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">€'+String(p.perM2).replace('.', ',')+'/м²</span>' : '')
+        +((p.perM2 && !p.isFix) ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">€'+p.perM2.toFixed(2).replace('.', ',').replace(/,00$/, '')+'/м²</span>' : '')
       +'</div>'
       +'<div class="est-row-actions">'+actionsHtml+'</div>';
     list.appendChild(row);
@@ -1464,6 +1464,7 @@ function refreshPos(id){
     if (u.type !== 'liquid' && u.type !== 'furniture' && u.adv) {
       var wm2 = (u.workM2Items||[]).reduce(function(a,b){return a+b},0);
       var wmp = (u.workMpItems||[]).reduce(function(a,b){return a+b},0);
+      if (wm2 > area) wm2 = area; // площадь работ не бывает больше площади материала
       if (wmp > 0 || (wm2 > 0 && Math.abs(wm2 - area) > 0.01)) {
         ext = {workM2: wm2 > 0 ? wm2 : area, workMp: wmp,
                workM2Items: u.workM2Items, workMpItems: u.workMpItems, doors: []};
@@ -1484,7 +1485,7 @@ function refreshPos(id){
     p.sub = u.sub || ''; p.subName = subName;
     p.sysId = sys.id; p.sysName = sys.name; p.sysCode = sys.code || ''; p.sysDesc = sys.desc || '';
     p.area = Math.round(area*100)/100; p.total = calc.total; p.perM2 = calc.perM2;
-    p.tier = calc.tier; p.structure = calc.structure || '';
+    p.tier = calc.tier; p.isFix = !!calc.isFix; p.structure = calc.structure || '';
     p.isMicrocement = calc.isMicrocement; p.isExact = calc.isExact || false;
     p.exactBreakdown = calc.exactBreakdown || null; p.layers = calc.layers;
   }
@@ -1498,7 +1499,7 @@ function updateCardPrice(p){
   if (!el) return;
   if (p.total > 0) {
     var note = p.tier ? '<span>' + esc2(p.tier) + '</span>' : '<span></span>';
-    var per = p.perM2 ? ' · €' + String(p.perM2).replace('.', ',') + '/м²' : '';
+    var per = (p.perM2 && !p.isFix) ? ' · €' + p.perM2.toFixed(2).replace('.', ',').replace(/,00$/, '') + '/м²' : '';
     el.innerHTML = note + '<span><b>€' + p.total.toLocaleString('ru') + '</b>' + per + '</span>';
   } else {
     el.innerHTML = '<span>введите площадь — цена появится сразу</span>';
@@ -1547,7 +1548,7 @@ function renderPositions(){
         h += '<button class="pc-adv" id="advbtn_' + id + '" onclick="toggleAdv(\'' + id + '\')">'
            + (u.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾') + '</button>';
         h += '<div class="pc-advbox" id="adv_' + id + '"' + (u.adv ? ' data-filled="1"' : ' style="display:none"') + ' oninput="uiSyncLists(\'' + id + '\')">'
-           + '<div class="pc-f"><label>Площади работ, м² — суммируются</label><div id="wm2List_' + id + '"></div></div>'
+           + '<div class="pc-f"><label>Площади работ, м² · пусто = площадь материала</label><div id="wm2List_' + id + '"></div></div>'
            + '<div class="pc-f" style="margin-top:8px"><label>Погонные метры — поверхности уже 0,5 м</label><div id="wmpList_' + id + '"></div></div>'
            + '</div>';
       }
