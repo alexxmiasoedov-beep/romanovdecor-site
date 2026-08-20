@@ -945,9 +945,20 @@ function renderPositionBreakdown(p){
   return '';
 }
 
+// Делим итог позиции на материал и работу: у микроцементных — по ставкам
+// кривой, у слоевых систем всё в материалах (работа считается по объёму).
+function mcSplit(p){
+  if (!p.isMicrocement || !p.sysId) return {mat: p.total, work: 0};
+  var sys = findSystem(p.sysId);
+  var kind = sys && sys.microcement === 'floor' ? 'floor' : 'walls';
+  var mr = mcCurve(kind, p.area, 'mat'), wr = mcCurve(kind, p.area, 'work');
+  var mat = Math.round(p.total * mr / (mr + wr) * 100) / 100;
+  return {mat: mat, work: Math.round((p.total - mat) * 100) / 100};
+}
+
 function buildPdfHtml(clientInfo){
   var date = new Date().toLocaleDateString('ru-BY', {day:'2-digit',month:'long',year:'numeric'});
-  var num = 'RD-' + Date.now().toString(36).toUpperCase().slice(-6);
+  var num = 'UC-' + Date.now().toString(36).toUpperCase().slice(-6);
   var c = S.contacts || {};
   var phone = c.phone || '+375 33 628-04-86';
   var email = c.email || 'info@romanovdecor.by';
@@ -973,7 +984,9 @@ function buildPdfHtml(clientInfo){
       // Простая позиция — уже в EUR
       var pEur = p.total;
       totalEur += pEur;
-      matEurTot += pEur; // считаем как материал (нет разделения)
+      var split = mcSplit(p);
+      matEurTot += split.mat;
+      workEurTot += split.work;
       totalMatM2 += (parseFloat(p.area) || 0);
     }
   });
@@ -1027,8 +1040,12 @@ function buildPdfHtml(clientInfo){
       +'<td style="'+SUB_TD_TOT+'">'+tot+'</td>'
       +'</tr>';
   }
-  function fmtEur(v){ return '€'+v.toFixed(2).replace(/\.00$/, ''); }
-  function fmtEurRus(v){ return '€'+v.toFixed(2).replace('.', ',').replace(/,00$/, ''); }
+  function fmtEur(v){ return fmtEurRus(v); }
+  function fmtEurRus(v){
+    var parts = v.toFixed(2).split('.');
+    var whole = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+    return '\u20ac' + whole + (parts[1] === '00' ? '' : ',' + parts[1]);
+  }
 
   var rowsHtml = '';
   positions.forEach(function(p){
@@ -1082,14 +1099,15 @@ function buildPdfHtml(clientInfo){
         fmtEurRus(b.totalEur)
       );
     } else {
-      // Простая позиция (старый тарифный пакет / другая система)
+      // Простая позиция: пакет под ключ или слоевая система
       var pEur = p.total;
+      var spl = mcSplit(p);
       rowsHtml += row(
         escapeHtml(p.sysName) + (p.sysCode ? ' (' + escapeHtml(p.sysCode) + ')' : ''),
         p.area + ' м²' + (p.tier ? '<br><span style="font-size:8px;color:#888">' + escapeHtml(p.tier) + '</span>' : ''),
-        fmtEurRus(pEur),
-        '—',
-        '—',
+        fmtEurRus(spl.mat),
+        spl.work > 0 ? 'включена' : '—',
+        spl.work > 0 ? fmtEurRus(spl.work) : '—',
         fmtEurRus(pEur)
       );
     }
@@ -1137,7 +1155,7 @@ function buildPdfHtml(clientInfo){
       +'<div style="display:flex;align-items:center;gap:10px">'
         +logoSvg
         +'<div>'
-          +'<div style="font-size:16px;letter-spacing:2px;font-weight:500;text-transform:lowercase;line-height:1.1">uni<span style="color:#b8965a">core</span></div>'
+          +'<div style="font-size:17px;letter-spacing:3px;font-weight:600;line-height:1.1">UNI<span style="color:#b8965a">CORE</span></div>'
           +'<div style="font-size:9px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент · собственное производство</div>'
         +'</div>'
       +'</div>'
@@ -1181,13 +1199,13 @@ function buildPdfHtml(clientInfo){
           +'<th rowspan="2" style="'+STY.th_top_name+'">Наименование</th>'
           +'<th colspan="2" style="'+STY.th_top_mat+'">Материалы</th>'
           +'<th colspan="2" style="'+STY.th_top_work+'">Работы</th>'
-          +'<th rowspan="2" style="'+STY.th_top_tot+'">Итого, $</th>'
+          +'<th rowspan="2" style="'+STY.th_top_tot+'">Итого, €</th>'
         +'</tr>'
         +'<tr>'
-          +'<th style="'+STY.th_sub_mat+'">Объём × $/ед.</th>'
-          +'<th style="'+STY.th_sub_mat+'">Сумма, $</th>'
-          +'<th style="'+STY.th_sub_work+'">Метраж × $/ед.</th>'
-          +'<th style="'+STY.th_sub_work+'">Сумма, $</th>'
+          +'<th style="'+STY.th_sub_mat+'">Объём × €/ед.</th>'
+          +'<th style="'+STY.th_sub_mat+'">Сумма, €</th>'
+          +'<th style="'+STY.th_sub_work+'">Метраж × €/ед.</th>'
+          +'<th style="'+STY.th_sub_work+'">Сумма, €</th>'
         +'</tr>'
       +'</thead>'
       +'<tbody>'+rowsHtml+'</tbody>'
@@ -1241,8 +1259,15 @@ async function submitQuote(e){
     try {
       await new Promise(function(res, rej){
         var s = document.createElement('script');
-        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        s.onload = res; s.onerror = rej;
+        s.src = '/html2pdf.bundle.min.js';
+        s.onload = res;
+        s.onerror = function(){
+          // локальная копия не отдалась — пробуем CDN
+          var c = document.createElement('script');
+          c.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+          c.onload = res; c.onerror = rej;
+          document.head.appendChild(c);
+        };
         document.head.appendChild(s);
       });
     } catch (e) {}
@@ -1279,8 +1304,18 @@ async function submitQuote(e){
     msg: document.getElementById('orderMsg').value.trim(),
   };
 
-  var tpl = document.getElementById('pdfTpl');
+  // html2canvas растеризует узел по его позиции в документе — из скрытого
+  // контейнера снимок уезжает. Рендерим шаблон в полноэкранном оверлее
+  // с позицией 0;0: смещению взяться неоткуда, посетитель видит
+  // «формируем PDF» на секунду вместо сломанного файла.
+  var ov = document.createElement('div');
+  ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#fff;overflow:hidden';
+  ov.innerHTML = '<div style="position:absolute;top:12px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b8965a;font-weight:600">формируем PDF…</div>';
+  var tpl = document.createElement('div');
+  tpl.style.cssText = 'width:800px;margin:40px auto 0';
   tpl.innerHTML = buildPdfHtml(client);
+  ov.appendChild(tpl);
+  document.body.appendChild(ov);
   var node = tpl.firstChild;
 
   try {
@@ -1288,10 +1323,11 @@ async function submitQuote(e){
       margin: [8, 8, 8, 8],
       filename: 'unicore-kp.pdf',
       image: {type:'jpeg', quality:0.95},
-      html2canvas: {scale:2, useCORS:true, backgroundColor:'#fff', windowWidth: 820},
+      html2canvas: {scale:2, useCORS:true, backgroundColor:'#fff'},
       jsPDF: {unit:'mm', format:'a4', orientation:'portrait', compress:true},
       pagebreak: {mode:['avoid-all', 'css'], avoid:['tr','tbody','thead','tfoot']},
     }).from(node).outputPdf('blob');
+    document.body.removeChild(ov);
     S.pdfBlob = pdfBlob;
     var pdfUrl = URL.createObjectURL(pdfBlob);
     document.getElementById('pdfDl').href = pdfUrl;
@@ -1316,6 +1352,7 @@ async function submitQuote(e){
     goStep('ok');
     btn.disabled = false; btn.textContent = 'отправить и получить PDF';
   } catch(err) {
+    if (ov.parentNode) document.body.removeChild(ov);
     alert('Ошибка: '+(err.message||err));
     btn.disabled = false; btn.textContent = 'отправить и получить PDF';
   }
@@ -1367,8 +1404,8 @@ function uiSet(id, key, val){
 }
 function uiSyncLists(id){
   var p = posById(id); if (!p || !p.ui) return;
-  p.ui.workM2Items = collectMultiValues('wm2_' + id);
-  p.ui.workMpItems = collectMultiValues('wmp_' + id);
+  p.ui.workM2Items = collectMultiValues('wm2List_' + id);
+  p.ui.workMpItems = collectMultiValues('wmpList_' + id);
   refreshPos(id);
 }
 function toggleAdv(id){
@@ -1380,8 +1417,8 @@ function toggleAdv(id){
   if (btn) btn.textContent = p.ui.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾';
   if (p.ui.adv && box && !box.dataset.filled) {
     box.dataset.filled = '1';
-    addMultiInput('wm2_' + id, 'м²', '');
-    addMultiInput('wmp_' + id, 'м.п.', '');
+    addMultiInput('wm2List_' + id, 'м²', '');
+    addMultiInput('wmpList_' + id, 'м.п.', '');
   }
   refreshPos(id);
 }
@@ -1510,8 +1547,8 @@ function renderPositions(){
         h += '<button class="pc-adv" id="advbtn_' + id + '" onclick="toggleAdv(\'' + id + '\')">'
            + (u.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾') + '</button>';
         h += '<div class="pc-advbox" id="adv_' + id + '"' + (u.adv ? ' data-filled="1"' : ' style="display:none"') + ' oninput="uiSyncLists(\'' + id + '\')">'
-           + '<div class="pc-f"><label>Площади работ, м² — суммируются</label><div id="wm2_' + id + '"></div></div>'
-           + '<div class="pc-f" style="margin-top:8px"><label>Погонные метры — поверхности уже 0,5 м</label><div id="wmp_' + id + '"></div></div>'
+           + '<div class="pc-f"><label>Площади работ, м² — суммируются</label><div id="wm2List_' + id + '"></div></div>'
+           + '<div class="pc-f" style="margin-top:8px"><label>Погонные метры — поверхности уже 0,5 м</label><div id="wmpList_' + id + '"></div></div>'
            + '</div>';
       }
     }
@@ -1524,8 +1561,8 @@ function renderPositions(){
     if (p.ui.adv) {
       var w2 = p.ui.workM2Items.length ? p.ui.workM2Items : [''];
       var wp = p.ui.workMpItems.length ? p.ui.workMpItems : [''];
-      w2.forEach(function(v){ addMultiInput('wm2_' + p.id, 'м²', v) });
-      wp.forEach(function(v){ addMultiInput('wmp_' + p.id, 'м.п.', v) });
+      w2.forEach(function(v){ addMultiInput('wm2List_' + p.id, 'м²', v) });
+      wp.forEach(function(v){ addMultiInput('wmpList_' + p.id, 'м.п.', v) });
     }
     updateCardPrice(p);
   });
