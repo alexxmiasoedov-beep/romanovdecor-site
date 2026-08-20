@@ -121,7 +121,6 @@ html.in-iframe .wrap{padding:24px 20px}
 @media(max-width:920px){.bgrid{grid-template-columns:1fr}}
 .sumcard{position:sticky;top:70px}
 @media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}input,select,textarea{font-size:16px!important}
-.hd-r a:not(.hd-back){display:none}
 .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .chip{width:100%;padding:12px 6px;text-align:center;white-space:nowrap}
 .chip:last-child{grid-column:1 / -1}}
@@ -158,10 +157,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <body>
 <header class="hd">
 <a href="/" class="logo">uni<span>core</span></a>
-<div class="hd-r" style="display:flex;gap:18px;align-items:center">
-<a href="/microcement" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a09a92">Микроцемент</a>
-<a href="/price" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a09a92">Цены</a>
-<a href="/portfolio" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a09a92">Портфолио</a>
+<div class="hd-r" style="display:flex;align-items:center">
 <a href="/" class="hd-back" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#efece7;white-space:nowrap">← вернуться</a>
 </div>
 </header>
@@ -1516,6 +1512,16 @@ function renderPositions(){
 
 renderPositions();
 renderEstimate();
+
+// Тап по неактивной области на тач-устройствах снимает фокус с поля:
+// без этого курсор и клавиатура остаются висеть.
+document.addEventListener('touchend', function(e){
+  var a = document.activeElement;
+  if (!a || !/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) return;
+  if (e.target === a) return;
+  if (e.target.closest && e.target.closest('input,textarea,select,label,button,a,.chip,.pc-adv')) return;
+  a.blur();
+}, {passive:true});
 </script>
 <script>
 /* stage1: маска телефона + скрытие пустых мессенджеров */
