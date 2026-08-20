@@ -120,7 +120,7 @@ html.in-iframe .wrap{padding:24px 20px}
 .bgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
 @media(max-width:920px){.bgrid{grid-template-columns:1fr}}
 .sumcard{position:sticky;top:70px}
-@media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}.pc-f input,.pc-f select,.door-row input,.pc-label{font-size:16px}}
+@media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}input,select,textarea{font-size:16px!important}}
 .pcard{background:#232323;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin-bottom:12px}
 .pc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .pc-label{flex:1;background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.15);color:#efece7;font-size:13px;font-weight:600;letter-spacing:.5px;padding:3px 2px;font-family:inherit}
@@ -1388,6 +1388,10 @@ function refreshPos(id){
       var wm2 = u.wmTouched ? (u.workM2Items||[]).reduce(function(a,b){return a+b},0) : area;
       var wmp = (u.workMpItems||[]).reduce(function(a,b){return a+b},0);
       if (wm2 > area) wm2 = area; // площадь работ не бывает больше площади материала
+      // но и общий объём работ (м² + м.п.) не бывает меньше материала:
+      // если м² работ ввели меньше, а погонные разницу не добили —
+      // подпираем м² до материала; превысить материал погонными можно
+      wm2 = Math.max(wm2, Math.max(0, area - wmp));
       if (wmp > 0 || (u.wmTouched && Math.abs(wm2 - area) > 0.01)) {
         ext = {workM2: wm2 > 0 ? wm2 : area, workMp: wmp,
                workM2Items: u.workM2Items, workMpItems: u.workMpItems, doors: []};
