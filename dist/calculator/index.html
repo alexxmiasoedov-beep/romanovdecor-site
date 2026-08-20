@@ -201,14 +201,14 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div id="doorSizesList" style="display:none">
   <div style="font-size:11px;color:#efece7;margin-bottom:6px">Размеры каждой двери (Ш × В, м):</div>
   <div id="doorSizesGrid" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
-  <div style="font-size:11px;color:#a09a92;line-height:1.5">Площадь каждой двери = Ш × В × $40 (материал) + $100/дверь (работа).</div>
+  <div style="font-size:11px;color:#a09a92;line-height:1.5">Каждая дверь: материал = Ш × В × ставка материала, работа = Ш × В × €45.</div>
 </div>
 </div>
 
 <div id="mcInfoBox" style="display:none;background:rgba(184,150,90,.06);border-left:2px solid #b8965a;padding:10px 12px;border-radius:0 8px 8px 0;font-size:12px;color:#a09a92;margin-top:14px;line-height:1.5">
-  <b style="color:#efece7">Тариф «по факту»:</b> материал <b>$40/м²</b>, работа <b>$24</b>/м² и /м.п., <b>$100</b>/дверь (работа).<br>
-  Расходники (малярка, кисти, валики) — <b>+$80</b> один раз на смету, добавятся автоматически.<br>
-  <span id="rateInfo" style="color:#b8965a;font-weight:500">Курс USD→BYN: загружается...</span>
+  <b style="color:#efece7">Тариф «по факту», за м²:</b> стены — материал <b>€35</b> + работа <b>€21</b>; полы — <b>€43</b> + <b>€22</b>. С 35 м² цена плавно снижается, от 100 м² — дно: €30/€39 материал, €18,50/€19,50 работа. Дверное полотно — работа <b>€45/м²</b> стороны.<br>
+  Расходники (малярка, кисти, валики) — <b>от €80</b> один раз на смету, добавятся автоматически.<br>
+  <span id="rateInfo" style="color:#b8965a;font-weight:500">Курс EUR→BYN: загружается...</span>
 </div>
 
 <div class="btns"><button class="btn btn-s" onclick="goStep(3)">назад</button><button class="btn btn-p" onclick="addToEstimate()">добавить в смету</button></div>
@@ -222,13 +222,13 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="est">
   <div class="est-head"><span class="est-title">Позиции</span><span class="est-count" id="estCount">0</span></div>
   <div id="estList"></div>
-  <div class="est-total" id="estTotalRow" style="display:none"><span class="label">Итого:</span><span class="val" id="estTotal">0 руб</span></div>
+  <div class="est-total" id="estTotalRow" style="display:none"><span class="label">Итого:</span><span class="val" id="estTotal">€0</span></div>
 </div>
 <div class="btns">
   <button class="btn btn-s" onclick="goStep(1)">+ добавить позицию</button>
   <button class="btn btn-p" id="toContacts" onclick="goStep('contact')" disabled>оформить заявку →</button>
 </div>
-<div class="waste-note">* микроцемент — цена «под ключ» (материал + работа) по курсу USD→BYN 2,8108 НБ РБ на 23.04.2026. Остальные системы — материал с учётом тары, работа рассчитывается по объёму объекта.</div>
+<div class="waste-note">* микроцемент — цена «под ключ» (материал + работа) в евро; оплата в белорусских рублях по курсу НБ РБ на день оплаты. Остальные системы — материал с учётом тары, работа рассчитывается по объёму объекта.</div>
 </div>
 
 <!-- CONTACT STEP -->
@@ -268,7 +268,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="sticky-cta"><div class="sticky-pop" id="stickyPop"><a href="https://t.me/" style="background:#2AABEE">telegram</a><a href="viber://chat?number=" style="background:#7360F2">viber</a></div><button class="sticky-btn" onclick="document.getElementById('stickyPop').classList.toggle('show')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/></svg></button></div>
 
 <script>
-// === SYSTEMS DATABASE (from xlsx files + microcement USD/BYN @2.8108 on 2026-04-23) ===
+// === SYSTEMS DATABASE (слоевые системы в BYN из xlsx; микроцемент — €/м² по кривой 35–100 м²) ===
 var DB = {
 categories: [
   {id:'microcement', name:'Микроцемент', hint:'Декоративное покрытие 1–1,5 мм: стены и полы'},
@@ -613,27 +613,40 @@ function findSystem(id){
 }
 
 // === CALCULATION ===
-// === КОНСТАНТЫ для «по факту»-расчёта микроцемента (USD) ===
-var USD_BYN = 2.8108; // курс НБ РБ — обновляется через API при загрузке
-var USD_RATE_DATE = '23.04.2026'; // дата курса (показывается пользователю)
-var MC_MAT_USD = 40;   // материал, $/м²
-var MC_WORK_USD = 24;  // работа, $/м² и $/м.п.
-var MC_DOOR_USD = 100; // нанесение на дверь (работа), $/шт
-var MC_CONSUMABLES_USD = 80; // расходники на смету (один раз)
+// === КОНСТАНТЫ тарифов микроцемента (EUR) ===
+var EUR_BYN = 3.5093; // курс EUR→BYN НБ РБ — обновляется через API при загрузке
+var EUR_RATE_DATE = '19.08.2026'; // дата курса (показывается пользователю)
+// Тарифы, €/м²: базовая ставка до 35 м², плавная скидка 35–100 м², дно от 100 м²
+var MC_RATES = {
+  walls: {matHi:35, matLo:30, workHi:21, workLo:18.5, fix:1120},
+  floor: {matHi:43, matLo:39, workHi:22, workLo:19.5, fix:1300}
+};
+var MC_D_FROM = 35, MC_D_TO = 100, MC_MIN_M2 = 20;
+var MC_DOOR_RATE = 45;       // работа по дверному полотну, €/м² стороны
+var MC_CONSUMABLES_EUR = 80; // расходники на смету (один раз), €
+function mcCurve(kind, area, part){
+  var R = MC_RATES[kind === 'floor' ? 'floor' : 'walls'];
+  var hi = part === 'mat' ? R.matHi : R.workHi;
+  var lo = part === 'mat' ? R.matLo : R.workLo;
+  var a = Math.max(area || 0, MC_MIN_M2);
+  if (a <= MC_D_FROM) return hi;
+  if (a >= MC_D_TO) return lo;
+  return Math.round((hi - (hi - lo) * (a - MC_D_FROM) / (MC_D_TO - MC_D_FROM)) * 100) / 100;
+}
 var DEFAULT_DOOR_W = 0.9; // ширина стандартной межкомнатной двери, м
 var DEFAULT_DOOR_H = 2.3; // высота, м
 
 // Подгружаем актуальный курс с API НБ РБ
 (async function loadNbrbRate(){
   try{
-    var r = await fetch('https://api.nbrb.by/exrates/rates/USD?parammode=2');
+    var r = await fetch('https://api.nbrb.by/exrates/rates/EUR?parammode=2');
     if (!r.ok) throw new Error('NBRB API '+r.status);
     var j = await r.json();
     if (j && j.Cur_OfficialRate && j.Cur_Scale) {
-      USD_BYN = j.Cur_OfficialRate / j.Cur_Scale;
+      EUR_BYN = j.Cur_OfficialRate / j.Cur_Scale;
       if (j.Date) {
         var d = new Date(j.Date);
-        USD_RATE_DATE = String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+        EUR_RATE_DATE = String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
       }
       updateRateInfo();
     }
@@ -645,7 +658,7 @@ var DEFAULT_DOOR_H = 2.3; // высота, м
 
 function updateRateInfo(){
   var el = document.getElementById('rateInfo');
-  if (el) el.textContent = 'Курс USD→BYN: ' + USD_BYN.toFixed(4).replace('.', ',') + ' (НБ РБ на ' + USD_RATE_DATE + ')';
+  if (el) el.textContent = 'Курс EUR→BYN: ' + EUR_BYN.toFixed(4).replace('.', ',') + ' (НБ РБ на ' + EUR_RATE_DATE + ')';
 }
 
 // === Динамические инпуты для размеров дверей ===
@@ -748,44 +761,45 @@ function resetMultiList(listId, unit, initialValue){
 }
 
 function calcMicrocement(kind, area){
-  var fix = kind==='floor' ? 4216 : 3654;
-  var tiers = kind==='floor'
-    ? [[45,211],[80,205],[100,200],[Infinity,197]]
-    : [[45,180],[80,171],[100,163],[Infinity,155]];
-  if(area<=20) return {total:fix, perM2:Math.round(fix/area), tierLabel:'Фиксированный пакет ≤ 20 м²', fix:true};
-  var rate=tiers[tiers.length-1][1];
-  var from=21, to=45;
-  for(var i=0;i<tiers.length;i++){ if(area<=tiers[i][0]){ rate=tiers[i][1]; to=tiers[i][0]; break; } from=tiers[i][0]+1; }
-  var label = to===Infinity ? 'Тариф 101+ м²' : 'Тариф '+from+'–'+to+' м²';
-  return {total: rate*area, perM2: rate, tierLabel: label, fix:false};
+  var R = MC_RATES[kind === 'floor' ? 'floor' : 'walls'];
+  if (area <= MC_MIN_M2) return {total: R.fix, perM2: Math.round(R.fix / Math.max(area, 1)), tierLabel: 'Фиксированный пакет ≤ 20 м²', fix: true};
+  var rate = mcCurve(kind, area, 'mat') + mcCurve(kind, area, 'work');
+  var label = area <= MC_D_FROM ? 'Базовый тариф 20–35 м²'
+    : (area >= MC_D_TO ? 'Тариф 100+ м² — максимальная скидка' : 'Тариф ' + area + ' м² — скидка по кривой');
+  return {total: Math.round(rate * area), perM2: Math.round(rate * 100) / 100, tierLabel: label, fix: false};
 }
 
 // Расчёт «по факту» — два режима:
 //  - doorsOnly: чистая «дверная» позиция, matM2 = площадь всех дверей, doors = их размеры
 //  - смешанный: matM2 = общая площадь (включая двери, если есть)
-function calcMicrocementExact(matM2, workM2, workMp, doors, doorsOnly){
+function calcMicrocementExact(kind, matM2, workM2, workMp, doors, doorsOnly){
   doors = doors || [];
   var doorArea = doors.reduce(function(a, d){return a + d.w * d.h}, 0);
+  var matRate = mcCurve(kind, matM2 || doorArea, 'mat');
+  var workRate = mcCurve(kind, matM2 || doorArea, 'work');
+  var doorWork = doorArea * MC_DOOR_RATE;
   var wallArea, wallMatCost, doorMatCost, workCost;
   if (doorsOnly) {
-    // Позиция «Двери»: материал = площадь дверей × $40, работа = N × $100
+    // Позиция «Двери»: материал = площадь полотен × ставка, работа = площадь × €45
     wallArea = 0;
     wallMatCost = 0;
-    doorMatCost = doorArea * MC_MAT_USD;
-    workCost = doors.length * MC_DOOR_USD;
+    doorMatCost = doorArea * matRate;
+    workCost = doorWork;
   } else {
     // Стены/Полы/Фартук: возможно с встроенными дверями (вычитаем их площадь)
     wallArea = Math.max(0, matM2 - doorArea);
-    wallMatCost = wallArea * MC_MAT_USD;
-    doorMatCost = doorArea * MC_MAT_USD;
-    workCost = (workM2 + workMp) * MC_WORK_USD + doors.length * MC_DOOR_USD;
+    wallMatCost = wallArea * matRate;
+    doorMatCost = doorArea * matRate;
+    workCost = (workM2 + workMp) * workRate + doorWork;
   }
   var matCost = wallMatCost + doorMatCost;
-  var totalUSD = matCost + workCost;
-  var totalBYN = totalUSD * USD_BYN;
+  var totalEUR = matCost + workCost;
   return {
-    total: Math.round(totalBYN),
-    totalUSD: totalUSD,
+    total: Math.round(totalEUR),
+    totalEUR: totalEUR,
+    matRate: matRate,
+    workRate: workRate,
+    doorWork: doorWork,
     matCost: matCost,
     workCost: workCost,
     wallArea: wallArea,
@@ -798,7 +812,7 @@ function calcMicrocementExact(matM2, workM2, workMp, doors, doorsOnly){
     doorsN: doors.length,
     doors: doors,
     doorsOnly: !!doorsOnly,
-    perM2: matM2 > 0 ? Math.round(totalBYN / matM2) : 0,
+    perM2: matM2 > 0 ? Math.round(totalEUR / matM2) : 0,
     tierLabel: 'Тариф «по факту»',
     isExact: true
   };
@@ -809,7 +823,7 @@ function calcPosition(sys, area, ext){
     // Если ext-режим (передан объект с workM2/workMp/doors или doorsOnly) — считаем «по факту»
     var hasExt = ext && (ext.doorsOnly || ext.workMp > 0 || (ext.doors && ext.doors.length > 0) || (ext.workM2 > 0 && Math.abs(ext.workM2 - area) > 0.01));
     if(hasExt){
-      var rx = calcMicrocementExact(area, ext.workM2 || area, ext.workMp || 0, ext.doors || [], !!ext.doorsOnly);
+      var rx = calcMicrocementExact(sys.microcement, area, ext.workM2 || area, ext.workMp || 0, ext.doors || [], !!ext.doorsOnly);
       return {
         total: rx.total,
         perM2: rx.perM2,
@@ -818,12 +832,13 @@ function calcPosition(sys, area, ext){
         isMicrocement: true,
         isExact: true,
         exactBreakdown: {
+          matRate: rx.matRate, workRate: rx.workRate, doorWork: rx.doorWork,
           matM2: rx.matM2, workM2: rx.workM2, workMp: rx.workMp,
           workM2Items: ext.workM2Items || [], workMpItems: ext.workMpItems || [],
           doorsN: rx.doorsN, doors: rx.doors, doorsOnly: rx.doorsOnly,
           wallArea: rx.wallArea, wallMatCost: rx.wallMatCost,
           doorArea: rx.doorArea, doorMatCost: rx.doorMatCost,
-          matCostUsd: rx.matCost, workCostUsd: rx.workCost, totalUsd: rx.totalUSD
+          matCostEur: rx.matCost, workCostEur: rx.workCost, totalEur: rx.totalEUR
         },
         structure: '4 слоя эпоксидной грунтовки + 1 слой микроцемента + 1 слой полиуретанового лака',
       };
@@ -849,8 +864,8 @@ function calcPosition(sys, area, ext){
     layerDetails.push({name:L.name, stage:L.stage, cons:L.cons, unit:L.unit, needed:needed, pkgs:pkgs, pkg:L.pkg, cost:cost});
   });
   return {
-    total: Math.round(totalCost),
-    perM2: Math.round(totalCost/area),
+    total: Math.round(totalCost / EUR_BYN),
+    perM2: Math.round(totalCost / EUR_BYN / area),
     tier: '',
     layers: layerDetails,
     isMicrocement: false,
@@ -935,9 +950,9 @@ function ensureConsumablesRow(){
       sysId:'consumables', sysName:'малярка, кисти, валики, плёнка',
       sysCode:'', sysDesc:'',
       area: 0,
-      total: Math.round(MC_CONSUMABLES_USD * USD_BYN),
+      total: MC_CONSUMABLES_EUR,
       perM2: 0,
-      tier: '$' + MC_CONSUMABLES_USD + ' (фикс. на смету)',
+      tier: '€' + MC_CONSUMABLES_EUR + ' (фикс. на смету)',
       structure: '',
       isMicrocement: false,
       isExtra: true,
@@ -1027,22 +1042,22 @@ function renderEstimate(){
       var parts = [];
       // Стены — материал (если есть двери, показываем за вычетом)
       if (b.wallArea > 0) {
-        parts.push('Стены: '+b.wallArea.toFixed(2)+' м² × $'+MC_MAT_USD+' = $'+b.wallMatCost.toFixed(2));
+        parts.push('Стены: '+b.wallArea.toFixed(2)+' м² × €'+b.matRate+' = €'+b.wallMatCost.toFixed(2));
       } else {
-        parts.push(b.matM2.toFixed(2)+' м² материал × $'+MC_MAT_USD+' = $'+(b.matM2*MC_MAT_USD).toFixed(2));
+        parts.push(b.matM2.toFixed(2)+' м² материал × €'+b.matRate+' = €'+(b.matM2*b.matRate).toFixed(2));
       }
       // Двери — материал
       if (b.doorArea > 0 && b.doors && b.doors.length) {
         var dimsStr = b.doors.map(function(d){return d.w+'×'+d.h}).join(', ');
-        parts.push('Двери ('+dimsStr+'): '+b.doorArea.toFixed(2)+' м² × $'+MC_MAT_USD+' = $'+b.doorMatCost.toFixed(2));
+        parts.push('Двери ('+dimsStr+'): '+b.doorArea.toFixed(2)+' м² × €'+b.matRate+' = €'+b.doorMatCost.toFixed(2));
       }
       // Работа
       var workItems = [];
       if (b.workM2 > 0) workItems.push(b.workM2+' м²');
       if (b.workMp > 0) workItems.push(b.workMp+' м.п.');
-      if (workItems.length) parts.push('Работа: '+workItems.join(' + ')+' × $'+MC_WORK_USD+' = $'+((b.workM2+b.workMp)*MC_WORK_USD).toFixed(2));
-      if (b.doorsN > 0) parts.push('Работа дверей: '+b.doorsN+' шт × $'+MC_DOOR_USD+' = $'+(b.doorsN*MC_DOOR_USD).toFixed(2));
-      breakdown = '<div style="font-size:11px;color:#a09a92;margin-top:4px;line-height:1.5">'+parts.map(function(x){return '• '+x}).join('<br>')+'<br><b style="color:#b8965a">Итого по позиции: $'+b.totalUsd.toFixed(2)+' ≈ '+p.total.toLocaleString('ru')+' руб</b></div>';
+      if (workItems.length) parts.push('Работа: '+workItems.join(' + ')+' × €'+b.workRate+' = €'+((b.workM2+b.workMp)*b.workRate).toFixed(2));
+      if (b.doorsN > 0) parts.push('Работа по полотнам: '+b.doorArea.toFixed(2)+' м² × €'+MC_DOOR_RATE+' = €'+b.doorWork.toFixed(2));
+      breakdown = '<div style="font-size:11px;color:#a09a92;margin-top:4px;line-height:1.5">'+parts.map(function(x){return '• '+x}).join('<br>')+'<br><b style="color:#b8965a">Итого по позиции: €'+b.totalEur.toFixed(2)+' ≈ '+Math.round(b.totalEur*EUR_BYN).toLocaleString('ru')+' руб</b></div>';
     }
     var actionsHtml = (p.id === '__consumables')
       ? '<button class="est-del" title="Расходники добавляются автоматически" disabled style="opacity:.4;cursor:not-allowed">🔒</button>'
@@ -1054,14 +1069,14 @@ function renderEstimate(){
         +'<div class="est-row-desc">'+descHtml+'</div>'
         +breakdown
       +'</div>'
-      +'<div class="est-row-sum">'+p.total.toLocaleString('ru')+' руб'
-        +(p.perM2 ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">'+p.perM2+' руб/м²</span>' : '')
+      +'<div class="est-row-sum">€'+p.total.toLocaleString('ru')
+        +(p.perM2 ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">€'+p.perM2+'/м²</span>' : '')
       +'</div>'
       +'<div class="est-row-actions">'+actionsHtml+'</div>';
     list.appendChild(row);
   });
   totalRow.style.display = 'flex';
-  document.getElementById('estTotal').textContent = Math.round(sum).toLocaleString('ru')+' руб';
+  document.getElementById('estTotal').textContent = '€'+Math.round(sum).toLocaleString('ru')+' ≈ '+Math.round(sum*EUR_BYN).toLocaleString('ru')+' руб';
   countEl.textContent = S.estimate.length + (S.estimate.length===1?' позиция':' позиции/й');
   toCt.disabled = false;
 }
@@ -1107,30 +1122,30 @@ function buildPdfHtml(clientInfo){
   var positions = S.estimate.filter(function(p){return p.id !== '__consumables'});
   var consumables = S.estimate.find(function(p){return p.id === '__consumables'});
 
-  // Считаем USD суммарно
-  var totalUsd = 0, matUsdTot = 0, workUsdTot = 0;
+  // Считаем EUR суммарно
+  var totalEur = 0, matEurTot = 0, workEurTot = 0;
   var totalMatM2 = 0, hasMp = false;
   positions.forEach(function(p){
     if (p.isExact && p.exactBreakdown) {
       var b = p.exactBreakdown;
-      totalUsd += b.totalUsd;
-      matUsdTot += b.matCostUsd;
-      workUsdTot += b.workCostUsd;
+      totalEur += b.totalEur;
+      matEurTot += b.matCostEur;
+      workEurTot += b.workCostEur;
       totalMatM2 += b.matM2;
       if (b.workMp > 0) hasMp = true;
     } else {
-      // Простая позиция — в USD по курсу
-      var pUsd = p.total / USD_BYN;
-      totalUsd += pUsd;
-      matUsdTot += pUsd; // считаем как материал (нет разделения)
+      // Простая позиция — уже в EUR
+      var pEur = p.total;
+      totalEur += pEur;
+      matEurTot += pEur; // считаем как материал (нет разделения)
       totalMatM2 += (parseFloat(p.area) || 0);
     }
   });
   if (consumables) {
-    totalUsd += MC_CONSUMABLES_USD;
-    matUsdTot += MC_CONSUMABLES_USD;
+    totalEur += MC_CONSUMABLES_EUR;
+    matEurTot += MC_CONSUMABLES_EUR;
   }
-  var totalByn = totalUsd * USD_BYN;
+  var totalByn = totalEur * EUR_BYN;
 
   // === Стили ячеек таблицы ===
   var STY = {
@@ -1176,8 +1191,8 @@ function buildPdfHtml(clientInfo){
       +'<td style="'+SUB_TD_TOT+'">'+tot+'</td>'
       +'</tr>';
   }
-  function fmtUsd(v){ return '$'+v.toFixed(2).replace(/\.00$/, ''); }
-  function fmtUsdRus(v){ return '$'+v.toFixed(2).replace('.', ',').replace(/,00$/, ''); }
+  function fmtEur(v){ return '€'+v.toFixed(2).replace(/\.00$/, ''); }
+  function fmtEurRus(v){ return '€'+v.toFixed(2).replace('.', ',').replace(/,00$/, ''); }
 
   var rowsHtml = '';
   positions.forEach(function(p){
@@ -1189,30 +1204,31 @@ function buildPdfHtml(clientInfo){
         var workItems = [];
         if (b.workM2 > 0) workItems.push(b.workM2 + ' м²');
         if (b.workMp > 0) workItems.push(b.workMp + ' м.п.<sup>*</sup>');
-        var workSum = (b.workM2 + b.workMp) * MC_WORK_USD;
+        var workSum = (b.workM2 + b.workMp) * b.workRate;
         var wallArea = b.wallArea > 0 ? b.wallArea : b.matM2;
-        var wallCost = wallArea * MC_MAT_USD;
+        var wallCost = wallArea * b.matRate;
         rowsHtml += row(
           'Микроцемент на поверхностях',
-          wallArea.toFixed(2) + ' м² × $' + MC_MAT_USD,
-          fmtUsdRus(wallCost),
-          workItems.join(' + ') + ' × $' + MC_WORK_USD,
-          fmtUsdRus(workSum),
-          fmtUsdRus(wallCost + workSum)
+          wallArea.toFixed(2) + ' м² × €' + b.matRate,
+          fmtEurRus(wallCost),
+          workItems.join(' + ') + ' × €' + b.workRate,
+          fmtEurRus(workSum),
+          fmtEurRus(wallCost + workSum)
         );
       }
       // 2) Двери — по каждой отдельная строка с размером
       if (b.doorArea > 0 && b.doors && b.doors.length) {
         b.doors.forEach(function(d){
           var dArea = d.w * d.h;
-          var dMat = dArea * MC_MAT_USD;
+          var dMat = dArea * b.matRate;
+          var dWork = dArea * MC_DOOR_RATE;
           rowsHtml += row(
             '<span style="display:inline-block;font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:3px;margin-right:6px;background:#e8e8f0;color:#4a4a7a">дверь</span>' + d.w + ' × ' + d.h + ' м',
-            dArea.toFixed(2) + ' м² × $' + MC_MAT_USD,
-            fmtUsdRus(dMat),
-            '1 шт × $' + MC_DOOR_USD,
-            fmtUsdRus(MC_DOOR_USD),
-            fmtUsdRus(dMat + MC_DOOR_USD)
+            dArea.toFixed(2) + ' м² × €' + b.matRate,
+            fmtEurRus(dMat),
+            dArea.toFixed(2) + ' м² × €' + MC_DOOR_RATE,
+            fmtEurRus(dWork),
+            fmtEurRus(dMat + dWork)
           );
         });
       }
@@ -1224,21 +1240,21 @@ function buildPdfHtml(clientInfo){
       rowsHtml += sub(
         'Итого по позиции «' + p.label + '»',
         b.matM2.toFixed(2) + ' м²',
-        fmtUsdRus(b.matCostUsd),
+        fmtEurRus(b.matCostEur),
         workItemsSub.join(' + '),
-        fmtUsdRus(b.workCostUsd),
-        fmtUsdRus(b.totalUsd)
+        fmtEurRus(b.workCostEur),
+        fmtEurRus(b.totalEur)
       );
     } else {
       // Простая позиция (старый тарифный пакет / другая система)
-      var pUsd = p.total / USD_BYN;
+      var pEur = p.total;
       rowsHtml += row(
         escapeHtml(p.sysName) + (p.sysCode ? ' (' + escapeHtml(p.sysCode) + ')' : ''),
         p.area + ' м²' + (p.tier ? '<br><span style="font-size:8px;color:#888">' + escapeHtml(p.tier) + '</span>' : ''),
-        fmtUsdRus(pUsd),
+        fmtEurRus(pEur),
         '—',
         '—',
-        fmtUsdRus(pUsd)
+        fmtEurRus(pEur)
       );
     }
   });
@@ -1249,10 +1265,10 @@ function buildPdfHtml(clientInfo){
     rowsHtml += row(
       '<span style="display:inline-block;font-size:9px;letter-spacing:1px;padding:2px 6px;border-radius:3px;margin-right:6px;background:#e8e8f0;color:#4a4a7a">прочее</span>Малярная лента, кисти, валики',
       'комплект',
-      fmtUsdRus(MC_CONSUMABLES_USD),
+      fmtEurRus(MC_CONSUMABLES_EUR),
       '—',
       '—',
-      fmtUsdRus(MC_CONSUMABLES_USD)
+      fmtEurRus(MC_CONSUMABLES_EUR)
     );
   }
 
@@ -1260,18 +1276,18 @@ function buildPdfHtml(clientInfo){
   rowsHtml += sub(
     'Всего по проекту',
     totalMatM2 > 0 ? totalMatM2.toFixed(2) + ' м²' : '—',
-    fmtUsdRus(matUsdTot),
+    fmtEurRus(matEurTot),
     '—',
-    fmtUsdRus(workUsdTot),
-    fmtUsdRus(totalUsd)
+    fmtEurRus(workEurTot),
+    fmtEurRus(totalEur)
   );
 
-  var todayRate = USD_BYN.toFixed(4).replace('.', ',');
+  var todayRate = EUR_BYN.toFixed(4).replace('.', ',');
   var todayBYN = Math.round(totalByn).toLocaleString('ru').replace(/,/g,' ');
 
   var logoSvg = '<svg width="44" height="44" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'
     +'<rect width="32" height="32" rx="6" fill="#2c2c2c"/>'
-    +'<text x="50%" y="54%" font-family="Geologica,Arial,sans-serif" font-size="20" font-weight="700" fill="#b8965a" text-anchor="middle" dominant-baseline="middle">r</text>'
+    +'<path d="M 9.6 8 L 9.6 15.5 A 6.4 6.4 0 0 0 22.4 15.5 L 22.4 8" fill="none" stroke="#b8965a" stroke-width="4"/>'
     +'</svg>';
 
   var footnote = hasMp
@@ -1342,10 +1358,10 @@ function buildPdfHtml(clientInfo){
       +'<tfoot>'
         +'<tr>'
           +'<td colspan="5" style="padding:8px 6px;border-top:2px solid #b8965a;font-weight:700;letter-spacing:1px;text-align:right;font-size:11px;color:#2c2c2c">ИТОГО:</td>'
-          +'<td style="padding:8px 6px;border-top:2px solid #b8965a;font-weight:700;text-align:right;font-size:14px;color:#b8965a;white-space:nowrap;padding-right:12px">'+fmtUsdRus(totalUsd)+'</td>'
+          +'<td style="padding:8px 6px;border-top:2px solid #b8965a;font-weight:700;text-align:right;font-size:14px;color:#b8965a;white-space:nowrap;padding-right:12px">'+fmtEurRus(totalEur)+'</td>'
         +'</tr>'
         +'<tr>'
-          +'<td colspan="5" style="padding:4px 6px;font-size:9px;color:#888;letter-spacing:1px;text-align:right">в эквиваленте по курсу НБ РБ '+todayRate+' BYN/USD на '+USD_RATE_DATE+':</td>'
+          +'<td colspan="5" style="padding:4px 6px;font-size:9px;color:#888;letter-spacing:1px;text-align:right">в эквиваленте по курсу НБ РБ '+todayRate+' BYN/EUR на '+EUR_RATE_DATE+':</td>'
           +'<td style="padding:4px 6px;font-size:9px;color:#888;letter-spacing:1px;text-align:right;white-space:nowrap">≈ '+todayBYN+' руб</td>'
         +'</tr>'
       +'</tfoot>'
@@ -1354,15 +1370,15 @@ function buildPdfHtml(clientInfo){
     +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 4px">'
       +'<div style="padding:6px 10px;background:#f7f5f0;border-radius:4px;font-size:10px">'
         +'<div style="color:#888;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Материалы</div>'
-        +'<div style="font-size:13px;font-weight:700;color:#2c2c2c;margin-top:2px">'+fmtUsdRus(matUsdTot)+'</div>'
+        +'<div style="font-size:13px;font-weight:700;color:#2c2c2c;margin-top:2px">'+fmtEurRus(matEurTot)+'</div>'
       +'</div>'
       +'<div style="padding:6px 10px;background:#f7f5f0;border-radius:4px;font-size:10px">'
         +'<div style="color:#888;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Работы</div>'
-        +'<div style="font-size:13px;font-weight:700;color:#2c2c2c;margin-top:2px">'+fmtUsdRus(workUsdTot)+'</div>'
+        +'<div style="font-size:13px;font-weight:700;color:#2c2c2c;margin-top:2px">'+fmtEurRus(workEurTot)+'</div>'
       +'</div>'
       +'<div style="padding:6px 10px;background:#2c2c2c;color:#efece7;border-radius:4px;font-size:10px">'
         +'<div style="color:#b8965a;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Всего</div>'
-        +'<div style="font-size:14px;font-weight:700;color:#b8965a;margin-top:2px">'+fmtUsdRus(totalUsd)+'</div>'
+        +'<div style="font-size:14px;font-weight:700;color:#b8965a;margin-top:2px">'+fmtEurRus(totalEur)+'</div>'
       +'</div>'
     +'</div>'
     // CONDITIONS
@@ -1405,10 +1421,10 @@ async function submitQuote(e){
         msg: document.getElementById('orderMsg').value.trim(),
       };
       var sumNP = S.estimate.reduce(function(a,p){return a+p.total},0);
-      var summaryNP = S.estimate.map(function(p,i){return (i+1)+'. '+p.label+' — '+p.total.toLocaleString('ru')+' руб'}).join('\n');
+      var summaryNP = S.estimate.map(function(p,i){return (i+1)+'. '+p.label+' — €'+p.total.toLocaleString('ru')}).join('\n');
       await fetch('/api/lead', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({
         name: clientNoPdf.name, phone: clientNoPdf.phone,
-        message: 'СМЕТА (PDF не сформирован — CDN недоступен):\n' + summaryNP + '\nИтого: ' + Math.round(sumNP).toLocaleString('ru') + ' руб\n' + clientNoPdf.msg,
+        message: 'СМЕТА (PDF не сформирован — CDN недоступен):\n' + summaryNP + '\nИтого: €' + Math.round(sumNP).toLocaleString('ru') + ' ≈ ' + Math.round(sumNP*EUR_BYN).toLocaleString('ru') + ' BYN\n' + clientNoPdf.msg,
         source: '/calculator (без PDF)'
       })});
       goStep('ok');
@@ -1449,7 +1465,7 @@ async function submitQuote(e){
     fd.append('pdf', pdfBlob, 'unicore-kp.pdf');
     var sum = S.estimate.reduce(function(a,p){return a+p.total},0);
     var summary = S.estimate.map(function(p,i){
-      return (i+1)+'. '+p.label+' — '+p.catName+(p.subName?'/'+p.subName:'')+' · '+p.sysName+' · '+p.area+' м² · '+p.total.toLocaleString('ru')+' руб';
+      return (i+1)+'. '+p.label+' — '+p.catName+(p.subName?'/'+p.subName:'')+' · '+p.sysName+' · '+p.area+' м² · €'+p.total.toLocaleString('ru')+';';
     }).join('\n');
     fd.append('meta', JSON.stringify({
       name: client.name, phone: client.phone, message: client.msg,

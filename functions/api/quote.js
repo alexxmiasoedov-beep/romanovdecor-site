@@ -24,7 +24,7 @@ export async function onRequestPost(context) {
   if (meta.name) lines.push('👤 Имя: ' + meta.name);
   if (meta.phone) lines.push('📞 Телефон: ' + meta.phone);
   if (meta.positions) lines.push('📋 Позиций: ' + meta.positions);
-  if (meta.total) lines.push('💰 Итого: ' + Number(meta.total).toLocaleString('ru') + ' руб');
+  if (meta.total) lines.push('💰 Итого: €' + Number(meta.total).toLocaleString('ru'));
   if (meta.summary) lines.push('\n' + meta.summary);
   if (meta.message) lines.push('💬 Комментарий: ' + meta.message);
   if (meta.source) lines.push('📍 Откуда: ' + meta.source);
