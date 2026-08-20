@@ -975,9 +975,24 @@ function mcSplit(p){
   return {mat: mat, work: Math.round((p.total - mat) * 100) / 100};
 }
 
+// Фолбэк номера КП, если сервер недоступен: ДДММГГ + буква из localStorage
+function localKpNumber(){
+  var d = new Date();
+  var day = String(d.getDate()).padStart(2,'0') + String(d.getMonth()+1).padStart(2,'0') + String(d.getFullYear()%100).padStart(2,'0');
+  var n = 1;
+  try {
+    var k = 'kpseq:' + day;
+    n = (parseInt(localStorage.getItem(k), 10) || 0) + 1;
+    localStorage.setItem(k, String(n));
+  } catch(e) {}
+  var letters = '', v = n;
+  while (v > 0) { v -= 1; letters = String.fromCharCode(65 + (v % 26)) + letters; v = Math.floor(v / 26); }
+  return day + letters;
+}
+
 function buildPdfHtml(clientInfo){
   var date = new Date().toLocaleDateString('ru-BY', {day:'2-digit',month:'long',year:'numeric'});
-  var num = 'UC-' + Date.now().toString(36).toUpperCase().slice(-6);
+  var num = clientInfo.kpNum || localKpNumber();
   var c = S.contacts || {};
   var phone = c.phone || '+375 33 628-04-86';
   var email = c.email || 'info@romanovdecor.by';
@@ -1105,7 +1120,7 @@ function buildPdfHtml(clientInfo){
   if (hasMp) foot += '<b style="color:#2c2c2c"><sup>*</sup> м.п.</b> — погонные метры: поверхности со стороной менее 0,5 м (откосы, ниши, бортики) нормируются по длине, так как нанесение на них идёт медленнее, чем на сплошной стене.<br>';
   if (discNote) foot += '<b style="color:#2c2c2c">Цена по объёму.</b> ' + discNote + '.<br>';
   if (hasFix) foot += '<b style="color:#2c2c2c">Фиксированная стоимость:</b> объекты до 20 м² считаются пакетом — выезд, замес и день бригады одинаковы на любой малой площади.<br>';
-  foot += '<b style="color:#2c2c2c">Условия:</b> микроцемент — собственное производство UNICORE, толщина 1–1,5 мм, эффекты Vintage / Natural / Metallic на выбор. Грунт + 1–2 слоя микроцемента + 2 слоя полиуретанового лака. Цены в евро, оплата в белорусских рублях по курсу НБ РБ на день оплаты. <b>Срок действия КП — 14 дней.</b>';
+  foot += '<b style="color:#2c2c2c">Условия:</b> микроцемент UNICORE, толщина 1–1,5 мм, эффекты Vintage / Natural / Metallic на выбор. Грунт + 1–2 слоя микроцемента + 2 слоя полиуретанового лака. Цены в евро, оплата в белорусских рублях по курсу НБ РБ на день оплаты. <b>Срок действия КП — 14 дней.</b>';
 
   return ''
   + '<div style="width:100%;padding:14px 32px 12px;background:#fff;color:#2c2c2c;font-family:Geologica,Arial,sans-serif">'
@@ -1113,7 +1128,7 @@ function buildPdfHtml(clientInfo){
   + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;border-bottom:2px solid #b8965a;padding-bottom:5px">'
     + '<div style="display:flex;align-items:center;gap:10px">' + logo
       + '<div><div style="font-size:16px;letter-spacing:3px;font-weight:600;line-height:1.1">UNI<span style="color:#b8965a">CORE</span></div>'
-      + '<div style="font-size:9px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент · собственное производство</div></div>'
+      + '<div style="font-size:9px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент</div></div>'
     + '</div>'
     + '<div style="text-align:right;font-size:10px;color:#666;letter-spacing:1px">'
       + '<div>' + escapeHtml(date) + '</div>'
@@ -1235,6 +1250,11 @@ async function submitQuote(e){
     phone: document.getElementById('orderPhone').value.trim(),
     msg: document.getElementById('orderMsg').value.trim(),
   };
+  try {
+    var nr = await fetch('/api/kp-number', {method:'POST'});
+    var nj = await nr.json();
+    if (nj && nj.ok && nj.number) client.kpNum = nj.number;
+  } catch(e) {}
 
   // html2canvas растеризует узел по его позиции в документе — из скрытого
   // контейнера снимок уезжает. Рендерим шаблон в полноэкранном оверлее

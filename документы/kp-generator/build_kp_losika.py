@@ -196,11 +196,11 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;border-bottom:2px solid #b8965a;padding-bottom:5px">
   <div style="display:flex;align-items:center;gap:10px">{logo}
     <div><div style="font-size:16px;letter-spacing:3px;font-weight:600;line-height:1.1">UNI<span style="color:#b8965a">CORE</span></div>
-    <div style="font-size:9px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент · собственное производство</div></div>
+    <div style="font-size:9px;color:#888;margin-top:3px;letter-spacing:1px;text-transform:uppercase">микроцемент</div></div>
   </div>
   <div style="text-align:right;font-size:10px;color:#666;letter-spacing:1px">
     <div>18 августа 2026 г.</div>
-    <div style="margin-top:2px;font-weight:600;color:#2c2c2c">КП № 18082026</div>
+    <div style="margin-top:2px;font-weight:600;color:#2c2c2c">КП № 180826A</div>
   </div>
 </div>
 
