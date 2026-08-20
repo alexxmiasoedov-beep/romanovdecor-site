@@ -35,7 +35,7 @@ export async function onRequestPost(context) {
     const tgForm = new FormData();
     tgForm.append('chat_id', String(TG_CHAT_ID));
     tgForm.append('caption', caption);
-    tgForm.append('document', pdf, 'romanov-decor-kp.pdf');
+    tgForm.append('document', pdf, 'unicore-kp.pdf');
     const resp = await fetch('https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendDocument', {
       method: 'POST',
       body: tgForm,
