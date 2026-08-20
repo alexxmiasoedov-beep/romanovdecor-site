@@ -142,6 +142,7 @@ html.in-iframe .wrap{padding:24px 20px}
 .door-row input{width:80px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#efece7;padding:9px 10px;font-size:14px;font-family:inherit}
 .door-row input:focus{outline:none;border-color:#b8965a}
 .door-row .dx{background:none;border:none;color:#a09a92;cursor:pointer;font-size:14px}
+.wm-auto{opacity:.45}
 /* stage1 fixes */
 @media(max-width:480px){.hd{padding:0 12px}.hd-r{gap:8px!important}.hd-r a{font-size:9.5px!important;letter-spacing:1px!important}.hd-r a[href="/portfolio"]{display:none}}
 html{overflow-x:clip}
@@ -629,7 +630,8 @@ function calcMicrocement(kind, area){
   var rate = mcCurve(kind, area, 'mat') + mcCurve(kind, area, 'work');
   var base = R.matHi + R.workHi;
   var disc = Math.round((base - rate) * 100) / 100;
-  var label = disc > 0 ? 'скидка €' + disc.toFixed(2).replace('.', ',').replace(/,00$/, '') + '/м²' : '';
+  var pct = Math.round(disc / base * 1000) / 10;
+  var label = disc > 0 ? '<span style="color:#e05c5c;font-weight:600">скидка €' + disc.toFixed(2).replace('.', ',').replace(/,00$/, '') + '/м² (−' + String(pct).replace('.', ',') + '%)</span>' : '';
   return {total: Math.round(rate * area), perM2: Math.round(rate * 100) / 100, tierLabel: label, fix: false};
 }
 
@@ -872,7 +874,7 @@ function renderEstimate(){
     if (p.subName) descParts.push(escapeHtml(p.subName));
     descParts.push(escapeHtml(p.sysName));
     if (areaText) descParts.push(areaText);
-    if (p.tier) descParts.push(escapeHtml(p.tier));
+    if (p.tier) descParts.push(p.tier);
     var descHtml = descParts.join(' · ');
     // Расшифровка по факту
     var breakdown = '';
@@ -1046,7 +1048,7 @@ function buildPdfHtml(clientInfo){
         rows += row(nm + '<br><span style="font-size:8px;color:#888">фиксированная стоимость до 20 м²</span>',
                     a2(p.area) + ' м²', '—', u(spl.mat), 'включена', '—', u(spl.work), u(p.total));
       } else {
-        rows += row(nm + (p.tier ? '<br><span style="font-size:8px;color:#888">' + escapeHtml(p.tier) + '</span>' : ''),
+        rows += row(nm + (p.tier ? '<br><span style="font-size:8px;color:#888">' + escapeHtml(p.tier.replace(/<[^>]+>/g, '')) + '</span>' : ''),
                     a2(p.area) + ' м²', u(mr), u(spl.mat), a2(p.area) + ' м²', u(wr), u(spl.work), u(p.total));
         if (p.tier && !discNote) discNote = 'скидка тает плавно с ' + MC_D_FROM + ' до ' + MC_D_TO + ' м²: базовые ставки снижаются к нижней границе кривой';
       }
@@ -1296,12 +1298,35 @@ function addPos(type){
 function uiSet(id, key, val){
   var p = posById(id); if (!p || !p.ui) return;
   p.ui[key] = val;
+  if (key === 'area') {
+    var wm = document.getElementById('wm_' + id);
+    if (wm) {
+      var area = parseFloat(val) || 0;
+      if (!p.ui.wmTouched || !p.ui.workM2Items.length) {
+        wm.value = area || ''; wm.classList.add('wm-auto');
+      } else if (p.ui.workM2Items[0] > area) {
+        p.ui.workM2Items = [area]; wm.value = area;
+      }
+    }
+  }
   refreshPos(id);
 }
-function uiSyncLists(id){
+function wmEdit(id, el){
   var p = posById(id); if (!p || !p.ui) return;
-  p.ui.workM2Items = collectMultiValues('wm2List_' + id);
-  p.ui.workMpItems = collectMultiValues('wmpList_' + id);
+  var area = parseFloat(p.ui.area) || 0;
+  var v = parseFloat(el.value);
+  if (isNaN(v)) { p.ui.wmTouched = true; p.ui.workM2Items = []; el.classList.remove('wm-auto'); refreshPos(id); return; }
+  if (v > area) { v = area; el.value = area; }
+  if (v < 0) { v = 0; el.value = 0; }
+  p.ui.wmTouched = true;
+  p.ui.workM2Items = [v];
+  el.classList.remove('wm-auto');
+  refreshPos(id);
+}
+function mpEdit(id, el){
+  var p = posById(id); if (!p || !p.ui) return;
+  var v = parseFloat(el.value);
+  p.ui.workMpItems = (isNaN(v) || v <= 0) ? [] : [v];
   refreshPos(id);
 }
 function toggleAdv(id){
@@ -1311,11 +1336,6 @@ function toggleAdv(id){
   var btn = document.getElementById('advbtn_' + id);
   if (box) box.style.display = p.ui.adv ? '' : 'none';
   if (btn) btn.textContent = p.ui.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾';
-  if (p.ui.adv && box && !box.dataset.filled) {
-    box.dataset.filled = '1';
-    addMultiInput('wm2List_' + id, 'м²', '');
-    addMultiInput('wmpList_' + id, 'м.п.', '');
-  }
   refreshPos(id);
 }
 function doorSet(id, i, key, val){
@@ -1358,10 +1378,10 @@ function refreshPos(id){
   } else {
     area = parseFloat(u.area) || 0;
     if (u.type !== 'liquid' && u.type !== 'furniture' && u.adv) {
-      var wm2 = (u.workM2Items||[]).reduce(function(a,b){return a+b},0);
+      var wm2 = u.wmTouched ? (u.workM2Items||[]).reduce(function(a,b){return a+b},0) : area;
       var wmp = (u.workMpItems||[]).reduce(function(a,b){return a+b},0);
       if (wm2 > area) wm2 = area; // площадь работ не бывает больше площади материала
-      if (wmp > 0 || (wm2 > 0 && Math.abs(wm2 - area) > 0.01)) {
+      if (wmp > 0 || (u.wmTouched && Math.abs(wm2 - area) > 0.01)) {
         ext = {workM2: wm2 > 0 ? wm2 : area, workMp: wmp,
                workM2Items: u.workM2Items, workMpItems: u.workMpItems, doors: []};
       }
@@ -1394,7 +1414,7 @@ function updateCardPrice(p){
   var el = document.getElementById('pp_' + p.id);
   if (!el) return;
   if (p.total > 0) {
-    var note = p.tier ? '<span>' + esc2(p.tier) + '</span>' : '<span></span>';
+    var note = p.tier ? '<span>' + p.tier + '</span>' : '<span></span>';
     var per = (p.perM2 && !p.isFix) ? ' · €' + p.perM2.toFixed(2).replace('.', ',').replace(/,00$/, '') + '/м²' : '';
     el.innerHTML = note + '<span><b>€' + p.total.toLocaleString('ru') + '</b>' + per + '</span>';
   } else {
@@ -1443,26 +1463,23 @@ function renderPositions(){
       if (u.type === 'walls' || u.type === 'floor') {
         h += '<button class="pc-adv" id="advbtn_' + id + '" onclick="toggleAdv(\'' + id + '\')">'
            + (u.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾') + '</button>';
-        h += '<div class="pc-advbox" id="adv_' + id + '"' + (u.adv ? ' data-filled="1"' : ' style="display:none"') + ' oninput="uiSyncLists(\'' + id + '\')">'
-           + '<div class="pc-f"><label>Площади работ, м² · пусто = площадь материала</label><div id="wm2List_' + id + '"></div></div>'
-           + '<div class="pc-f" style="margin-top:8px"><label>Погонные метры — поверхности уже 0,5 м</label><div id="wmpList_' + id + '"></div></div>'
-           + '</div>';
+        var wmAuto = !u.wmTouched || !u.workM2Items.length;
+        var wmVal = wmAuto ? (parseFloat(u.area) || '') : u.workM2Items[0];
+        var mpVal = u.workMpItems.length ? u.workMpItems[0] : '';
+        h += '<div class="pc-advbox" id="adv_' + id + '"' + (u.adv ? '' : ' style="display:none"') + '>'
+           + '<div class="pc-grid">'
+           + '<div class="pc-f"><label>Площадь работ, м²</label>'
+           + '<input type="number" min="0" step="0.1" class="' + (wmAuto ? 'wm-auto' : '') + '" id="wm_' + id + '" value="' + wmVal + '" oninput="wmEdit(\'' + id + '\',this)"></div>'
+           + '<div class="pc-f"><label>Погонные метры · сторона стены меньше 0,5 м</label>'
+           + '<input type="number" min="0" step="0.1" value="' + mpVal + '" oninput="mpEdit(\'' + id + '\',this)"></div>'
+           + '</div></div>';
       }
     }
     h += '<div class="pc-price" id="pp_' + id + '"><span>введите площадь — цена появится сразу</span></div>';
     h += '</div>';
   });
   wrap.innerHTML = h;
-  // восстановить multi-списки после перерисовки
-  items.forEach(function(p){
-    if (p.ui.adv) {
-      var w2 = p.ui.workM2Items.length ? p.ui.workM2Items : [''];
-      var wp = p.ui.workMpItems.length ? p.ui.workMpItems : [''];
-      w2.forEach(function(v){ addMultiInput('wm2List_' + p.id, 'м²', v) });
-      wp.forEach(function(v){ addMultiInput('wmpList_' + p.id, 'м.п.', v) });
-    }
-    updateCardPrice(p);
-  });
+  items.forEach(function(p){ updateCardPrice(p) });
 }
 
 renderPositions();
