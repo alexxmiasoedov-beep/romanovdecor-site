@@ -120,7 +120,7 @@ html.in-iframe .wrap{padding:24px 20px}
 .bgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
 @media(max-width:920px){.bgrid{grid-template-columns:1fr}}
 .sumcard{position:sticky;top:70px}
-@media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}}
+@media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}.pc-f input,.pc-f select,.door-row input,.pc-label{font-size:16px}}
 .pcard{background:#232323;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin-bottom:12px}
 .pc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .pc-label{flex:1;background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.15);color:#efece7;font-size:13px;font-weight:600;letter-spacing:.5px;padding:3px 2px;font-family:inherit}
@@ -1291,8 +1291,15 @@ function addPos(type){
   renderPositions();
   refreshPos(pos.id);
   var card = document.getElementById('pc_' + pos.id);
-  if (card) { card.scrollIntoView({behavior:'smooth', block:'center'});
-    var inp = card.querySelector('input[type=number]'); if (inp) inp.focus(); }
+  if (card) {
+    card.scrollIntoView({behavior:'smooth', block:'nearest'});
+    // фокус только там, где есть мышь: на телефоне он открывает клавиатуру
+    // и дёргает страницу зумом
+    if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
+      var inp = card.querySelector('input[type=number]');
+      if (inp) inp.focus({preventScroll: true});
+    }
+  }
 }
 
 function uiSet(id, key, val){
@@ -1335,7 +1342,7 @@ function toggleAdv(id){
   var box = document.getElementById('adv_' + id);
   var btn = document.getElementById('advbtn_' + id);
   if (box) box.style.display = p.ui.adv ? '' : 'none';
-  if (btn) btn.textContent = p.ui.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾';
+  if (btn) btn.textContent = p.ui.adv ? 'скрыть точный просчёт ▴' : 'точный просчёт работ ▾';
   refreshPos(id);
 }
 function doorSet(id, i, key, val){
@@ -1462,7 +1469,7 @@ function renderPositions(){
          + '<input type="number" min="0" step="0.1" value="' + esc2(u.area) + '" oninput="uiSet(\'' + id + '\',\'area\',this.value)"></div></div>';
       if (u.type === 'walls' || u.type === 'floor') {
         h += '<button class="pc-adv" id="advbtn_' + id + '" onclick="toggleAdv(\'' + id + '\')">'
-           + (u.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾') + '</button>';
+           + (u.adv ? 'скрыть точный просчёт ▴' : 'точный просчёт работ ▾') + '</button>';
         var wmAuto = !u.wmTouched || !u.workM2Items.length;
         var wmVal = wmAuto ? (parseFloat(u.area) || '') : u.workM2Items[0];
         var mpVal = u.workMpItems.length ? u.workMpItems[0] : '';
