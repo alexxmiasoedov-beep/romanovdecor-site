@@ -34,8 +34,8 @@
     <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
       <svg width="146" height="146" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="0" width="120" height="120" rx="26" fill="#2c2c2c"></rect>
-        <path d="M 70.87 19.43 A 42 42 0 1 1 49.13 19.43" fill="none" stroke="{{accent}}" stroke-width="7.5" stroke-linecap="butt"></path>
-        <path d="M 66.07 33.69 A 27 27 0 1 1 53.93 33.69" fill="none" stroke="{{accent}}" stroke-width="7.5" stroke-linecap="butt"></path>
+        <path d="M 79.72 22.92 A 42 42 0 1 1 40.28 22.92" fill="none" stroke="{{accent}}" stroke-width="7.5" stroke-linecap="butt"></path>
+        <path d="M 66.99 33.92 A 27 27 0 1 1 53.01 33.92" fill="none" stroke="{{accent}}" stroke-width="7.5" stroke-linecap="butt"></path>
         <circle cx="60" cy="60" r="12.5" fill="#f5efe2"></circle>
       </svg>
       <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">В квадрате, для аватарки</div>
@@ -47,7 +47,7 @@
         <circle cx="60" cy="60" r="34" fill="none" stroke="#2c2c2c" stroke-width="9"></circle>
         <circle cx="60" cy="60" r="16" fill="#2c2c2c"></circle>
       </svg>
-      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Без швов, от 15 мм и мельче</div>
+      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Без швов — печать мельче 15 мм, тиснение</div>
     </div>
 
   </div>
@@ -59,7 +59,7 @@
   <div style="border-top: 1px solid #cbbf9f; padding-top: 14px; display: flex; gap: 30px;">
     <div style="flex-grow: 1; flex-basis: 0;">
       <div style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #b8965a; margin-bottom: 6px;">Зачем</div>
-      <div style="font-size: 12px; line-height: 1.55; color: #4a4640; text-wrap: pretty;">Единственный из четырёх, который что-то значит и который никто не повторит случайно. Работает без слова, ложится в квадрат, живёт в одну краску и не разваливается на тиснении.</div>
+      <div style="font-size: 12px; line-height: 1.55; color: #4a4640; text-wrap: pretty;">Единственный из четырёх, который что-то значит и который никто не повторит случайно. Ложится в квадрат, живёт в одну краску и не разваливается на тиснении.</div>
     </div>
     <div style="flex-grow: 1; flex-basis: 0;">
       <div style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #b8965a; margin-bottom: 6px;">Чем платите</div>
@@ -69,7 +69,7 @@
 
 </div>
 </x-dc>
-<script data-dc-script data-props='{"accent":{"editor":"color","default":"#b8965a","options":["#b8965a","#c08a2e","#8c7a52","#2c2c2c"],"tsType":"string"}}'>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#b8965a","options":["#b8965a","#c08a2e","#8c7a52","#e8dcc2"],"tsType":"string"}}'>
 class Component extends DCLogic {
   renderVals() {
     return { accent: this.props.accent ?? '#b8965a' };

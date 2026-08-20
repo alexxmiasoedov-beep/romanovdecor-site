@@ -4,7 +4,7 @@
     { "file": "Letter.dc.html", "x": 780,  "y": 0,   "w": 720,  "h": 560 },
     { "file": "Core.dc.html",   "x": 1560, "y": 0,   "w": 720,  "h": 560 },
     { "file": "Lock.dc.html",   "x": 2340, "y": 0,   "w": 720,  "h": 560 },
-    { "file": "Mono.dc.html",   "x": 0,    "y": 650, "w": 1120, "h": 620 },
+    { "file": "Mono.dc.html",   "x": 0,    "y": 650, "w": 1120, "h": 720 },
     { "file": "Apply.dc.html",  "x": 1180, "y": 650, "w": 1480, "h": 780 }
   ],
   "annotations": [
