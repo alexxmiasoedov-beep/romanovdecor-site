@@ -113,7 +113,36 @@ html.in-iframe .wrap{padding:24px 20px}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Калькулятор систем покрытий — UNICORE">
 <meta name="twitter:description" content="Соберите смету из нескольких позиций — микроцемент, эпоксид, полиуретан. Получите готовое PDF коммерческое предложение.">
-<style>/* stage1 fixes */
+<style>
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 18px}
+.chip{background:rgba(184,150,90,.08);border:1px dashed rgba(184,150,90,.45);color:#e8dcc2;border-radius:20px;padding:9px 16px;font-size:12px;letter-spacing:1px;cursor:pointer;font-family:inherit;transition:.2s}
+.chip:hover{background:rgba(184,150,90,.18);border-style:solid}
+.bgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+@media(max-width:920px){.bgrid{grid-template-columns:1fr}}
+.sumcard{position:sticky;top:70px}
+@media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}}
+.pcard{background:#232323;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.pc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.pc-label{flex:1;background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.15);color:#efece7;font-size:13px;font-weight:600;letter-spacing:.5px;padding:3px 2px;font-family:inherit}
+.pc-label:focus{outline:none;border-bottom-color:#b8965a}
+.pc-x{background:none;border:1px solid rgba(255,255,255,.15);color:#a09a92;border-radius:8px;width:28px;height:28px;cursor:pointer;flex-shrink:0}
+.pc-x:hover{color:#e66;border-color:#e66}
+.pc-grid{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.pc-f{display:flex;flex-direction:column;gap:4px}
+.pc-f label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#a09a92}
+.pc-f input,.pc-f select{background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#efece7;padding:9px 10px;font-size:14px;font-family:inherit;width:110px}
+.pc-f select{width:auto;max-width:230px}
+.pc-f input:focus,.pc-f select:focus{outline:none;border-color:#b8965a}
+.pc-price{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07);font-size:13px;color:#a09a92;display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pc-price b{color:#b8965a;font-size:17px;letter-spacing:.5px}
+.pc-adv{background:none;border:none;color:#a09a92;font-size:11px;letter-spacing:1px;cursor:pointer;padding:8px 0 0;font-family:inherit;text-decoration:underline dotted}
+.pc-adv:hover{color:#b8965a}
+.pc-advbox{margin-top:10px;padding:10px 12px;background:rgba(184,150,90,.05);border-left:2px solid rgba(184,150,90,.4);border-radius:0 8px 8px 0}
+.door-row{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.door-row input{width:80px;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#efece7;padding:9px 10px;font-size:14px;font-family:inherit}
+.door-row input:focus{outline:none;border-color:#b8965a}
+.door-row .dx{background:none;border:none;color:#a09a92;cursor:pointer;font-size:14px}
+/* stage1 fixes */
 @media(max-width:480px){.hd{padding:0 12px}.hd-r{gap:8px!important}.hd-r a{font-size:9.5px!important;letter-spacing:1px!important}.hd-r a[href="/portfolio"]{display:none}}
 html{overflow-x:clip}
 input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #b8965a;outline-offset:1px}
@@ -133,102 +162,29 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </header>
 <div class="wrap">
 <h1 style="font-size:15px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;margin:4px 0 14px">Калькулятор стоимости микроцемента и наливных полов</h1>
-<div class="prog" id="prog"></div>
-
-<!-- STEP 1: КАТЕГОРИЯ / МАТЕРИАЛ -->
-<div class="step act" id="s1">
-<div class="step-tag">Шаг 1 · тип объекта</div>
-<h2>Что <b>рассчитываем</b>?</h2>
-<p class="step-hint">Выберите материал или тип объекта. Позже можно добавить другие позиции.</p>
-<div class="opts" id="catOpts"></div>
-<div class="btns"><button class="btn btn-s" id="b1back" style="display:none" onclick="goEstimate()">← к смете</button><button class="btn btn-p" id="b1" disabled onclick="goStep(2)">далее</button></div>
+<div class="step act" id="sE">
+<div class="step-tag">конструктор расчёта</div>
+<h2>Соберите <b>расчёт</b></h2>
+<p class="step-hint">Добавьте поверхности — цена считается сразу, под ключ: материал + работа. До 20 м² действует фиксированный пакет.</p>
+<div class="chips">
+  <button class="chip" onclick="addPos('walls')">+ Стены</button>
+  <button class="chip" onclick="addPos('floor')">+ Полы</button>
+  <button class="chip" onclick="addPos('doors')">+ Двери</button>
+  <button class="chip" onclick="addPos('furniture')">+ Столешница / фартук</button>
+  <button class="chip" onclick="addPos('liquid')">+ Наливной пол</button>
 </div>
-
-<!-- STEP 2: ПОДТИП -->
-<div class="step" id="s2">
-<div class="step-tag">Шаг 2 · вид покрытия</div>
-<h2>Тип <b>покрытия</b></h2>
-<p class="step-hint" id="s2hint">Выберите вид покрытия</p>
-<div class="opts" id="subOpts"></div>
-<div class="btns"><button class="btn btn-s" onclick="goStep(1)">назад</button><button class="btn btn-p" id="b2" disabled onclick="goStep(3)">далее</button></div>
-</div>
-
-<!-- STEP 3: СИСТЕМА -->
-<div class="step" id="s3">
-<div class="step-tag">Шаг 3 · система</div>
-<h2>Выберите <b>систему</b></h2>
-<p class="step-hint">Рекомендуемые системы для вашего объекта</p>
-<div class="opts" id="sysOpts" style="grid-template-columns:1fr"></div>
-<div class="btns"><button class="btn btn-s" onclick="goStep(2)">назад</button><button class="btn btn-p" id="b3" disabled onclick="goStep(4)">далее</button></div>
-</div>
-
-<!-- STEP 4: ПЛОЩАДЬ + НАЗВАНИЕ -->
-<div class="step" id="s4">
-<div class="step-tag">Шаг 4 · параметры позиции</div>
-<h2>Название и <b>метраж</b></h2>
-<p class="step-hint">Дайте позиции понятное имя, чтобы легко найти её в смете</p>
-<div class="field"><label>Название позиции</label><input type="text" id="labelVal" placeholder="например: санузел №1, стены"></div>
-
-<!-- Поля для НЕ-микроцемента и микроцемент-стен/полов/мебели -->
-<div id="areaSection">
-<div style="font-size:11px;color:#b8965a;letter-spacing:2px;text-transform:uppercase;margin:14px 0 6px;font-weight:600">Общая площадь</div>
-<div class="field"><label>Площадь материала, м²</label><div class="area-input"><input type="number" id="areaVal" value="20" min="0" step="0.01"><span>м²</span></div></div>
-</div>
-
-<!-- Просчёт работ — только для микроцемента (кроме дверей) -->
-<div id="mcExtFields" style="display:none">
-<div style="font-size:11px;color:#b8965a;letter-spacing:2px;text-transform:uppercase;margin:14px 0 6px;font-weight:600">Просчёт работ</div>
-
-<div class="field">
-  <label>Площади работ, м² <span style="color:#a09a92;font-weight:400;font-size:11px">(можно добавить несколько — суммируются)</span></label>
-  <div id="workM2List" class="multi-list"></div>
-  <button type="button" class="multi-add-btn" onclick="addMultiInput('workM2List','м²')">+ добавить площадь</button>
-  <div class="multi-sum" id="workM2Sum">Итого: 0 м²</div>
-</div>
-
-<div class="field">
-  <label>Погонные метры, м.п. <span style="color:#a09a92;font-weight:400;font-size:11px">(стены &lt; 0,5 м — откосы, бортики, простенки)</span></label>
-  <div id="workMpList" class="multi-list"></div>
-  <button type="button" class="multi-add-btn" onclick="addMultiInput('workMpList','м.п.')">+ добавить погонные метры</button>
-  <div class="multi-sum" id="workMpSum">Итого: 0 м.п.</div>
-</div>
-</div>
-
-<!-- Список дверей — только для подтипа «Двери» -->
-<div id="doorsSection" style="display:none">
-<div style="font-size:11px;color:#b8965a;letter-spacing:2px;text-transform:uppercase;margin:14px 0 6px;font-weight:600">Двери</div>
-<div class="field"><label>Количество дверей, шт</label><div class="area-input"><input type="number" id="doorsN" value="1" min="1" step="1" oninput="renderDoorSizes()"><span>шт</span></div></div>
-<div id="doorSizesList" style="display:none">
-  <div style="font-size:11px;color:#efece7;margin-bottom:6px">Размеры каждой двери (Ш × В, м):</div>
-  <div id="doorSizesGrid" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
-  <div style="font-size:11px;color:#a09a92;line-height:1.5">Каждая дверь: материал = Ш × В × ставка материала, работа = Ш × В × €45.</div>
-</div>
-</div>
-
-<div id="mcInfoBox" style="display:none;background:rgba(184,150,90,.06);border-left:2px solid #b8965a;padding:10px 12px;border-radius:0 8px 8px 0;font-size:12px;color:#a09a92;margin-top:14px;line-height:1.5">
-  <b style="color:#efece7">Тариф «по факту», за м²:</b> стены — материал <b>€35</b> + работа <b>€21</b>; полы — <b>€43</b> + <b>€22</b>. С 35 м² цена плавно снижается, от 100 м² — дно: €30/€39 материал, €18,50/€19,50 работа. Дверное полотно — работа <b>€45/м²</b> стороны.<br>
-  Расходники (малярка, кисти, валики) — <b>от €80</b> один раз на смету, добавятся автоматически.<br>
-  <span id="rateInfo" style="color:#b8965a;font-weight:500">Курс EUR→BYN: загружается...</span>
-</div>
-
-<div class="btns"><button class="btn btn-s" onclick="goStep(3)">назад</button><button class="btn btn-p" onclick="addToEstimate()">добавить в смету</button></div>
-</div>
-
-<!-- ESTIMATE PANEL -->
-<div class="step" id="sE">
-<div class="step-tag">Ваша смета</div>
-<h2>Сводная <b>смета</b></h2>
-<p class="step-hint">Добавьте ещё позицию или оформите заявку — мы пришлём PDF с коммерческим предложением.</p>
+<div class="bgrid">
+<div id="posList"></div>
+<aside class="sumcard">
 <div class="est">
-  <div class="est-head"><span class="est-title">Позиции</span><span class="est-count" id="estCount">0</span></div>
+  <div class="est-head"><span class="est-title">Смета</span><span class="est-count" id="estCount">0</span></div>
   <div id="estList"></div>
   <div class="est-total" id="estTotalRow" style="display:none"><span class="label">Итого:</span><span class="val" id="estTotal">€0</span></div>
 </div>
-<div class="btns">
-  <button class="btn btn-s" onclick="goStep(1)">+ добавить позицию</button>
-  <button class="btn btn-p" id="toContacts" onclick="goStep('contact')" disabled>оформить заявку →</button>
+<button class="btn btn-p" id="toContacts" onclick="goStep('contact')" disabled style="width:100%;margin-top:12px">получить КП в PDF →</button>
+<div class="waste-note" style="margin-top:10px">Цены под ключ в евро; оплата в белорусских рублях по курсу НБ РБ на день оплаты. Наливные системы — материал с учётом тары, работа по объёму объекта.<br><span id="rateInfo" style="color:#b8965a;font-weight:500"></span></div>
+</aside>
 </div>
-<div class="waste-note">* микроцемент — цена «под ключ» (материал + работа) в евро; оплата в белорусских рублях по курсу НБ РБ на день оплаты. Остальные системы — материал с учётом тары, работа рассчитывается по объёму объекта.</div>
 </div>
 
 <!-- CONTACT STEP -->
@@ -506,107 +462,16 @@ fetch('/api/contacts').then(function(r){return r.json()}).then(function(j){
   if(j && j.ok && j.contacts) S.contacts = j.contacts;
 }).catch(function(){});
 
-// === PROGRESS DOTS ===
-function renderProg(){
-  var h='';
-  var curStep = (typeof S.step === 'number') ? S.step : 0;
-  for(var i=1;i<=STEPS;i++){
-    h+='<div class="dot'+(i===curStep?' on':i<curStep?' done':'')+'"></div>';
-    if(i<STEPS) h+='<div class="prog-line"></div>';
-  }
-  document.getElementById('prog').innerHTML=h;
-}
-
-// === NAVIGATION ===
+// === НАВИГАЦИЯ: конструктор / контакты / готово ===
+function renderProg(){}
 function goStep(n){
-  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('act')});
-  if(n===1) document.getElementById('s1').classList.add('act');
-  else if(n===2){buildSubs();document.getElementById('s2').classList.add('act')}
-  else if(n===3){buildSystems();document.getElementById('s3').classList.add('act')}
-  else if(n===4){
-    var lblEl = document.getElementById('labelVal');
-    if(!lblEl.value) lblEl.value = suggestLabel();
-    var isMc = (S.cat === 'microcement');
-    var isDoors = (S.sub === 'mc_doors');
-    // Секции: areaSection (общая площадь) — для всех КРОМЕ дверей
-    //         mcExtFields (просчёт работ) — только для микроцемент-нон-дверь
-    //         doorsSection — только для микроцемент-двери
-    //         mcInfoBox — для всех микроцементных
-    document.getElementById('areaSection').style.display = isDoors ? 'none' : '';
-    document.getElementById('mcExtFields').style.display = (isMc && !isDoors) ? '' : 'none';
-    document.getElementById('doorsSection').style.display = isDoors ? '' : 'none';
-    document.getElementById('mcInfoBox').style.display = isMc ? '' : 'none';
-    // Сброс полей при каждом открытии
-    if (isMc) {
-      if (!isDoors) {
-        resetMultiList('workM2List', 'м²', '');
-        resetMultiList('workMpList', 'м.п.', '');
-      }
-      if (isDoors) {
-        document.getElementById('doorsN').value = '1';
-        renderDoorSizes();
-      }
-    }
-    document.getElementById('s4').classList.add('act');
-  }
-  else if(n==='estimate' || n===5) {renderEstimate(); document.getElementById('sE').classList.add('act'); S.step=5; renderProg(); window.scrollTo({top:0,behavior:'smooth'}); return}
-  else if(n==='contact') {document.getElementById('sC').classList.add('act'); S.step=6; renderProg(); window.scrollTo({top:0,behavior:'smooth'}); return}
-  else if(n==='ok') {document.getElementById('sOk').classList.add('act'); S.step=7; renderProg(); window.scrollTo({top:0,behavior:'smooth'}); return}
-  S.step=n; renderProg(); window.scrollTo({top:0,behavior:'smooth'});
-  document.getElementById('b1back').style.display = S.estimate.length>0 ? 'inline-block' : 'none';
+  document.querySelectorAll('.step').forEach(function(st){st.classList.remove('act')});
+  if(n==='contact'){document.getElementById('sC').classList.add('act')}
+  else if(n==='ok'){document.getElementById('sOk').classList.add('act')}
+  else {document.getElementById('sE').classList.add('act')}
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
 function goEstimate(){ goStep('estimate') }
-
-function pick(el,group,val){
-  el.parentElement.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel')});
-  el.classList.add('sel');
-  S[group]=val;
-  var btnMap={cat:'b1',sub:'b2',sys:'b3'};
-  if(btnMap[group]) document.getElementById(btnMap[group]).disabled=false;
-}
-
-function suggestLabel(){
-  var catName = (DB.categories.find(function(c){return c.id===S.cat})||{}).name || '';
-  var subName = '';
-  if(DB.subtypes[S.cat]){
-    var sub = DB.subtypes[S.cat].find(function(s){return s.id===S.sub});
-    subName = sub ? sub.name : '';
-  }
-  if(S.cat==='microcement') return 'Микроцемент · '+(subName||'');
-  return catName+(subName?' · '+subName:'');
-}
-
-// Init categories
-(function(){
-  var g=document.getElementById('catOpts');
-  DB.categories.forEach(function(c){
-    var d=document.createElement('div');d.className='opt';d.onclick=function(){pick(this,'cat',c.id)};
-    d.innerHTML='<h4>'+c.name+'</h4><p>'+c.hint+'</p>';g.appendChild(d);
-  });
-})();
-
-function buildSubs(){
-  var subs=DB.subtypes[S.cat]||[];
-  var g=document.getElementById('subOpts');g.innerHTML='';S.sub=null;
-  document.getElementById('b2').disabled=true;
-  subs.forEach(function(s){
-    var d=document.createElement('div');d.className='opt';d.onclick=function(){pick(this,'sub',s.id)};
-    d.innerHTML='<h4>'+s.name+'</h4><p>'+s.hint+'</p>';g.appendChild(d);
-  });
-  if(subs.length===1){g.children[0].classList.add('sel');S.sub=subs[0].id;document.getElementById('b2').disabled=false;}
-}
-
-function buildSystems(){
-  var systems=DB.systems[S.sub]||[];
-  var g=document.getElementById('sysOpts');g.innerHTML='';S.sys=null;
-  document.getElementById('b3').disabled=true;
-  systems.forEach(function(s){
-    var d=document.createElement('div');d.className='opt';d.onclick=function(){pick(this,'sys',s.id)};
-    d.innerHTML='<h4>'+s.name+'</h4><p>'+s.desc+'</p>';g.appendChild(d);
-  });
-  if(systems.length===1){g.children[0].classList.add('sel');S.sys=systems[0].id;document.getElementById('b3').disabled=false;}
-}
 
 function findSystem(id){
   for(var k in DB.systems){var arr=DB.systems[k];for(var i=0;i<arr.length;i++){if(arr[i].id===id)return arr[i]}}return null;
@@ -940,7 +805,7 @@ function addToEstimate(){
 
 // === РАСХОДНИКИ — добавляются один раз на смету, если есть хотя бы 1 микроцементная позиция «по факту»
 function ensureConsumablesRow(){
-  var hasMcExact = S.estimate.some(function(p){return p.isExact});
+  var hasMcExact = S.estimate.some(function(p){return p.isMicrocement && p.total>0 && String(p.tier||'').indexOf('Фиксированный')===-1});
   var hasCons = S.estimate.some(function(p){return p.id === '__consumables'});
   if (hasMcExact && !hasCons) {
     S.estimate.push({
@@ -967,48 +832,22 @@ function ensureConsumablesRow(){
 function removePosition(id){
   S.estimate = S.estimate.filter(function(p){return p.id !== id});
   ensureConsumablesRow();
+  renderPositions();
   renderEstimate();
 }
 
 function duplicatePosition(id){
   var p = S.estimate.find(function(x){return x.id===id});
-  if(!p || p.id === '__consumables') return;
-  S.cat = p.cat; S.sub = p.sub; S.sys = p.sysId;
-  goStep(4);
-  document.getElementById('labelVal').value = p.label;
-  document.getElementById('areaVal').value = p.area;
-  // Восстановить расширенные поля если были
-  if (p.isExact && p.exactBreakdown) {
-    var b = p.exactBreakdown;
-    // Мульти-списки работ
-    var w2items = (b.workM2Items && b.workM2Items.length) ? b.workM2Items : (b.workM2 > 0 ? [b.workM2] : []);
-    var wMpitems = (b.workMpItems && b.workMpItems.length) ? b.workMpItems : (b.workMp > 0 ? [b.workMp] : []);
-    if (document.getElementById('workM2List')) {
-      document.getElementById('workM2List').innerHTML = '';
-      if (w2items.length === 0) addMultiInput('workM2List', 'м²', '');
-      else w2items.forEach(function(v){ addMultiInput('workM2List', 'м²', v); });
-    }
-    if (document.getElementById('workMpList')) {
-      document.getElementById('workMpList').innerHTML = '';
-      if (wMpitems.length === 0) addMultiInput('workMpList', 'м.п.', '');
-      else wMpitems.forEach(function(v){ addMultiInput('workMpList', 'м.п.', v); });
-    }
-    // Двери
-    if (document.getElementById('doorsN')) {
-      document.getElementById('doorsN').value = b.doorsN || 1;
-      renderDoorSizes();
-      var doorsArr = b.doors || [];
-      var rows = document.querySelectorAll('#doorSizesGrid .door-size');
-      doorsArr.forEach(function(d, i){
-        if (rows[i]) {
-          rows[i].querySelector('.door-w').value = d.w;
-          rows[i].querySelector('.door-h').value = d.h;
-        }
-      });
-    }
-  }
+  if(!p || p.id === '__consumables' || !p.ui) return;
+  var c = JSON.parse(JSON.stringify(p));
+  c.id = Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  c.label = p.label + ' (копия)';
+  S.estimate.push(c);
+  renderPositions();
+  refreshPos(c.id);
 }
 
+function eFmt(v){ return '\u20ac'+v.toFixed(2).replace('.', ',').replace(/,00$/, ''); }
 function renderEstimate(){
   var list = document.getElementById('estList');
   var totalRow = document.getElementById('estTotalRow');
@@ -1016,7 +855,7 @@ function renderEstimate(){
   var toCt = document.getElementById('toContacts');
   list.innerHTML = '';
   if(S.estimate.length===0){
-    list.innerHTML = '<div class="est-empty">пока позиций нет — добавьте первую через шаг 1</div>';
+    list.innerHTML = '<div class="est-empty">пока пусто — добавьте поверхность кнопками слева</div>';
     totalRow.style.display='none';
     countEl.textContent = '0';
     toCt.disabled = true;
@@ -1042,22 +881,22 @@ function renderEstimate(){
       var parts = [];
       // Стены — материал (если есть двери, показываем за вычетом)
       if (b.wallArea > 0) {
-        parts.push('Стены: '+b.wallArea.toFixed(2)+' м² × €'+b.matRate+' = €'+b.wallMatCost.toFixed(2));
-      } else {
-        parts.push(b.matM2.toFixed(2)+' м² материал × €'+b.matRate+' = €'+(b.matM2*b.matRate).toFixed(2));
+        parts.push('Стены: '+b.wallArea.toFixed(2)+' м² × €'+b.matRate+' = '+eFmt(b.wallMatCost));
+      } else if (!b.doorsOnly) {
+        parts.push(b.matM2.toFixed(2)+' м² материал × €'+b.matRate+' = '+eFmt(b.matM2*b.matRate));
       }
       // Двери — материал
       if (b.doorArea > 0 && b.doors && b.doors.length) {
         var dimsStr = b.doors.map(function(d){return d.w+'×'+d.h}).join(', ');
-        parts.push('Двери ('+dimsStr+'): '+b.doorArea.toFixed(2)+' м² × €'+b.matRate+' = €'+b.doorMatCost.toFixed(2));
+        parts.push('Двери ('+dimsStr+'): '+b.doorArea.toFixed(2)+' м² × €'+b.matRate+' = '+eFmt(b.doorMatCost));
       }
       // Работа
       var workItems = [];
       if (b.workM2 > 0) workItems.push(b.workM2+' м²');
       if (b.workMp > 0) workItems.push(b.workMp+' м.п.');
-      if (workItems.length) parts.push('Работа: '+workItems.join(' + ')+' × €'+b.workRate+' = €'+((b.workM2+b.workMp)*b.workRate).toFixed(2));
-      if (b.doorsN > 0) parts.push('Работа по полотнам: '+b.doorArea.toFixed(2)+' м² × €'+MC_DOOR_RATE+' = €'+b.doorWork.toFixed(2));
-      breakdown = '<div style="font-size:11px;color:#a09a92;margin-top:4px;line-height:1.5">'+parts.map(function(x){return '• '+x}).join('<br>')+'<br><b style="color:#b8965a">Итого по позиции: €'+b.totalEur.toFixed(2)+' ≈ '+Math.round(b.totalEur*EUR_BYN).toLocaleString('ru')+' руб</b></div>';
+      if (workItems.length) parts.push('Работа: '+workItems.join(' + ')+' × €'+b.workRate+' = '+eFmt((b.workM2+b.workMp)*b.workRate));
+      if (b.doorsN > 0) parts.push('Работа по полотнам: '+b.doorArea.toFixed(2)+' м² × €'+MC_DOOR_RATE+' = '+eFmt(b.doorWork));
+      breakdown = '<div style="font-size:11px;color:#a09a92;margin-top:4px;line-height:1.5">'+parts.map(function(x){return '• '+x}).join('<br>')+'<br><b style="color:#b8965a">Итого по позиции: '+eFmt(b.totalEur)+' ≈ '+Math.round(b.totalEur*EUR_BYN).toLocaleString('ru')+' руб</b></div>';
     }
     var actionsHtml = (p.id === '__consumables')
       ? '<button class="est-del" title="Расходники добавляются автоматически" disabled style="opacity:.4;cursor:not-allowed">🔒</button>'
@@ -1070,29 +909,26 @@ function renderEstimate(){
         +breakdown
       +'</div>'
       +'<div class="est-row-sum">€'+p.total.toLocaleString('ru')
-        +(p.perM2 ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">€'+p.perM2+'/м²</span>' : '')
+        +(p.perM2 ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">€'+String(p.perM2).replace('.', ',')+'/м²</span>' : '')
       +'</div>'
       +'<div class="est-row-actions">'+actionsHtml+'</div>';
     list.appendChild(row);
   });
   totalRow.style.display = 'flex';
   document.getElementById('estTotal').textContent = '€'+Math.round(sum).toLocaleString('ru')+' ≈ '+Math.round(sum*EUR_BYN).toLocaleString('ru')+' руб';
-  countEl.textContent = S.estimate.length + (S.estimate.length===1?' позиция':' позиции/й');
+  toCt.disabled = !(sum > 0);
+  var _n = S.estimate.length, _d = _n % 10, _h = _n % 100;
+  countEl.textContent = _n + ' ' + (_d===1&&_h!==11 ? 'позиция' : (_d>=2&&_d<=4&&(_h<10||_h>=20) ? 'позиции' : 'позиций'));
   toCt.disabled = false;
 }
 
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 
 function resetAll(){
-  S = {step:1, cat:null, sub:null, sys:null, label:'', estimate:[], pdfBlob:null};
-  document.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel')});
-  ['b1','b2','b3'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=true});
-  document.getElementById('areaVal').value = 20;
-  document.getElementById('labelVal').value = '';
-  if (document.getElementById('workM2List')) resetMultiList('workM2List','м²','');
-  if (document.getElementById('workMpList')) resetMultiList('workMpList','м.п.','');
-  var dN = document.getElementById('doorsN'); if (dN) dN.value = '1';
-  goStep(1);
+  S = {step:1, cat:null, sub:null, sys:null, label:'', estimate:[], pdfBlob:null, contacts:S.contacts};
+  renderPositions();
+  renderEstimate();
+  goStep('estimate');
 }
 
 // === PDF BUILD ===
@@ -1312,7 +1148,7 @@ function buildPdfHtml(clientInfo){
     +'</div>'
     // TITLE
     +'<div style="font-size:16px;font-weight:600;letter-spacing:2px;margin-bottom:2px;color:#2c2c2c">Коммерческое предложение</div>'
-    +'<p style="font-size:10px;color:#888;margin-bottom:12px;letter-spacing:1px">Микроцемент · '+positions.length+' '+(positions.length===1?'позиция':'позиции/й')+'</p>'
+    +'<p style="font-size:10px;color:#888;margin-bottom:12px;letter-spacing:1px">Микроцемент · '+positions.length+' '+(function(n){var d=n%10,h=n%100;return d===1&&h!==11?'позиция':(d>=2&&d<=4&&(h<10||h>=20)?'позиции':'позиций')})(positions.length)+'</p>'
     // CARDS
     +'<div style="display:flex;gap:10px;margin-bottom:14px">'
       +'<div style="flex:1;padding:10px 12px;border-radius:6px;font-size:10px;line-height:1.55;background:#f7f5f0">'
@@ -1485,7 +1321,218 @@ async function submitQuote(e){
   }
 }
 
-renderProg();
+// === ОДНОЭКРАННЫЙ КОНСТРУКТОР ===
+var TYPE_DEF = {
+  walls:     {sys:'mc_w',  name:'Стены'},
+  floor:     {sys:'mc_f',  name:'Полы'},
+  doors:     {sys:'mc_d',  name:'Двери'},
+  furniture: {sys:'mc_fn', name:'Столешница / фартук'},
+  liquid:    {sys:null,    name:'Наливной пол'}
+};
+function posById(id){ return S.estimate.find(function(p){return p.id===id}) || null }
+function esc2(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;') }
+
+function addPos(type){
+  var def = TYPE_DEF[type];
+  var n = S.estimate.filter(function(p){return p.ui && p.ui.type===type}).length + 1;
+  var pos = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,5),
+    label: def.name + (n>1 ? ' ' + n : ''),
+    ui: {type:type, area:'', adv:false, workM2Items:[], workMpItems:[],
+         doors: type==='doors' ? [{w:0.8, h:2}] : [],
+         cat: type==='liquid' ? 'decorative' : 'microcement',
+         sub: null, sysId: def.sys},
+    cat:'', catName:'', sub:'', subName:'', sysId:'', sysName:'', sysCode:'', sysDesc:'',
+    area:0, total:0, perM2:0, tier:'', structure:'', isMicrocement:type!=='liquid',
+    isExact:false, exactBreakdown:null, layers:null
+  };
+  if (type === 'liquid') {
+    var subs = DB.subtypes['decorative'] || [];
+    pos.ui.sub = subs.length ? subs[0].id : null;
+    var sysArr = pos.ui.sub ? (DB.systems[pos.ui.sub] || []) : [];
+    pos.ui.sysId = sysArr.length ? sysArr[0].id : null;
+  }
+  S.estimate.push(pos);
+  renderPositions();
+  refreshPos(pos.id);
+  var card = document.getElementById('pc_' + pos.id);
+  if (card) { card.scrollIntoView({behavior:'smooth', block:'center'});
+    var inp = card.querySelector('input[type=number]'); if (inp) inp.focus(); }
+}
+
+function uiSet(id, key, val){
+  var p = posById(id); if (!p || !p.ui) return;
+  p.ui[key] = val;
+  refreshPos(id);
+}
+function uiSyncLists(id){
+  var p = posById(id); if (!p || !p.ui) return;
+  p.ui.workM2Items = collectMultiValues('wm2_' + id);
+  p.ui.workMpItems = collectMultiValues('wmp_' + id);
+  refreshPos(id);
+}
+function toggleAdv(id){
+  var p = posById(id); if (!p || !p.ui) return;
+  p.ui.adv = !p.ui.adv;
+  var box = document.getElementById('adv_' + id);
+  var btn = document.getElementById('advbtn_' + id);
+  if (box) box.style.display = p.ui.adv ? '' : 'none';
+  if (btn) btn.textContent = p.ui.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾';
+  if (p.ui.adv && box && !box.dataset.filled) {
+    box.dataset.filled = '1';
+    addMultiInput('wm2_' + id, 'м²', '');
+    addMultiInput('wmp_' + id, 'м.п.', '');
+  }
+  refreshPos(id);
+}
+function doorSet(id, i, key, val){
+  var p = posById(id); if (!p || !p.ui) return;
+  if (p.ui.doors[i]) p.ui.doors[i][key] = parseFloat(val) || 0;
+  refreshPos(id);
+}
+function doorAdd(id){
+  var p = posById(id); if (!p || !p.ui) return;
+  p.ui.doors.push({w:0.8, h:2});
+  renderPositions(); refreshPos(id);
+}
+function doorDel(id, i){
+  var p = posById(id); if (!p || !p.ui) return;
+  if (p.ui.doors.length <= 1) return;
+  p.ui.doors.splice(i, 1);
+  renderPositions(); refreshPos(id);
+}
+function liquidSet(id, level, val){
+  var p = posById(id); if (!p || !p.ui) return;
+  if (level === 'cat') {
+    p.ui.cat = val;
+    var subs = DB.subtypes[val] || [];
+    p.ui.sub = subs.length ? subs[0].id : null;
+  } else if (level === 'sub') { p.ui.sub = val; }
+  if (level !== 'sys') {
+    var arr = p.ui.sub ? (DB.systems[p.ui.sub] || []) : [];
+    p.ui.sysId = arr.length ? arr[0].id : null;
+  } else { p.ui.sysId = val; }
+  renderPositions(); refreshPos(id);
+}
+
+function refreshPos(id){
+  var p = posById(id); if (!p || !p.ui) return;
+  var u = p.ui, sys = u.sysId ? findSystem(u.sysId) : null, area = 0, ext = null;
+  if (u.type === 'doors') {
+    var doors = u.doors.filter(function(d){return d.w > 0 && d.h > 0});
+    area = doors.reduce(function(a,d){return a + d.w*d.h}, 0);
+    if (doors.length) ext = {workM2:0, workMp:0, doors:doors, doorsOnly:true};
+  } else {
+    area = parseFloat(u.area) || 0;
+    if (u.type !== 'liquid' && u.type !== 'furniture' && u.adv) {
+      var wm2 = (u.workM2Items||[]).reduce(function(a,b){return a+b},0);
+      var wmp = (u.workMpItems||[]).reduce(function(a,b){return a+b},0);
+      if (wmp > 0 || (wm2 > 0 && Math.abs(wm2 - area) > 0.01)) {
+        ext = {workM2: wm2 > 0 ? wm2 : area, workMp: wmp,
+               workM2Items: u.workM2Items, workMpItems: u.workMpItems, doors: []};
+      }
+    }
+  }
+  if (!sys || area <= 0) {
+    p.area = area; p.total = 0; p.perM2 = 0; p.tier = ''; p.exactBreakdown = null; p.layers = null;
+  } else {
+    var calc = calcPosition(sys, area, ext);
+    var catName = 'Микроцемент', subName = TYPE_DEF[u.type].name;
+    if (u.type === 'liquid') {
+      catName = (DB.categories.find(function(c){return c.id===u.cat})||{}).name || '';
+      var subO = (DB.subtypes[u.cat]||[]).find(function(x){return x.id===u.sub});
+      subName = subO ? subO.name : '';
+    }
+    p.cat = u.type==='liquid' ? u.cat : 'microcement'; p.catName = catName;
+    p.sub = u.sub || ''; p.subName = subName;
+    p.sysId = sys.id; p.sysName = sys.name; p.sysCode = sys.code || ''; p.sysDesc = sys.desc || '';
+    p.area = Math.round(area*100)/100; p.total = calc.total; p.perM2 = calc.perM2;
+    p.tier = calc.tier; p.structure = calc.structure || '';
+    p.isMicrocement = calc.isMicrocement; p.isExact = calc.isExact || false;
+    p.exactBreakdown = calc.exactBreakdown || null; p.layers = calc.layers;
+  }
+  ensureConsumablesRow();
+  renderEstimate();
+  updateCardPrice(p);
+}
+
+function updateCardPrice(p){
+  var el = document.getElementById('pp_' + p.id);
+  if (!el) return;
+  if (p.total > 0) {
+    var note = p.tier ? '<span>' + esc2(p.tier) + '</span>' : '<span></span>';
+    var per = p.perM2 ? ' · €' + String(p.perM2).replace('.', ',') + '/м²' : '';
+    el.innerHTML = note + '<span><b>€' + p.total.toLocaleString('ru') + '</b>' + per + '</span>';
+  } else {
+    el.innerHTML = '<span>введите площадь — цена появится сразу</span>';
+  }
+}
+
+function renderPositions(){
+  var wrap = document.getElementById('posList');
+  var items = S.estimate.filter(function(p){return p.ui});
+  if (!items.length) {
+    wrap.innerHTML = '<div class="est-empty">выберите, что покрываем — кнопки выше: стены, полы, двери…</div>';
+    return;
+  }
+  var h = '';
+  items.forEach(function(p){
+    var u = p.ui, id = p.id;
+    h += '<div class="pcard" id="pc_' + id + '">';
+    h += '<div class="pc-head"><input class="pc-label" value="' + esc2(p.label) + '" oninput="posById(\'' + id + '\').label=this.value;renderEstimate()">'
+       + '<button class="pc-x" title="Удалить" onclick="removePosition(\'' + id + '\')">✕</button></div>';
+    if (u.type === 'doors') {
+      h += '<div class="pc-f"><label>Двери — полотно, Ш × В в метрах</label></div>';
+      u.doors.forEach(function(d, i){
+        h += '<div class="door-row">'
+           + '<input type="number" min="0" step="0.05" value="' + d.w + '" oninput="doorSet(\'' + id + '\',' + i + ',\'w\',this.value)">'
+           + '<span style="color:#a09a92">×</span>'
+           + '<input type="number" min="0" step="0.05" value="' + d.h + '" oninput="doorSet(\'' + id + '\',' + i + ',\'h\',this.value)">'
+           + (u.doors.length > 1 ? '<button class="dx" onclick="doorDel(\'' + id + '\',' + i + ')">✕</button>' : '')
+           + '</div>';
+      });
+      h += '<button class="pc-adv" onclick="doorAdd(\'' + id + '\')">+ ещё дверь</button>';
+    } else if (u.type === 'liquid') {
+      var liqCats = DB.categories.filter(function(c){return c.id !== 'microcement'});
+      h += '<div class="pc-grid">';
+      h += '<div class="pc-f"><label>Тип объекта</label><select onchange="liquidSet(\'' + id + '\',\'cat\',this.value)">'
+         + liqCats.map(function(c){return '<option value="' + c.id + '"' + (c.id===u.cat?' selected':'') + '>' + esc2(c.name) + '</option>'}).join('') + '</select></div>';
+      h += '<div class="pc-f"><label>Покрытие</label><select onchange="liquidSet(\'' + id + '\',\'sub\',this.value)">'
+         + (DB.subtypes[u.cat]||[]).map(function(x){return '<option value="' + x.id + '"' + (x.id===u.sub?' selected':'') + '>' + esc2(x.name) + '</option>'}).join('') + '</select></div>';
+      h += '<div class="pc-f"><label>Система</label><select onchange="liquidSet(\'' + id + '\',\'sys\',this.value)">'
+         + (DB.systems[u.sub]||[]).map(function(x){return '<option value="' + x.id + '"' + (x.id===u.sysId?' selected':'') + '>' + esc2(x.name) + '</option>'}).join('') + '</select></div>';
+      h += '<div class="pc-f"><label>Площадь, м²</label><input type="number" min="0" step="0.1" value="' + esc2(u.area) + '" oninput="uiSet(\'' + id + '\',\'area\',this.value)"></div>';
+      h += '</div>';
+    } else {
+      h += '<div class="pc-grid"><div class="pc-f"><label>Площадь, м²</label>'
+         + '<input type="number" min="0" step="0.1" value="' + esc2(u.area) + '" oninput="uiSet(\'' + id + '\',\'area\',this.value)"></div></div>';
+      if (u.type === 'walls' || u.type === 'floor') {
+        h += '<button class="pc-adv" id="advbtn_' + id + '" onclick="toggleAdv(\'' + id + '\')">'
+           + (u.adv ? 'скрыть просчёт работ ▴' : 'уточнить просчёт работ для сметы ▾') + '</button>';
+        h += '<div class="pc-advbox" id="adv_' + id + '"' + (u.adv ? ' data-filled="1"' : ' style="display:none"') + ' oninput="uiSyncLists(\'' + id + '\')">'
+           + '<div class="pc-f"><label>Площади работ, м² — суммируются</label><div id="wm2_' + id + '"></div></div>'
+           + '<div class="pc-f" style="margin-top:8px"><label>Погонные метры — поверхности уже 0,5 м</label><div id="wmp_' + id + '"></div></div>'
+           + '</div>';
+      }
+    }
+    h += '<div class="pc-price" id="pp_' + id + '"><span>введите площадь — цена появится сразу</span></div>';
+    h += '</div>';
+  });
+  wrap.innerHTML = h;
+  // восстановить multi-списки после перерисовки
+  items.forEach(function(p){
+    if (p.ui.adv) {
+      var w2 = p.ui.workM2Items.length ? p.ui.workM2Items : [''];
+      var wp = p.ui.workMpItems.length ? p.ui.workMpItems : [''];
+      w2.forEach(function(v){ addMultiInput('wm2_' + p.id, 'м²', v) });
+      wp.forEach(function(v){ addMultiInput('wmp_' + p.id, 'м.п.', v) });
+    }
+    updateCardPrice(p);
+  });
+}
+
+renderPositions();
+renderEstimate();
 </script>
 <script>
 /* stage1: маска телефона + скрытие пустых мессенджеров */
