@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&display=swap">
+  <style>
+    body { margin: 0; font-family: Geologica, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #b8965a; } a:hover { color: #8c6f3d; }
+  </style>
+</helmet>
+<div style="width: 720px; height: 560px; box-sizing: border-box; background: #f5efe2; padding: 34px 40px 28px; display: flex; flex-direction: column; gap: 20px;">
+
+  <div style="display: flex; align-items: baseline; gap: 12px;">
+    <div style="font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase; font-weight: 700; color: #2c2c2c;">Направление В</div>
+    <div style="font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase; font-weight: 400; color: #9a8f7a;">Слои и ядро</div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 44px;">
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <svg width="146" height="146" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 84.41 14.09 A 52 52 0 1 1 35.59 14.09" fill="none" stroke="#2c2c2c" stroke-width="9" stroke-linecap="butt"></path>
+        <path d="M 68.80 27.16 A 34 34 0 1 1 51.20 27.16" fill="none" stroke="#2c2c2c" stroke-width="9" stroke-linecap="butt"></path>
+        <circle cx="60" cy="60" r="16" fill="{{accent}}"></circle>
+      </svg>
+      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Основная</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <svg width="146" height="146" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="120" height="120" rx="26" fill="#2c2c2c"></rect>
+        <path d="M 70.87 19.43 A 42 42 0 1 1 49.13 19.43" fill="none" stroke="{{accent}}" stroke-width="7.5" stroke-linecap="butt"></path>
+        <path d="M 66.07 33.69 A 27 27 0 1 1 53.93 33.69" fill="none" stroke="{{accent}}" stroke-width="7.5" stroke-linecap="butt"></path>
+        <circle cx="60" cy="60" r="12.5" fill="#f5efe2"></circle>
+      </svg>
+      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">В квадрате, для аватарки</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <svg width="146" height="146" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#2c2c2c" stroke-width="9"></circle>
+        <circle cx="60" cy="60" r="34" fill="none" stroke="#2c2c2c" stroke-width="9"></circle>
+        <circle cx="60" cy="60" r="16" fill="#2c2c2c"></circle>
+      </svg>
+      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Без швов, от 15 мм и мельче</div>
+    </div>
+
+  </div>
+
+  <div style="background: #ece4d3; border: 1px solid #cbbf9f; border-radius: 6px; padding: 11px 16px; font-size: 12px; line-height: 1.55; color: #4a4640;">
+    <span style="font-weight: 700; color: #2c2c2c;">Что здесь нарисовано.</span> Три слоя вашей технологии — грунт, база, финиш — в разрезе. У внешнего кольца шов открыт, у среднего уже почти закрыт, ядро сплошное. Знак буквально показывает то, что вы продаёте: слой за слоем шов исчезает, остаётся монолит.
+  </div>
+
+  <div style="border-top: 1px solid #cbbf9f; padding-top: 14px; display: flex; gap: 30px;">
+    <div style="flex-grow: 1; flex-basis: 0;">
+      <div style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #b8965a; margin-bottom: 6px;">Зачем</div>
+      <div style="font-size: 12px; line-height: 1.55; color: #4a4640; text-wrap: pretty;">Единственный из четырёх, который что-то значит и который никто не повторит случайно. Работает без слова, ложится в квадрат, живёт в одну краску и не разваливается на тиснении.</div>
+    </div>
+    <div style="flex-grow: 1; flex-basis: 0;">
+      <div style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #b8965a; margin-bottom: 6px;">Чем платите</div>
+      <div style="font-size: 12px; line-height: 1.55; color: #4a4640; text-wrap: pretty;">Ни одна буква имени в знаке не участвует — связь «вижу знак, вспоминаю UNICORE» придётся нарабатывать. Первые год-два знак почти всегда идёт вместе со словом.</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#b8965a","options":["#b8965a","#c08a2e","#8c7a52","#2c2c2c"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#b8965a' };
+  }
+}
+</script>
+</body>
+</html>

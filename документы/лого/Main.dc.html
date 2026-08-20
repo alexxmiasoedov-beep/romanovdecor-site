@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&display=swap">
+  <style>
+    body { margin: 0; font-family: Geologica, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #b8965a; } a:hover { color: #8c6f3d; }
+  </style>
+</helmet>
+<div style="width: 720px; height: 560px; box-sizing: border-box; background: #f5efe2; padding: 34px 40px 28px; display: flex; flex-direction: column; gap: 22px;">
+
+  <div style="display: flex; align-items: baseline; gap: 12px;">
+    <div style="font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase; font-weight: 700; color: #2c2c2c;">Направление А</div>
+    <div style="font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase; font-weight: 400; color: #9a8f7a;">Монограмма</div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 46px;">
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <svg width="150" height="150" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="120" height="120" rx="26" fill="#2c2c2c"></rect>
+        <path d="M 36 34 L 36 62 A 24 24 0 0 0 84 62 L 84 34" fill="none" stroke="{{accent}}" stroke-width="15" stroke-linecap="butt"></path>
+      </svg>
+      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Основная</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <svg width="150" height="150" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="120" height="120" rx="26" fill="{{accent}}"></rect>
+        <path d="M 36 34 L 36 62 A 24 24 0 0 0 84 62 L 84 34" fill="none" stroke="#2c2c2c" stroke-width="15" stroke-linecap="butt"></path>
+      </svg>
+      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Инверсия</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+      <svg width="150" height="150" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2.5" y="2.5" width="115" height="115" rx="24" fill="none" stroke="#2c2c2c" stroke-width="5"></rect>
+        <path d="M 36 34 L 36 62 A 24 24 0 0 0 84 62 L 84 34" fill="none" stroke="#2c2c2c" stroke-width="15" stroke-linecap="butt"></path>
+      </svg>
+      <div style="font-size: 10px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Контур, тиснение</div>
+    </div>
+
+  </div>
+
+  <div style="border-top: 1px solid #cbbf9f; padding-top: 15px; display: flex; gap: 30px;">
+    <div style="flex-grow: 1; flex-basis: 0;">
+      <div style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #b8965a; margin-bottom: 6px;">Зачем</div>
+      <div style="font-size: 12px; line-height: 1.55; color: #4a4640; text-wrap: pretty;">Прямое продолжение того, что уже стоит в шапке ваших прайсов и КП. Ничего не надо объяснять клиенту, ничего не ломается в существующих документах. Тяжёлая геометрическая U читается как промышленная марка, а не как салон.</div>
+    </div>
+    <div style="flex-grow: 1; flex-basis: 0;">
+      <div style="font-size: 9px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: #b8965a; margin-bottom: 6px;">Чем платите</div>
+      <div style="font-size: 12px; line-height: 1.55; color: #4a4640; text-wrap: pretty;">Буква в скруглённом квадрате — самая занятая форма на рынке. Различительная способность у такого знака низкая, и в заявке он держится на сочетании с названием, а не сам по себе.</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#b8965a","options":["#b8965a","#c08a2e","#8c7a52","#2c2c2c"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#b8965a' };
+  }
+}
+</script>
+</body>
+</html>

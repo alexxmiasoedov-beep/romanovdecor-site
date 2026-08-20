@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&display=swap">
+  <style>
+    body { margin: 0; font-family: Geologica, "Helvetica Neue", Arial, sans-serif; }
+    a { color: #b8965a; } a:hover { color: #8c6f3d; }
+  </style>
+</helmet>
+<div style="width: 720px; height: 560px; box-sizing: border-box; background: #f5efe2; padding: 34px 40px 28px; display: flex; flex-direction: column; gap: 20px;">
+
+  <div style="display: flex; align-items: baseline; gap: 12px;">
+    <div style="font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase; font-weight: 700; color: #2c2c2c;">Направление Г</div>
+    <div style="font-size: 11px; letter-spacing: 2.6px; text-transform: uppercase; font-weight: 400; color: #9a8f7a;">Знак плюс слово</div>
+  </div>
+
+  <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;">
+
+    <div style="background: #fffdf8; border: 1px solid #e0d6c0; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px;">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <svg width="58" height="58" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 84.41 14.09 A 52 52 0 1 1 35.59 14.09" fill="none" stroke="#2c2c2c" stroke-width="10" stroke-linecap="butt"></path>
+          <path d="M 68.80 27.16 A 34 34 0 1 1 51.20 27.16" fill="none" stroke="#2c2c2c" stroke-width="10" stroke-linecap="butt"></path>
+          <circle cx="60" cy="60" r="16" fill="{{accent}}"></circle>
+        </svg>
+        <div style="font-size: 25px; font-weight: 700; letter-spacing: 5px; color: #2c2c2c; line-height: 1;">UNI<span style="color: {{accent}}">CORE</span></div>
+      </div>
+      <div style="font-size: 9px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Ядро, в строку</div>
+    </div>
+
+    <div style="background: #fffdf8; border: 1px solid #e0d6c0; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <svg width="62" height="62" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 84.41 14.09 A 52 52 0 1 1 35.59 14.09" fill="none" stroke="#2c2c2c" stroke-width="10" stroke-linecap="butt"></path>
+          <path d="M 68.80 27.16 A 34 34 0 1 1 51.20 27.16" fill="none" stroke="#2c2c2c" stroke-width="10" stroke-linecap="butt"></path>
+          <circle cx="60" cy="60" r="16" fill="{{accent}}"></circle>
+        </svg>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+          <div style="font-size: 21px; font-weight: 700; letter-spacing: 4.5px; color: #2c2c2c; line-height: 1;">UNI<span style="color: {{accent}}">CORE</span></div>
+          <div style="font-size: 7px; font-weight: 500; letter-spacing: 3.2px; text-transform: uppercase; color: #6f695e;">микроцемент</div>
+        </div>
+      </div>
+      <div style="font-size: 9px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Ядро, в столбик</div>
+    </div>
+
+    <div style="background: #fffdf8; border: 1px solid #e0d6c0; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px;">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <svg width="56" height="56" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="120" height="120" rx="26" fill="#2c2c2c"></rect>
+          <path d="M 36 34 L 36 62 A 24 24 0 0 0 84 62 L 84 34" fill="none" stroke="{{accent}}" stroke-width="15" stroke-linecap="butt"></path>
+        </svg>
+        <div style="font-size: 25px; font-weight: 700; letter-spacing: 5px; color: #2c2c2c; line-height: 1;">UNI<span style="color: {{accent}}">CORE</span></div>
+      </div>
+      <div style="font-size: 9px; letter-spacing: 1.6px; text-transform: uppercase; color: #9a8f7a;">Монограмма, в строку</div>
+    </div>
+
+    <div style="background: #2c2c2c; border: 1px solid #2c2c2c; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px;">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <svg width="58" height="58" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 84.41 14.09 A 52 52 0 1 1 35.59 14.09" fill="none" stroke="#f5efe2" stroke-width="10" stroke-linecap="butt"></path>
+          <path d="M 68.80 27.16 A 34 34 0 1 1 51.20 27.16" fill="none" stroke="#f5efe2" stroke-width="10" stroke-linecap="butt"></path>
+          <circle cx="60" cy="60" r="16" fill="{{accent}}"></circle>
+        </svg>
+        <div style="font-size: 25px; font-weight: 700; letter-spacing: 5px; color: #f5efe2; line-height: 1;">UNI<span style="color: {{accent}}">CORE</span></div>
+      </div>
+      <div style="font-size: 9px; letter-spacing: 1.6px; text-transform: uppercase; color: #8c8579;">На тёмном</div>
+    </div>
+
+  </div>
+
+  <div style="border-top: 1px solid #cbbf9f; padding-top: 14px; font-size: 12px; line-height: 1.55; color: #4a4640; text-wrap: pretty;">
+    <span style="font-weight: 700; color: #2c2c2c;">Как этим пользуются.</span> Строка — для шапки сайта, бланка и подписи в письме. Столбик — там, где место квадратное: этикетка, штамп, аватарка. Знак в одиночку ставится только тогда, когда имя уже сказано рядом или марка стала узнаваемой.
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"accent":{"editor":"color","default":"#b8965a","options":["#b8965a","#c08a2e","#8c7a52","#e8dcc2"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#b8965a' };
+  }
+}
+</script>
+</body>
+</html>
