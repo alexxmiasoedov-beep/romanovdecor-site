@@ -120,7 +120,11 @@ html.in-iframe .wrap{padding:24px 20px}
 .bgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
 @media(max-width:920px){.bgrid{grid-template-columns:1fr}}
 .sumcard{position:sticky;top:70px}
-@media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}input,select,textarea{font-size:16px!important}}
+@media(max-width:920px){.sumcard{position:static}.est-total{flex-wrap:wrap}.est-total .val{font-size:19px}input,select,textarea{font-size:16px!important}
+.hd-r a:not(.hd-back){display:none}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chip{width:100%;padding:12px 6px;text-align:center;white-space:nowrap}
+.chip:last-child{grid-column:1 / -1}}
 .pcard{background:#232323;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin-bottom:12px}
 .pc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .pc-label{flex:1;background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.15);color:#efece7;font-size:13px;font-weight:600;letter-spacing:.5px;padding:3px 2px;font-family:inherit}
@@ -158,7 +162,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <a href="/microcement" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a09a92">Микроцемент</a>
 <a href="/price" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a09a92">Цены</a>
 <a href="/portfolio" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a09a92">Портфолио</a>
-<a href="/">← на сайт</a>
+<a href="/" class="hd-back" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#efece7;white-space:nowrap">← вернуться</a>
 </div>
 </header>
 <div class="wrap">
@@ -857,7 +861,7 @@ function renderEstimate(){
   var toCt = document.getElementById('toContacts');
   list.innerHTML = '';
   if(S.estimate.length===0){
-    list.innerHTML = '<div class="est-empty">пока пусто — добавьте поверхность кнопками слева</div>';
+    list.innerHTML = '<div class="est-empty">пока пусто — добавьте поверхность кнопками выше</div>';
     totalRow.style.display='none';
     countEl.textContent = '0';
     toCt.disabled = true;
