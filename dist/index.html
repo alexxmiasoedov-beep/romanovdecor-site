@@ -388,10 +388,10 @@ a{text-decoration:none;color:inherit}
 .sl-line{position:absolute;top:calc(50% - 1px);right:-18px;height:1.5px;width:40px;background:#b8965a;transition:width 1s cubic-bezier(.89,-.17,.14,1.225);pointer-events:none}
 .px-card:focus-visible{border-color:rgba(184,150,90,.7)}
 
-.px-card:hover{border-color:rgba(184,150,90,.75)}
-.px-card:hover .sl-top{transform:translateY(-4px)}
-.px-card:hover .sl-bot{transform:translateY(4px)}
-.px-card:hover .sl-line{width:calc(100% + 52px)}
+.px-card:hover,.px-card.sliced{border-color:rgba(184,150,90,.75)}
+.px-card:hover .sl-top,.px-card.sliced .sl-top{transform:translateY(-4px)}
+.px-card:hover .sl-bot,.px-card.sliced .sl-bot{transform:translateY(4px)}
+.px-card:hover .sl-line,.px-card.sliced .sl-line{width:calc(100% + 52px)}
 .px-grid.in .px-card{animation:pxFlyIn .85s cubic-bezier(.16,.85,.32,1) forwards}
 .px-grid.in .px-card:nth-child(1){animation-delay:0s}
 .px-grid.in .px-card:nth-child(2){animation-delay:.14s}
@@ -400,21 +400,13 @@ a{text-decoration:none;color:inherit}
 .px-grid.in .px-card:hover{transform:translateY(-4px)}
 
 @keyframes pxSlideMob{to{opacity:1;transform:translateX(0)}}
-@keyframes slTopM{0%,35%{transform:none}55%{transform:translateY(-4px)}75%{transform:translateY(-4px)}100%{transform:none}}
-@keyframes slBotM{0%,35%{transform:none}55%{transform:translateY(4px)}75%{transform:translateY(4px)}100%{transform:none}}
-@keyframes slLineM{0%,30%{width:36px}60%{width:calc(100% + 26px)}80%{width:calc(100% + 26px)}100%{width:36px}}
 @media(max-width:760px){
 .px-projects{background-attachment:scroll;min-height:auto;padding:60px 0 150px}
 .px-grid{flex-direction:column;gap:12px;align-items:stretch}
 .px-card{display:flex;justify-content:center;font-size:12px;padding:19px 18px;transform:translateX(-64px)}
 .sl-line{right:-12px;width:36px}
+.px-card:hover .sl-line,.px-card.sliced .sl-line{width:calc(100% + 26px)}
 .px-grid.in .px-card{animation-name:pxSlideMob}
-.px-grid.in .px-card .sl-top{animation:slTopM 1.5s cubic-bezier(.89,-.17,.14,1.225) both}
-.px-grid.in .px-card .sl-bot{animation:slBotM 1.5s cubic-bezier(.89,-.17,.14,1.225) both}
-.px-grid.in .px-card .sl-line{animation:slLineM 1.5s cubic-bezier(.89,-.17,.14,1.225) both}
-.px-grid.in .px-card:nth-child(1) .sl-top,.px-grid.in .px-card:nth-child(1) .sl-bot,.px-grid.in .px-card:nth-child(1) .sl-line{animation-delay:.55s}
-.px-grid.in .px-card:nth-child(2) .sl-top,.px-grid.in .px-card:nth-child(2) .sl-bot,.px-grid.in .px-card:nth-child(2) .sl-line{animation-delay:.75s}
-.px-grid.in .px-card:nth-child(3) .sl-top,.px-grid.in .px-card:nth-child(3) .sl-bot,.px-grid.in .px-card:nth-child(3) .sl-line{animation-delay:.95s}
 }
 @media (prefers-reduced-motion:reduce){.sl-top,.sl-bot,.sl-line{animation:none!important;transition:none}}
 
@@ -1558,6 +1550,25 @@ function initMatCarousel(){
 
 // Анимация вылета карточек "Наши проекты" + "Почему к нам возвращаются"
 (function(){
+
+// Кнопки проектов на тач-устройствах: первый тап — разрез, второй — переход
+(function(){
+  if (!window.matchMedia('(hover: none)').matches) return;
+  var cards = document.querySelectorAll('.px-card');
+  cards.forEach(function(card){
+    card.addEventListener('click', function(e){
+      if (!card.classList.contains('sliced')) {
+        e.preventDefault();
+        cards.forEach(function(c){ if (c !== card) c.classList.remove('sliced'); });
+        card.classList.add('sliced');
+      }
+    });
+  });
+  // тап вне кнопок закрывает разрез
+  document.addEventListener('touchstart', function(e){
+    if (!e.target.closest('.px-card')) cards.forEach(function(c){ c.classList.remove('sliced'); });
+  }, {passive:true});
+})();
   var targets = document.querySelectorAll('.px-grid, .why-grid');
   if(!targets.length) return;
   if(!('IntersectionObserver' in window)){ targets.forEach(function(t){t.classList.add('in')}); return; }
