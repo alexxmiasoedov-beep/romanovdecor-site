@@ -389,8 +389,8 @@ a{text-decoration:none;color:inherit}
 .px-card:focus-visible{border-color:rgba(184,150,90,.7)}
 
 .px-card:hover{border-color:rgba(184,150,90,.75)}
-.px-card:hover .sl-top{transform:translate(11px,-2px)}
-.px-card:hover .sl-bot{transform:translate(-11px,2px)}
+.px-card:hover .sl-top{transform:translateY(-4px)}
+.px-card:hover .sl-bot{transform:translateY(4px)}
 .px-card:hover .sl-line{width:calc(100% + 52px)}
 .px-grid.in .px-card{animation:pxFlyIn .85s cubic-bezier(.16,.85,.32,1) forwards}
 .px-grid.in .px-card:nth-child(1){animation-delay:0s}
@@ -400,8 +400,8 @@ a{text-decoration:none;color:inherit}
 .px-grid.in .px-card:hover{transform:translateY(-4px)}
 
 @keyframes pxSlideMob{to{opacity:1;transform:translateX(0)}}
-@keyframes slTopM{0%,35%{transform:none}55%{transform:translate(11px,-2px)}75%{transform:translate(11px,-2px)}100%{transform:none}}
-@keyframes slBotM{0%,35%{transform:none}55%{transform:translate(-11px,2px)}75%{transform:translate(-11px,2px)}100%{transform:none}}
+@keyframes slTopM{0%,35%{transform:none}55%{transform:translateY(-4px)}75%{transform:translateY(-4px)}100%{transform:none}}
+@keyframes slBotM{0%,35%{transform:none}55%{transform:translateY(4px)}75%{transform:translateY(4px)}100%{transform:none}}
 @keyframes slLineM{0%,30%{width:36px}60%{width:calc(100% + 26px)}80%{width:calc(100% + 26px)}100%{width:36px}}
 @media(max-width:760px){
 .px-projects{background-attachment:scroll;min-height:auto;padding:60px 0 150px}
