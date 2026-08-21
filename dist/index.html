@@ -394,7 +394,8 @@ a{text-decoration:none;color:inherit}
 @keyframes pxFlyIn{to{opacity:1;transform:translateY(0)}}
 .px-grid.in .px-card:hover{transform:translateY(-4px)}
 .px-title{font-size:clamp(15px,1.45vw,19px);font-weight:600;color:#fff;text-transform:lowercase;letter-spacing:.5px;margin:0;line-height:1.2;text-shadow:0 1px 8px rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{padding:18px 20px;border-radius:22px}.px-title{font-size:17px}.px-go{width:38px;height:38px;font-size:16px}}
+@keyframes pxSlideMob{to{opacity:1;transform:translateX(0)}}
+@media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0 150px}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{padding:18px 20px;border-radius:22px;transform:translateX(-64px)}.px-grid.in .px-card{animation-name:pxSlideMob}.px-title{font-size:17px}.px-go{width:38px;height:38px;font-size:16px}}
 
 /* PARTNERS */
 
