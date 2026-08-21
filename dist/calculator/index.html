@@ -87,6 +87,15 @@ html.in-iframe .wrap{padding:24px 20px}
 .est-total .label{font-weight:600}.est-total .val{color:#b8965a;font-size:22px;font-weight:700}
 
 .success-box{background:#2c2c2c;border-radius:16px;padding:28px;text-align:center;border:1px solid rgba(184,150,90,.3)}
+/* OK-ART — капля в налитый пол, расходящиеся кольца */
+.ok-art{margin-top:16px;display:flex;justify-content:center}
+.ok-art svg{width:min(300px,80%);height:auto}
+.ok-ring{transform-box:fill-box;transform-origin:center;animation:okRing 3.6s linear infinite}
+.ok-r2{animation-delay:1.2s}.ok-r3{animation-delay:2.4s}
+@keyframes okRing{0%{transform:scale(.15);opacity:.9}100%{transform:scale(3.4);opacity:0}}
+.ok-drop{animation:okDrop 3.6s ease-in infinite}
+@keyframes okDrop{0%{transform:translateY(-12px);opacity:0}10%{opacity:1}28%{transform:translateY(28px);opacity:1}32%,100%{transform:translateY(28px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ok-ring,.ok-drop{animation:none}}
 .success-box h3{font-size:18px;font-weight:600;letter-spacing:2px;margin-bottom:8px;color:#efece7}
 .success-box p{font-size:12px;color:#a09a92;letter-spacing:1px;margin-bottom:16px}
 
@@ -213,6 +222,15 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
     <a class="btn btn-p" id="pdfDl" href="#" download="unicore-kp.pdf" style="text-decoration:none;text-align:center">📥 скачать PDF</a>
   </div>
   <div style="margin-top:12px"><button class="btn btn-s" onclick="resetAll()" style="width:100%">новый расчёт</button></div>
+  <div class="ok-art" aria-hidden="true">
+    <svg viewBox="0 0 300 96" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <line x1="20" y1="62" x2="280" y2="62" stroke="#efece7" stroke-width="2" opacity=".18" stroke-linecap="round"></line>
+      <ellipse class="ok-ring ok-r1" cx="150" cy="62" rx="20" ry="6" stroke="#b8965a" stroke-width="2"></ellipse>
+      <ellipse class="ok-ring ok-r2" cx="150" cy="62" rx="20" ry="6" stroke="#b8965a" stroke-width="2"></ellipse>
+      <ellipse class="ok-ring ok-r3" cx="150" cy="62" rx="20" ry="6" stroke="#b8965a" stroke-width="2"></ellipse>
+      <circle class="ok-drop" cx="150" cy="30" r="3.5" fill="#b8965a"></circle>
+    </svg>
+  </div>
 </div>
 </div>
 
