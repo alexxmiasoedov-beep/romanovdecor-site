@@ -362,7 +362,20 @@ a{text-decoration:none;color:inherit}
 /* Touch-устройства: отключаем fixed-attachment (iOS Safari ломается) */
 @media(hover:none) and (pointer:coarse){.px-projects{background-attachment:scroll}}
 @media(max-width:1024px){.px-projects{background-attachment:scroll}}
-.px-projects::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#2c2c2c 0%,rgba(44,44,44,.55) 16%,rgba(44,44,44,0) 38%),linear-gradient(180deg,rgba(15,15,15,.72) 0%,rgba(15,15,15,.55) 50%,rgba(15,15,15,.78) 100%);pointer-events:none;z-index:0}
+.px-projects::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#2c2c2c 0%,rgba(44,44,44,.55) 16%,rgba(44,44,44,0) 38%),linear-gradient(0deg,rgba(14,12,10,.5) 0%,rgba(14,12,10,0) 26%);pointer-events:none;z-index:1}
+/* PX-BG — рисованная панорама: дом, витрина, завод */
+.px-bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.px-bg svg{width:100%;height:100%;display:block}
+.pxb-glow{animation:pxbGlow 4.4s ease-in-out infinite alternate}
+.pxb-glow2{animation:pxbGlow2 5.6s ease-in-out infinite alternate}
+.pxb-glow3{animation:pxbGlow 3.8s ease-in-out infinite alternate}
+@keyframes pxbGlow{from{opacity:.14}to{opacity:.42}}
+@keyframes pxbGlow2{from{opacity:.55}to{opacity:1}}
+.pxb-smoke circle{animation:pxbSmoke 7s ease-in-out infinite}
+.pxb-smoke circle:nth-child(2){animation-delay:2.3s}
+.pxb-smoke circle:nth-child(3){animation-delay:4.6s}
+@keyframes pxbSmoke{0%{transform:translateY(14px);opacity:0}30%{opacity:.14}70%{opacity:.1}100%{transform:translateY(-26px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pxb-glow,.pxb-glow2,.pxb-glow3,.pxb-smoke circle{animation:none}}
 .px-header{position:relative;z-index:1;padding:0 clamp(16px,3vw,40px) 38px}
 .px-h{font-size:28px;font-weight:600;color:#fff;text-transform:lowercase;line-height:1.2;letter-spacing:0;margin:0;text-shadow:0 1px 6px rgba(0,0,0,.65);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 .px-h-line{width:30px;height:2px;background:#b8965a;margin-top:12px;border-radius:1px}
@@ -678,7 +691,52 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </section>
 
 <!-- ===== OUR PROJECTS · NEW: parallax glass cards (без заголовка — минимализм) ===== -->
-<section class="px-projects" data-slot="projects-bg" style="background-image:linear-gradient(135deg,#2a2620 0%,#1a1812 60%,#0e0c0a 100%)">
+<section class="px-projects" style="background-image:linear-gradient(135deg,#2a2620 0%,#1a1812 60%,#0e0c0a 100%)">
+<div class="px-bg" aria-hidden="true">
+<svg viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<line x1="40" y1="520" x2="1400" y2="520" stroke="#efece7" stroke-width="2" opacity=".18"></line>
+<!-- жилой: дом с двускатной крышей -->
+<g stroke="#efece7" stroke-width="2" opacity=".16">
+<path d="M 112 306 L 240 212 L 368 306"></path>
+<path d="M 140 306 L 140 520 M 340 306 L 340 520"></path>
+<rect x="222" y="436" width="58" height="84"></rect>
+<rect x="168" y="340" width="42" height="52"></rect>
+<rect x="272" y="340" width="42" height="52"></rect>
+<path d="M 296 236 L 296 196 L 316 196 L 316 252"></path>
+<path d="M 60 520 L 60 470 M 60 470 A 26 26 0 1 1 61 470"></path>
+</g>
+<rect class="pxb-glow" x="172" y="344" width="34" height="44" fill="#b8965a" opacity=".22"></rect>
+<!-- коммерция: витрина кафе -->
+<g stroke="#efece7" stroke-width="2" opacity=".16">
+<path d="M 575 520 L 575 320 L 845 320 L 845 520"></path>
+<path d="M 565 320 L 585 350 L 605 320 L 625 350 L 645 320 L 665 350 L 685 320 L 705 350 L 725 320 L 745 350 L 765 320 L 785 350 L 805 320 L 825 350 L 845 320"></path>
+<rect x="600" y="376" width="120" height="144"></rect>
+<path d="M 610 430 L 710 430"></path>
+<rect x="752" y="390" width="66" height="130"></rect>
+<circle cx="762" cy="458" r="3"></circle>
+<path d="M 500 520 L 500 468 M 472 468 L 528 468 M 480 520 L 486 480 M 520 520 L 514 480"></path>
+</g>
+<g class="pxb-glow2">
+<rect x="632" y="266" width="156" height="38" rx="8" stroke="#b8965a" stroke-width="2" opacity=".4"></rect>
+<line x1="654" y1="285" x2="766" y2="285" stroke="#b8965a" stroke-width="3" opacity=".45"></line>
+</g>
+<!-- пром: цех с пилообразной крышей, трубы, силос -->
+<g stroke="#efece7" stroke-width="2" opacity=".16">
+<path d="M 985 520 L 985 350 L 1045 310 L 1045 350 L 1105 310 L 1105 350 L 1165 310 L 1165 350 L 1195 330 L 1195 520"></path>
+<rect x="1010" y="420" width="40" height="100"></rect>
+<rect x="1080" y="420" width="40" height="100"></rect>
+<path d="M 1240 520 L 1240 250 L 1268 250 L 1268 520"></path>
+<path d="M 1300 520 L 1300 300 L 1324 300 L 1324 520"></path>
+<rect x="1352" y="360" width="46" height="160" rx="14"></rect>
+</g>
+<g class="pxb-smoke" stroke="#efece7" stroke-width="2" opacity=".12">
+<circle cx="1254" cy="222" r="9"></circle>
+<circle cx="1262" cy="196" r="12"></circle>
+<circle cx="1250" cy="166" r="15"></circle>
+</g>
+<line class="pxb-glow3" x1="990" y1="384" x2="1190" y2="384" stroke="#b8965a" stroke-width="2.5" opacity=".3"></line>
+</svg>
+</div>
 <div class="px-grid">
 
 <a href="/portfolio?filter=residential" class="px-card">
