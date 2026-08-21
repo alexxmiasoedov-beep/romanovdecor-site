@@ -380,21 +380,21 @@ a{text-decoration:none;color:inherit}
 .px-h{font-size:28px;font-weight:600;color:#fff;text-transform:lowercase;line-height:1.2;letter-spacing:0;margin:0;text-shadow:0 1px 6px rgba(0,0,0,.65);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 .px-h-line{width:30px;height:2px;background:#b8965a;margin-top:12px;border-radius:1px}
 .px-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 clamp(16px,3vw,40px)}
-.px-card{position:relative;overflow:hidden;isolation:isolate;background:rgba(255,255,255,.07);-webkit-backdrop-filter:blur(6px) saturate(130%);backdrop-filter:blur(6px) saturate(130%);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:22px 22px 18px;text-decoration:none;display:flex;flex-direction:column;min-height:190px;opacity:0;transform:translateY(50px);transition:background .35s cubic-bezier(.34,1.2,.64,1),border-color .35s,box-shadow .35s,z-index 0s;outline:none;z-index:1;will-change:transform,opacity;contain:layout paint}
+.px-card{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px 26px;border-radius:26px;text-decoration:none;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05) 45%,rgba(255,255,255,.02));-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(0,0,0,.18),0 10px 30px rgba(0,0,0,.35);opacity:0;transform:translateY(50px);transition:background .35s cubic-bezier(.34,1.2,.64,1),border-color .35s,box-shadow .35s;outline:none;z-index:1;will-change:transform,opacity}
+.px-card::after{content:"";position:absolute;top:-70%;left:-15%;width:65%;height:150%;background:radial-gradient(ellipse,rgba(255,255,255,.14),transparent 68%);transform:rotate(18deg);pointer-events:none}
+.px-go{width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.25);transition:all .3s}
 .px-card:focus-visible{border-color:rgba(184,150,90,.7)}
-.px-title,.px-desc,.px-link{position:relative;z-index:1}
-.px-card:hover{background:rgba(255,255,255,.11);border-color:rgba(184,150,90,.6);box-shadow:inset 0 0 0 1px rgba(184,150,90,.3),inset 0 0 32px rgba(184,150,90,.08);z-index:3}
+.px-title,.px-go{position:relative;z-index:1}
+.px-card:hover{background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.08) 45%,rgba(255,255,255,.04));border-color:rgba(184,150,90,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 0 30px rgba(184,150,90,.1),0 14px 38px rgba(0,0,0,.45);z-index:3}
+.px-card:hover .px-go{background:rgba(184,150,90,.85);border-color:rgba(184,150,90,.9);transform:translateX(4px)}
 .px-grid.in .px-card{animation:pxFlyIn .85s cubic-bezier(.16,.85,.32,1) forwards}
 .px-grid.in .px-card:nth-child(1){animation-delay:0s}
 .px-grid.in .px-card:nth-child(2){animation-delay:.14s}
 .px-grid.in .px-card:nth-child(3){animation-delay:.28s}
 @keyframes pxFlyIn{to{opacity:1;transform:translateY(0)}}
 .px-grid.in .px-card:hover{transform:translateY(-4px)}
-.px-title{font-size:clamp(16px,1.5vw,20px);font-weight:600;color:#fff;text-transform:lowercase;letter-spacing:.5px;margin:0 0 12px;line-height:1.2;text-shadow:0 1px 8px rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.px-desc{font-size:13px;color:rgba(255,255,255,.82);font-weight:300;letter-spacing:.5px;line-height:1.6;margin:0 0 auto;text-shadow:0 1px 6px rgba(0,0,0,.3)}
-.px-link{font-size:11px;color:#fff;letter-spacing:2px;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-weight:600;transition:all .3s;text-shadow:0 1px 6px rgba(0,0,0,.4)}
-.px-card:hover .px-link{gap:12px;color:#b8965a}
-@media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{min-height:170px;padding:20px 18px}.px-title{font-size:18px;white-space:normal}}
+.px-title{font-size:clamp(15px,1.45vw,19px);font-weight:600;color:#fff;text-transform:lowercase;letter-spacing:.5px;margin:0;line-height:1.2;text-shadow:0 1px 8px rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{padding:18px 20px;border-radius:22px}.px-title{font-size:17px}.px-go{width:38px;height:38px;font-size:16px}}
 
 /* PARTNERS */
 
@@ -736,23 +736,11 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </div>
 <div class="px-grid">
 
-<a href="/portfolio?filter=residential" class="px-card">
-<h3 class="px-title">жилые интерьеры</h3>
-<p class="px-desc">квартиры, таунхаусы, коттеджи — покрытие на стенах, полах и мебели</p>
-<span class="px-link">смотреть проекты →</span>
-</a>
+<a href="/portfolio?filter=residential" class="px-card" aria-label="жилые интерьеры: квартиры, таунхаусы, коттеджи — покрытие на стенах, полах и мебели"><h3 class="px-title">жилые интерьеры</h3><span class="px-go" aria-hidden="true">→</span></a>
 
-<a href="/portfolio?filter=commercial" class="px-card">
-<h3 class="px-title">коммерческие пространства</h3>
-<p class="px-desc">офисы, рестораны, шоурумы, бьюти-салоны — комбинированные системы</p>
-<span class="px-link">смотреть →</span>
-</a>
+<a href="/portfolio?filter=commercial" class="px-card" aria-label="коммерческие пространства: офисы, рестораны, шоурумы, бьюти-салоны — комбинированные системы"><h3 class="px-title">коммерческие пространства</h3><span class="px-go" aria-hidden="true">→</span></a>
 
-<a href="/portfolio?filter=industrial" class="px-card">
-<h3 class="px-title">промышленные объекты</h3>
-<p class="px-desc">паркинги, склады, цеха, пищевые производства — наливные системы под ключ</p>
-<span class="px-link">смотреть →</span>
-</a>
+<a href="/portfolio?filter=industrial" class="px-card" aria-label="промышленные объекты: паркинги, склады, цеха, пищевые производства — наливные системы под ключ"><h3 class="px-title">промышленные объекты</h3><span class="px-go" aria-hidden="true">→</span></a>
 
 </div>
 </section>
