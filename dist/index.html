@@ -379,19 +379,19 @@ a{text-decoration:none;color:inherit}
 .px-header{position:relative;z-index:1;padding:0 clamp(16px,3vw,40px) 38px}
 .px-h{font-size:28px;font-weight:600;color:#fff;text-transform:lowercase;line-height:1.2;letter-spacing:0;margin:0;text-shadow:0 1px 6px rgba(0,0,0,.65);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 .px-h-line{width:30px;height:2px;background:#b8965a;margin-top:12px;border-radius:1px}
-.px-grid{position:relative;z-index:1;display:flex;justify-content:center;gap:clamp(44px,7vw,96px);padding:0 clamp(16px,3vw,40px)}
+.px-grid{position:relative;z-index:1;display:flex;justify-content:center;gap:clamp(60px,8vw,112px);padding:0 clamp(16px,3vw,40px)}
 .px-card{position:relative;display:inline-block;text-decoration:none;font-size:12px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#efece7;line-height:1em;padding:21px 38px;border:1px solid rgba(239,236,231,.45);border-radius:13px;opacity:0;transform:translateY(50px);transition:border-color .4s;outline:none;z-index:1;will-change:transform,opacity;-webkit-tap-highlight-color:transparent}
-.sl{display:inline-block}
-.sl-top,.sl-bot{display:block;overflow:hidden;height:.5em;transition:transform .6s cubic-bezier(.89,-.17,.14,1.225)}
-.sl-top span,.sl-bot span{display:block;white-space:nowrap;line-height:1em}
-.sl-bot span{transform:translateY(-.5em)}
-.sl-line{position:absolute;top:calc(50% - 1px);right:-34px;height:1.5px;width:62px;background:#b8965a;transition:width 1s cubic-bezier(.89,-.17,.14,1.225);pointer-events:none}
+.sl{position:relative;display:block;line-height:1.25}
+.sl-top,.sl-bot{display:block;white-space:nowrap;transition:transform .6s cubic-bezier(.89,-.17,.14,1.225)}
+.sl-top{clip-path:inset(-3px 0 calc(50% - .5px) 0)}
+.sl-bot{position:absolute;inset:0;clip-path:inset(calc(50% - .5px) 0 -3px 0)}
+.sl-line{position:absolute;top:calc(50% - 1px);right:-18px;height:1.5px;width:40px;background:#b8965a;transition:width 1s cubic-bezier(.89,-.17,.14,1.225);pointer-events:none}
 .px-card:focus-visible{border-color:rgba(184,150,90,.7)}
 
 .px-card:hover{border-color:rgba(184,150,90,.75)}
-.px-card:hover .sl-top{transform:translateX(8px)}
-.px-card:hover .sl-bot{transform:translateX(-8px)}
-.px-card:hover .sl-line{width:calc(100% + 102px)}
+.px-card:hover .sl-top{transform:translate(11px,-2px)}
+.px-card:hover .sl-bot{transform:translate(-11px,2px)}
+.px-card:hover .sl-line{width:calc(100% + 52px)}
 .px-grid.in .px-card{animation:pxFlyIn .85s cubic-bezier(.16,.85,.32,1) forwards}
 .px-grid.in .px-card:nth-child(1){animation-delay:0s}
 .px-grid.in .px-card:nth-child(2){animation-delay:.14s}
@@ -400,9 +400,9 @@ a{text-decoration:none;color:inherit}
 .px-grid.in .px-card:hover{transform:translateY(-4px)}
 
 @keyframes pxSlideMob{to{opacity:1;transform:translateX(0)}}
-@keyframes slTopM{0%,35%{transform:none}55%{transform:translateX(11px)}75%{transform:translateX(11px)}100%{transform:none}}
-@keyframes slBotM{0%,35%{transform:none}55%{transform:translateX(-11px)}75%{transform:translateX(-11px)}100%{transform:none}}
-@keyframes slLineM{0%,30%{width:36px}60%{width:calc(100% + 40px)}80%{width:calc(100% + 40px)}100%{width:36px}}
+@keyframes slTopM{0%,35%{transform:none}55%{transform:translate(11px,-2px)}75%{transform:translate(11px,-2px)}100%{transform:none}}
+@keyframes slBotM{0%,35%{transform:none}55%{transform:translate(-11px,2px)}75%{transform:translate(-11px,2px)}100%{transform:none}}
+@keyframes slLineM{0%,30%{width:36px}60%{width:calc(100% + 26px)}80%{width:calc(100% + 26px)}100%{width:36px}}
 @media(max-width:760px){
 .px-projects{background-attachment:scroll;min-height:auto;padding:60px 0 150px}
 .px-grid{flex-direction:column;gap:12px;align-items:stretch}
@@ -758,11 +758,11 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </div>
 <div class="px-grid">
 
-<a href="/portfolio?filter=residential" class="px-card" aria-label="жилые интерьеры: квартиры, таунхаусы, коттеджи — покрытие на стенах, полах и мебели"><span class="sl"><span class="sl-top"><span>жилые интерьеры</span></span><span class="sl-bot" aria-hidden="true"><span>жилые интерьеры</span></span><span class="sl-line" aria-hidden="true"></span></span></a>
+<a href="/portfolio?filter=residential" class="px-card" aria-label="жилые интерьеры: квартиры, таунхаусы, коттеджи — покрытие на стенах, полах и мебели"><span class="sl"><span class="sl-top"><span>жилые интерьеры</span></span><span class="sl-bot" aria-hidden="true"><span>жилые интерьеры</span></span></span><span class="sl-line" aria-hidden="true"></span></a>
 
-<a href="/portfolio?filter=commercial" class="px-card" aria-label="коммерческие пространства: офисы, рестораны, шоурумы, бьюти-салоны — комбинированные системы"><span class="sl"><span class="sl-top"><span>коммерческие пространства</span></span><span class="sl-bot" aria-hidden="true"><span>коммерческие пространства</span></span><span class="sl-line" aria-hidden="true"></span></span></a>
+<a href="/portfolio?filter=commercial" class="px-card" aria-label="коммерческие пространства: офисы, рестораны, шоурумы, бьюти-салоны — комбинированные системы"><span class="sl"><span class="sl-top"><span>коммерческие пространства</span></span><span class="sl-bot" aria-hidden="true"><span>коммерческие пространства</span></span></span><span class="sl-line" aria-hidden="true"></span></a>
 
-<a href="/portfolio?filter=industrial" class="px-card" aria-label="промышленные объекты: паркинги, склады, цеха, пищевые производства — наливные системы под ключ"><span class="sl"><span class="sl-top"><span>промышленные объекты</span></span><span class="sl-bot" aria-hidden="true"><span>промышленные объекты</span></span><span class="sl-line" aria-hidden="true"></span></span></a>
+<a href="/portfolio?filter=industrial" class="px-card" aria-label="промышленные объекты: паркинги, склады, цеха, пищевые производства — наливные системы под ключ"><span class="sl"><span class="sl-top"><span>промышленные объекты</span></span><span class="sl-bot" aria-hidden="true"><span>промышленные объекты</span></span></span><span class="sl-line" aria-hidden="true"></span></a>
 
 </div>
 </section>
