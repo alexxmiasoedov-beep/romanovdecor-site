@@ -109,7 +109,8 @@ footer{padding:20px;border-top:1px solid rgba(0,0,0,.06);display:flex;justify-co
 @media(max-width:900px){.nav{display:none}.pf{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.pf{grid-template-columns:1fr}.cta{padding:36px 20px}.cta h3{font-size:20px}footer{flex-direction:column;text-align:center}}
 /* LIGHTBOX */
-.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:600;display:none;align-items:center;justify-content:center;padding:60px 20px}
+.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:600;display:none;align-items:center;justify-content:center;padding:60px 20px;touch-action:manipulation}
+.lb-nav,.lb-close,.lb-thumbs,.lb-thumbs img{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .lb.show{display:flex}
 .lb-img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
 .lb-close{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:#fff;font-size:22px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center}
@@ -392,6 +393,23 @@ function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(c){retur
 
 // === LIGHTBOX ===
 var LB = {gallery: [], idx: 0};
+
+// Двойной тап по стрелкам листания не должен зумить страницу: гасим
+// второй тап (жест «double tap zoom») внутри лайтбокса, щипок не трогаем
+(function(){
+  var lb = document.getElementById('lb');
+  var lastTap = 0;
+  lb.addEventListener('touchend', function(e){
+    var now = Date.now();
+    if (now - lastTap < 350 && e.touches.length === 0) e.preventDefault();
+    lastTap = now;
+    // клики по кнопкам сработают и после preventDefault: дублируем вручную
+    if (e.defaultPrevented) {
+      var btn = e.target.closest('.lb-nav, .lb-close, .lb-thumbs img');
+      if (btn) btn.click();
+    }
+  }, {passive: false});
+})();
 
 function lbOpen(card){
   var gal;
