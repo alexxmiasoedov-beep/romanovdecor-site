@@ -347,7 +347,7 @@ a{text-decoration:none;color:inherit}
 /* Touch-устройства: отключаем fixed-attachment (iOS Safari ломается) */
 @media(hover:none) and (pointer:coarse){.px-projects{background-attachment:scroll}}
 @media(max-width:1024px){.px-projects{background-attachment:scroll}}
-.px-projects::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,15,.72) 0%,rgba(15,15,15,.55) 50%,rgba(15,15,15,.78) 100%);pointer-events:none;z-index:0}
+.px-projects::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#2c2c2c 0%,rgba(44,44,44,.55) 16%,rgba(44,44,44,0) 38%),linear-gradient(180deg,rgba(15,15,15,.72) 0%,rgba(15,15,15,.55) 50%,rgba(15,15,15,.78) 100%);pointer-events:none;z-index:0}
 .px-header{position:relative;z-index:1;padding:0 clamp(16px,3vw,40px) 38px}
 .px-h{font-size:28px;font-weight:600;color:#fff;text-transform:lowercase;line-height:1.2;letter-spacing:0;margin:0;text-shadow:0 1px 6px rgba(0,0,0,.65);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 .px-h-line{width:30px;height:2px;background:#b8965a;margin-top:12px;border-radius:1px}
