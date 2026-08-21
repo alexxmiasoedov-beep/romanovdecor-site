@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preload" as="fetch" href="/api/carousel"><link rel="preload" as="fetch" href="/api/contacts"><link rel="preload" as="fetch" href="/api/hero-slides"><link rel="preload" as="fetch" href="/api/partners"><link rel="preload" as="fetch" href="/api/slots">
+<link rel="preload" as="fetch" href="/api/carousel"><link rel="preload" as="fetch" href="/api/contacts"><link rel="preload" as="fetch" href="/api/hero-slides"><link rel="preload" as="fetch" href="/api/slots">
 <title>Микроцемент и наливные полы в Минске | UNICORE</title>
 <meta name="description" content="Производим микроцемент собственной рецептуры на немецких компонентах. Наливные полы по системе Remmers. Монтаж под ключ в Минске и по всей Беларуси.">
 <link rel="canonical" href="https://romanovdecor.by/">
@@ -365,12 +365,6 @@ a{text-decoration:none;color:inherit}
 @media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{min-height:200px;padding:22px 20px}.px-title{font-size:18px;white-space:normal}.px-icon{display:none}}
 
 /* PARTNERS */
-.partners-grid{display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap}
-.partner-card{padding:28px 40px;background:#f7f5f0;border-radius:14px;border:1px solid rgba(0,0,0,.04);display:flex;align-items:center;justify-content:center;min-width:160px;min-height:80px;transition:transform .2s}
-.partner-card:hover{transform:translateY(-2px)}
-.partner-card img{max-height:40px;max-width:140px;object-fit:contain;filter:grayscale(1) brightness(.4);transition:filter .3s}
-.partner-card:hover img{filter:grayscale(0) brightness(1)}
-@media(max-width:600px){.partners-grid{gap:16px}.partner-card{padding:20px 28px;min-width:120px}}
 
 /* STICKY CTA */
 .sticky-cta{position:fixed;bottom:24px;right:24px;z-index:550;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
@@ -423,10 +417,17 @@ a{text-decoration:none;color:inherit}
 @media(max-width:768px){.ft-grid{grid-template-columns:1fr 1fr;gap:28px}}
 @media(max-width:500px){.ft-grid{grid-template-columns:1fr;gap:24px}.ft-bottom{flex-direction:column;text-align:center}}
 
-/* YANDEX MAP */
-.ymap-wrap{position:relative;overflow:hidden}
-.ymap-wrap #ymap{filter:brightness(.28) contrast(1.15) saturate(0)}
-.ymap-tint{position:absolute;inset:0;background:rgba(184,150,90,.12);mix-blend-mode:color;pointer-events:none}
+/* GEO DOT-MAP — точечная карта Беларуси в контактах */
+.geo-map{margin-top:30px;max-width:400px}
+.geo-map svg{width:100%;height:auto;display:block}
+.geo-map .dots circle{fill:rgba(239,236,231,.13)}
+.geo-map .city{fill:rgba(239,236,231,.5)}
+.geo-map .city-lb{fill:#a09a92;font-family:'Geologica',sans-serif;font-size:10px;letter-spacing:.8px}
+.geo-map .minsk{fill:#b8965a}
+.geo-map .minsk-lb{fill:#b8965a;font-family:'Geologica',sans-serif;font-size:11px;font-weight:600;letter-spacing:1.2px}
+.geo-pulse{fill:none;stroke:#b8965a;stroke-width:1.4}
+.geo-cap{font-size:12px;color:#a09a92;letter-spacing:.6px;margin-top:12px;font-weight:300}
+@media(max-width:700px){.geo-map{margin:26px auto 0}}
 
 /* CONTACT */
 .ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -719,39 +720,6 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </div>
 </section>
 
-<!-- PARTNERS -->
-<section class="sec white" style="padding:30px 20px 70px">
-<div class="mx" style="text-align:center">
-<div class="tag">Наши партнёры</div>
-<h2 class="ttl" style="margin-bottom:40px">Работаем с <b>лучшими</b></h2>
-<div class="partners-grid">
-<div class="partner-card">
-<img src="/img/remmers.png" alt="Remmers" onerror="this.parentElement.innerHTML='<span>Remmers</span>'">
-</div>
-<div class="partner-card">
-<span style="font-size:22px;font-weight:700;letter-spacing:3px;color:#1e1e1e">VARKA</span>
-</div>
-<div class="partner-card">
-<span style="font-size:22px;font-weight:700;letter-spacing:3px;color:#1e1e1e">MAPEI</span>
-</div>
-</div>
-</div>
-</section>
-
-<!-- MAP — YANDEX -->
-<section class="sec gray" style="padding:80px 0 0">
-<div style="padding:0 20px 24px;max-width:1060px;margin:0 auto">
-<div class="tag">География</div>
-<h2 class="ttl">работаем <b>по всей беларуси</b></h2>
-<div class="line"></div>
-<p class="desc">Бесплатный выезд замерщика. Минск и вся Беларусь.</p>
-</div>
-<div class="ymap-wrap">
-<div id="ymap" style="width:100%;height:420px"></div>
-<div class="ymap-tint"></div>
-</div>
-</section>
-
 <!-- CONTACT -->
 <section id="contact" class="sec gray" style="background:#383838">
 <div class="mx">
@@ -763,6 +731,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h4l2 5-2.5 1.5A11 11 0 009.5 13l1.5-2.5 5 2v4c-7 1-14-6-13-13z"/></svg><div><h4>Телефон</h4><p>+375 (33) 628-04-86</p></div></div>
 <div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7l7 5 7-5M4 15h12a1 1 0 001-1V6a1 1 0 00-1-1H4a1 1 0 00-1 1v8a1 1 0 001 1z"/></svg><div><h4>Email</h4><p>info&#64;romanovdecor.by</p></div></div>
 <div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 11a3 3 0 100-6 3 3 0 000 6z"/><path d="M10 18s-6-5.3-6-10a6 6 0 1112 0c0 4.7-6 10-6 10z"/></svg><div><h4>Адрес</h4><p>г. Минск, Беларусь</p></div></div>
+<div class="geo-map" aria-label="Карта Беларуси: работаем по всей стране"><svg viewBox="0 0 270 226" xmlns="http://www.w3.org/2000/svg"><g class="dots"><circle cx="132" cy="12" r="1.7"/><circle cx="140" cy="12" r="1.7"/><circle cx="148" cy="12" r="1.7"/><circle cx="156" cy="12" r="1.7"/><circle cx="128" cy="20" r="1.7"/><circle cx="136" cy="20" r="1.7"/><circle cx="144" cy="20" r="1.7"/><circle cx="152" cy="20" r="1.7"/><circle cx="160" cy="20" r="1.7"/><circle cx="100" cy="28" r="1.7"/><circle cx="108" cy="28" r="1.7"/><circle cx="116" cy="28" r="1.7"/><circle cx="124" cy="28" r="1.7"/><circle cx="132" cy="28" r="1.7"/><circle cx="140" cy="28" r="1.7"/><circle cx="148" cy="28" r="1.7"/><circle cx="156" cy="28" r="1.7"/><circle cx="164" cy="28" r="1.7"/><circle cx="172" cy="28" r="1.7"/><circle cx="180" cy="28" r="1.7"/><circle cx="96" cy="36" r="1.7"/><circle cx="104" cy="36" r="1.7"/><circle cx="112" cy="36" r="1.7"/><circle cx="120" cy="36" r="1.7"/><circle cx="128" cy="36" r="1.7"/><circle cx="136" cy="36" r="1.7"/><circle cx="144" cy="36" r="1.7"/><circle cx="152" cy="36" r="1.7"/><circle cx="160" cy="36" r="1.7"/><circle cx="168" cy="36" r="1.7"/><circle cx="176" cy="36" r="1.7"/><circle cx="184" cy="36" r="1.7"/><circle cx="192" cy="36" r="1.7"/><circle cx="200" cy="36" r="1.7"/><circle cx="92" cy="44" r="1.7"/><circle cx="100" cy="44" r="1.7"/><circle cx="108" cy="44" r="1.7"/><circle cx="116" cy="44" r="1.7"/><circle cx="124" cy="44" r="1.7"/><circle cx="132" cy="44" r="1.7"/><circle cx="140" cy="44" r="1.7"/><circle cx="148" cy="44" r="1.7"/><circle cx="156" cy="44" r="1.7"/><circle cx="164" cy="44" r="1.7"/><circle cx="172" cy="44" r="1.7"/><circle cx="180" cy="44" r="1.7"/><circle cx="188" cy="44" r="1.7"/><circle cx="196" cy="44" r="1.7"/><circle cx="204" cy="44" r="1.7"/><circle cx="88" cy="52" r="1.7"/><circle cx="96" cy="52" r="1.7"/><circle cx="104" cy="52" r="1.7"/><circle cx="112" cy="52" r="1.7"/><circle cx="120" cy="52" r="1.7"/><circle cx="128" cy="52" r="1.7"/><circle cx="136" cy="52" r="1.7"/><circle cx="144" cy="52" r="1.7"/><circle cx="152" cy="52" r="1.7"/><circle cx="160" cy="52" r="1.7"/><circle cx="168" cy="52" r="1.7"/><circle cx="176" cy="52" r="1.7"/><circle cx="184" cy="52" r="1.7"/><circle cx="192" cy="52" r="1.7"/><circle cx="200" cy="52" r="1.7"/><circle cx="76" cy="60" r="1.7"/><circle cx="84" cy="60" r="1.7"/><circle cx="92" cy="60" r="1.7"/><circle cx="100" cy="60" r="1.7"/><circle cx="108" cy="60" r="1.7"/><circle cx="116" cy="60" r="1.7"/><circle cx="124" cy="60" r="1.7"/><circle cx="132" cy="60" r="1.7"/><circle cx="140" cy="60" r="1.7"/><circle cx="148" cy="60" r="1.7"/><circle cx="156" cy="60" r="1.7"/><circle cx="164" cy="60" r="1.7"/><circle cx="172" cy="60" r="1.7"/><circle cx="180" cy="60" r="1.7"/><circle cx="188" cy="60" r="1.7"/><circle cx="196" cy="60" r="1.7"/><circle cx="204" cy="60" r="1.7"/><circle cx="72" cy="68" r="1.7"/><circle cx="80" cy="68" r="1.7"/><circle cx="88" cy="68" r="1.7"/><circle cx="96" cy="68" r="1.7"/><circle cx="104" cy="68" r="1.7"/><circle cx="112" cy="68" r="1.7"/><circle cx="120" cy="68" r="1.7"/><circle cx="128" cy="68" r="1.7"/><circle cx="136" cy="68" r="1.7"/><circle cx="144" cy="68" r="1.7"/><circle cx="152" cy="68" r="1.7"/><circle cx="160" cy="68" r="1.7"/><circle cx="168" cy="68" r="1.7"/><circle cx="176" cy="68" r="1.7"/><circle cx="184" cy="68" r="1.7"/><circle cx="192" cy="68" r="1.7"/><circle cx="200" cy="68" r="1.7"/><circle cx="68" cy="76" r="1.7"/><circle cx="76" cy="76" r="1.7"/><circle cx="84" cy="76" r="1.7"/><circle cx="92" cy="76" r="1.7"/><circle cx="100" cy="76" r="1.7"/><circle cx="108" cy="76" r="1.7"/><circle cx="116" cy="76" r="1.7"/><circle cx="124" cy="76" r="1.7"/><circle cx="132" cy="76" r="1.7"/><circle cx="140" cy="76" r="1.7"/><circle cx="148" cy="76" r="1.7"/><circle cx="156" cy="76" r="1.7"/><circle cx="164" cy="76" r="1.7"/><circle cx="172" cy="76" r="1.7"/><circle cx="180" cy="76" r="1.7"/><circle cx="188" cy="76" r="1.7"/><circle cx="196" cy="76" r="1.7"/><circle cx="204" cy="76" r="1.7"/><circle cx="212" cy="76" r="1.7"/><circle cx="72" cy="84" r="1.7"/><circle cx="80" cy="84" r="1.7"/><circle cx="88" cy="84" r="1.7"/><circle cx="96" cy="84" r="1.7"/><circle cx="104" cy="84" r="1.7"/><circle cx="112" cy="84" r="1.7"/><circle cx="120" cy="84" r="1.7"/><circle cx="128" cy="84" r="1.7"/><circle cx="136" cy="84" r="1.7"/><circle cx="144" cy="84" r="1.7"/><circle cx="152" cy="84" r="1.7"/><circle cx="160" cy="84" r="1.7"/><circle cx="168" cy="84" r="1.7"/><circle cx="176" cy="84" r="1.7"/><circle cx="184" cy="84" r="1.7"/><circle cx="192" cy="84" r="1.7"/><circle cx="200" cy="84" r="1.7"/><circle cx="208" cy="84" r="1.7"/><circle cx="216" cy="84" r="1.7"/><circle cx="60" cy="92" r="1.7"/><circle cx="68" cy="92" r="1.7"/><circle cx="76" cy="92" r="1.7"/><circle cx="84" cy="92" r="1.7"/><circle cx="92" cy="92" r="1.7"/><circle cx="100" cy="92" r="1.7"/><circle cx="108" cy="92" r="1.7"/><circle cx="116" cy="92" r="1.7"/><circle cx="124" cy="92" r="1.7"/><circle cx="132" cy="92" r="1.7"/><circle cx="140" cy="92" r="1.7"/><circle cx="148" cy="92" r="1.7"/><circle cx="156" cy="92" r="1.7"/><circle cx="164" cy="92" r="1.7"/><circle cx="172" cy="92" r="1.7"/><circle cx="180" cy="92" r="1.7"/><circle cx="188" cy="92" r="1.7"/><circle cx="196" cy="92" r="1.7"/><circle cx="204" cy="92" r="1.7"/><circle cx="212" cy="92" r="1.7"/><circle cx="220" cy="92" r="1.7"/><circle cx="40" cy="100" r="1.7"/><circle cx="48" cy="100" r="1.7"/><circle cx="56" cy="100" r="1.7"/><circle cx="64" cy="100" r="1.7"/><circle cx="72" cy="100" r="1.7"/><circle cx="80" cy="100" r="1.7"/><circle cx="88" cy="100" r="1.7"/><circle cx="96" cy="100" r="1.7"/><circle cx="104" cy="100" r="1.7"/><circle cx="112" cy="100" r="1.7"/><circle cx="120" cy="100" r="1.7"/><circle cx="128" cy="100" r="1.7"/><circle cx="136" cy="100" r="1.7"/><circle cx="144" cy="100" r="1.7"/><circle cx="152" cy="100" r="1.7"/><circle cx="160" cy="100" r="1.7"/><circle cx="168" cy="100" r="1.7"/><circle cx="176" cy="100" r="1.7"/><circle cx="184" cy="100" r="1.7"/><circle cx="192" cy="100" r="1.7"/><circle cx="200" cy="100" r="1.7"/><circle cx="208" cy="100" r="1.7"/><circle cx="216" cy="100" r="1.7"/><circle cx="224" cy="100" r="1.7"/><circle cx="232" cy="100" r="1.7"/><circle cx="20" cy="108" r="1.7"/><circle cx="28" cy="108" r="1.7"/><circle cx="36" cy="108" r="1.7"/><circle cx="44" cy="108" r="1.7"/><circle cx="52" cy="108" r="1.7"/><circle cx="60" cy="108" r="1.7"/><circle cx="68" cy="108" r="1.7"/><circle cx="76" cy="108" r="1.7"/><circle cx="84" cy="108" r="1.7"/><circle cx="92" cy="108" r="1.7"/><circle cx="100" cy="108" r="1.7"/><circle cx="108" cy="108" r="1.7"/><circle cx="116" cy="108" r="1.7"/><circle cx="124" cy="108" r="1.7"/><circle cx="132" cy="108" r="1.7"/><circle cx="140" cy="108" r="1.7"/><circle cx="148" cy="108" r="1.7"/><circle cx="156" cy="108" r="1.7"/><circle cx="164" cy="108" r="1.7"/><circle cx="172" cy="108" r="1.7"/><circle cx="180" cy="108" r="1.7"/><circle cx="188" cy="108" r="1.7"/><circle cx="196" cy="108" r="1.7"/><circle cx="204" cy="108" r="1.7"/><circle cx="212" cy="108" r="1.7"/><circle cx="220" cy="108" r="1.7"/><circle cx="228" cy="108" r="1.7"/><circle cx="236" cy="108" r="1.7"/><circle cx="16" cy="116" r="1.7"/><circle cx="24" cy="116" r="1.7"/><circle cx="32" cy="116" r="1.7"/><circle cx="40" cy="116" r="1.7"/><circle cx="48" cy="116" r="1.7"/><circle cx="56" cy="116" r="1.7"/><circle cx="64" cy="116" r="1.7"/><circle cx="72" cy="116" r="1.7"/><circle cx="80" cy="116" r="1.7"/><circle cx="88" cy="116" r="1.7"/><circle cx="96" cy="116" r="1.7"/><circle cx="104" cy="116" r="1.7"/><circle cx="112" cy="116" r="1.7"/><circle cx="120" cy="116" r="1.7"/><circle cx="128" cy="116" r="1.7"/><circle cx="136" cy="116" r="1.7"/><circle cx="144" cy="116" r="1.7"/><circle cx="152" cy="116" r="1.7"/><circle cx="160" cy="116" r="1.7"/><circle cx="168" cy="116" r="1.7"/><circle cx="176" cy="116" r="1.7"/><circle cx="184" cy="116" r="1.7"/><circle cx="192" cy="116" r="1.7"/><circle cx="200" cy="116" r="1.7"/><circle cx="208" cy="116" r="1.7"/><circle cx="216" cy="116" r="1.7"/><circle cx="224" cy="116" r="1.7"/><circle cx="232" cy="116" r="1.7"/><circle cx="240" cy="116" r="1.7"/><circle cx="248" cy="116" r="1.7"/><circle cx="20" cy="124" r="1.7"/><circle cx="28" cy="124" r="1.7"/><circle cx="36" cy="124" r="1.7"/><circle cx="44" cy="124" r="1.7"/><circle cx="52" cy="124" r="1.7"/><circle cx="60" cy="124" r="1.7"/><circle cx="68" cy="124" r="1.7"/><circle cx="76" cy="124" r="1.7"/><circle cx="84" cy="124" r="1.7"/><circle cx="92" cy="124" r="1.7"/><circle cx="100" cy="124" r="1.7"/><circle cx="108" cy="124" r="1.7"/><circle cx="116" cy="124" r="1.7"/><circle cx="124" cy="124" r="1.7"/><circle cx="132" cy="124" r="1.7"/><circle cx="140" cy="124" r="1.7"/><circle cx="148" cy="124" r="1.7"/><circle cx="156" cy="124" r="1.7"/><circle cx="164" cy="124" r="1.7"/><circle cx="172" cy="124" r="1.7"/><circle cx="180" cy="124" r="1.7"/><circle cx="188" cy="124" r="1.7"/><circle cx="196" cy="124" r="1.7"/><circle cx="204" cy="124" r="1.7"/><circle cx="212" cy="124" r="1.7"/><circle cx="220" cy="124" r="1.7"/><circle cx="228" cy="124" r="1.7"/><circle cx="236" cy="124" r="1.7"/><circle cx="244" cy="124" r="1.7"/><circle cx="252" cy="124" r="1.7"/><circle cx="24" cy="132" r="1.7"/><circle cx="32" cy="132" r="1.7"/><circle cx="40" cy="132" r="1.7"/><circle cx="48" cy="132" r="1.7"/><circle cx="56" cy="132" r="1.7"/><circle cx="64" cy="132" r="1.7"/><circle cx="72" cy="132" r="1.7"/><circle cx="80" cy="132" r="1.7"/><circle cx="88" cy="132" r="1.7"/><circle cx="96" cy="132" r="1.7"/><circle cx="104" cy="132" r="1.7"/><circle cx="112" cy="132" r="1.7"/><circle cx="120" cy="132" r="1.7"/><circle cx="128" cy="132" r="1.7"/><circle cx="136" cy="132" r="1.7"/><circle cx="144" cy="132" r="1.7"/><circle cx="152" cy="132" r="1.7"/><circle cx="160" cy="132" r="1.7"/><circle cx="168" cy="132" r="1.7"/><circle cx="176" cy="132" r="1.7"/><circle cx="184" cy="132" r="1.7"/><circle cx="192" cy="132" r="1.7"/><circle cx="200" cy="132" r="1.7"/><circle cx="208" cy="132" r="1.7"/><circle cx="216" cy="132" r="1.7"/><circle cx="224" cy="132" r="1.7"/><circle cx="232" cy="132" r="1.7"/><circle cx="240" cy="132" r="1.7"/><circle cx="248" cy="132" r="1.7"/><circle cx="28" cy="140" r="1.7"/><circle cx="36" cy="140" r="1.7"/><circle cx="44" cy="140" r="1.7"/><circle cx="52" cy="140" r="1.7"/><circle cx="60" cy="140" r="1.7"/><circle cx="68" cy="140" r="1.7"/><circle cx="76" cy="140" r="1.7"/><circle cx="84" cy="140" r="1.7"/><circle cx="92" cy="140" r="1.7"/><circle cx="100" cy="140" r="1.7"/><circle cx="108" cy="140" r="1.7"/><circle cx="116" cy="140" r="1.7"/><circle cx="124" cy="140" r="1.7"/><circle cx="132" cy="140" r="1.7"/><circle cx="140" cy="140" r="1.7"/><circle cx="148" cy="140" r="1.7"/><circle cx="156" cy="140" r="1.7"/><circle cx="164" cy="140" r="1.7"/><circle cx="172" cy="140" r="1.7"/><circle cx="180" cy="140" r="1.7"/><circle cx="188" cy="140" r="1.7"/><circle cx="196" cy="140" r="1.7"/><circle cx="204" cy="140" r="1.7"/><circle cx="212" cy="140" r="1.7"/><circle cx="220" cy="140" r="1.7"/><circle cx="228" cy="140" r="1.7"/><circle cx="236" cy="140" r="1.7"/><circle cx="244" cy="140" r="1.7"/><circle cx="24" cy="148" r="1.7"/><circle cx="32" cy="148" r="1.7"/><circle cx="40" cy="148" r="1.7"/><circle cx="48" cy="148" r="1.7"/><circle cx="56" cy="148" r="1.7"/><circle cx="64" cy="148" r="1.7"/><circle cx="72" cy="148" r="1.7"/><circle cx="80" cy="148" r="1.7"/><circle cx="88" cy="148" r="1.7"/><circle cx="96" cy="148" r="1.7"/><circle cx="104" cy="148" r="1.7"/><circle cx="112" cy="148" r="1.7"/><circle cx="120" cy="148" r="1.7"/><circle cx="128" cy="148" r="1.7"/><circle cx="136" cy="148" r="1.7"/><circle cx="144" cy="148" r="1.7"/><circle cx="152" cy="148" r="1.7"/><circle cx="160" cy="148" r="1.7"/><circle cx="168" cy="148" r="1.7"/><circle cx="176" cy="148" r="1.7"/><circle cx="184" cy="148" r="1.7"/><circle cx="192" cy="148" r="1.7"/><circle cx="200" cy="148" r="1.7"/><circle cx="208" cy="148" r="1.7"/><circle cx="216" cy="148" r="1.7"/><circle cx="224" cy="148" r="1.7"/><circle cx="232" cy="148" r="1.7"/><circle cx="28" cy="156" r="1.7"/><circle cx="36" cy="156" r="1.7"/><circle cx="44" cy="156" r="1.7"/><circle cx="52" cy="156" r="1.7"/><circle cx="60" cy="156" r="1.7"/><circle cx="68" cy="156" r="1.7"/><circle cx="76" cy="156" r="1.7"/><circle cx="84" cy="156" r="1.7"/><circle cx="92" cy="156" r="1.7"/><circle cx="100" cy="156" r="1.7"/><circle cx="108" cy="156" r="1.7"/><circle cx="116" cy="156" r="1.7"/><circle cx="124" cy="156" r="1.7"/><circle cx="132" cy="156" r="1.7"/><circle cx="140" cy="156" r="1.7"/><circle cx="148" cy="156" r="1.7"/><circle cx="156" cy="156" r="1.7"/><circle cx="164" cy="156" r="1.7"/><circle cx="172" cy="156" r="1.7"/><circle cx="180" cy="156" r="1.7"/><circle cx="188" cy="156" r="1.7"/><circle cx="196" cy="156" r="1.7"/><circle cx="204" cy="156" r="1.7"/><circle cx="212" cy="156" r="1.7"/><circle cx="220" cy="156" r="1.7"/><circle cx="16" cy="164" r="1.7"/><circle cx="24" cy="164" r="1.7"/><circle cx="32" cy="164" r="1.7"/><circle cx="40" cy="164" r="1.7"/><circle cx="48" cy="164" r="1.7"/><circle cx="56" cy="164" r="1.7"/><circle cx="64" cy="164" r="1.7"/><circle cx="72" cy="164" r="1.7"/><circle cx="80" cy="164" r="1.7"/><circle cx="88" cy="164" r="1.7"/><circle cx="96" cy="164" r="1.7"/><circle cx="104" cy="164" r="1.7"/><circle cx="112" cy="164" r="1.7"/><circle cx="120" cy="164" r="1.7"/><circle cx="128" cy="164" r="1.7"/><circle cx="136" cy="164" r="1.7"/><circle cx="144" cy="164" r="1.7"/><circle cx="152" cy="164" r="1.7"/><circle cx="160" cy="164" r="1.7"/><circle cx="168" cy="164" r="1.7"/><circle cx="176" cy="164" r="1.7"/><circle cx="184" cy="164" r="1.7"/><circle cx="192" cy="164" r="1.7"/><circle cx="200" cy="164" r="1.7"/><circle cx="208" cy="164" r="1.7"/><circle cx="216" cy="164" r="1.7"/><circle cx="224" cy="164" r="1.7"/><circle cx="12" cy="172" r="1.7"/><circle cx="20" cy="172" r="1.7"/><circle cx="28" cy="172" r="1.7"/><circle cx="36" cy="172" r="1.7"/><circle cx="44" cy="172" r="1.7"/><circle cx="52" cy="172" r="1.7"/><circle cx="60" cy="172" r="1.7"/><circle cx="68" cy="172" r="1.7"/><circle cx="76" cy="172" r="1.7"/><circle cx="84" cy="172" r="1.7"/><circle cx="92" cy="172" r="1.7"/><circle cx="100" cy="172" r="1.7"/><circle cx="108" cy="172" r="1.7"/><circle cx="116" cy="172" r="1.7"/><circle cx="124" cy="172" r="1.7"/><circle cx="132" cy="172" r="1.7"/><circle cx="140" cy="172" r="1.7"/><circle cx="148" cy="172" r="1.7"/><circle cx="156" cy="172" r="1.7"/><circle cx="164" cy="172" r="1.7"/><circle cx="172" cy="172" r="1.7"/><circle cx="180" cy="172" r="1.7"/><circle cx="188" cy="172" r="1.7"/><circle cx="196" cy="172" r="1.7"/><circle cx="204" cy="172" r="1.7"/><circle cx="212" cy="172" r="1.7"/><circle cx="220" cy="172" r="1.7"/><circle cx="16" cy="180" r="1.7"/><circle cx="24" cy="180" r="1.7"/><circle cx="32" cy="180" r="1.7"/><circle cx="40" cy="180" r="1.7"/><circle cx="48" cy="180" r="1.7"/><circle cx="56" cy="180" r="1.7"/><circle cx="64" cy="180" r="1.7"/><circle cx="72" cy="180" r="1.7"/><circle cx="80" cy="180" r="1.7"/><circle cx="88" cy="180" r="1.7"/><circle cx="96" cy="180" r="1.7"/><circle cx="104" cy="180" r="1.7"/><circle cx="112" cy="180" r="1.7"/><circle cx="120" cy="180" r="1.7"/><circle cx="128" cy="180" r="1.7"/><circle cx="136" cy="180" r="1.7"/><circle cx="144" cy="180" r="1.7"/><circle cx="152" cy="180" r="1.7"/><circle cx="160" cy="180" r="1.7"/><circle cx="168" cy="180" r="1.7"/><circle cx="176" cy="180" r="1.7"/><circle cx="184" cy="180" r="1.7"/><circle cx="192" cy="180" r="1.7"/><circle cx="200" cy="180" r="1.7"/><circle cx="208" cy="180" r="1.7"/><circle cx="216" cy="180" r="1.7"/><circle cx="224" cy="180" r="1.7"/><circle cx="20" cy="188" r="1.7"/><circle cx="28" cy="188" r="1.7"/><circle cx="36" cy="188" r="1.7"/><circle cx="44" cy="188" r="1.7"/><circle cx="52" cy="188" r="1.7"/><circle cx="60" cy="188" r="1.7"/><circle cx="68" cy="188" r="1.7"/><circle cx="76" cy="188" r="1.7"/><circle cx="84" cy="188" r="1.7"/><circle cx="92" cy="188" r="1.7"/><circle cx="100" cy="188" r="1.7"/><circle cx="108" cy="188" r="1.7"/><circle cx="116" cy="188" r="1.7"/><circle cx="124" cy="188" r="1.7"/><circle cx="132" cy="188" r="1.7"/><circle cx="140" cy="188" r="1.7"/><circle cx="148" cy="188" r="1.7"/><circle cx="156" cy="188" r="1.7"/><circle cx="164" cy="188" r="1.7"/><circle cx="172" cy="188" r="1.7"/><circle cx="180" cy="188" r="1.7"/><circle cx="188" cy="188" r="1.7"/><circle cx="196" cy="188" r="1.7"/><circle cx="204" cy="188" r="1.7"/><circle cx="24" cy="196" r="1.7"/><circle cx="32" cy="196" r="1.7"/><circle cx="104" cy="196" r="1.7"/><circle cx="112" cy="196" r="1.7"/><circle cx="120" cy="196" r="1.7"/><circle cx="128" cy="196" r="1.7"/><circle cx="136" cy="196" r="1.7"/><circle cx="144" cy="196" r="1.7"/><circle cx="152" cy="196" r="1.7"/><circle cx="160" cy="196" r="1.7"/><circle cx="168" cy="196" r="1.7"/><circle cx="176" cy="196" r="1.7"/><circle cx="184" cy="196" r="1.7"/><circle cx="192" cy="196" r="1.7"/><circle cx="200" cy="196" r="1.7"/><circle cx="124" cy="204" r="1.7"/><circle cx="132" cy="204" r="1.7"/><circle cx="140" cy="204" r="1.7"/><circle cx="148" cy="204" r="1.7"/><circle cx="156" cy="204" r="1.7"/><circle cx="164" cy="204" r="1.7"/><circle cx="172" cy="204" r="1.7"/><circle cx="180" cy="204" r="1.7"/><circle cx="188" cy="204" r="1.7"/><circle cx="196" cy="204" r="1.7"/><circle cx="192" cy="212" r="1.7"/></g><circle class="city" cx="18.2" cy="184.8" r="2.6"/><text class="city-lb" x="26" y="189">Брест</text><circle class="city" cx="21.6" cy="115.3" r="2.6"/><text class="city-lb" x="29" y="119">Гродно</text><circle class="city" cx="187.5" cy="48.8" r="2.6"/><text class="city-lb" x="195" y="53">Витебск</text><circle class="city" cx="190.9" cy="105.6" r="2.6"/><text class="city-lb" x="198.5" y="110">Могилёв</text><circle class="city" cx="208.4" cy="169.8" r="2.6"/><text class="city-lb" x="202" y="186" text-anchor="end">Гомель</text><circle class="geo-pulse" cx="118.8" cy="105.6" r="4"><animate attributeName="r" from="5" to="17" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" from=".7" to="0" dur="2.4s" repeatCount="indefinite"/></circle><circle class="minsk" cx="118.8" cy="105.6" r="4.4"/><text class="minsk-lb" x="128" y="101">Минск</text></svg><p class="geo-cap">Работаем по всей Беларуси. Бесплатный выезд замерщика.</p></div>
 </div>
 <form class="cf" onsubmit="submitContactForm(event)">
 <input name="name" placeholder="Имя" aria-label="Имя" required>
@@ -965,27 +934,6 @@ async function submitContactForm(e){
       if(c.hours) h+='<p>'+esc(c.hours)+'</p>';
       fc.innerHTML=h;
     }
-  }catch(e){}
-})();
-
-// Загрузить партнёров из API
-(async function(){
-  try{
-    var r=await fetch('/api/partners');if(!r.ok)return;
-    var j=await r.json();if(!j.partners||!j.partners.length)return;
-    var grid=document.querySelector('.partners-grid');if(!grid)return;
-    grid.innerHTML='';
-    var escP=function(s){return String(s||'').replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};
-    j.partners.forEach(function(p){
-      var card=document.createElement('div');
-      card.className='partner-card';
-      if(p.imageId){
-        card.innerHTML='<img src="/api/image/v2-'+encodeURIComponent(p.imageId)+'" alt="'+escP(p.name)+'">';
-      } else {
-        card.innerHTML='<span style="font-size:22px;font-weight:700;letter-spacing:3px;color:#1e1e1e">'+escP(p.name)+'</span>';
-      }
-      grid.appendChild(card);
-    });
   }catch(e){}
 })();
 
@@ -1442,45 +1390,6 @@ if('IntersectionObserver' in window){
   counters.forEach(function(c){ io.observe(c); });
 } else {
   counters.forEach(animateCounter);
-}
-</script>
-<script>
-// Яндекс.Карты — асинхронная загрузка, чтобы зависший CDN не блокировал страницу
-(function(){
-  function loadMaps(){
-    var s = document.createElement('script');
-    s.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
-    s.async = true;
-    s.onload = function(){ if (typeof ymaps !== 'undefined') initYMap(); };
-    document.head.appendChild(s);
-  }
-  var el = document.getElementById('ymap');
-  if (el && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function(en){
-      if (en[0].isIntersecting) { io.disconnect(); loadMaps(); }
-    }, {rootMargin: '600px'});
-    io.observe(el);
-  } else { loadMaps(); }
-})();
-function initYMap(){
-ymaps.ready(function(){
-  var map = new ymaps.Map('ymap',{
-    center:[53.9006,27.5590],
-    zoom:11,
-    controls:['zoomControl']
-  },{
-    suppressMapOpenBlock:true
-  });
-  map.behaviors.disable('scrollZoom');
-  var mark = new ymaps.Placemark([53.9006,27.5590],{
-    balloonContentHeader:'UNICORE',
-    balloonContentBody:'Минск, Беларусь<br>Декоративные тонкослойные покрытия'
-  },{
-    preset:'islands#dotIcon',
-    iconColor:'#b8965a'
-  });
-  map.geoObjects.add(mark);
-});
 }
 </script>
 <!-- CONTACT + CALC MODALS (gm) -->
