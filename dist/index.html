@@ -170,15 +170,6 @@ a{text-decoration:none;color:inherit}
 .hero-min-cta a{display:inline-block;padding:13px 26px;font-family:'Geologica',sans-serif;font-size:12px;font-weight:600;border-radius:14px;letter-spacing:2px;text-transform:lowercase;transition:.2s;-webkit-tap-highlight-color:transparent}
 @media(max-width:600px){.hero-min-cta{flex-direction:row;gap:8px;margin-top:26px}.hero-min-cta a{padding:11px 14px;font-size:11px;letter-spacing:1.2px;white-space:nowrap;flex:1;text-align:center}}
 .hero-min-brand,.hero-min-studio{visibility:hidden}
-/* HERO LIVE — живой фон: медленно плывущий свет + киношное зерно */
-.hero-live{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
-.hl-glow{position:absolute;width:70vmax;height:70vmax;left:-15vmax;top:-12vmax;border-radius:50%;background:radial-gradient(circle,rgba(184,150,90,.14) 0%,rgba(184,150,90,.05) 35%,transparent 65%);mix-blend-mode:screen;animation:hlDrift 38s ease-in-out infinite alternate}
-.hl-glow2{left:auto;right:-20vmax;top:auto;bottom:-16vmax;width:60vmax;height:60vmax;background:radial-gradient(circle,rgba(239,236,231,.08) 0%,rgba(239,236,231,.03) 35%,transparent 65%);animation:hlDrift2 47s ease-in-out infinite alternate}
-@keyframes hlDrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(18vw,10vh) scale(1.15)}100%{transform:translate(34vw,2vh) scale(.95)}}
-@keyframes hlDrift2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-14vw,-12vh) scale(1.2)}100%{transform:translate(-28vw,-4vh) scale(1)}}
-.hl-grain{position:absolute;inset:-90px;background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px;opacity:.055;animation:hlGrain 1s infinite;animation-timing-function:steps(1,end)}
-@keyframes hlGrain{0%{transform:translate(0,0)}10%{transform:translate(-28px,14px)}20%{transform:translate(18px,-24px)}30%{transform:translate(-36px,-10px)}40%{transform:translate(30px,26px)}50%{transform:translate(-14px,36px)}60%{transform:translate(26px,-30px)}70%{transform:translate(-30px,22px)}80%{transform:translate(14px,-14px)}90%{transform:translate(-18px,30px)}100%{transform:translate(0,0)}}
-@media (prefers-reduced-motion:reduce){.hl-glow,.hl-glow2,.hl-grain{animation:none}}
 @media(max-width:600px){
   .hero-min-in{padding:60px 20px 40px}
   .hero-min-brand{font-size:clamp(40px,12vw,60px)}
@@ -545,7 +536,6 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <!-- HERO — минималистичный бренд-сплеш. Откат: восстановить старый блок ниже из комментария. -->
 <section class="hero hero-min" data-slot="hero">
 <div class="hero-slides" id="heroSlides"></div>
-<div class="hero-live" aria-hidden="true"><div class="hl-glow"></div><div class="hl-glow hl-glow2"></div><div class="hl-grain"></div></div>
 <div class="hero-glow"></div>
 <div class="hero-grid"></div>
 <div class="hero-min-in">
