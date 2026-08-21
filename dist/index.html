@@ -379,22 +379,45 @@ a{text-decoration:none;color:inherit}
 .px-header{position:relative;z-index:1;padding:0 clamp(16px,3vw,40px) 38px}
 .px-h{font-size:28px;font-weight:600;color:#fff;text-transform:lowercase;line-height:1.2;letter-spacing:0;margin:0;text-shadow:0 1px 6px rgba(0,0,0,.65);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 .px-h-line{width:30px;height:2px;background:#b8965a;margin-top:12px;border-radius:1px}
-.px-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 clamp(16px,3vw,40px)}
-.px-card{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:22px 26px;border-radius:16px;text-decoration:none;background:rgba(255,255,255,.06);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);opacity:0;transform:translateY(50px);transition:background .3s,border-color .3s;outline:none;z-index:1;will-change:transform,opacity}
-.px-go{flex:none;color:rgba(255,255,255,.65);font-size:20px;line-height:1;transition:all .3s}
+.px-grid{position:relative;z-index:1;display:flex;justify-content:center;gap:clamp(44px,7vw,96px);padding:0 clamp(16px,3vw,40px)}
+.px-card{position:relative;display:inline-block;text-decoration:none;font-size:19px;font-weight:300;letter-spacing:1.5px;text-transform:lowercase;color:#efece7;line-height:1em;opacity:0;transform:translateY(50px);outline:none;z-index:1;will-change:transform,opacity;-webkit-tap-highlight-color:transparent}
+.sl{position:relative;display:inline-block}
+.sl-top,.sl-bot{display:block;overflow:hidden;height:.5em;transition:transform .6s cubic-bezier(.89,-.17,.14,1.225)}
+.sl-top span,.sl-bot span{display:block;white-space:nowrap;line-height:1em}
+.sl-bot span{transform:translateY(-.5em)}
+.sl-line{position:absolute;top:calc(.5em - .5px);left:-14px;height:1px;width:0;background:#b8965a;transition:width 1s cubic-bezier(.89,-.17,.14,1.225);pointer-events:none}
+.px-card::after{content:"→";position:absolute;right:-26px;top:0;font-size:15px;color:#b8965a;opacity:0;transform:translateX(-6px);transition:opacity .4s .3s,transform .4s .3s;line-height:1em}
 .px-card:focus-visible{border-color:rgba(184,150,90,.7)}
-.px-title,.px-go{position:relative;z-index:1}
-.px-card:hover{background:rgba(255,255,255,.09);border-color:rgba(184,150,90,.5);z-index:3}
-.px-card:hover .px-go{color:#b8965a;transform:translateX(4px)}
+
+.px-card:hover .sl-top{transform:translateX(9px)}
+.px-card:hover .sl-bot{transform:translateX(-9px)}
+.px-card:hover .sl-line{width:calc(100% + 42px)}
+.px-card:hover::after{opacity:1;transform:translateX(0)}
 .px-grid.in .px-card{animation:pxFlyIn .85s cubic-bezier(.16,.85,.32,1) forwards}
 .px-grid.in .px-card:nth-child(1){animation-delay:0s}
 .px-grid.in .px-card:nth-child(2){animation-delay:.14s}
 .px-grid.in .px-card:nth-child(3){animation-delay:.28s}
 @keyframes pxFlyIn{to{opacity:1;transform:translateY(0)}}
 .px-grid.in .px-card:hover{transform:translateY(-4px)}
-.px-title{font-size:clamp(15px,1.45vw,19px);font-weight:600;color:#fff;text-transform:lowercase;letter-spacing:.5px;margin:0;line-height:1.2;text-shadow:0 1px 8px rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
 @keyframes pxSlideMob{to{opacity:1;transform:translateX(0)}}
-@media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0 150px}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{padding:17px 20px;border-radius:14px;transform:translateX(-64px)}.px-grid.in .px-card{animation-name:pxSlideMob}.px-title{font-size:17px}.px-go{font-size:18px}}
+@keyframes slTopM{0%,35%{transform:none}55%{transform:translateX(11px)}75%{transform:translateX(11px)}100%{transform:none}}
+@keyframes slBotM{0%,35%{transform:none}55%{transform:translateX(-11px)}75%{transform:translateX(-11px)}100%{transform:none}}
+@keyframes slLineM{0%,30%{width:0;opacity:1}60%{width:calc(100% + 28px);opacity:1}85%{width:calc(100% + 28px)}100%{width:calc(100% + 28px);opacity:0}}
+@media(max-width:760px){
+.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0 150px}
+.px-grid{flex-direction:column;gap:12px;align-items:stretch}
+.px-card{display:flex;justify-content:center;font-size:17px;padding:16px 18px;border:1px solid rgba(255,255,255,.22);border-radius:14px;transform:translateX(-64px)}
+.px-card::after{display:none}
+.px-grid.in .px-card{animation-name:pxSlideMob}
+.px-grid.in .px-card .sl-top{animation:slTopM 1.5s cubic-bezier(.89,-.17,.14,1.225) both}
+.px-grid.in .px-card .sl-bot{animation:slBotM 1.5s cubic-bezier(.89,-.17,.14,1.225) both}
+.px-grid.in .px-card .sl-line{animation:slLineM 1.5s cubic-bezier(.89,-.17,.14,1.225) both}
+.px-grid.in .px-card:nth-child(1) .sl-top,.px-grid.in .px-card:nth-child(1) .sl-bot,.px-grid.in .px-card:nth-child(1) .sl-line{animation-delay:.55s}
+.px-grid.in .px-card:nth-child(2) .sl-top,.px-grid.in .px-card:nth-child(2) .sl-bot,.px-grid.in .px-card:nth-child(2) .sl-line{animation-delay:.75s}
+.px-grid.in .px-card:nth-child(3) .sl-top,.px-grid.in .px-card:nth-child(3) .sl-bot,.px-grid.in .px-card:nth-child(3) .sl-line{animation-delay:.95s}
+}
+@media (prefers-reduced-motion:reduce){.sl-top,.sl-bot,.sl-line{animation:none!important;transition:none}}
 
 /* PARTNERS */
 
@@ -736,11 +759,11 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </div>
 <div class="px-grid">
 
-<a href="/portfolio?filter=residential" class="px-card" aria-label="жилые интерьеры: квартиры, таунхаусы, коттеджи — покрытие на стенах, полах и мебели"><h3 class="px-title">жилые интерьеры</h3><span class="px-go" aria-hidden="true">→</span></a>
+<a href="/portfolio?filter=residential" class="px-card" aria-label="жилые интерьеры: квартиры, таунхаусы, коттеджи — покрытие на стенах, полах и мебели"><span class="sl"><span class="sl-top"><span>жилые интерьеры</span></span><span class="sl-bot" aria-hidden="true"><span>жилые интерьеры</span></span><span class="sl-line" aria-hidden="true"></span></span></a>
 
-<a href="/portfolio?filter=commercial" class="px-card" aria-label="коммерческие пространства: офисы, рестораны, шоурумы, бьюти-салоны — комбинированные системы"><h3 class="px-title">коммерческие пространства</h3><span class="px-go" aria-hidden="true">→</span></a>
+<a href="/portfolio?filter=commercial" class="px-card" aria-label="коммерческие пространства: офисы, рестораны, шоурумы, бьюти-салоны — комбинированные системы"><span class="sl"><span class="sl-top"><span>коммерческие пространства</span></span><span class="sl-bot" aria-hidden="true"><span>коммерческие пространства</span></span><span class="sl-line" aria-hidden="true"></span></span></a>
 
-<a href="/portfolio?filter=industrial" class="px-card" aria-label="промышленные объекты: паркинги, склады, цеха, пищевые производства — наливные системы под ключ"><h3 class="px-title">промышленные объекты</h3><span class="px-go" aria-hidden="true">→</span></a>
+<a href="/portfolio?filter=industrial" class="px-card" aria-label="промышленные объекты: паркинги, склады, цеха, пищевые производства — наливные системы под ключ"><span class="sl"><span class="sl-top"><span>промышленные объекты</span></span><span class="sl-bot" aria-hidden="true"><span>промышленные объекты</span></span><span class="sl-line" aria-hidden="true"></span></span></a>
 
 </div>
 </section>
