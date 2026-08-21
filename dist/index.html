@@ -443,6 +443,14 @@ a{text-decoration:none;color:inherit}
 .ct-item h4{font-size:14px;font-weight:500;margin-bottom:1px}
 .ct-item p{font-size:13px;font-weight:300}.gray .ct-item p{color:#a09a92}
 .cf{display:flex;flex-direction:column;gap:8px}
+/* CT-ART — линейная иллюстрация под кнопкой формы: мастер с кельмой */
+.ct-art{margin-top:26px;display:flex;justify-content:center;pointer-events:none}
+.ct-art svg{width:min(340px,90%);height:auto}
+.ct-arm{transform-origin:262px 148px;animation:ctSweep 2.6s ease-in-out infinite alternate}
+@keyframes ctSweep{from{transform:rotate(-11deg)}to{transform:rotate(13deg)}}
+.ct-coat{transform-origin:172px 66px;animation:ctCoat 5.2s ease-in-out infinite}
+@keyframes ctCoat{0%{transform:scaleY(.25);opacity:.35}50%{transform:scaleY(1);opacity:.75}100%{transform:scaleY(.25);opacity:.35}}
+@media (prefers-reduced-motion:reduce){.ct-arm,.ct-coat{animation:none}}
 .cf input,.cf textarea{width:100%;border-radius:14px;padding:12px;font-family:'Geologica',sans-serif;font-size:14px;outline:none;background:#383838;border:1px solid rgba(255,255,255,.06);color:#efece7}
 .cf input:focus,.cf textarea:focus{border-color:#b8965a}
 .cf textarea{height:80px;resize:vertical}
@@ -753,6 +761,32 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <input name="email" type="email" placeholder="Email" aria-label="Email">
 <textarea name="message" placeholder="О проекте..." aria-label="О проекте"></textarea>
 <button type="submit" class="btn btn-g" style="width:100%">Отправить заявку</button>
+<div class="ct-art" aria-hidden="true">
+<svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<line x1="34" y1="284" x2="386" y2="284" stroke="#efece7" stroke-width="2.5" opacity=".22"></line>
+<rect x="56" y="54" width="128" height="230" stroke="#efece7" stroke-width="2.5" opacity=".3"></rect>
+<line x1="72" y1="94" x2="132" y2="94" stroke="#efece7" stroke-width="2" opacity=".12"></line>
+<line x1="72" y1="134" x2="120" y2="134" stroke="#efece7" stroke-width="2" opacity=".12"></line>
+<line x1="72" y1="174" x2="128" y2="174" stroke="#efece7" stroke-width="2" opacity=".12"></line>
+<g class="ct-coat" stroke="#b8965a" stroke-width="2.5">
+<line x1="166" y1="68" x2="166" y2="268"></line>
+<line x1="172" y1="68" x2="172" y2="268"></line>
+<line x1="178" y1="68" x2="178" y2="268"></line>
+</g>
+<g stroke="#efece7" stroke-width="2.5" opacity=".5">
+<circle cx="286" cy="114" r="16"></circle>
+<path d="M 284 132 L 278 208"></path>
+<path d="M 278 208 L 258 282"></path>
+<path d="M 278 208 L 300 282"></path>
+<path d="M 282 154 L 306 186"></path>
+</g>
+<g class="ct-arm">
+<path d="M 282 148 L 240 152 L 210 142" stroke="#efece7" stroke-width="2.5" opacity=".5"></path>
+<line x1="187" y1="118" x2="187" y2="166" stroke="#b8965a" stroke-width="6" opacity=".85"></line>
+<line x1="191" y1="142" x2="208" y2="142" stroke="#b8965a" stroke-width="2.5" opacity=".85"></line>
+</g>
+</svg>
+</div>
 </form>
 </div>
 </div>
