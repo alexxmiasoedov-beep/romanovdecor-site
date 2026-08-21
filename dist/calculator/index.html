@@ -1262,11 +1262,16 @@ async function submitQuote(e){
   // «формируем PDF» на секунду вместо сломанного файла.
   var ov = document.createElement('div');
   ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#fff;overflow:hidden';
-  ov.innerHTML = '<div style="position:absolute;top:12px;left:0;right:0;text-align:center;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b8965a;font-weight:600">формируем PDF…</div>';
   var tpl = document.createElement('div');
-  tpl.style.cssText = 'width:800px;margin:40px auto 0';
+  tpl.style.cssText = 'width:800px;margin:0';
   tpl.innerHTML = buildPdfHtml(client);
   ov.appendChild(tpl);
+  // глухая заглушка поверх шаблона: пользователь видит только «формируем
+  // PDF…», а html2canvas снимает сам узел — заглушка в кадр не попадает
+  var cover = document.createElement('div');
+  cover.style.cssText = 'position:absolute;inset:0;background:#2c2c2c;z-index:2;display:flex;align-items:center;justify-content:center';
+  cover.innerHTML = '<div style="font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#b8965a;font-weight:600">формируем PDF…</div>';
+  ov.appendChild(cover);
   document.body.appendChild(ov);
   var node = tpl.firstChild;
 
@@ -1275,7 +1280,7 @@ async function submitQuote(e){
       margin: [8, 8, 8, 8],
       filename: 'unicore-kp.pdf',
       image: {type:'jpeg', quality:0.95},
-      html2canvas: {scale:2, useCORS:true, backgroundColor:'#fff'},
+      html2canvas: {scale:2, useCORS:true, backgroundColor:'#fff', windowWidth: 820, scrollX: 0, scrollY: 0},
       jsPDF: {unit:'mm', format:'a4', orientation:'portrait', compress:true},
       pagebreak: {mode:['avoid-all', 'css'], avoid:['tr','tbody','thead','tfoot']},
     }).from(node).outputPdf('blob');
