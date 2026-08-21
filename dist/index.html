@@ -466,11 +466,18 @@ a{text-decoration:none;color:inherit}
 .ct-coat{transform-origin:172px 66px;animation:ctCoat 5.2s ease-in-out infinite}
 @keyframes ctCoat{0%{transform:scaleY(.25);opacity:.35}50%{transform:scaleY(1);opacity:.75}100%{transform:scaleY(.25);opacity:.35}}
 @media (prefers-reduced-motion:reduce){.ct-arm,.ct-coat{animation:none}}
-/* мобильная копия: в пустоте справа от контактов, над картой */
+/* мобильная копия: мастер с валиком в пустоте справа от контактов */
 .ct-art-mob{display:none}
+.ctm-rig{transform-origin:284px 158px;animation:ctmPush 2.8s ease-in-out infinite alternate}
+@keyframes ctmPush{from{transform:rotate(-9deg)}to{transform:rotate(8deg)}}
+.ctm-sway{transform-origin:300px 250px;animation:ctmSway 2.8s ease-in-out infinite alternate}
+@keyframes ctmSway{from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
+.ctm-trail{transform-origin:150px 247px;animation:ctmTrail 2.8s ease-in-out infinite alternate}
+@keyframes ctmTrail{from{transform:scaleX(.5);opacity:.35}to{transform:scaleX(1);opacity:.8}}
+@media (prefers-reduced-motion:reduce){.ctm-rig,.ctm-sway,.ctm-trail{animation:none}}
 @media(max-width:600px){
   .ct-grid > div:first-child{position:relative}
-  .ct-art-mob{display:block;position:absolute;top:96px;right:-14px;width:230px;pointer-events:none}
+  .ct-art-mob{display:block;position:absolute;top:78px;right:-4px;width:205px;pointer-events:none}
   .ct-art{display:none}
 }
 .cf input,.cf textarea{width:100%;border-radius:14px;padding:12px;font-family:'Geologica',sans-serif;font-size:14px;outline:none;background:#383838;border:1px solid rgba(255,255,255,.06);color:#efece7}
@@ -790,24 +797,23 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7l7 5 7-5M4 15h12a1 1 0 001-1V6a1 1 0 00-1-1H4a1 1 0 00-1 1v8a1 1 0 001 1z"/></svg><div><h4>Email</h4><p>info&#64;romanovdecor.by</p></div></div>
 <div class="ct-item"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 11a3 3 0 100-6 3 3 0 000 6z"/><path d="M10 18s-6-5.3-6-10a6 6 0 1112 0c0 4.7-6 10-6 10z"/></svg><div><h4>Адрес</h4><p>г. Минск, Беларусь</p></div></div>
 <div class="ct-art-mob" aria-hidden="true">
-<svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
-<rect x="56" y="54" width="128" height="230" stroke="#efece7" stroke-width="2.5" opacity=".22"></rect>
-<g class="ct-coat" stroke="#b8965a" stroke-width="2.5">
-<line x1="166" y1="68" x2="166" y2="268"></line>
-<line x1="172" y1="68" x2="172" y2="268"></line>
-<line x1="178" y1="68" x2="178" y2="268"></line>
+<svg viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<line x1="70" y1="252" x2="386" y2="252" stroke="#efece7" stroke-width="2.5" opacity=".2"></line>
+<g class="ctm-trail" stroke="#b8965a" stroke-width="2.5">
+<line x1="120" y1="245" x2="218" y2="245"></line>
+<line x1="132" y1="249" x2="206" y2="249"></line>
 </g>
-<g stroke="#efece7" stroke-width="2.5" opacity=".45">
-<circle cx="286" cy="114" r="16"></circle>
-<path d="M 284 132 L 278 208"></path>
-<path d="M 278 208 L 258 282"></path>
-<path d="M 278 208 L 300 282"></path>
-<path d="M 282 154 L 306 186"></path>
+<g class="ctm-sway" stroke="#efece7" stroke-width="2.5" opacity=".45">
+<circle cx="312" cy="106" r="16"></circle>
+<path d="M 308 124 L 302 198"></path>
+<path d="M 302 198 L 284 252"></path>
+<path d="M 302 198 L 322 252"></path>
+<path d="M 306 142 L 288 156"></path>
+<path d="M 305 158 L 286 166"></path>
 </g>
-<g class="ct-arm">
-<path d="M 282 148 L 240 152 L 210 142" stroke="#efece7" stroke-width="2.5" opacity=".45"></path>
-<line x1="187" y1="118" x2="187" y2="166" stroke="#b8965a" stroke-width="6" opacity=".8"></line>
-<line x1="191" y1="142" x2="208" y2="142" stroke="#b8965a" stroke-width="2.5" opacity=".8"></line>
+<g class="ctm-rig">
+<line x1="284" y1="158" x2="200" y2="234" stroke="#efece7" stroke-width="2.5" opacity=".45"></line>
+<rect x="164" y="234" width="52" height="16" rx="8" fill="#b8965a" opacity=".8"></rect>
 </g>
 </svg>
 </div>
