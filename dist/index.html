@@ -380,11 +380,8 @@ a{text-decoration:none;color:inherit}
 .px-h{font-size:28px;font-weight:600;color:#fff;text-transform:lowercase;line-height:1.2;letter-spacing:0;margin:0;text-shadow:0 1px 6px rgba(0,0,0,.65);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 .px-h-line{width:30px;height:2px;background:#b8965a;margin-top:12px;border-radius:1px}
 .px-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 clamp(16px,3vw,40px)}
-.px-card{position:relative;overflow:hidden;isolation:isolate;background:rgba(255,255,255,.07);-webkit-backdrop-filter:blur(6px) saturate(130%);backdrop-filter:blur(6px) saturate(130%);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:26px 24px 22px;text-decoration:none;display:flex;flex-direction:column;min-height:280px;opacity:0;transform:translateY(50px);transition:background .35s cubic-bezier(.34,1.2,.64,1),border-color .35s,box-shadow .35s,z-index 0s;outline:none;z-index:1;will-change:transform,opacity;contain:layout paint}
+.px-card{position:relative;overflow:hidden;isolation:isolate;background:rgba(255,255,255,.07);-webkit-backdrop-filter:blur(6px) saturate(130%);backdrop-filter:blur(6px) saturate(130%);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:22px 22px 18px;text-decoration:none;display:flex;flex-direction:column;min-height:190px;opacity:0;transform:translateY(50px);transition:background .35s cubic-bezier(.34,1.2,.64,1),border-color .35s,box-shadow .35s,z-index 0s;outline:none;z-index:1;will-change:transform,opacity;contain:layout paint}
 .px-card:focus-visible{border-color:rgba(184,150,90,.7)}
-.px-icon{position:absolute;right:36px;bottom:68px;width:104px;height:104px;color:rgba(255,255,255,.18);pointer-events:none;transition:all .5s cubic-bezier(.34,1.2,.64,1);z-index:0}
-.px-icon svg{width:100%;height:100%;display:block;stroke:currentColor;fill:none;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
-.px-card:hover .px-icon{color:#b8965a;transform:scale(1.1) translate(-6px,-6px) rotate(15deg)}
 .px-title,.px-desc,.px-link{position:relative;z-index:1}
 .px-card:hover{background:rgba(255,255,255,.11);border-color:rgba(184,150,90,.6);box-shadow:inset 0 0 0 1px rgba(184,150,90,.3),inset 0 0 32px rgba(184,150,90,.08);z-index:3}
 .px-grid.in .px-card{animation:pxFlyIn .85s cubic-bezier(.16,.85,.32,1) forwards}
@@ -397,7 +394,7 @@ a{text-decoration:none;color:inherit}
 .px-desc{font-size:13px;color:rgba(255,255,255,.82);font-weight:300;letter-spacing:.5px;line-height:1.6;margin:0 0 auto;text-shadow:0 1px 6px rgba(0,0,0,.3)}
 .px-link{font-size:11px;color:#fff;letter-spacing:2px;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-weight:600;transition:all .3s;text-shadow:0 1px 6px rgba(0,0,0,.4)}
 .px-card:hover .px-link{gap:12px;color:#b8965a}
-@media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{min-height:200px;padding:22px 20px}.px-title{font-size:18px;white-space:normal}.px-icon{display:none}}
+@media(max-width:760px){.px-projects{background-attachment:scroll;min-height:auto;padding:60px 0}.px-grid{grid-template-columns:1fr;gap:12px}.px-card{min-height:170px;padding:20px 18px}.px-title{font-size:18px;white-space:normal}}
 
 /* PARTNERS */
 
@@ -743,21 +740,18 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <h3 class="px-title">жилые интерьеры</h3>
 <p class="px-desc">квартиры, таунхаусы, коттеджи — покрытие на стенах, полах и мебели</p>
 <span class="px-link">смотреть проекты →</span>
-<div class="px-icon" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M40,114v98a8,8,0,0,0,8,8h64v-56a8,8,0,0,1,8-8h16a8,8,0,0,1,8,8v56h64a8,8,0,0,0,8-8V114"/><path d="M24,128,123,38a8,8,0,0,1,10.79,0L232,128"/><path d="M168,57V40a8,8,0,0,1,8-8h24a8,8,0,0,1,8,8V97"/></svg></div>
 </a>
 
 <a href="/portfolio?filter=commercial" class="px-card">
 <h3 class="px-title">коммерческие пространства</h3>
 <p class="px-desc">офисы, рестораны, шоурумы, бьюти-салоны — комбинированные системы</p>
 <span class="px-link">смотреть →</span>
-<div class="px-icon" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M40,112v96a8,8,0,0,0,8,8H208a8,8,0,0,0,8-8V112"/><path d="M54.86,40H201.14a8,8,0,0,1,7.72,5.88L224,104H32L47.14,45.88A8,8,0,0,1,54.86,40Z"/><path d="M96,104a32,32,0,0,1-64,0M160,104a32,32,0,0,1-64,0M224,104a32,32,0,0,1-64,0"/><path d="M152,216V160a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v56"/></svg></div>
 </a>
 
 <a href="/portfolio?filter=industrial" class="px-card">
 <h3 class="px-title">промышленные объекты</h3>
 <p class="px-desc">паркинги, склады, цеха, пищевые производства — наливные системы под ключ</p>
 <span class="px-link">смотреть →</span>
-<div class="px-icon" aria-hidden="true"><svg viewBox="0 0 256 256"><path d="M32,216V104.34a8,8,0,0,1,12.44-6.66L96,131.81V104.34a8,8,0,0,1,12.44-6.66L160,131.81V40a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8V216a8,8,0,0,1-8,8H40A8,8,0,0,1,32,216Z"/><path d="M64,184v8M104,184v8M144,184v8M184,184v8"/></svg></div>
 </a>
 
 </div>
