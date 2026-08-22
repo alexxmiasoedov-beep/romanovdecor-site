@@ -187,10 +187,10 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <div class="est">
   <div class="est-head"><span class="est-title">Смета</span><span class="est-count" id="estCount">0</span></div>
   <div id="estList"></div>
-  <div class="est-total" id="estTotalRow" style="display:none"><span class="label">Итого:</span><span class="val" id="estTotal">€0</span></div>
+  <div class="est-total" id="estTotalRow" style="display:none"><span class="label">Итого:</span><span class="val" id="estTotal">0 руб.</span></div>
 </div>
 <button class="btn btn-p" id="toContacts" onclick="goStep('contact')" disabled style="width:100%;margin-top:12px">получить КП в PDF →</button>
-<div class="waste-note" style="margin-top:10px">Цены под ключ в евро; оплата в белорусских рублях по курсу НБ РБ на день оплаты. Наливные системы — материал с учётом тары, работа по объёму объекта.<br><span id="rateInfo" style="color:#b8965a;font-weight:500"></span></div>
+<div class="waste-note" style="margin-top:10px">Цены под ключ в белорусских рублях; пересчитываются по курсу НБ РБ, точная сумма фиксируется в КП на день оплаты. Наливные системы — материал с учётом тары, работа по объёму объекта.<br><span id="rateInfo" style="color:#b8965a;font-weight:500"></span></div>
 </aside>
 </div>
 </div>
@@ -666,7 +666,7 @@ function calcMicrocement(kind, area){
   var base = R.matHi + R.workHi;
   var disc = Math.round((base - rate) * 100) / 100;
   var pct = Math.round(disc / base * 1000) / 10;
-  var label = disc > 0 ? '<span style="color:#e05c5c;font-weight:600">скидка €' + disc.toFixed(2).replace('.', ',').replace(/,00$/, '') + '/м² (−' + String(pct).replace('.', ',') + '%)</span>' : '';
+  var label = disc > 0 ? '<span style="color:#e05c5c;font-weight:600">скидка ' + bRate(disc) + '/м² (−' + String(pct).replace('.', ',') + '%)</span>' : '';
   return {total: Math.round(rate * area), perM2: Math.round(rate * 100) / 100, tierLabel: label, fix: false};
 }
 
@@ -854,7 +854,7 @@ function ensureConsumablesRow(){
       area: 0,
       total: MC_CONSUMABLES_EUR,
       perM2: 0,
-      tier: '€' + MC_CONSUMABLES_EUR + ' (фикс. на смету)',
+      tier: bFmt(MC_CONSUMABLES_EUR) + ' (фикс. на смету)',
       structure: '',
       isMicrocement: false,
       isExtra: true,
@@ -885,6 +885,9 @@ function duplicatePosition(id){
 }
 
 function eFmt(v){ return '\u20ac'+v.toFixed(2).replace('.', ',').replace(/,00$/, ''); }
+// Витринные цены сайта — только BYN (закон о рекламе РБ); € живёт внутри расчёта и в адресном КП
+function bFmt(v){ return Math.round(v*EUR_BYN).toLocaleString('ru')+' руб.'; }
+function bRate(v){ var r=v*EUR_BYN; return r.toFixed(2).replace('.', ',').replace(/,00$/, '')+' руб.'; }
 function renderEstimate(){
   var list = document.getElementById('estList');
   var totalRow = document.getElementById('estTotalRow');
@@ -918,21 +921,21 @@ function renderEstimate(){
       var parts = [];
       // Стены — материал (если есть двери, показываем за вычетом)
       if (b.wallArea > 0) {
-        parts.push('Стены: '+b.wallArea.toFixed(2)+' м² × €'+b.matRate+' = '+eFmt(b.wallMatCost));
+        parts.push('Стены: '+b.wallArea.toFixed(2)+' м² × '+bRate(b.matRate)+' = '+bFmt(b.wallMatCost));
       } else if (!b.doorsOnly) {
-        parts.push(b.matM2.toFixed(2)+' м² материал × €'+b.matRate+' = '+eFmt(b.matM2*b.matRate));
+        parts.push(b.matM2.toFixed(2)+' м² материал × '+bRate(b.matRate)+' = '+bFmt(b.matM2*b.matRate));
       }
       // Двери — материал
       if (b.doorArea > 0 && b.doors && b.doors.length) {
         var dimsStr = b.doors.map(function(d){return d.w+'×'+d.h}).join(', ');
-        parts.push('Двери ('+dimsStr+'): '+b.doorArea.toFixed(2)+' м² × €'+b.matRate+' = '+eFmt(b.doorMatCost));
+        parts.push('Двери ('+dimsStr+'): '+b.doorArea.toFixed(2)+' м² × '+bRate(b.matRate)+' = '+bFmt(b.doorMatCost));
       }
       // Работа
       var workItems = [];
       if (b.workM2 > 0) workItems.push(b.workM2+' м²');
       if (b.workMp > 0) workItems.push(b.workMp+' м.п.');
-      if (workItems.length) parts.push('Работа: '+workItems.join(' + ')+' × €'+b.workRate+' = '+eFmt((b.workM2+b.workMp)*b.workRate));
-      if (b.doorsN > 0) parts.push('Работа по полотнам: '+b.doorArea.toFixed(2)+' м² × €'+MC_DOOR_RATE+' = '+eFmt(b.doorWork));
+      if (workItems.length) parts.push('Работа: '+workItems.join(' + ')+' × '+bRate(b.workRate)+' = '+bFmt((b.workM2+b.workMp)*b.workRate));
+      if (b.doorsN > 0) parts.push('Работа по полотнам: '+b.doorArea.toFixed(2)+' м² × '+bRate(MC_DOOR_RATE)+' = '+bFmt(b.doorWork));
       breakdown = '<div style="font-size:11px;color:#a09a92;margin-top:4px;line-height:1.5">'+parts.map(function(x){return '• '+x}).join('<br>')+'<br><b style="color:#b8965a">Итого по позиции: '+eFmt(b.totalEur)+' ≈ '+Math.round(b.totalEur*EUR_BYN).toLocaleString('ru')+' руб</b></div>';
     }
     var actionsHtml = (p.id === '__consumables')
@@ -945,14 +948,14 @@ function renderEstimate(){
         +'<div class="est-row-desc">'+descHtml+'</div>'
         +breakdown
       +'</div>'
-      +'<div class="est-row-sum">€'+p.total.toLocaleString('ru')
-        +((p.perM2 && !p.isFix) ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">€'+p.perM2.toFixed(2).replace('.', ',').replace(/,00$/, '')+'/м²</span>' : '')
+      +'<div class="est-row-sum">'+bFmt(p.total)
+        +((p.perM2 && !p.isFix) ? '<br><span style="font-size:10px;color:#a09a92;font-weight:400">'+bRate(p.perM2)+'/м²</span>' : '')
       +'</div>'
       +'<div class="est-row-actions">'+actionsHtml+'</div>';
     list.appendChild(row);
   });
   totalRow.style.display = 'flex';
-  document.getElementById('estTotal').textContent = '€'+Math.round(sum).toLocaleString('ru')+' ≈ '+Math.round(sum*EUR_BYN).toLocaleString('ru')+' руб';
+  document.getElementById('estTotal').textContent = Math.round(sum*EUR_BYN).toLocaleString('ru')+' руб.';
   toCt.disabled = !(sum > 0);
   var _n = S.estimate.length, _d = _n % 10, _h = _n % 100;
   countEl.textContent = _n + ' ' + (_d===1&&_h!==11 ? 'позиция' : (_d>=2&&_d<=4&&(_h<10||_h>=20) ? 'позиции' : 'позиций'));
@@ -1503,8 +1506,8 @@ function updateCardPrice(p){
   if (!el) return;
   if (p.total > 0) {
     var note = p.tier ? '<span>' + p.tier + '</span>' : '<span></span>';
-    var per = (p.perM2 && !p.isFix) ? ' · €' + p.perM2.toFixed(2).replace('.', ',').replace(/,00$/, '') + '/м²' : '';
-    el.innerHTML = note + '<span><b>€' + p.total.toLocaleString('ru') + '</b>' + per + '</span>';
+    var per = (p.perM2 && !p.isFix) ? ' · ' + bRate(p.perM2) + '/м²' : '';
+    el.innerHTML = note + '<span><b>' + bFmt(p.total) + '</b>' + per + '</span>';
   } else {
     el.innerHTML = '<span>введите площадь — цена появится сразу</span>';
   }
