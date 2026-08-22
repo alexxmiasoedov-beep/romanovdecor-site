@@ -563,7 +563,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <!-- ИНТРО — заставка: монограмма рисуется, имя проявляется, всё уходит в страницу.
      Показывается раз за сессию; при prefers-reduced-motion не показывается. -->
 <style>
-#pl{position:fixed;inset:0;z-index:99999;background:#2c2c2c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;animation:plOut .7s ease 2.6s forwards}
+#pl{position:fixed;inset:0;z-index:99999;background:#2c2c2c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;animation:plOut 1.8s ease 2.6s forwards}
 #pl svg.pl-logo{width:112px;height:112px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.5)) drop-shadow(0 0 26px rgba(184,150,90,.28))}
 .pl-f{stroke-dasharray:100;stroke-dashoffset:100;animation:plDraw 1s ease-out .15s forwards}
 .pl-u{stroke-dasharray:100;stroke-dashoffset:100;animation:plDraw 1s ease .55s forwards}
@@ -599,7 +599,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <script>
 (function(){
   var pl = document.getElementById('pl');
-  setTimeout(function(){ if (pl && pl.parentNode) pl.parentNode.removeChild(pl); }, 3500);
+  setTimeout(function(){ if (pl && pl.parentNode) pl.parentNode.removeChild(pl); }, 4600);
 })();
 </script>
 
