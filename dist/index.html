@@ -263,12 +263,27 @@ a{text-decoration:none;color:inherit}
 .why-grid.in .wi:nth-child(3){animation-delay:.2s}
 .why-grid.in .wi:nth-child(4){animation-delay:.3s}
 .why-grid.in .wi:nth-child(5){animation-delay:.4s}
-/* WHY-STATS — УТП-факты на белом */
-.why-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px}
-.ws strong{display:block;font-size:clamp(24px,2.4vw,36px);font-weight:600;color:#b8965a;line-height:1.1;margin-bottom:8px;letter-spacing:.5px;white-space:nowrap;text-transform:lowercase}
-.ws span{display:block;font-size:12px;font-weight:600;letter-spacing:.6px;color:#1e1e1e;text-transform:lowercase;margin-bottom:8px}
-.ws p{font-size:11.5px;line-height:1.55;color:#777;font-weight:300;margin:0}
-@media(max-width:900px){.why-stats{grid-template-columns:repeat(2,1fr);gap:22px}.ws:last-child{grid-column:1/-1}}
+/* LAB — интерактивная пытка лака на белом */
+.lab-sub{text-align:center;font-size:13px;color:#777;font-weight:300;letter-spacing:.4px;margin:0 0 24px}
+.lab-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.lab-chip{display:flex;align-items:center;gap:8px;padding:11px 20px;border:1px solid #d8d2c8;border-radius:50px;background:#fff;font-family:'Geologica',sans-serif;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:lowercase;color:#2c2c2c;cursor:pointer;transition:border-color .2s,color .2s,transform .15s;-webkit-tap-highlight-color:transparent}
+.lab-chip:hover{border-color:#b8965a;color:#8c6f3d}
+.lab-chip:active{transform:scale(.96)}
+.lab-sample{position:relative;max-width:720px;height:300px;margin:22px auto 14px;border-radius:18px;overflow:hidden;background:linear-gradient(140deg,#b9b2a6,#8f887c);box-shadow:0 18px 44px rgba(44,44,44,.18)}
+.lab-sample img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lab-stains{position:absolute;inset:0}
+.stain{position:absolute;width:150px;height:110px;transform:translate(-50%,-50%) scale(.5);opacity:0;clip-path:inset(0);animation:stIn .45s ease forwards;pointer-events:none}
+.stain svg{width:100%;height:100%;display:block}
+.stain.out{animation:stWipe .8s ease forwards}
+@keyframes stIn{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes stWipe{to{clip-path:inset(0 0 0 100%);opacity:0}}
+.stain.st-keys line{stroke-dasharray:100;stroke-dashoffset:100;animation:scrDraw .5s ease forwards}
+@keyframes scrDraw{to{stroke-dashoffset:0}}
+.lab-cap{text-align:center;font-size:12.5px;color:#555;font-weight:300;min-height:18px}
+.lab-cap b{color:#b8965a;font-weight:600}
+.lab-usp{margin-top:34px;text-align:center;font-size:10.5px;font-weight:500;letter-spacing:1.8px;text-transform:uppercase;color:#a09a92}
+.lab-usp i{font-style:normal;color:#b8965a;padding:0 6px}
+@media(max-width:600px){.lab-sample{height:220px}.lab-chip{padding:10px 14px;font-size:11px}.lab-usp{letter-spacing:1.2px;font-size:9.5px}}
 /* PARTNER STRIP — строка логотипов в блоке «О нас» */
 .pt-strip{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:26px;flex-wrap:wrap}
 .pt-strip .pt-lb{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#b8965a}
@@ -848,26 +863,23 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </section>
 ===== END OLD VERSION ===== -->
 
-<!-- WHY US -->
-<section class="sec white" style="padding:80px 20px 40px">
+<!-- WHY US · LAB — интерактивная пытка лака -->
+<section class="sec white" style="padding:80px 20px 56px">
 <div class="mx">
-<div class="tag">Почему к нам возвращаются</div>
-<h2 class="ttl" style="margin-bottom:36px">Материал, который <b>не подводит</b></h2>
-<div class="why-stats">
-<div class="ws"><strong>с 1949</strong><span>немецкие компоненты</span><p>строительная химия Remmers, проверенная десятилетиями. Мы — официальный дилер в Беларуси.</p></div>
-<div class="ws"><strong>№1</strong><span>финишный лак</span><p>не желтеет и не меняет цвет — UV-стойкий по техпаспорту. Один из самых крепких на рынке.</p></div>
-<div class="ws"><strong>вручную</strong><span>золотые руки мастеров</span><p>примыкания, углы и стыки выводим кельмой — без наплывов и рваных краёв. Видно вблизи.</p></div>
-<div class="ws"><strong>расчётом</strong><span>компетентность</span><p>система подбирается под основание и нагрузку: влажность, трещины, уклоны — считаем, а не прикидываем.</p></div>
-<div class="ws"><strong>переделываем</strong><span>объекты конкурентов</span><p>неудачные покрытия за другими подрядчиками: диагностика, демонтаж, новая система.</p></div>
+<h2 class="ttl" style="margin-bottom:6px;text-align:center">Попробуйте <b>испортить</b></h2>
+<p class="lab-sub">финишный лак Remmers выдерживает кофе, вино, хлорку и ключи — проверьте сами</p>
+<div class="lab-chips">
+<button type="button" class="lab-chip" data-test="coffee"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h12v7a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z"></path><path d="M16 11h2a2.5 2.5 0 0 1 0 5h-2"></path><path d="M8 5c0-1 .8-1 .8-2M12 5c0-1 .8-1 .8-2"></path></svg>кофе</button>
+<button type="button" class="lab-chip" data-test="wine"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 3h10l-1 7a4 4 0 0 1-8 0Z"></path><path d="M12 14v6M8 21h8"></path></svg>вино</button>
+<button type="button" class="lab-chip" data-test="chlorine"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3h4M11 3v4l-4 9a3 3 0 0 0 3 4h4a3 3 0 0 0 3-4l-4-9V3"></path></svg>хлорка</button>
+<button type="button" class="lab-chip" data-test="keys"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="4"></circle><path d="M11 11l9 9M16 16l2-2M18 20l2-2"></path></svg>ключи</button>
 </div>
-<div class="why-layers" aria-hidden="true">
-<svg viewBox="0 0 340 78" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round">
-<line class="wl wl1" x1="30" y1="66" x2="310" y2="66" stroke="#2c2c2c" stroke-width="5" pathLength="100"></line>
-<line class="wl wl2" x1="30" y1="54" x2="310" y2="54" stroke="#a09a92" stroke-width="4" pathLength="100"></line>
-<line class="wl wl3" x1="30" y1="43" x2="310" y2="43" stroke="#cbbf9f" stroke-width="4" pathLength="100"></line>
-<line class="wl wl4" x1="30" y1="32" x2="310" y2="32" stroke="#b8965a" stroke-width="3.5" pathLength="100"></line>
-</svg>
+<div class="lab-sample" id="labSample">
+<img src="/api/image/v2-moqbn4zxcjhfvl" alt="образец микроцемента под лаком" onerror="this.style.display='none'">
+<div class="lab-stains" id="labStains"></div>
 </div>
+<div class="lab-cap" id="labCap">выберите испытание — покрытию всё равно</div>
+<div class="lab-usp">немецкие компоненты с 1949 <i>·</i> лак, который не желтеет <i>·</i> золотые руки мастеров <i>·</i> считаем, а не прикидываем <i>·</i> переделываем за конкурентами</div>
 </div>
 </section>
 
@@ -1133,6 +1145,36 @@ async function submitContactForm(e){
       fc.innerHTML=h;
     }
   }catch(e){}
+})();
+
+// Пытка лака: пятно появляется — и стирается, лаку всё равно
+(function(){
+  var box = document.getElementById('labStains');
+  var cap = document.getElementById('labCap');
+  if(!box) return;
+  var BLOB = 'M78 12c22-8 48 2 54 20 6 17-8 38-30 44-23 7-49 0-58-16C35 43 44 24 60 17c6-3 12-4 18-5z';
+  var TESTS = {
+    coffee:  { html:'<svg viewBox="0 0 150 110"><path d="'+BLOB+'" fill="rgba(94,58,22,.55)"></path><path d="'+BLOB+'" fill="none" stroke="rgba(70,42,14,.5)" stroke-width="3" transform="scale(1.06) translate(-4,-3)"></path></svg>', cap:'кофе постоял — и стёрся: <b>лак не впитывает</b>' },
+    wine:    { html:'<svg viewBox="0 0 150 110"><path d="'+BLOB+'" fill="rgba(110,26,58,.5)" transform="rotate(14 75 55)"></path></svg>', cap:'красное вино — <b>без следа</b>' },
+    chlorine:{ html:'<svg viewBox="0 0 150 110"><path d="'+BLOB+'" fill="rgba(255,255,255,.66)" transform="rotate(-9 75 55)"></path></svg>', cap:'хлорка не разъела и не осветлила: <b>цвет на месте</b>' },
+    keys:    { html:'<svg viewBox="0 0 150 110" fill="none" stroke-linecap="round"><line x1="28" y1="34" x2="118" y2="60" stroke="rgba(255,255,255,.75)" stroke-width="2.5" pathLength="100"></line><line x1="40" y1="58" x2="124" y2="78" stroke="rgba(44,44,44,.45)" stroke-width="2" pathLength="100"></line><line x1="22" y1="72" x2="96" y2="92" stroke="rgba(255,255,255,.6)" stroke-width="2" pathLength="100"></line></svg>', cap:'ключи и когти — <b>ни царапины</b>' }
+  };
+  document.querySelectorAll('.lab-chip').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = TESTS[btn.dataset.test];
+      if(!t) return;
+      if(box.children.length > 5) box.removeChild(box.firstChild);
+      var el = document.createElement('span');
+      el.className = 'stain st-' + btn.dataset.test;
+      el.style.left = (18 + Math.random() * 64) + '%';
+      el.style.top = (22 + Math.random() * 56) + '%';
+      el.innerHTML = t.html;
+      box.appendChild(el);
+      cap.innerHTML = t.cap;
+      setTimeout(function(){ el.classList.add('out'); }, 1500);
+      setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 2500);
+    });
+  });
 })();
 
 // Партнёры из админки — в строку логотипов блока «О нас»
@@ -1880,7 +1922,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
   function makeCollapsible(el) {
     if (!el || el.dataset.rmDone) return;
     if (el.closest('.hero, .hero-min, .hero-2col, .hero-text, .hero-content, [class*="hero-"]')) return;
-    if (el.querySelector('form,table,.cmp-wrap,.cmp-scroll,.char-grid,.apply-row,.tex-grid,.pf,.px-grid,.bn-wrap,.why-grid,.why-stats,.partners-grid,.ag,.ms-block,iframe,video,.proc-step,.step-card,.steps,.st,.pc,.sys-grid,.sys-card,.fi,.app-grid,.gen-grid,.grid2,.grid3,.pf-mini,.cta')) return;
+    if (el.querySelector('form,table,.cmp-wrap,.cmp-scroll,.char-grid,.apply-row,.tex-grid,.pf,.px-grid,.bn-wrap,.why-grid,.partners-grid,.ag,.ms-block,iframe,video,.proc-step,.step-card,.steps,.st,.pc,.sys-grid,.sys-card,.fi,.app-grid,.gen-grid,.grid2,.grid3,.pf-mini,.cta')) return;
     if (el.scrollHeight < 320) return;
     el.dataset.rmDone = '1';
     var wrap = document.createElement('div');
