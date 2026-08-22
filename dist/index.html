@@ -1765,7 +1765,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
 // === MATRIX SCRAMBLE ANIMATION для hero ===
 (function(){
   // Half-width катакана (узкая, как латиница) + Latin + цифры + символы — Matrix vibe без переносов
-  var GLYPHS = '01ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎ#$%&@*+!?<>/';
+  var GLYPHS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz#$%&*+<>/';
   function scramble(el, opts){
     if(!el) return;
     // Кэшируем финальный текст в dataset, чтобы повторные вызовы знали оригинал
@@ -1797,6 +1797,8 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
         sp = document.createElement('span');
         sp.style.display = 'inline-block';
         sp.style.width = widths[i] + 'px';
+        sp.style.height = '1em';
+        sp.style.verticalAlign = 'top';
         sp.style.textAlign = 'center';
         sp.textContent = finalText[i];
         el.appendChild(sp);
