@@ -563,32 +563,43 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <!-- ИНТРО — заставка: монограмма рисуется, имя проявляется, всё уходит в страницу.
      Показывается раз за сессию; при prefers-reduced-motion не показывается. -->
 <style>
-#pl{position:fixed;inset:0;z-index:99999;background:#2c2c2c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;animation:plOut .7s ease 2.45s forwards}
-#pl svg{width:110px;height:110px}
+#pl{position:fixed;inset:0;z-index:99999;background:#2c2c2c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;overflow:hidden;animation:plOut .7s ease 2.6s forwards}
+#pl svg.pl-logo{width:112px;height:112px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.5)) drop-shadow(0 0 26px rgba(184,150,90,.28))}
 .pl-f{stroke-dasharray:100;stroke-dashoffset:100;animation:plDraw 1s ease-out .15s forwards}
 .pl-u{stroke-dasharray:100;stroke-dashoffset:100;animation:plDraw 1s ease .55s forwards}
 @keyframes plDraw{to{stroke-dashoffset:0}}
-.pl-name{font-family:'Geologica',Arial,sans-serif;font-size:20px;font-weight:700;color:#efece7;text-transform:uppercase;opacity:0;animation:plName .8s ease 1.4s forwards}
+.pl-name{font-family:'Geologica',Arial,sans-serif;font-size:22px;font-weight:300;color:#efece7;text-transform:uppercase;opacity:0;animation:plName .9s ease 1.4s forwards}
 .pl-name span{color:#b8965a}
-@keyframes plName{from{opacity:0;letter-spacing:13px}to{opacity:1;letter-spacing:6px}}
+@keyframes plName{from{opacity:0;letter-spacing:16px}to{opacity:1;letter-spacing:7px}}
+.pl-ln{position:absolute;height:1px;left:50%;transform:translateX(-50%) scaleX(0);width:min(560px,74vw);animation:plLn 1.2s cubic-bezier(.22,.6,.36,1) forwards}
+.pl-ln1{top:calc(50% - 128px);background:linear-gradient(90deg,transparent,rgba(184,150,90,.55),transparent);animation-delay:.35s}
+.pl-ln2{top:calc(50% + 118px);background:linear-gradient(90deg,transparent,rgba(239,236,231,.3),transparent);animation-delay:.6s}
+.pl-ln3{top:calc(50% + 122px);width:min(320px,50vw);background:linear-gradient(90deg,transparent,rgba(184,150,90,.45),transparent);animation-delay:.85s}
+@keyframes plLn{to{transform:translateX(-50%) scaleX(1)}}
 @keyframes plOut{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){#pl{display:none}}
 </style>
 <div id="pl" aria-hidden="true">
-<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect class="pl-f" x="4" y="4" width="112" height="112" rx="24" stroke="#efece7" stroke-width="4" opacity=".25" pathLength="100"></rect>
-<path class="pl-u" d="M 36 30 L 36 58 A 24 24 0 0 0 84 58 L 84 30" stroke="#b8965a" stroke-width="15" stroke-linecap="butt" pathLength="100"></path>
+<span class="pl-ln pl-ln1"></span><span class="pl-ln pl-ln2"></span><span class="pl-ln pl-ln3"></span>
+<svg class="pl-logo" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="plGold" x1="36" y1="30" x2="84" y2="82" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#d9bd8a"></stop><stop offset=".55" stop-color="#b8965a"></stop><stop offset="1" stop-color="#8a6c38"></stop>
+</linearGradient>
+<linearGradient id="plFrame" x1="4" y1="4" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#efece7" stop-opacity=".45"></stop><stop offset="1" stop-color="#efece7" stop-opacity=".12"></stop>
+</linearGradient>
+</defs>
+<rect class="pl-f" x="4" y="4" width="112" height="112" rx="24" stroke="url(#plFrame)" stroke-width="4" pathLength="100"></rect>
+<path class="pl-u" d="M 36 30 L 36 58 A 24 24 0 0 0 84 58 L 84 30" stroke="url(#plGold)" stroke-width="15" stroke-linecap="butt" pathLength="100"></path>
+<path d="M 36 30 L 36 58 A 24 24 0 0 0 84 58 L 84 30" stroke="rgba(255,255,255,.28)" stroke-width="3" stroke-linecap="butt" transform="translate(-4.5,-4.5)" opacity="0" style="animation:plName .6s ease 1.5s forwards"></path>
 </svg>
 <div class="pl-name">UNI<span>CORE</span></div>
 </div>
 <script>
 (function(){
   var pl = document.getElementById('pl');
-  try{
-    if (sessionStorage.getItem('plSeen')) { pl.parentNode.removeChild(pl); return; }
-    sessionStorage.setItem('plSeen','1');
-  }catch(e){}
-  setTimeout(function(){ if (pl && pl.parentNode) pl.parentNode.removeChild(pl); }, 3400);
+  setTimeout(function(){ if (pl && pl.parentNode) pl.parentNode.removeChild(pl); }, 3500);
 })();
 </script>
 
