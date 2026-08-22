@@ -1776,21 +1776,32 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
     var startDelay = opts.delay || 0;
     var revealStart = opts.revealStart || 0.25; // когда начинают фиксироваться буквы (0..1)
     setTimeout(function(){
-      // Посимвольные слоты фиксированной ширины: строка с первого кадра
-      // занимает финальную геометрию, появившиеся буквы стоят на месте,
-      // а случайные глифы мигают внутри своих ячеек, не двигая соседей
-      el.textContent = '';
-      var slots = [];
+      // Точные ширины букв берём из натурального текста (Range по текстовому
+      // узлу учитывает letter-spacing), затем строим ячейки с этими ширинами
+      // и нулевой разрядкой — строка занимает финальную геометрию с первого
+      // кадра и не прыгает ни во время анимации, ни при её завершении
+      el.textContent = finalText;
+      var node = el.firstChild;
+      var range = document.createRange();
+      var widths = [];
       var i, sp, ch;
       for(i = 0; i < len; i++){
+        range.setStart(node, i); range.setEnd(node, i + 1);
+        widths.push(range.getBoundingClientRect().width);
+      }
+      el.textContent = '';
+      var prevLS = el.style.letterSpacing;
+      el.style.letterSpacing = '0px';
+      var slots = [];
+      for(i = 0; i < len; i++){
         sp = document.createElement('span');
-        sp.textContent = finalText[i];
         sp.style.display = 'inline-block';
+        sp.style.width = widths[i] + 'px';
         sp.style.textAlign = 'center';
+        sp.textContent = finalText[i];
         el.appendChild(sp);
         slots.push(sp);
       }
-      for(i = 0; i < len; i++){ slots[i].style.width = slots[i].getBoundingClientRect().width + 'px'; }
       for(i = 0; i < len; i++){
         ch = finalText[i];
         if(ch !== ' ' && ch !== '\u00a0') slots[i].textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
@@ -1801,7 +1812,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
       function frame(now){
         var p = Math.min((now - t0) / duration, 1);
         var revealed = Math.floor((p - revealStart) / (1 - revealStart) * len);
-        var swap = (now - lastSwap) > 40; // рандом мигает ~25 раз в секунду
+        var swap = (now - lastSwap) > 25; // рандом мигает ~40 раз в секунду
         if(swap) lastSwap = now;
         for(var k = 0; k < len; k++){
           var c = finalText[k];
@@ -1813,7 +1824,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
           }
         }
         if(p < 1) requestAnimationFrame(frame);
-        else el.textContent = finalText;
+        else { el.textContent = finalText; el.style.letterSpacing = prevLS; }
       }
       requestAnimationFrame(frame);
     }, startDelay);
