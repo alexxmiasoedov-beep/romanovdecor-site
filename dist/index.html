@@ -601,6 +601,8 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <script>
 (function(){
   var pl = document.getElementById('pl');
+  // сигнал главной: интро начало растворяться — пора запускать анимацию hero
+  setTimeout(function(){ try{ window.dispatchEvent(new Event('pl-reveal')); }catch(e){} }, 4100);
   setTimeout(function(){ if (pl && pl.parentNode) pl.parentNode.removeChild(pl); }, 6000);
 })();
 </script>
@@ -1808,12 +1810,23 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
   var studioFinal = studio ? studio.textContent : '';
 
   if(studio) studio.innerHTML = studioFinal; // убираем span до анимации
-  if(brand) scramble(brand, {duration:2590, delay:270, revealStart:.12});
-  if(studio) scramble(studio, {duration:2160, delay:1800, revealStart:.18});
-  // studio заканчивается на ~3960 мс (delay 1800 + duration 2160). Слоган стартует после этого.
-  if(tag) setTimeout(function(){ tag.classList.add('in') }, 4150);
-  var heroCta = document.querySelector('.hero-min-cta');
-  if(heroCta) setTimeout(function(){ heroCta.classList.add('in') }, 4700);
+  function heroStart(){
+    if(brand) scramble(brand, {duration:2590, delay:270, revealStart:.12});
+    if(studio) scramble(studio, {duration:2160, delay:1800, revealStart:.18});
+    // studio заканчивается на ~3960 мс (delay 1800 + duration 2160). Слоган стартует после этого.
+    if(tag) setTimeout(function(){ tag.classList.add('in') }, 4150);
+    var heroCta = document.querySelector('.hero-min-cta');
+    if(heroCta) setTimeout(function(){ heroCta.classList.add('in') }, 4700);
+  }
+  // при интро-заставке ждём её растворения, иначе стартуем сразу
+  if (document.getElementById('pl')) {
+    var hsDone = false;
+    var hsGo = function(){ if(!hsDone){ hsDone = true; heroStart(); } };
+    window.addEventListener('pl-reveal', hsGo);
+    setTimeout(hsGo, 5200); // страховка, если событие не дошло
+  } else {
+    heroStart();
+  }
 
   // === Цикл: каждые 15 секунд пересобираем microcement ===
   setInterval(function(){
