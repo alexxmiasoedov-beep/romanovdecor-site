@@ -1780,6 +1780,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
       // узлу учитывает letter-spacing), затем строим ячейки с этими ширинами
       // и нулевой разрядкой — строка занимает финальную геометрию с первого
       // кадра и не прыгает ни во время анимации, ни при её завершении
+      el.style.letterSpacing = '';
       el.textContent = finalText;
       var node = el.firstChild;
       var range = document.createRange();
@@ -1790,7 +1791,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
         widths.push(range.getBoundingClientRect().width);
       }
       el.textContent = '';
-      var prevLS = el.style.letterSpacing;
       el.style.letterSpacing = '0px';
       var slots = [];
       for(i = 0; i < len; i++){
@@ -1826,7 +1826,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
           }
         }
         if(p < 1) requestAnimationFrame(frame);
-        else { el.textContent = finalText; el.style.letterSpacing = prevLS; }
+        // финальной подмены на цельный текст нет: ячейки с готовыми буквами
+        // остаются — геометрия не меняется ни на субпиксель
+        else { for(var m = 0; m < len; m++){ if(slots[m].textContent !== finalText[m]) slots[m].textContent = finalText[m]; } }
       }
       requestAnimationFrame(frame);
     }, startDelay);
