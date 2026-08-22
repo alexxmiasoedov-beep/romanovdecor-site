@@ -277,14 +277,17 @@ a{text-decoration:none;color:inherit}
 .lab-shadow{position:absolute;left:5%;right:5%;bottom:-36px;height:46px;background:radial-gradient(ellipse at center,rgba(30,28,24,.38),transparent 70%);filter:blur(7px);pointer-events:none}
 .lab-shine{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);background-size:240% 100%;background-position:var(--sx,120%) 0;transition:background-position .18s linear}
 .lab-stains{position:absolute;inset:0}
-.stain{position:absolute;width:170px;height:130px;transform:translate(-50%,-50%) scale(.45);opacity:0;clip-path:inset(-12%);animation:stIn .55s cubic-bezier(.2,.8,.35,1) forwards;pointer-events:none}
-.stain svg{width:100%;height:100%;display:block;mix-blend-mode:multiply}
-.stain.st-chlorine svg{mix-blend-mode:screen}
-.stain.out{animation:stWipe .85s ease forwards}
-.stain.out::after{content:"";position:absolute;inset:-14%;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-130%);animation:clothSweep .85s ease forwards}
-@keyframes clothSweep{to{transform:translateX(130%)}}
+.stain{position:absolute;width:170px;height:130px;transform:translate(-50%,-50%) scale(.45);opacity:0;animation:stIn .55s cubic-bezier(.2,.8,.35,1) forwards;pointer-events:none}
+.st-art{position:absolute;inset:0;clip-path:inset(-14%)}
+.st-art svg{width:100%;height:100%;display:block;mix-blend-mode:multiply}
+.st-chlorine .st-art svg{mix-blend-mode:screen}
+.stain.out .st-art{animation:stErase .95s linear forwards}
+.st-cloth{position:absolute;top:-30%;bottom:-30%;left:-6%;width:62%;transform:translateX(-130%) rotate(6deg);opacity:0;filter:drop-shadow(0 8px 12px rgba(30,28,24,.35))}
+.st-cloth svg{width:100%;height:100%;display:block}
+.stain.out .st-cloth{animation:clothMove .95s linear forwards}
+@keyframes clothMove{0%{transform:translateX(-130%) rotate(6deg);opacity:0}10%{opacity:1;transform:translateX(-90%) rotate(4deg)}50%{transform:translateX(70%) rotate(-5deg)}88%{opacity:1}100%{transform:translateX(210%) rotate(4deg);opacity:0}}
+@keyframes stErase{0%,10%{clip-path:inset(-14%)}100%{clip-path:inset(-14% -14% -14% 110%)}}
 @keyframes stIn{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-@keyframes stWipe{to{clip-path:inset(-12% 0 -12% 105%);opacity:0}}
 .stain.st-keys line{stroke-dasharray:100;stroke-dashoffset:100;animation:scrDraw .5s ease forwards}
 @keyframes scrDraw{to{stroke-dashoffset:0}}
 .lab-cap{text-align:center;font-size:12.5px;color:#555;font-weight:300;min-height:18px}
@@ -1216,11 +1219,15 @@ async function submitContactForm(e){
       el.className = 'stain st-' + btn.dataset.test;
       el.style.left = (18 + Math.random() * 64) + '%';
       el.style.top = (22 + Math.random() * 56) + '%';
-      el.innerHTML = t.html;
+      el.innerHTML = '<span class="st-art">' + t.html + '</span>' +
+        '<span class="st-cloth"><svg viewBox="0 0 60 140" fill="none">' +
+        '<path d="M 12 6 C 30 0 50 4 52 14 L 55 118 C 56 130 40 138 24 136 L 10 132 C 4 130 2 122 4 112 L 6 22 C 6 12 8 8 12 6 Z" fill="#f2eee6" stroke="#cfc8ba" stroke-width="2"></path>' +
+        '<path d="M 18 18 C 26 24 24 44 18 54 M 34 12 C 40 30 38 52 32 66 M 24 76 C 30 88 28 106 22 118 M 40 80 C 46 96 44 112 38 124" stroke="#d8d2c6" stroke-width="2.5" stroke-linecap="round"></path>' +
+        '</svg></span>';
       box.appendChild(el);
       cap.innerHTML = t.cap;
       setTimeout(function(){ el.classList.add('out'); }, 1500);
-      setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 2500);
+      setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 2700);
     });
   });
 })();
