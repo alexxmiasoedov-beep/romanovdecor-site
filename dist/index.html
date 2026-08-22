@@ -560,6 +560,37 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 </style>
 </head>
 <body>
+<!-- ИНТРО — заставка: монограмма рисуется, имя проявляется, всё уходит в страницу.
+     Показывается раз за сессию; при prefers-reduced-motion не показывается. -->
+<style>
+#pl{position:fixed;inset:0;z-index:99999;background:#2c2c2c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;animation:plOut .7s ease 2.45s forwards}
+#pl svg{width:110px;height:110px}
+.pl-f{stroke-dasharray:100;stroke-dashoffset:100;animation:plDraw 1s ease-out .15s forwards}
+.pl-u{stroke-dasharray:100;stroke-dashoffset:100;animation:plDraw 1s ease .55s forwards}
+@keyframes plDraw{to{stroke-dashoffset:0}}
+.pl-name{font-family:'Geologica',Arial,sans-serif;font-size:20px;font-weight:700;color:#efece7;text-transform:uppercase;opacity:0;animation:plName .8s ease 1.4s forwards}
+.pl-name span{color:#b8965a}
+@keyframes plName{from{opacity:0;letter-spacing:13px}to{opacity:1;letter-spacing:6px}}
+@keyframes plOut{to{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){#pl{display:none}}
+</style>
+<div id="pl" aria-hidden="true">
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect class="pl-f" x="4" y="4" width="112" height="112" rx="24" stroke="#efece7" stroke-width="4" opacity=".25" pathLength="100"></rect>
+<path class="pl-u" d="M 36 30 L 36 58 A 24 24 0 0 0 84 58 L 84 30" stroke="#b8965a" stroke-width="15" stroke-linecap="butt" pathLength="100"></path>
+</svg>
+<div class="pl-name">UNI<span>CORE</span></div>
+</div>
+<script>
+(function(){
+  var pl = document.getElementById('pl');
+  try{
+    if (sessionStorage.getItem('plSeen')) { pl.parentNode.removeChild(pl); return; }
+    sessionStorage.setItem('plSeen','1');
+  }catch(e){}
+  setTimeout(function(){ if (pl && pl.parentNode) pl.parentNode.removeChild(pl); }, 3400);
+})();
+</script>
 
 <header class="hd">
 <div class="hd-pill hd-logo-pill"><a href="/" class="logo-r" aria-label="UNICORE"><svg viewBox="0 0 120 120" width="38" height="38" aria-hidden="true" style="display:block"><path d="M 36 30 L 36 58 A 24 24 0 0 0 84 58 L 84 30" fill="none" stroke="#b8965a" stroke-width="15" stroke-linecap="butt"></path></svg></a></div>
