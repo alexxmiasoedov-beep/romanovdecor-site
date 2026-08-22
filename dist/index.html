@@ -1801,7 +1801,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
       function frame(now){
         var p = Math.min((now - t0) / duration, 1);
         var revealed = Math.floor((p - revealStart) / (1 - revealStart) * len);
-        var swap = (now - lastSwap) > 95; // рандом мигает ~10 раз в секунду, не каждый кадр
+        var swap = (now - lastSwap) > 40; // рандом мигает ~25 раз в секунду
         if(swap) lastSwap = now;
         for(var k = 0; k < len; k++){
           var c = finalText[k];
