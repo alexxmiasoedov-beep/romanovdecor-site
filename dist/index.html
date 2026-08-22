@@ -263,19 +263,12 @@ a{text-decoration:none;color:inherit}
 .why-grid.in .wi:nth-child(3){animation-delay:.2s}
 .why-grid.in .wi:nth-child(4){animation-delay:.3s}
 .why-grid.in .wi:nth-child(5){animation-delay:.4s}
-/* WHY-STATS — УТП-факты на белом + машинка по свежему полу */
-.why-car{position:relative;height:56px;margin:6px 0 34px;overflow:hidden}
-.wc-car{position:absolute;bottom:5px;left:0;width:96px;height:40px;animation:wcDrive 9s linear infinite}
-@keyframes wcDrive{from{transform:translateX(-120px)}to{transform:translateX(calc(100vw + 40px))}}
-.wc-trail{position:absolute;bottom:4px;left:0;height:3px;width:100%;background:linear-gradient(90deg,#b8965a,#d4b883);transform-origin:left;transform:scaleX(0);animation:wcTrail 9s linear infinite;border-radius:2px;opacity:.75}
-@keyframes wcTrail{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* WHY-STATS — УТП-факты на белом */
 .why-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:26px}
 .ws strong{display:block;font-size:clamp(24px,2.4vw,36px);font-weight:600;color:#b8965a;line-height:1.1;margin-bottom:8px;letter-spacing:.5px;white-space:nowrap;text-transform:lowercase}
 .ws span{display:block;font-size:12px;font-weight:600;letter-spacing:.6px;color:#1e1e1e;text-transform:lowercase;margin-bottom:8px}
 .ws p{font-size:11.5px;line-height:1.55;color:#777;font-weight:300;margin:0}
 @media(max-width:900px){.why-stats{grid-template-columns:repeat(2,1fr);gap:22px}.ws:last-child{grid-column:1/-1}}
-@media(max-width:600px){.why-car{margin-bottom:26px}}
-@media (prefers-reduced-motion:reduce){.wc-car,.wc-trail{animation:none}.wc-trail{transform:scaleX(1)}}
 /* PARTNER STRIP — строка логотипов в блоке «О нас» */
 .pt-strip{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:26px;flex-wrap:wrap}
 .pt-strip .pt-lb{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#b8965a}
@@ -859,19 +852,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #b8965a;outline-offset:2p
 <section class="sec white" style="padding:80px 20px 40px">
 <div class="mx">
 <div class="tag">Почему к нам возвращаются</div>
-<h2 class="ttl" style="margin-bottom:10px">Материал, который <b>не подводит</b></h2>
-<div class="why-car" aria-hidden="true">
-<svg viewBox="0 0 1000 56" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" xmlns="http://www.w3.org/2000/svg">
-<line x1="0" y1="50" x2="1000" y2="50" stroke="#e2ddd4" stroke-width="2"></line>
-</svg>
-<span class="wc-trail"></span>
-<svg class="wc-car" viewBox="0 0 96 40" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#2c2c2c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-<path d="M 8 30 L 10 20 L 26 16 L 36 8 L 62 8 L 72 16 L 88 20 L 90 30 Z"></path>
-<path d="M 40 9 L 40 16 M 26 16 L 72 16"></path>
-<circle cx="28" cy="31" r="6" stroke="#b8965a" stroke-width="3"></circle>
-<circle cx="70" cy="31" r="6" stroke="#b8965a" stroke-width="3"></circle>
-</svg>
-</div>
+<h2 class="ttl" style="margin-bottom:36px">Материал, который <b>не подводит</b></h2>
 <div class="why-stats">
 <div class="ws"><strong>с 1949</strong><span>немецкие компоненты</span><p>строительная химия Remmers, проверенная десятилетиями. Мы — официальный дилер в Беларуси.</p></div>
 <div class="ws"><strong>№1</strong><span>финишный лак</span><p>не желтеет и не меняет цвет — UV-стойкий по техпаспорту. Один из самых крепких на рынке.</p></div>
@@ -1899,7 +1880,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){gmClose('Co
   function makeCollapsible(el) {
     if (!el || el.dataset.rmDone) return;
     if (el.closest('.hero, .hero-min, .hero-2col, .hero-text, .hero-content, [class*="hero-"]')) return;
-    if (el.querySelector('form,table,.cmp-wrap,.cmp-scroll,.char-grid,.apply-row,.tex-grid,.pf,.px-grid,.bn-wrap,.why-grid,.why-stats,.why-car,.partners-grid,.ag,.ms-block,iframe,video,.proc-step,.step-card,.steps,.st,.pc,.sys-grid,.sys-card,.fi,.app-grid,.gen-grid,.grid2,.grid3,.pf-mini,.cta')) return;
+    if (el.querySelector('form,table,.cmp-wrap,.cmp-scroll,.char-grid,.apply-row,.tex-grid,.pf,.px-grid,.bn-wrap,.why-grid,.why-stats,.partners-grid,.ag,.ms-block,iframe,video,.proc-step,.step-card,.steps,.st,.pc,.sys-grid,.sys-card,.fi,.app-grid,.gen-grid,.grid2,.grid3,.pf-mini,.cta')) return;
     if (el.scrollHeight < 320) return;
     el.dataset.rmDone = '1';
     var wrap = document.createElement('div');
