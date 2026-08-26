@@ -100,14 +100,10 @@ STY = dict(
  td_workp=f'{CELL};{NUM};text-align:center;white-space:nowrap;background:#fdeed2',
  td_tot=f'{CELL};{NUM};text-align:right;white-space:nowrap;background:#f5efe2;font-weight:700;color:#2c2c2c')
 SUBB = f'{GRID};{NUM};font-weight:700;font-size:10px;padding:5.5px 6px;text-align:right;white-space:nowrap;height:19px;vertical-align:middle'
-GOLDTOP = 'border-top:2px solid #b8965a'
-S_NAME = f'background:#eae0cb;{GRID};{GOLDTOP};font-weight:700;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:#3a3a3a;padding:5.5px 10px;vertical-align:middle'
-S_MAT = f'background:#e2ecc8;color:#3a4a1c;{SUBB};{GOLDTOP}'
-S_WORK = f'background:#f8ddb0;color:#6a4a14;{SUBB};{GOLDTOP}'
-S_TOT = f'background:#eae0cb;color:#7a5614;{SUBB};{GOLDTOP}'
-F_NAME = f'background:#2c2c2c;{GRID};{GOLDTOP};font-weight:700;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#efece7;padding:5.5px 10px;vertical-align:middle'
-F_CELL = f'background:#2c2c2c;color:#b8965a;{SUBB};{GOLDTOP}'
-F_TOT = f'background:#1f1b14;color:#b8965a;{SUBB};{GOLDTOP};font-size:11px'
+S_NAME = f'background:#eae0cb;{GRID};font-weight:700;font-size:10px;color:#3a3a3a;padding:5.5px 10px;vertical-align:middle'
+S_MAT = f'background:#e2ecc8;color:#3a4a1c;{SUBB}'
+S_WORK = f'background:#f8ddb0;color:#6a4a14;{SUBB}'
+S_TOT = f'background:#eae0cb;color:#7a5614;{SUBB}'
 
 def row(n, a, b, c, d, e, f, g):
     return (f'<tr><td style="{STY["td_name"]}">{n}</td>'
@@ -119,11 +115,6 @@ def sub(n, a, c, d, f, g):
             f'<td style="{S_MAT}">{a}</td><td style="{S_MAT}"></td><td style="{S_MAT}">{c}</td>'
             f'<td style="{S_WORK}">{d}</td><td style="{S_WORK}"></td><td style="{S_WORK}">{f}</td>'
             f'<td style="{S_TOT}">{g}</td></tr>')
-def subf(n, a, c, d, f, g):
-    return (f'<tr><td style="{F_NAME}">{n}</td>'
-            f'<td style="{F_CELL}">{a}</td><td style="{F_CELL}"></td><td style="{F_CELL}">{c}</td>'
-            f'<td style="{F_CELL}">{d}</td><td style="{F_CELL}"></td><td style="{F_CELL}">{f}</td>'
-            f'<td style="{F_TOT}">{g}</td></tr>')
 
 rows = ''
 TM = TW = 0.0
@@ -152,7 +143,7 @@ TM += MISC
 rows += row('Малярные расходники, валики', 'компл.', '—', u(MISC), '—', '—', '—', u(MISC))
 
 TOT = TM + TW
-rows += subf('Всего по проекту', f'{a2(TOT_M2)} м²', u(TM), '—', u(TW), u(TOT))
+rows += sub('Всего по проекту', f'{a2(TOT_M2)} м²', u(TM), '—', u(TW), u(TOT))
 
 byn = lambda v: f'{round(v * RATE):,}'.replace(',', ' ')
 logo = ('<svg width="44" height="44" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'
