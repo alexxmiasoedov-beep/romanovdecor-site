@@ -59,11 +59,11 @@ def a2(v): return f'{v:.2f}'.replace('.', ',')
 #                35-36 (485) 2,63 + 36-37 (330) 2,63 + откосы 5,10
 ZONES = [
     # имя, материал м², работа-квадраты м², работа-погонные м.п.
-    ('Душевая — стены и откосы',
+    ('Душевая',
      2.19 + 3.20 + 1.60 + 0.20 + 0.51,
      1.33 + 3.20 + 1.60,
      0.80 + 2.20 + 2.67 + 5.10),
-    ('Санузел — стены, инсталляция, откосы',
+    ('Санузел',
      1.76 + 2.31 + 1.27 + 0.86 + 0.93 + 3.46 + 0.51,
      1.34 + 2.31 + 0.93 + 3.46,
      2.20 + 0.80 + 2.63 + 2.63 + 5.10),
@@ -100,10 +100,14 @@ STY = dict(
  td_workp=f'{CELL};{NUM};text-align:center;white-space:nowrap;background:#fdeed2',
  td_tot=f'{CELL};{NUM};text-align:right;white-space:nowrap;background:#f5efe2;font-weight:700;color:#2c2c2c')
 SUBB = f'{GRID};{NUM};font-weight:700;font-size:10px;padding:5.5px 6px;text-align:right;white-space:nowrap;height:19px;vertical-align:middle'
-S_NAME = f'background:#eae0cb;{GRID};font-weight:700;font-size:10px;color:#3a3a3a;padding:5.5px 10px;vertical-align:middle'
-S_MAT = f'background:#e2ecc8;color:#3a4a1c;{SUBB}'
-S_WORK = f'background:#f8ddb0;color:#6a4a14;{SUBB}'
-S_TOT = f'background:#eae0cb;color:#7a5614;{SUBB}'
+GOLDTOP = 'border-top:2px solid #b8965a'
+S_NAME = f'background:#eae0cb;{GRID};{GOLDTOP};font-weight:700;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:#3a3a3a;padding:5.5px 10px;vertical-align:middle'
+S_MAT = f'background:#e2ecc8;color:#3a4a1c;{SUBB};{GOLDTOP}'
+S_WORK = f'background:#f8ddb0;color:#6a4a14;{SUBB};{GOLDTOP}'
+S_TOT = f'background:#eae0cb;color:#7a5614;{SUBB};{GOLDTOP}'
+F_NAME = f'background:#2c2c2c;{GRID};{GOLDTOP};font-weight:700;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#efece7;padding:5.5px 10px;vertical-align:middle'
+F_CELL = f'background:#2c2c2c;color:#b8965a;{SUBB};{GOLDTOP}'
+F_TOT = f'background:#1f1b14;color:#b8965a;{SUBB};{GOLDTOP};font-size:11px'
 
 def row(n, a, b, c, d, e, f, g):
     return (f'<tr><td style="{STY["td_name"]}">{n}</td>'
@@ -115,6 +119,11 @@ def sub(n, a, c, d, f, g):
             f'<td style="{S_MAT}">{a}</td><td style="{S_MAT}"></td><td style="{S_MAT}">{c}</td>'
             f'<td style="{S_WORK}">{d}</td><td style="{S_WORK}"></td><td style="{S_WORK}">{f}</td>'
             f'<td style="{S_TOT}">{g}</td></tr>')
+def subf(n, a, c, d, f, g):
+    return (f'<tr><td style="{F_NAME}">{n}</td>'
+            f'<td style="{F_CELL}">{a}</td><td style="{F_CELL}"></td><td style="{F_CELL}">{c}</td>'
+            f'<td style="{F_CELL}">{d}</td><td style="{F_CELL}"></td><td style="{F_CELL}">{f}</td>'
+            f'<td style="{F_TOT}">{g}</td></tr>')
 
 rows = ''
 TM = TW = 0.0
@@ -129,8 +138,8 @@ rows += sub('Итого стены', f'{a2(W_M2)} м²', u(TM),
 fw = FURN_AREA * FURN_M2 + FURN_MP * FURN_EDGE
 fm = FURN_AREA * EFF_MAT
 TM += fm; TW += fw
-rows += row('Фасады МДФ инсталляции (мебель)', f'{a2(FURN_AREA)} м²', u(EFF_MAT), u(fm),
-            f'{a2(FURN_AREA)} м² + {a2(FURN_MP)} м.п. торцов',
+rows += row('Фасады МДФ (мебель)', f'{a2(FURN_AREA)} м²', u(EFF_MAT), u(fm),
+            f'{a2(FURN_AREA)} м² + {a2(FURN_MP)} м.п.',
             f'{u(FURN_M2)}+{u(FURN_EDGE)}', u(fw), u(fm + fw))
 
 dm = D_M2 * EFF_MAT; dw = ND * DOOR_WORK
@@ -143,7 +152,7 @@ TM += MISC
 rows += row('Малярные расходники, валики', 'компл.', '—', u(MISC), '—', '—', '—', u(MISC))
 
 TOT = TM + TW
-rows += sub('Всего по проекту', f'{a2(TOT_M2)} м²', u(TM), '—', u(TW), u(TOT))
+rows += subf('Всего по проекту', f'{a2(TOT_M2)} м²', u(TM), '—', u(TW), u(TOT))
 
 byn = lambda v: f'{round(v * RATE):,}'.replace(',', ' ')
 logo = ('<svg width="44" height="44" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'
