@@ -1,20 +1,31 @@
 #!/usr/bin/env python3
 # КП — ул. Нововиленская, 61-217 (дизайн-проект Е. Варкович, лист 25).
 # Микроцемент в двух мокрых зонах: душевая (микроцемент 1) и санузел
-# (микроцемент 2). Объёмы сняты с ведомости отделки и разверток листа 25;
-# двери-невидимки красятся, поэтому проёмы получают микроцементные откосы.
+# (микроцемент 2). Объёмы сняты ПОСТЕНОЧНО с разверток листа 25 и
+# согласованы с заказчиком стенка за стенкой (аудит 26.08.2026):
+#  - поверхности шире 0,5 м — работа квадратами, ровно 0,50 м — тоже квадраты;
+#  - уже 0,5 м — работа погонными метрами по длине;
+#  - санузел: зоны за зеркалом, тумбами и навесным — считаются; короб
+#    инсталляции (гипсокартон) отделывается микроцементом; МДФ-фасады
+#    люков — тариф мебели (€17,50/м² + €9/м.п. кромки), материал фасадов
+#    входит в общую квадратуру;
+#  - душевая: крупное зеркало (32-23) и встроенные шкафы (белая штриховка)
+#    не считаются; полосы 175 и 90 мм — покраска по проекту (не наши);
+#    полоса 75 мм (28-29) — микроцемент, погонными;
+#  - двери-невидимки: полотно отдельной позицией, откосы проёмов ~0,1 м.
 import os
 
 SC = os.environ.get('SC', '/tmp/kp')
-RATE = 3.4918          # BYN/EUR, курс НБ РБ на 22.08.2026
-KP_DATE = '22 августа 2026 г.'
-KP_NUM = '220826A'
+RATE = 3.5185          # BYN/EUR, курс НБ РБ на 26.08.2026
+KP_DATE = '26 августа 2026 г.'
+KP_NUM = '260826A'
 
 DOOR_RATE = 45                      # €/м² стороны полотна
 DOOR_W, DOOR_H = 0.7, 2.2
 DOOR_SIDE = DOOR_W * DOOR_H         # 1,54 м² сторона полотна
 DOOR_WORK = DOOR_SIDE * DOOR_RATE   # € за сторону
 MISC = 80                           # малярные расходники
+FURN_M2, FURN_EDGE = 17.50, 9.0     # мебель: €/м² плоскости, €/м.п. кромки
 
 MIN_M2 = 20
 D_FROM, D_TO = 35, 100
@@ -31,37 +42,38 @@ def u(v):
     return '€' + (s[:-3] if s.endswith(',00') else s)
 def a2(v): return f'{v:.2f}'.replace('.', ',')
 
-# ── объёмы с листа 25 ────────────────────────────────────────────────────
-# ведомость: микроцемент 1 (душевая) 8,53 м², микроцемент 2 (санузел) 12,92 м²
-# (площади включают полотна дверей и узкие простенки)
-H_SHOWER, H_WC = 2.665, 2.625        # чистые высоты по разверткам
-# узкие простенки (< 0,5 м): работа по длине
-NARROW = {
-    'Душевая': [(0.175, H_SHOWER), (0.090, H_SHOWER), (0.075, H_SHOWER)],
-    'Санузел': [(0.330, H_WC), (0.485, 1.30)],
-}
-JAMB_W = 0.10                                   # откос двери-невидимки
-JAMB_LEN = DOOR_H * 2 + DOOR_W                  # 5,1 м.п. на проём
-ROOMS = [
-    # имя, площадь микроцемента по ведомости, дверей в зоне
-    ('Душевая', 8.53, 1),
-    ('Санузел', 12.92, 1),
+# ── объёмы постеночно, лист 25 ───────────────────────────────────────────
+# ДУШЕВАЯ (высота 2,665):
+#   материал: стена 23-24 2,19 + стена у 32 (373+823) 3,20 +
+#             за/под столешницей 32-23 1,60 + полоса 75 мм 0,20 + откосы 0,51
+#   работа м²: слева от короба 0,50×2,665=1,33 + 3,20 + 1,60
+#   работа м.п.: над дверью 0,80 + полоска 50 мм у короба 2,20 +
+#                полоса 75 мм 2,67 + откосы 5,10
+# САНУЗЕЛ (высота 2,625):
+#   материал: 33-34 1,76 + 34-35 (вкл. за зеркалом/тумбой) 2,31 +
+#             35-36 1,27 + 36-37 0,86 + короб инсталляции 0,93 +
+#             38-33 3,46 + фасады МДФ 1,10 + откосы 0,51
+#   работа м²: 33-34 справа 0,51×2,625=1,34 + 34-35 2,31 +
+#              инсталляция 0,93 + 38-33 3,46
+#   работа м.п.: полоска 50 мм 2,20 + над дверью 0,80 +
+#                35-36 (485) 2,63 + 36-37 (330) 2,63 + откосы 5,10
+ZONES = [
+    # имя, материал м², работа-квадраты м², работа-погонные м.п.
+    ('Душевая — стены и откосы',
+     2.19 + 3.20 + 1.60 + 0.20 + 0.51,
+     1.33 + 3.20 + 1.60,
+     0.80 + 2.20 + 2.67 + 5.10),
+    ('Санузел — стены, инсталляция, откосы',
+     1.76 + 2.31 + 1.27 + 0.86 + 0.93 + 3.46 + 1.10 + 0.51,
+     1.34 + 2.31 + 0.93 + 3.46,
+     2.20 + 0.80 + 2.63 + 2.63 + 5.10),
 ]
+FURN_AREA = 1.10        # МДФ-фасады люков инсталляции, 2×388×1425
+FURN_MP = 7.25          # кромки фасадов, все стороны
+ND = 2                  # дверей-невидимок (по полотну на комнату)
 
-zones = []
-for name, sheet_m2, doors in ROOMS:
-    nar = NARROW[name]
-    nar_m2 = sum(w * l for w, l in nar)
-    nar_mp = sum(l for _, l in nar)
-    jamb_mp = doors * JAMB_LEN
-    jamb_m2 = jamb_mp * JAMB_W
-    wide_m2 = sheet_m2 - nar_m2 - doors * DOOR_SIDE   # широкие поверхности
-    mat_m2 = sheet_m2 - doors * DOOR_SIDE + jamb_m2   # материал стен: без полотен, с откосами
-    zones.append((name, mat_m2, wide_m2, nar_mp + jamb_mp))
-
-W_M2 = sum(z[1] for z in zones)
-W_UN = sum(z[2] + z[3] for z in zones)
-ND = sum(d for _, _, d in ROOMS)
+W_M2 = sum(z[1] for z in ZONES)
+W_UN = sum(z[2] + z[3] for z in ZONES)
 D_M2 = ND * DOOR_SIDE                 # полотна, одна сторона каждое
 TOT_M2 = W_M2 + D_M2
 
@@ -106,35 +118,31 @@ def sub(n, a, c, d, f, g):
 
 rows = ''
 TM = TW = 0.0
-for name, mat_m2, wide_m2, mp in zones:
+for name, mat_m2, wide_m2, mp in ZONES:
     m = mat_m2 * EFF_MAT; w = (wide_m2 + mp) * EFF_WRK
     TM += m; TW += w
     vol = f'{a2(wide_m2)} м² + {a2(mp)} м.п.<sup>*</sup>'
-    rows += row(name + ' — стены и откосы', f'{a2(mat_m2)} м²', u(EFF_MAT), u(m), vol, u(EFF_WRK), u(w), u(m + w))
+    rows += row(name, f'{a2(mat_m2)} м²', u(EFF_MAT), u(m), vol, u(EFF_WRK), u(w), u(m + w))
 rows += sub('Итого стены', f'{a2(W_M2)} м²', u(TM),
-            f'{a2(sum(z[2] for z in zones))} м² + {a2(sum(z[3] for z in zones))} м.п.', u(TW), u(TM + TW))
+            f'{a2(sum(z[2] for z in ZONES))} м² + {a2(sum(z[3] for z in ZONES))} м.п.', u(TW), u(TM + TW))
+
+fw = FURN_AREA * FURN_M2 + FURN_MP * FURN_EDGE
+TW += fw
+rows += row('Фасады МДФ инсталляции (мебель)', 'в стенах', '—', '—',
+            f'{a2(FURN_AREA)} м² + {a2(FURN_MP)} м.п. кромки',
+            f'{u(FURN_M2)}+{u(FURN_EDGE)}', u(fw), u(fw))
 
 dm = D_M2 * EFF_MAT; dw = ND * DOOR_WORK
 TM += dm; TW += dw
 rows += row('Двери-невидимки 700×2200', f'{a2(D_M2)} м²', u(EFF_MAT), u(dm),
             f'{ND} стор.', u(DOOR_WORK), u(dw), u(dm + dw))
-rows += sub('Итого двери', f'{a2(D_M2)} м²', u(dm), f'{ND} дв.', u(dw), u(dm + dw))
+rows += sub('Итого двери и фасады', f'{a2(D_M2)} м²', u(dm), '—', u(dw + fw), u(dm + dw + fw))
 
 TM += MISC
 rows += row('Малярные расходники, валики', 'компл.', '—', u(MISC), '—', '—', '—', u(MISC))
 
 TOT = TM + TW
 rows += sub('Всего по проекту', f'{a2(TOT_M2)} м²', u(TM), '—', u(TW), u(TOT))
-
-FULL = BILL_M2 * MAT_HI + W_UN * WRK_HI + ND * DOOR_WORK + MISC
-SAVE = max(0.0, FULL - TOT)
-SAVE_PCT = round(SAVE / FULL * 1000) / 10 if FULL else 0
-CARD_COLS = 4 if SAVE > 0.01 else 3
-SAVE_CARD = ('<div style="padding:10px 14px;background:#fdf1ec;border:1px solid #eccfc2;border-radius:5px">'
-             '<div style="color:#b3402e;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Скидка</div>'
-             f'<div style="font-size:17px;font-weight:700;color:#b3402e;margin-top:3px">−{u(SAVE)} '
-             f'<span style="font-size:11px">(−{f"{SAVE_PCT:g}".replace(".", ",")}%)</span></div></div>'
-             ) if SAVE > 0.01 else ''
 
 byn = lambda v: f'{round(v * RATE):,}'.replace(',', ' ')
 logo = ('<svg width="44" height="44" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">'
@@ -164,8 +172,8 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#faf6ef;border:1px solid #ece2d2">
     <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#b8965a;font-weight:600;margin-bottom:2px">Заказчик</div>
     <div><b>Адрес объекта:</b> г. Минск, ул. Нововиленская, 61-217</div>
-    <div><b>Основание:</b> дизайн-проект (шифр 01/25, лист 25)</div>
-    <div><b>Состав работ:</b> микроцемент в душевой и санузле — стены, откосы, полотна дверей-невидимок</div>
+    <div><b>Основание:</b> дизайн-проект (шифр 01/25, лист 25), постеночный обмер разверток</div>
+    <div><b>Состав работ:</b> микроцемент в душевой и санузле — стены, откосы, короб инсталляции, фасады, полотна дверей-невидимок</div>
     <div><b>Площадь по материалам:</b> {a2(TOT_M2)} м² (два состава: микроцемент 1 и 2)</div>
   </div>
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#2c2c2c;color:#efece7">
@@ -188,25 +196,25 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 </table>
 
 <div style="text-align:right;margin:8px 0 0;letter-spacing:1px"><span style="font-size:11px;font-weight:600">ИТОГО К ОПЛАТЕ:</span> <span style="font-size:17px;font-weight:700;color:#b8965a">{u(TOT)}</span></div>
-<div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ {byn(TOT)} руб по курсу НБ РБ {a2(RATE)} BYN/EUR на день оплаты</div>
+<div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ {byn(TOT)} руб по курсу НБ РБ {f'{RATE:.4f}'.replace('.', ',')} BYN/EUR на день оплаты</div>
 
-<div style="display:grid;grid-template-columns:repeat({CARD_COLS},1fr);gap:10px;margin:14px 0 0">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 0">
   <div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">
     <div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Материалы</div>
     <div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">{u(TM)}</div></div>
   <div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">
     <div style="color:#8a7346;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Работы</div>
     <div style="font-size:17px;font-weight:700;color:#2c2c2c;margin-top:3px">{u(TW)}</div></div>
-  {SAVE_CARD}
   <div style="padding:10px 14px;background:#2c2c2c;border-radius:5px">
     <div style="color:#b8965a;letter-spacing:2px;text-transform:uppercase;font-size:8px;font-weight:600">Всего</div>
     <div style="font-size:18px;font-weight:700;color:#b8965a;margin-top:3px">{u(TOT)}</div></div>
 </div>
 
 <div style="margin-top:9px;padding:6px 12px;background:#f7f5f0;border-left:2px solid #b8965a;border-radius:3px;font-size:8.4px;color:#666;line-height:1.45">
-<b style="color:#2c2c2c"><sup>*</sup> м.п.</b> — погонные метры: поверхности со стороной менее 0,5 м нормируются по длине. На объекте это пять простенков шириной 75–485 мм ({a2(sum(sum(l for _, l in NARROW[n]) for n in NARROW))} м.п.) и откосы двух дверных проёмов шириной ~0,1 м ({a2(ND * JAMB_LEN)} м.п.).<br>
+<b style="color:#2c2c2c"><sup>*</sup> м.п.</b> — погонные метры: поверхности со стороной менее 0,5 м нормируются по длине (ровно 0,50 м — уже квадратами). Это полосы у скрытых коробов и над проёмами, полоса 75 мм в душевой, стены 330 и 485 мм в санузле и откосы двух проёмов ~0,1 м (10,20 м.п.).<br>
 <b style="color:#2c2c2c">Двери-невидимки:</b> полотно покрывается заподлицо со стеной; материал по площади стороны ({a2(DOOR_SIDE)} м² на дверь), работа — {u(DOOR_WORK)} за сторону.<br>
-<b style="color:#2c2c2c">Объёмы</b> сняты с ведомости отделки листа 25 (микроцемент 1 — 8,53 м², микроцемент 2 — 12,92 м²) и разверток стен; запас материала 5% учтён в закупке и в цену не входит. Финальные объёмы уточняются бесплатным замером.<br>
+<b style="color:#2c2c2c">Инсталляция и фасады:</b> гипсовый короб инсталляции отделывается микроцементом как стена; МДФ-фасады люков — по тарифу мебели ({u(FURN_M2)}/м² + {u(FURN_EDGE)}/м.п. кромки), материал фасадов учтён в общей квадратуре.<br>
+<b style="color:#2c2c2c">Объёмы</b> сняты постеночно с разверток листа 25 и согласованы: зоны за зеркалом и тумбами санузла включены; крупное зеркало и встроенные шкафы душевой исключены; полосы 175 и 90 мм — покраска по проекту. Запас материала 5% учтён в закупке и в цену не входит. Финальные объёмы уточняются бесплатным замером.<br>
 <b style="color:#2c2c2c">Вне сметы</b> (по результатам замера): гидроизоляция мокрых зон, герметизация трапа (€45), примыкания к плитке и керамогранитной полке, ремонт основания при дефектах.<br>
 <b style="color:#2c2c2c">Условия:</b> микроцемент UNICORE на немецких компонентах, толщина 1–1,5 мм; два состава/цвета по проекту (микроцемент 1 и 2), колеровка включена. Грунт + 1–2 слоя микроцемента + 2 слоя полиуретанового лака Remmers. Цены в евро, оплата в белорусских рублях по курсу НБ РБ на день оплаты. <b>Срок действия КП — 14 дней.</b>
 </div>
@@ -220,9 +228,9 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 
 os.makedirs(SC + '/kp', exist_ok=True)
 open(SC + '/kp/kp-novovilenskaya.html', 'w').write(html)
-for name, mat_m2, wide_m2, mp in zones:
-    print(f'{name:10s} мат {mat_m2:6.2f} м²   раб {wide_m2:6.2f} м² + {mp:5.2f} м.п.')
-print(f'{"стены":10s} мат {W_M2:6.2f} м²   раб {W_UN:6.2f} ед.')
-print(f'{"двери":10s} мат {D_M2:6.2f} м²   {ND} шт')
+for name, mat_m2, wide_m2, mp in ZONES:
+    print(f'{name:40s} мат {mat_m2:6.2f} м²   раб {wide_m2:6.2f} м² + {mp:5.2f} м.п.')
+print(f'{"фасады":40s} раб {FURN_AREA:.2f} м² + {FURN_MP:.2f} м.п. кромки = {u(FURN_AREA * FURN_M2 + FURN_MP * FURN_EDGE)}')
+print(f'{"двери":40s} мат {D_M2:6.2f} м²   {ND} стор.')
 print(f'площадь для шкалы {a2(TOT_M2)} м² | материал {u(EFF_MAT)}/м² | работа {u(EFF_WRK)}/ед.')
 print(f'материалы {u(TM)} | работы {u(TW)} | ИТОГО {u(TOT)} ≈ {byn(TOT)} руб')
