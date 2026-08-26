@@ -173,8 +173,6 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#faf6ef;border:1px solid #ece2d2">
     <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#b8965a;font-weight:600;margin-bottom:2px">Заказчик</div>
     <div><b>Адрес объекта:</b> г. Минск, ул. Нововиленская, 61-217</div>
-    <div><b>Основание:</b> дизайн-проект (шифр 01/25, лист 25), постеночный обмер разверток</div>
-    <div><b>Состав работ:</b> микроцемент в душевой и санузле — стены, откосы, короб инсталляции, фасады, полотна дверей-невидимок</div>
     <div><b>Площадь по материалам:</b> {a2(TOT_M2)} м² (два состава: микроцемент 1 и 2)</div>
   </div>
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#2c2c2c;color:#efece7">
@@ -182,7 +180,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
     <div><b>UNICORE</b></div>
     <div>Алексей — менеджер проекта</div>
     <div>+375 (33) 628-04-86</div>
-    <div style="color:#a09a92">info@romanovdecor.by · romanovdecor.by</div>
+    <div style="color:#a09a92">г. Минск</div>
   </div>
 </div>
 
@@ -221,7 +219,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 </div>
 
 <div style="margin-top:auto;padding-top:8px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#888;letter-spacing:1px">
-  <div>romanovdecor.by · info@romanovdecor.by · +375 (33) 628-04-86 · Минск</div>
+  <div>UNICORE · +375 (33) 628-04-86 · Минск</div>
   <div style="color:#b8965a;font-weight:600">Спасибо за доверие!</div>
 </div>
 
