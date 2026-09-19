@@ -1,0 +1,6 @@
+data/cache/
+data/wallets/
+data/markets.json
+data/event_tags.json
+data/*.log
+__pycache__/
