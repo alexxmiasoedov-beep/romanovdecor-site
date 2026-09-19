@@ -11,7 +11,7 @@ import os
 import sys
 import time
 
-from pm import api, config, metrics
+from pm import api, config, markets, metrics
 
 D = os.path.join(os.path.dirname(__file__), "data")
 IN = os.path.join(D, "stage2.csv")
@@ -55,7 +55,7 @@ def episode_markout(ep: dict) -> dict | None:
             out[f"r_delay{d}"] = None
             continue
         fill = p * (1 + config.ASSUMED_SLIPPAGE_REL)
-        out[f"r_delay{d}"] = exit_val / fill - 1
+        out[f"r_delay{d}"] = min(exit_val / fill - 1, 5.0)  # кап: цена в истории может провалиться к нулю
         if d == config.DELAYS_MIN[0]:
             out["skipped"] = (p > entry + config.MAX_PRICE_DRIFT) or (p >= config.MAX_ENTRY_PRICE)
     for h in config.MARKOUT_H:
@@ -106,33 +106,36 @@ def check(wallet: str, name: str, stage2_row: dict) -> dict:
     else:
         d5 = [r["r_delay5"] for r in res if r.get("r_delay5") is not None]
         d30 = [r["r_delay30"] for r in res if r.get("r_delay30") is not None]
-        base = metrics.mean(r["r_copy"] for r in res)
+        base = metrics.trimmed_mean(r["r_copy"] for r in res)
         filt = [r["r_delay5"] for r in res if r.get("r_delay5") is not None and not r.get("skipped")]
         row.update({
             "roi_copy_checked": round(base, 4),
-            "roi_delay5": round(metrics.mean(d5), 4) if d5 else "",
-            "roi_delay30": round(metrics.mean(d30), 4) if d30 else "",
+            "roi_delay5": round(metrics.trimmed_mean(d5), 4) if d5 else "",
+            "roi_delay30": round(metrics.trimmed_mean(d30), 4) if d30 else "",
             "t_delay5": round(metrics.t_stat(d5), 2) if d5 else "",
             "skip_share": round(1 - len(filt) / max(len(d5), 1), 3),
-            "roi_delay5_filtered": round(metrics.mean(filt), 4) if filt else "",
+            "roi_delay5_filtered": round(metrics.trimmed_mean(filt), 4) if filt else "",
             "markout_1h": round(metrics.mean(r["markout_1h"] for r in res if r.get("markout_1h") is not None), 4),
             "markout_24h": round(metrics.mean(r["markout_24h"] for r in res if r.get("markout_24h") is not None), 4),
         })
-        keep = (metrics.mean(d5) / base) if (d5 and base > 0) else 0.0
+        keep = (metrics.trimmed_mean(d5) / base) if (d5 and base > 0) else 0.0
         row["keep_ratio5"] = round(keep, 2)
-        if not d5 or metrics.mean(d5) <= 0:
+        if not d5 or metrics.trimmed_mean(d5) <= 0:
             reasons.append("delayed_roi<=0")
         elif base > 0 and keep < config.MIN_DELAYED_ROI_KEEP:
             reasons.append("edge_decays_with_delay")
-    # проскальзывание по стаканам ещё открытых рынков кошелька
-    open_eps = [e for e in data["episodes"] if not e["is_closed"]][:10]
+    # проскальзывание по стаканам ещё идущих рынков кошелька (endDate в будущем, иначе стакан пустой)
+    mk = markets._load()
+    now = time.time()
+    open_eps = [e for e in data["episodes"] if not e["is_closed"]
+                and (mk.get(e["cid"], {}).get("endDate") or 0) > now][:10]
     sl = [slippage(e["asset"], config.FIXED_STAKE_USD) for e in open_eps]
     sls = [s for s, _ in sl if s is not None]
     sps = [p for _, p in sl if p is not None]
     row["slippage_n"] = len(sls)
     row["slippage_median"] = round(metrics.percentile(sls, 0.5), 4) if sls else ""
     row["spread_median"] = round(metrics.percentile(sps, 0.5), 3) if sps else ""
-    if sls and metrics.percentile(sls, 0.5) > config.MAX_SLIPPAGE:
+    if len(sls) >= 3 and metrics.percentile(sls, 0.5) > config.MAX_SLIPPAGE:
         reasons.append("slippage")
     s2 = float(stage2_row.get("score") or 0)
     row["final_score"] = round(s2 * max(0.0, min(1.0, row.get("keep_ratio5") or 0)), 4) if not reasons else 0

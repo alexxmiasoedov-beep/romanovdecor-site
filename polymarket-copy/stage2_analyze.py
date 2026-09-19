@@ -148,6 +148,10 @@ def analyze(wallet: str, name: str = "", now: float | None = None) -> tuple[dict
             for s in metrics.segment_stats([{**e, "r": e["r_copy"]} for e in closed], key_fn, overall):
                 s.update({"wallet": wallet, "level": level})
                 seg_rows.append(s)
+        # корзина ≥0,90 и 5-минутная крипта не копируются по условиям стратегии, даже с плюсом
+        for s in seg_rows:
+            if "price=0.90-1.00" in s["segment"] or "Up/Down short" in s["segment"]:
+                s["approved"] = False
         approved = [s for s in seg_rows if s["approved"]]
         approved.sort(key=lambda s: -s["roi_shrunk"] * (s["n"] ** 0.5))
         row["approved_segments"] = " | ".join(f'{s["segment"]} (n={s["n"]}, roi={s["roi_shrunk"]:+.2f})'
@@ -207,7 +211,9 @@ def main() -> None:
         w = csv.DictWriter(f, fieldnames=["wallet", "level", "segment", "n", "roi_mean", "roi_shrunk", "t",
                                           "winrate", "roi_half1", "roi_half2", "approved"])
         w.writeheader()
-        w.writerows(segs)
+        keep = {r["wallet"] for r in rows if r["pass"] in (True, "segment")}
+        # пишем сегменты только прошедших кошельков и утверждённые — иначе файл на десятки МБ
+        w.writerows(s for s in segs if s["approved"] or (s["wallet"] in keep and s["n"] >= 20))
     passed = [r for r in rows if r["pass"] is True]
     seg_only = [r for r in rows if r["pass"] == "segment"]
     print(f"прошли стадию 2 целиком: {len(passed)}, только сегментом: {len(seg_only)}, всего {len(rows)}",

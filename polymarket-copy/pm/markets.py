@@ -48,11 +48,22 @@ def _load() -> dict[str, dict]:
     return _store
 
 
+_last_save = 0.0
+
+
+def _maybe_save(every: float = 300) -> None:
+    """Стор большой, пишем на диск не чаще раза в `every` секунд; финальный save() — в конце прогона."""
+    global _last_save
+    if time.time() - _last_save > every:
+        _last_save = time.time()
+        save()
+
+
 def save() -> None:
     with _lock:
         tmp = STORE + ".tmp"
         with open(tmp, "w") as f:
-            json.dump(_load(), f)
+            json.dump(dict(_load()), f)
         os.replace(tmp, STORE)
 
 
@@ -96,8 +107,9 @@ def ensure(condition_ids, refresh_open_after: float = 6 * 3600) -> dict[str, dic
     """Гарантирует наличие метаданных по всем conditionId; незакрытые рынки перепрашивает."""
     st = _load()
     now = time.time()
-    need = [c for c in dict.fromkeys(condition_ids) if c and (
-        c not in st or (not st[c]["closed"] and now - st[c]["fetched"] > refresh_open_after))]
+    with _lock:
+        need = [c for c in dict.fromkeys(condition_ids) if c and (
+            c not in st or (not st[c]["closed"] and now - st[c]["fetched"] > refresh_open_after))]
     if need:
         for i in range(0, len(need), 20):
             batch = need[i:i + 20]
@@ -119,8 +131,9 @@ def ensure(condition_ids, refresh_open_after: float = 6 * 3600) -> dict[str, dic
                                       "event_id": None, "series_slug": None, "series_title": None,
                                       "game_id": None, "question": "?", "slug": "", "fetched": now,
                                       "missing": True})
-        save()
-    return {c: st[c] for c in dict.fromkeys(condition_ids) if c in st}
+        _maybe_save()
+    with _lock:
+        return {c: st[c] for c in dict.fromkeys(condition_ids) if c in st}
 
 
 _event_tags: dict[str, list[str]] = {}
@@ -132,14 +145,19 @@ def event_tags(event_id) -> list[str]:
         return []
     eid = str(event_id)
     if not _event_tags and os.path.exists(TAGS_STORE):
-        with open(TAGS_STORE) as f:
-            _event_tags.update(json.load(f))
+        with _lock:
+            if not _event_tags:
+                with open(TAGS_STORE) as f:
+                    _event_tags.update(json.load(f))
     if eid not in _event_tags:
         ev = api.event(eid)
         _event_tags[eid] = [t.get("label") for t in (ev or {}).get("tags", []) if t.get("label")]
         if len(_event_tags) % 50 == 0:
-            with _lock, open(TAGS_STORE, "w") as f:
-                json.dump(_event_tags, f)
+            with _lock:
+                snapshot = dict(_event_tags)
+                with open(TAGS_STORE + ".tmp", "w") as f:
+                    json.dump(snapshot, f)
+                os.replace(TAGS_STORE + ".tmp", TAGS_STORE)
     return _event_tags[eid]
 
 

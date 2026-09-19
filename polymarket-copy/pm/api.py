@@ -61,7 +61,7 @@ def get(url: str, params: dict | None = None, *, cache: bool = True, ttl: float 
                 r.raise_for_status()
                 data = r.json()
             if cache:
-                tmp = path + ".tmp"
+                tmp = f"{path}.{threading.get_ident()}.tmp"  # уникально на поток: два потока могут писать один ключ
                 with open(tmp, "w") as f:
                     json.dump(data, f)
                 os.replace(tmp, path)
