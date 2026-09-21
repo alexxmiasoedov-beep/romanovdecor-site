@@ -44,12 +44,12 @@ def main() -> None:
     s2map = {r["wallet"]: r for r in s2}
     if fin:
         out.append("## Финалисты\n")
-        out.append("| Кошелёк | Имя | Категория | ROI/ставку | t | ROI задерж. 5 мин | Маркаут 24ч | Одноврем. p95 | Удерж., ч | Проскальз. | Утверждённые сегменты |")
-        out.append("|---|---|---|---|---|---|---|---|---|---|---|")
+        out.append("| Кошелёк | Имя | Категория | ROI/ставку | t | ROI задерж. 30 с | ROI задерж. 5 мин | Маркаут 24ч | Одноврем. p95 | Удерж., ч | Проскальз. | Утверждённые сегменты |")
+        out.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
         for r in fin:
             a = s2map.get(r["wallet"], {})
             out.append(f"| `{r['wallet']}` | {r['name']} | {a.get('top_category','')} | {a.get('roi_copy','')} | {a.get('t_stat','')} | "
-                       f"{r['roi_delay5']} | {r['markout_24h']} | {a.get('conc_p95','')} | {a.get('median_hold_h','')} | "
+                       f"{r['roi_delay_0.5m']} | {r['roi_delay_5m']} | {r['markout_24h']} | {a.get('conc_p95','')} | {a.get('median_hold_h','')} | "
                        f"{r['slippage_median'] or 'н/д'} | {r['approved_segments'] or 'все рынки'} |")
         out.append("")
     seg_only = [r for r in s2 if r["pass"] == "segment"]

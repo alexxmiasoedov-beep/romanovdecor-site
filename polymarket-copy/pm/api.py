@@ -97,11 +97,14 @@ def trades_user(wallet: str, max_pages: int = 21, ttl: float = 6 * 3600) -> list
     return out
 
 
-def trades_market(condition_id: str, max_pages: int = 4) -> list[dict]:
+def trades_market(condition_id: str, max_pages: int = 4, cache: bool = False) -> list[dict]:
+    """Лента сделок рынка, новые первыми. cache=True — для уже резолвнутых рынков."""
     out: list[dict] = []
     for page in range(max_pages):
+        if page * 500 > 10000:
+            break
         chunk = get(f"{DATA}/trades", {"market": condition_id, "limit": 500, "offset": page * 500},
-                    cache=False) or []
+                    cache=cache) or []
         out.extend(chunk)
         if len(chunk) < 500:
             break

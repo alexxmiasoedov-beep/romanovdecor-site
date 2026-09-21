@@ -19,9 +19,9 @@ OUT = os.path.join(D, "stage3.csv")
 WDIR = os.path.join(D, "wallets")
 
 FIELDS = ["wallet", "name", "final_score", "pass", "fail_reasons", "n_checked", "roi_copy_checked",
-          "roi_delay5", "roi_delay30", "keep_ratio5", "skip_share", "roi_delay5_filtered", "t_delay5",
-          "markout_1h", "markout_24h", "slippage_median", "slippage_n", "spread_median",
-          "stage2_score", "approved_segments"]
+          "roi_delay_0.5m", "roi_delay_1m", "roi_delay_5m", "roi_delay_30m", "keep_ratio5", "skip_share",
+          "roi_delay5_filtered", "t_delay5", "tape_share", "markout_1h", "markout_24h", "slippage_median",
+          "slippage_n", "spread_median", "stage2_score", "approved_segments"]
 
 
 def price_at(hist: list[dict], ts: float) -> float | None:
@@ -36,6 +36,26 @@ def price_at(hist: list[dict], ts: float) -> float | None:
     return p
 
 
+def tape_price(ep: dict, ts: float, horizon: float = 1800) -> float | None:
+    """Цена первой сделки по рынку не раньше ts (в пределах horizon сек) из ленты сделок.
+    Сделки по противоположному токену пересчитываются как 1 − p."""
+    tape = api.trades_market(ep["cid"], max_pages=config.TAPE_PAGES, cache=True)
+    if not tape:
+        return None
+    oldest = min(float(t.get("timestamp") or 0) for t in tape)
+    if oldest > ts:
+        return None  # лента усечена раньше нужного момента
+    best = None
+    for t in tape:
+        tt = float(t.get("timestamp") or 0)
+        if ts <= tt <= ts + horizon and (best is None or tt < best[0]):
+            p = float(t.get("price") or 0)
+            if t.get("asset") != ep["asset"]:
+                p = 1 - p
+            best = (tt, p)
+    return best[1] if best else None
+
+
 def episode_markout(ep: dict) -> dict | None:
     t0 = int(ep["t_open"])
     t1 = int(ep["t_close"])
@@ -44,18 +64,34 @@ def episode_markout(ep: dict) -> dict | None:
     if not hist:
         return None
     hist.sort(key=lambda h: h["t"])
+    hist1 = None  # поминутная история подгружается только для задержек < 5 мин
     exit_val = ep["exit_val"]
     entry = ep["entry"]
     out = {"r_copy": ep["r_copy"]}
     for d in config.DELAYS_MIN:
-        p = price_at(hist, t0 + d * 60)
-        if t0 + d * 60 >= t1:  # рынок уже закрыт — копия не состоялась
+        ts = t0 + d * 60
+        if d < 1:
+            p = tape_price(ep, ts)
+            out["tape_used"] = p is not None
+            if p is None:
+                if hist1 is None:
+                    hist1 = sorted(api.prices_history(ep["asset"], t0 - 120, min(t1, t0 + 3600) + 60, fidelity=1),
+                                   key=lambda h: h["t"])
+                p = price_at(hist1, t0 + 60) if hist1 else price_at(hist, ts)
+        elif d < 5:
+            if hist1 is None:
+                hist1 = sorted(api.prices_history(ep["asset"], t0 - 120, min(t1, t0 + 3600) + 60, fidelity=1),
+                               key=lambda h: h["t"])
+            p = price_at(hist1, ts) if hist1 else price_at(hist, ts)
+        else:
+            p = price_at(hist, ts)
+        if ts >= t1:  # рынок уже закрыт — копия не состоялась
             p = None
         if p is None or p <= 0:
-            out[f"r_delay{d}"] = None
+            out[f"r_delay{d:g}"] = None
             continue
         fill = p * (1 + config.ASSUMED_SLIPPAGE_REL)
-        out[f"r_delay{d}"] = min(exit_val / fill - 1, 5.0)  # кап: цена в истории может провалиться к нулю
+        out[f"r_delay{d:g}"] = min(exit_val / fill - 1, 5.0)  # кап: цена в истории может провалиться к нулю
         if d == config.DELAYS_MIN[0]:
             out["skipped"] = (p > entry + config.MAX_PRICE_DRIFT) or (p >= config.MAX_ENTRY_PRICE)
     for h in config.MARKOUT_H:
@@ -104,17 +140,20 @@ def check(wallet: str, name: str, stage2_row: dict) -> dict:
     if len(res) < 20:
         reasons.append("too_few_price_histories")
     else:
-        d5 = [r["r_delay5"] for r in res if r.get("r_delay5") is not None]
-        d30 = [r["r_delay30"] for r in res if r.get("r_delay30") is not None]
+        D0 = f"r_delay{config.DELAYS_MIN[0]:g}"
+        d5 = [r[D0] for r in res if r.get(D0) is not None]  # рабочая задержка (имя поля историческое)
         base = metrics.trimmed_mean(r["r_copy"] for r in res)
-        filt = [r["r_delay5"] for r in res if r.get("r_delay5") is not None and not r.get("skipped")]
+        filt = [r[D0] for r in res if r.get(D0) is not None and not r.get("skipped")]
         row.update({
             "roi_copy_checked": round(base, 4),
-            "roi_delay5": round(metrics.trimmed_mean(d5), 4) if d5 else "",
-            "roi_delay30": round(metrics.trimmed_mean(d30), 4) if d30 else "",
             "t_delay5": round(metrics.t_stat(d5), 2) if d5 else "",
             "skip_share": round(1 - len(filt) / max(len(d5), 1), 3),
             "roi_delay5_filtered": round(metrics.trimmed_mean(filt), 4) if filt else "",
+            "tape_share": round(metrics.mean(1.0 if r.get("tape_used") else 0.0 for r in res), 3),
+            **{f"roi_delay_{d:g}m": (round(metrics.trimmed_mean(xs), 4) if (xs := [r[f"r_delay{d:g}"] for r in res if r.get(f"r_delay{d:g}") is not None]) else "")
+               for d in config.DELAYS_MIN},
+            **{f"roi_delay_{d:g}m": (round(metrics.trimmed_mean(xs), 4) if (xs := [r[f"r_delay{d:g}"] for r in res if r.get(f"r_delay{d:g}") is not None]) else "")
+               for d in config.DELAYS_MIN},
             "markout_1h": round(metrics.mean(r["markout_1h"] for r in res if r.get("markout_1h") is not None), 4),
             "markout_24h": round(metrics.mean(r["markout_24h"] for r in res if r.get("markout_24h") is not None), 4),
         })
