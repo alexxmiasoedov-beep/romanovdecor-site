@@ -5,9 +5,9 @@
   python3 sim.py report            # таблица → data/db/SIM_REPORT.md
   python3 sim.py review --batch 1  # разметить positive/negative по итогу батча
 
-Правила копии (см. СТРАТЕГИЯ.md, раздел 5): вход по цене через 30 с (лента сделок рынка,
-запасной вариант — поминутная история) с проскальзыванием 1 %; пропуск, если цена ушла
-больше чем на 3 цента или ≥ 0,90; выходы — пропорционально продажам кошелька; резолв — 1/0.
+Правила копии (см. СТРАТЕГИЯ.md, раздел 5): рыночная покупка через 30 с по АСКУ, восстановленному
+из ленты сделок рынка (pm/quotes.py), продажа по БИДУ; пропуск, если аск выше его цены больше
+чем на 3 цента или ≥ 0,90; выходы — пропорционально продажам кошелька; резолв — 1/0.
 Состояние: data/db/sim.json (перезапускаемо, сделки не обрабатываются дважды).
 """
 from __future__ import annotations
@@ -19,7 +19,7 @@ import sys
 import time
 from datetime import datetime, timezone
 
-from pm import api, config, markets, metrics, registry
+from pm import api, config, markets, metrics, quotes, registry
 
 PATH = os.environ.get("SIM_PATH", os.path.join(os.path.dirname(__file__), "data", "db", "sim.json"))
 REPORT = os.path.join(os.path.dirname(PATH), "SIM_REPORT.md")
@@ -48,24 +48,19 @@ def parse_segments(text: str) -> set[str]:
 
 
 def fill_price(cid: str, asset: str, ts: float, his_price: float) -> tuple[float, str]:
-    """Цена входа копировщика через 30 с: лента сделок рынка → поминутная история → его цена."""
-    tape = api.trades_market(cid, max_pages=config.TAPE_PAGES, cache=False)
-    target = ts + 30
-    best = None
-    for t in tape:
-        tt = float(t.get("timestamp") or 0)
-        if target <= tt <= target + 1800 and (best is None or tt < best[0]):
-            p = float(t.get("price") or 0)
-            if t.get("asset") != asset:
-                p = 1 - p
-            best = (tt, p)
-    if best and tape and min(float(t.get("timestamp") or 0) for t in tape) <= target:
-        return best[1], "tape"
-    hist = api.prices_history(asset, int(ts) - 60, int(ts) + 600, fidelity=1)
-    pts = sorted((h for h in hist if h["t"] <= ts + 60), key=lambda h: h["t"])
-    if pts:
-        return pts[-1]["p"], "history"
-    return his_price, "own"
+    """Цена рыночной покупки через 30 с после его сделки = аск в этот момент (см. pm/quotes.py)."""
+    q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC)
+    if q["ask"] is None:
+        return his_price + quotes.SPREAD_FALLBACK, "own+spread"
+    return q["ask"], q["src"]
+
+
+def exit_price(cid: str, asset: str, ts: float, his_price: float) -> tuple[float, str]:
+    """Цена рыночной продажи через 30 с после его продажи = бид."""
+    q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC)
+    if q["bid"] is None:
+        return max(his_price - quotes.SPREAD_FALLBACK, 0.001), "own-spread"
+    return q["bid"], q["src"]
 
 
 def cmd_start(a) -> None:
@@ -133,7 +128,7 @@ def update_wallet(w: str, st: dict, now: float) -> None:
             if reason:
                 st["skipped"].append({"ts": ts, "title": t.get("title"), "his": price, "fill": fill, "why": reason})
                 continue
-            eff = fill * (1 + config.ASSUMED_SLIPPAGE_REL)
+            eff = fill * (1 + config.SIM_EXTRA_SLIPPAGE_REL)
             m = markets.ensure([cid]).get(cid, {})
             live = bool(m.get("gameStartTime") and ts > m["gameStartTime"])
             st["cash"] -= STAKE
@@ -150,7 +145,8 @@ def update_wallet(w: str, st: dict, now: float) -> None:
                 frac = 0.0
             if pos and frac > 0:
                 sell = pos["shares"] * frac
-                got = sell * price * (1 - config.ASSUMED_SLIPPAGE_REL)
+                bid, _ = exit_price(cid, asset, ts, price)
+                got = sell * bid * (1 - config.SIM_EXTRA_SLIPPAGE_REL)
                 pos["shares"] -= sell
                 pos["proceeds"] += got
                 st["cash"] += got

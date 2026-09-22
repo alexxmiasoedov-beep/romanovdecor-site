@@ -11,7 +11,7 @@ import os
 import sys
 import time
 
-from pm import api, config, markets, metrics
+from pm import api, config, markets, metrics, quotes
 
 D = os.path.join(os.path.dirname(__file__), "data")
 IN = os.path.join(D, "stage2.csv")
@@ -36,24 +36,10 @@ def price_at(hist: list[dict], ts: float) -> float | None:
     return p
 
 
-def tape_price(ep: dict, ts: float, horizon: float = 1800) -> float | None:
-    """Цена первой сделки по рынку не раньше ts (в пределах horizon сек) из ленты сделок.
-    Сделки по противоположному токену пересчитываются как 1 − p."""
-    tape = api.trades_market(ep["cid"], max_pages=config.TAPE_PAGES, cache=True)
-    if not tape:
-        return None
-    oldest = min(float(t.get("timestamp") or 0) for t in tape)
-    if oldest > ts:
-        return None  # лента усечена раньше нужного момента
-    best = None
-    for t in tape:
-        tt = float(t.get("timestamp") or 0)
-        if ts <= tt <= ts + horizon and (best is None or tt < best[0]):
-            p = float(t.get("price") or 0)
-            if t.get("asset") != ep["asset"]:
-                p = 1 - p
-            best = (tt, p)
-    return best[1] if best else None
+def tape_price(ep: dict, ts: float) -> float | None:
+    """Аск через 30 с после его входа, восстановленный из ленты сделок (pm/quotes.py)."""
+    q = quotes.quote(ep["cid"], ep["asset"], ts, cache=True)
+    return q["ask"] if q["src"] in ("tape", "tape_est") else None
 
 
 def episode_markout(ep: dict) -> dict | None:
