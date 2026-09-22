@@ -65,7 +65,8 @@ def exit_price(cid: str, asset: str, ts: float, his_price: float) -> tuple[float
 
 def cmd_start(a) -> None:
     s = load()
-    db = registry.load()
+    test_mode = "SIM_PATH" in os.environ  # отдельный файл симуляции = тест, реестр не трогаем
+    db = registry.load() if not test_mode else {"wallets": {}, "batches": {}}
     start_ts = time.time() - a.since_hours * 3600
     batch = str(a.batch)
     s["batches"].setdefault(batch, {"start_ts": start_ts, "wallets": [], "stake": STAKE, "balance": START_BALANCE})
@@ -83,7 +84,8 @@ def cmd_start(a) -> None:
                            "cash": START_BALANCE, "realized": 0.0, "positions": {}, "closed": [],
                            "skipped": [], "processed": [], "his_qty": {}, "history": []}
         s["batches"][batch]["wallets"].append(w)
-    registry.save(db)
+    if not test_mode:
+        registry.save(db)
     save(s)
     print(f"батч {batch}: {len(s['batches'][batch]['wallets'])} кошельков, старт "
           f"{datetime.fromtimestamp(start_ts, timezone.utc):%Y-%m-%d %H:%M} UTC", file=sys.stderr)
