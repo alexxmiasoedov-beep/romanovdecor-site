@@ -173,3 +173,9 @@
 2026-09-25T17:20 tick 144 equity $4,895.85 (-2.08%) open 0 closed 11 | скан: пулов 300 stage1 18 stage2 3 канд 3
 2026-09-25T17:22 tick 145 equity $4,895.85 (-2.08%) open 0 closed 11 | скан: пулов 300 stage1 19 stage2 3 канд 3
 2026-09-25T17:24 tick 146 equity $4,895.85 (-2.08%) open 0 closed 11 | скан: пулов 300 stage1 19 stage2 4 канд 3
+2026-09-25T17:26 tick 147 equity $4,895.85 (-2.08%) open 0 closed 11 | скан: пулов 300 stage1 17 stage2 4 канд 3
+2026-09-25T17:28 tick 148 equity $4,895.85 (-2.08%) open 0 closed 11 | скан: пулов 300 stage1 21 stage2 4 канд 3
+2026-09-25T17:31 OPEN #12 BLUEPRINT/SOL dep $146.88 price 0.0004741 range -15.0% tvl $9,664 fee/tvl1h 19.57%
+2026-09-25T17:31 tick 149 equity $4,894.35 (-2.11%) open 1 closed 11 | скан: пулов 300 stage1 22 stage2 5 канд 4
+2026-09-25T17:33 CLOSE #12 BLUEPRINT price price 0.0003394 (-28.4%) fees $0.00 net $-36.84 (-25.1%) 2 мин; капитал $4,859.01
+2026-09-25T17:33 tick 150 equity $4,859.01 (-2.82%) open 0 closed 12 | скан: пулов 300 stage1 27 stage2 5 канд 4
