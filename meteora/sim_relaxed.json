@@ -1,40 +1,7 @@
 {
- "capital": 4500.128568607637,
+ "capital": 4655.658304039375,
  "start_capital": 5000.0,
  "open": [
-  {
-   "id": 3,
-   "open_ts": 1790339499.456041,
-   "open_utc": "2026-09-25T12:31",
-   "symbol": "BRICK",
-   "quote": "SOL",
-   "pool": "7E2cK3tb8DhSNaTqGJ5nmXjumqoL89Qv9ZCssAfFSEQc",
-   "meme_mint": "F9PvspnWkP3hSLaYxQb2LvFRBgyrLVhdUJ5q39tZZPbC",
-   "bin_step": 200,
-   "base_fee_pct": 2.0,
-   "deposit_usd": 149.15,
-   "price_entry": 0.0003901,
-   "price_low": 0.00027307,
-   "tvl_entry": 31216.98032225357,
-   "fee_tvl_1h_entry": 0.06545748473578356,
-   "vol_tvl_1h_entry": 2.0608370802538603,
-   "vol_trend_entry": 9.99,
-   "mcap_entry": 404225,
-   "age_min_entry": 43.64173246663412,
-   "txns_1h_entry": 6613,
-   "top10_pct_entry": 22.457350160484086,
-   "insiders_pct_entry": 0,
-   "fees_usd": 7.379735431737989,
-   "gas_usd": 1.5,
-   "last_fees_cum": null,
-   "last_price": 0.0004259,
-   "min_price": 0.0003295,
-   "max_price": 0.0004737,
-   "last_tvl": 25906.412658782207,
-   "vol_30m": 54530.694507020184,
-   "vol_prev_30m": 92439.94081883656,
-   "last_tick_ts": 1790341798.2125142
-  },
   {
    "id": 6,
    "open_ts": 1790340647.6951802,
@@ -60,13 +27,13 @@
    "fees_usd": 0.0,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.0004263,
+   "last_price": 0.0004115,
    "min_price": 0.0003771,
    "max_price": 0.0004878,
-   "last_tvl": 13515.964714263151,
-   "vol_30m": 6106.72651603529,
-   "vol_prev_30m": 4911.703345800662,
-   "last_tick_ts": 1790341798.6928108
+   "last_tvl": 17718.740001911847,
+   "vol_30m": 5422.7964274925325,
+   "vol_prev_30m": 4706.081292384928,
+   "last_tick_ts": 1790342449.7590003
   },
   {
    "id": 7,
@@ -90,16 +57,16 @@
    "txns_1h_entry": 1152,
    "top10_pct_entry": 21.874910061255655,
    "insiders_pct_entry": 0,
-   "fees_usd": 0.24289907577487826,
+   "fees_usd": 0.7279164385708957,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.0005057,
-   "min_price": 0.0005057,
+   "last_price": 0.0004817,
+   "min_price": 0.0004783,
    "max_price": 0.0005368,
-   "last_tvl": 17624.75997037645,
-   "vol_30m": 7454.91526955661,
-   "vol_prev_30m": 6872.9091624964,
-   "last_tick_ts": 1790341799.119181
+   "last_tvl": 16738.204425353993,
+   "vol_30m": 6896.025506909663,
+   "vol_prev_30m": 4352.668857231079,
+   "last_tick_ts": 1790342450.1806893
   }
  ],
  "cooldown": {
@@ -114,14 +81,14 @@
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
  "next_id": 8,
- "closed": 4,
- "ticks": 27,
+ "closed": 5,
+ "ticks": 32,
  "last_scan": {
-  "time": "2026-09-25T13:10",
+  "time": "2026-09-25T13:21",
   "pools_total": 300,
-  "after_pool_stage": 13,
+  "after_pool_stage": 12,
   "after_token_stage": 5,
   "candidates": 5,
-  "seconds": 8.2
+  "seconds": 20.2
  }
 }
