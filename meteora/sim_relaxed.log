@@ -238,3 +238,10 @@
 2026-09-25T19:30 tick 205 equity $4,842.14 (-3.16%) open 0 closed 13 | скан: пулов 300 stage1 8 stage2 3 канд 2
 2026-09-25T19:32 tick 206 equity $4,842.14 (-3.16%) open 0 closed 13 | скан: пулов 300 stage1 8 stage2 3 канд 2
 2026-09-25T19:34 tick 207 equity $4,842.14 (-3.16%) open 0 closed 13 | скан: пулов 300 stage1 11 stage2 3 канд 2
+2026-09-25T19:37 OPEN #14 AMERICA/SOL dep $145.26 price 0.0002806 range -30.0% tvl $15,842 fee/tvl1h 4.17%
+2026-09-25T19:37 tick 208 equity $4,840.64 (-3.19%) open 1 closed 13 | скан: пулов 300 stage1 7 stage2 3 канд 2
+2026-09-25T19:39 OPEN #15 TTP/SOL dep $140.86 price 0.0003089 range -15.0% tvl $7,237 fee/tvl1h 1.98%
+2026-09-25T19:39 tick 209 equity $4,839.14 (-3.22%) open 2 closed 13 | скан: пулов 300 stage1 8 stage2 4 канд 3
+2026-09-25T19:41 tick 210 equity $4,838.03 (-3.24%) open 2 closed 13 | скан: пулов 300 stage1 9 stage2 3 канд 2
+2026-09-25T19:43 tick 211 equity $4,839.14 (-3.22%) open 2 closed 13 | скан: пулов 300 stage1 9 stage2 4 канд 3
+2026-09-25T19:45 tick 212 equity $4,831.40 (-3.37%) open 2 closed 13 | скан: пулов 300 stage1 6 stage2 1 канд 1
