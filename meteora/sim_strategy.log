@@ -103,3 +103,8 @@
 2026-09-25T15:31 tick 99 equity $5,000.00 (+0.00%) open 0 closed 0 | скан: пулов 300 stage1 0 stage2 0 канд 0
 2026-09-25T15:33 OPEN #1 SWARM/SOL dep $150.0 price 0.001355 range -15.0% tvl $166,003 fee/tvl1h 4.31%
 2026-09-25T15:33 tick 100 equity $4,998.50 (-0.03%) open 1 closed 0 | скан: пулов 300 stage1 1 stage2 1 канд 1
+2026-09-25T15:35 tick 101 equity $4,998.20 (-0.04%) open 1 closed 0 | скан: пулов 300 stage1 1 stage2 1 канд 1
+2026-09-25T15:37 CLOSE #1 SWARM price price 0.001105 (-18.5%) fees $0.36 net $-20.98 (-14.0%) 4 мин; капитал $4,979.02
+2026-09-25T15:37 tick 102 equity $4,979.02 (-0.42%) open 0 closed 1 | скан: пулов 300 stage1 2 stage2 0 канд 0
+2026-09-25T15:40 tick 103 equity $4,979.02 (-0.42%) open 0 closed 1 | скан: пулов 300 stage1 2 stage2 0 канд 0
+2026-09-25T15:42 tick 104 equity $4,979.02 (-0.42%) open 0 closed 1 | скан: пулов 300 stage1 2 stage2 2 канд 2
