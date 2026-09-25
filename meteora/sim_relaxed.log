@@ -61,3 +61,8 @@
 2026-09-25T13:40 OPEN #8 WODL/SOL dep $143.85 price 0.0006517 range -18.8% tvl $7,472 fee/tvl1h 3.72%
 2026-09-25T13:40 tick 41 equity $4,929.34 (-1.41%) open 2 closed 6 | скан: пулов 300 stage1 11 stage2 5 канд 5
 2026-09-25T13:42 tick 42 equity $4,929.29 (-1.41%) open 2 closed 6 | скан: пулов 300 stage1 11 stage2 6 канд 6
+2026-09-25T13:44 tick 43 equity $4,928.15 (-1.44%) open 2 closed 6 | скан: пулов 300 stage1 12 stage2 5 канд 5
+2026-09-25T13:46 tick 44 equity $4,929.34 (-1.41%) open 2 closed 6 | скан: пулов 300 stage1 8 stage2 4 канд 4
+2026-09-25T13:49 tick 45 equity $4,929.34 (-1.41%) open 2 closed 6 | скан: пулов 300 stage1 12 stage2 4 канд 4
+2026-09-25T13:51 CLOSE #6 SWARM volume price 0.0005255 (+39.4%) fees $0.47 net $-2.03 (-1.5%) 60 мин; капитал $4,928.81
+2026-09-25T13:51 tick 46 equity $4,928.81 (-1.42%) open 1 closed 7 | скан: пулов 300 stage1 10 stage2 3 канд 3

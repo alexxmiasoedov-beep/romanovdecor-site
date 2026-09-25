@@ -1,40 +1,7 @@
 {
- "capital": 4649.499559015361,
+ "capital": 4784.963326619567,
  "start_capital": 5000.0,
  "open": [
-  {
-   "id": 6,
-   "open_ts": 1790340647.6951802,
-   "open_utc": "2026-09-25T12:50",
-   "symbol": "SWARM",
-   "quote": "SOL",
-   "pool": "FRzLWC7LPGAAgDeuWXn7gEwpMyueDe5XN7eAU7fGu2Qz",
-   "meme_mint": "5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump",
-   "bin_step": 100,
-   "base_fee_pct": 3.0,
-   "deposit_usd": 135.99,
-   "price_entry": 0.0003771,
-   "price_low": 0.000320535,
-   "tvl_entry": 6352.224955778887,
-   "fee_tvl_1h_entry": 0.04992958966425614,
-   "vol_tvl_1h_entry": 1.3174627302875332,
-   "vol_trend_entry": 1.442852862258345,
-   "mcap_entry": 339257,
-   "age_min_entry": 243.48488071695962,
-   "txns_1h_entry": 3795,
-   "top10_pct_entry": 20.49779326854854,
-   "insiders_pct_entry": 0,
-   "fees_usd": 0.4737676042060057,
-   "gas_usd": 1.5,
-   "last_fees_cum": null,
-   "last_price": 0.0004505,
-   "min_price": 0.0003412,
-   "max_price": 0.0004878,
-   "last_tvl": 10810.767862720011,
-   "vol_30m": 4908.886089165685,
-   "vol_prev_30m": 6710.943493042071,
-   "last_tick_ts": 1790343751.1178563
-  },
   {
    "id": 8,
    "open_ts": 1790343630.147021,
@@ -57,16 +24,16 @@
    "txns_1h_entry": 2758,
    "top10_pct_entry": 19.7238040068093,
    "insiders_pct_entry": 0,
-   "fees_usd": 0.3730829346174179,
+   "fees_usd": 0.7215359027811215,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.0006443,
-   "min_price": 0.0006443,
-   "max_price": 0.0006517,
-   "last_tvl": 7731.031279250981,
-   "vol_30m": 6191.707608341455,
+   "last_price": 0.0008168,
+   "min_price": 0.0006157,
+   "max_price": 0.000898,
+   "last_tvl": 20717.982583710833,
+   "vol_30m": 9265.031705256368,
    "vol_prev_30m": 0.0,
-   "last_tick_ts": 1790343751.5770688
+   "last_tick_ts": 1790344269.3237696
   }
  ],
  "cooldown": {
@@ -82,14 +49,14 @@
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
  "next_id": 9,
- "closed": 6,
- "ticks": 42,
+ "closed": 7,
+ "ticks": 46,
  "last_scan": {
-  "time": "2026-09-25T13:42",
+  "time": "2026-09-25T13:51",
   "pools_total": 300,
-  "after_pool_stage": 11,
-  "after_token_stage": 6,
-  "candidates": 6,
-  "seconds": 9.8
+  "after_pool_stage": 10,
+  "after_token_stage": 3,
+  "candidates": 3,
+  "seconds": 6.1
  }
 }
