@@ -1,41 +1,7 @@
 {
- "capital": 4780.945810711994,
+ "capital": 4931.5546727263445,
  "start_capital": 5000.0,
- "open": [
-  {
-   "id": 4,
-   "open_ts": 1790366992.9182763,
-   "open_utc": "2026-09-25T20:09",
-   "symbol": "AMERICA",
-   "quote": "SOL",
-   "pool": "Dvi4B9Rj4m4DKVL5R2txZ4aB5teNndhyZ8fqtSjZRqHW",
-   "meme_mint": "pwfAeX3kpWpkuumA6iodJxtVcGAen6BkRPToR2VqLp9",
-   "bin_step": 200,
-   "base_fee_pct": 2.0,
-   "deposit_usd": 147.91,
-   "price_entry": 0.001142,
-   "price_low": 0.0007993999999999999,
-   "tvl_entry": 111102.63371061604,
-   "fee_tvl_1h_entry": 0.1238028613590427,
-   "vol_tvl_1h_entry": 3.738666112576313,
-   "vol_trend_entry": 119.40981710419234,
-   "mcap_entry": 1113838,
-   "age_min_entry": 73.81372346191407,
-   "txns_1h_entry": 24864,
-   "top10_pct_entry": 14.543448348498355,
-   "insiders_pct_entry": 0,
-   "fees_usd": 3.6988620143499804,
-   "gas_usd": 1.5,
-   "last_fees_cum": null,
-   "last_price": 0.001804,
-   "min_price": 0.000983,
-   "max_price": 0.001826,
-   "last_tvl": 63280.42492307598,
-   "vol_30m": 225305.95011201152,
-   "vol_prev_30m": 384255.6055580708,
-   "last_tick_ts": 1790369777.6749089
-  }
- ],
+ "open": [],
  "cooldown": {
   "5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump": 1790350427.7652025,
   "5NhN6zzDkzwXFGPFqtpTopV4ttBeZ6CWy1oRL9Rkpump": 1790355166.9035125,
@@ -45,14 +11,14 @@
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
  "next_id": 5,
- "closed": 3,
- "ticks": 255,
+ "closed": 4,
+ "ticks": 259,
  "last_scan": {
-  "time": "2026-09-25T20:56",
+  "time": "2026-09-25T21:04",
   "pools_total": 300,
-  "after_pool_stage": 5,
+  "after_pool_stage": 6,
   "after_token_stage": 1,
   "candidates": 1,
-  "seconds": 5.1
+  "seconds": 5.6
  }
 }
