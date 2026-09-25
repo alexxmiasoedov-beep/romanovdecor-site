@@ -1,5 +1,5 @@
 {
- "capital": 4640.858568607637,
+ "capital": 4500.128568607637,
  "start_capital": 5000.0,
  "open": [
   {
@@ -27,13 +27,13 @@
    "fees_usd": 7.379735431737989,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.0004173,
+   "last_price": 0.0004259,
    "min_price": 0.0003295,
-   "max_price": 0.0004367,
-   "last_tvl": 27792.03059434535,
-   "vol_30m": 63367.956787087016,
-   "vol_prev_30m": 74953.25559751134,
-   "last_tick_ts": 1790341266.4314885
+   "max_price": 0.0004737,
+   "last_tvl": 25906.412658782207,
+   "vol_30m": 54530.694507020184,
+   "vol_prev_30m": 92439.94081883656,
+   "last_tick_ts": 1790341798.2125142
   },
   {
    "id": 6,
@@ -60,13 +60,46 @@
    "fees_usd": 0.0,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.0004796,
+   "last_price": 0.0004263,
    "min_price": 0.0003771,
-   "max_price": 0.0004796,
-   "last_tvl": 8687.709785069364,
-   "vol_30m": 4839.209711367641,
-   "vol_prev_30m": 3837.3799417940772,
-   "last_tick_ts": 1790341267.3225226
+   "max_price": 0.0004878,
+   "last_tvl": 13515.964714263151,
+   "vol_30m": 6106.72651603529,
+   "vol_prev_30m": 4911.703345800662,
+   "last_tick_ts": 1790341798.6928108
+  },
+  {
+   "id": 7,
+   "open_ts": 1790341417.2502282,
+   "open_utc": "2026-09-25T13:03",
+   "symbol": "TTP",
+   "quote": "SOL",
+   "pool": "CteUXncHjsbvHDHx5AREFSSfLq8T28ZqACewfSyyDR2A",
+   "meme_mint": "5iqjhP5ig6JWdXQf6hYAwojZeMf11pTCvH87gCQtpump",
+   "bin_step": 100,
+   "base_fee_pct": 2.0,
+   "deposit_usd": 139.23,
+   "price_entry": 0.0005088,
+   "price_low": 0.00043248,
+   "tvl_entry": 18121.38547686274,
+   "fee_tvl_1h_entry": 0.020867949125824164,
+   "vol_tvl_1h_entry": 0.733738695135073,
+   "vol_trend_entry": 4.30042232456858,
+   "mcap_entry": 529662,
+   "age_min_entry": 744.9017599324544,
+   "txns_1h_entry": 1152,
+   "top10_pct_entry": 21.874910061255655,
+   "insiders_pct_entry": 0,
+   "fees_usd": 0.24289907577487826,
+   "gas_usd": 1.5,
+   "last_fees_cum": null,
+   "last_price": 0.0005057,
+   "min_price": 0.0005057,
+   "max_price": 0.0005368,
+   "last_tvl": 17624.75997037645,
+   "vol_30m": 7454.91526955661,
+   "vol_prev_30m": 6872.9091624964,
+   "last_tick_ts": 1790341799.119181
   }
  ],
  "cooldown": {
@@ -75,19 +108,20 @@
   "F9PvspnWkP3hSLaYxQb2LvFRBgyrLVhdUJ5q39tZZPbC": 1790339499.45608,
   "3znS89gifim2Hhhu8wjb2PfSgaCDdma187D5NMkDpump": 1790339499.6475117,
   "ATqKVVa4h5WqjAMqJdG3mjtWXsW5SshyyUY7dXdvSvRs": 1790340517.5284956,
-  "5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump": 1790340647.6952302
+  "5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump": 1790340647.6952302,
+  "5iqjhP5ig6JWdXQf6hYAwojZeMf11pTCvH87gCQtpump": 1790341417.2502763
  },
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
- "next_id": 7,
+ "next_id": 8,
  "closed": 4,
- "ticks": 23,
+ "ticks": 27,
  "last_scan": {
-  "time": "2026-09-25T13:01",
+  "time": "2026-09-25T13:10",
   "pools_total": 300,
-  "after_pool_stage": 11,
-  "after_token_stage": 4,
-  "candidates": 4,
-  "seconds": 7.5
+  "after_pool_stage": 13,
+  "after_token_stage": 5,
+  "candidates": 5,
+  "seconds": 8.2
  }
 }

@@ -38,3 +38,9 @@
 2026-09-25T12:59 tick 22 equity $4,932.85 (-1.34%) open 3 closed 3 | скан: пулов 300 stage1 12 stage2 4 канд 4
 2026-09-25T13:01 CLOSE #4 BRAIN price price 0.0003376 (-30.7%) fees $0.95 net $-29.00 (-20.1%) 29 мин; капитал $4,926.00
 2026-09-25T13:01 tick 23 equity $4,926.00 (-1.48%) open 2 closed 4 | скан: пулов 300 stage1 11 stage2 4 канд 4
+2026-09-25T13:03 OPEN #7 TTP/SOL dep $139.23 price 0.0005088 range -15.0% tvl $18,121 fee/tvl1h 2.09%
+2026-09-25T13:03 tick 24 equity $4,924.50 (-1.51%) open 3 closed 4 | скан: пулов 300 stage1 12 stage2 5 канд 5
+2026-09-25T13:05 tick 25 equity $4,924.50 (-1.51%) open 3 closed 4 | скан: пулов 300 stage1 12 stage2 5 канд 5
+2026-09-25T13:07 tick 26 equity $4,924.50 (-1.51%) open 3 closed 4 | скан: пулов 300 stage1 12 stage2 5 канд 5
+2026-09-25T13:10 tick 27 equity $4,924.48 (-1.51%) open 3 closed 4 | скан: пулов 300 stage1 13 stage2 5 канд 5
+2026-09-25T13:12 CLOSE #3 BRICK volume price 0.000399 (+2.3%) fees $7.38 net $+4.88 (+3.3%) 40 мин; капитал $4,930.86
