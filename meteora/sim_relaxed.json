@@ -1,5 +1,5 @@
 {
- "capital": 4794.849559015362,
+ "capital": 4649.499559015361,
  "start_capital": 5000.0,
  "open": [
   {
@@ -27,13 +27,46 @@
    "fees_usd": 0.4737676042060057,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.0004127,
+   "last_price": 0.0004505,
    "min_price": 0.0003412,
    "max_price": 0.0004878,
-   "last_tvl": 19120.511064337617,
-   "vol_30m": 6336.754298343125,
-   "vol_prev_30m": 6515.700654876788,
-   "last_tick_ts": 1790343107.5908592
+   "last_tvl": 10810.767862720011,
+   "vol_30m": 4908.886089165685,
+   "vol_prev_30m": 6710.943493042071,
+   "last_tick_ts": 1790343751.1178563
+  },
+  {
+   "id": 8,
+   "open_ts": 1790343630.147021,
+   "open_utc": "2026-09-25T13:40",
+   "symbol": "WODL",
+   "quote": "SOL",
+   "pool": "7zxC8abg9zEXHQ7TYWJWRX8mzcxciM5vLvtKN6ahSmSA",
+   "meme_mint": "6BZY2BgeqVKEYCTgU9Q9oUwx6bDqv32djy6WGaXTci1i",
+   "bin_step": 125,
+   "base_fee_pct": 5.0,
+   "deposit_usd": 143.85,
+   "price_entry": 0.0006517,
+   "price_low": 0.00052950625,
+   "tvl_entry": 7472.392217670711,
+   "fee_tvl_1h_entry": 0.03716978614902474,
+   "vol_tvl_1h_entry": 0.7611271023599011,
+   "vol_trend_entry": 9.99,
+   "mcap_entry": 699302,
+   "age_min_entry": 50.408426700846356,
+   "txns_1h_entry": 2758,
+   "top10_pct_entry": 19.7238040068093,
+   "insiders_pct_entry": 0,
+   "fees_usd": 0.3730829346174179,
+   "gas_usd": 1.5,
+   "last_fees_cum": null,
+   "last_price": 0.0006443,
+   "min_price": 0.0006443,
+   "max_price": 0.0006517,
+   "last_tvl": 7731.031279250981,
+   "vol_30m": 6191.707608341455,
+   "vol_prev_30m": 0.0,
+   "last_tick_ts": 1790343751.5770688
   }
  ],
  "cooldown": {
@@ -43,19 +76,20 @@
   "3znS89gifim2Hhhu8wjb2PfSgaCDdma187D5NMkDpump": 1790339499.6475117,
   "ATqKVVa4h5WqjAMqJdG3mjtWXsW5SshyyUY7dXdvSvRs": 1790340517.5284956,
   "5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump": 1790340647.6952302,
-  "5iqjhP5ig6JWdXQf6hYAwojZeMf11pTCvH87gCQtpump": 1790341417.2502763
+  "5iqjhP5ig6JWdXQf6hYAwojZeMf11pTCvH87gCQtpump": 1790341417.2502763,
+  "6BZY2BgeqVKEYCTgU9Q9oUwx6bDqv32djy6WGaXTci1i": 1790343630.147069
  },
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
- "next_id": 8,
+ "next_id": 9,
  "closed": 6,
- "ticks": 37,
+ "ticks": 42,
  "last_scan": {
-  "time": "2026-09-25T13:31",
+  "time": "2026-09-25T13:42",
   "pools_total": 300,
-  "after_pool_stage": 12,
-  "after_token_stage": 4,
-  "candidates": 4,
-  "seconds": 6.5
+  "after_pool_stage": 11,
+  "after_token_stage": 6,
+  "candidates": 6,
+  "seconds": 9.8
  }
 }
