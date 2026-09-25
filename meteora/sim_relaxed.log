@@ -86,3 +86,10 @@
 2026-09-25T14:27 tick 63 equity $4,928.53 (-1.43%) open 0 closed 8 | скан: пулов 300 stage1 11 stage2 3 канд 3
 2026-09-25T14:29 tick 64 equity $4,928.53 (-1.43%) open 0 closed 8 | скан: пулов 300 stage1 11 stage2 3 канд 3
 2026-09-25T14:31 tick 65 equity $4,928.53 (-1.43%) open 0 closed 8 | скан: пулов 300 stage1 10 stage2 3 канд 3
+2026-09-25T14:33 OPEN #9 COLLECT/SOL dep $147.86 price 0.001218 range -7.5% tvl $27,744 fee/tvl1h 1.93%
+2026-09-25T14:33 tick 66 equity $4,927.03 (-1.46%) open 1 closed 8 | скан: пулов 300 stage1 10 stage2 3 канд 3
+2026-09-25T14:35 tick 67 equity $4,927.03 (-1.46%) open 1 closed 8 | скан: пулов 300 stage1 8 stage2 3 канд 3
+2026-09-25T14:37 CLOSE #9 COLLECT price price 0.00111 (-8.9%) fees $0.07 net $-11.99 (-8.1%) 4 мин; капитал $4,916.55
+2026-09-25T14:37 tick 68 equity $4,916.55 (-1.67%) open 0 closed 9 | скан: пулов 300 stage1 10 stage2 3 канд 3
+2026-09-25T14:40 tick 69 equity $4,916.55 (-1.67%) open 0 closed 9 | скан: пулов 300 stage1 11 stage2 3 канд 3
+2026-09-25T14:42 tick 70 equity $4,916.55 (-1.67%) open 0 closed 9 | скан: пулов 300 stage1 9 stage2 3 канд 3

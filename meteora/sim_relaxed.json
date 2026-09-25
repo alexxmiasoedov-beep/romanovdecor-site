@@ -1,9 +1,9 @@
 {
- "capital": 4928.534862522348,
+ "capital": 4916.548893912528,
  "start_capital": 5000.0,
  "open": [],
  "cooldown": {
-  "nDZknLvfFRp5rgUHdzTrQsmSY5NKzoavqdLjSHVpump": 1790325111.6899762,
+  "nDZknLvfFRp5rgUHdzTrQsmSY5NKzoavqdLjSHVpump": 1790346821.967981,
   "2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK": 1790325111.9028552,
   "F9PvspnWkP3hSLaYxQb2LvFRBgyrLVhdUJ5q39tZZPbC": 1790339499.45608,
   "3znS89gifim2Hhhu8wjb2PfSgaCDdma187D5NMkDpump": 1790339499.6475117,
@@ -14,15 +14,15 @@
  },
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
- "next_id": 9,
- "closed": 8,
- "ticks": 65,
+ "next_id": 10,
+ "closed": 9,
+ "ticks": 70,
  "last_scan": {
-  "time": "2026-09-25T14:31",
+  "time": "2026-09-25T14:42",
   "pools_total": 300,
-  "after_pool_stage": 10,
+  "after_pool_stage": 9,
   "after_token_stage": 3,
   "candidates": 3,
-  "seconds": 6.9
+  "seconds": 8.6
  }
 }
