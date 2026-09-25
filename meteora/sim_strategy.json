@@ -1,41 +1,7 @@
 {
- "capital": 4828.153426527341,
+ "capital": 4959.268058735667,
  "start_capital": 5000.0,
- "open": [
-  {
-   "id": 2,
-   "open_ts": 1790355166.90347,
-   "open_utc": "2026-09-25T16:52",
-   "symbol": "Bagwork",
-   "quote": "SOL",
-   "pool": "FUHvbshwH4k4B7QccGDXttY6xAEJeKZ1m3XZDNy6fARJ",
-   "meme_mint": "5NhN6zzDkzwXFGPFqtpTopV4ttBeZ6CWy1oRL9Rkpump",
-   "bin_step": 100,
-   "base_fee_pct": 2.0,
-   "deposit_usd": 149.37,
-   "price_entry": 0.001632,
-   "price_low": 0.0013871999999999999,
-   "tvl_entry": 185355.18997952767,
-   "fee_tvl_1h_entry": 0.03274381675890413,
-   "vol_tvl_1h_entry": 1.0033455441448935,
-   "vol_trend_entry": 9.99,
-   "mcap_entry": 1588482,
-   "age_min_entry": 157.86382275797527,
-   "txns_1h_entry": 17492,
-   "top10_pct_entry": 16.418002399110176,
-   "insiders_pct_entry": 0,
-   "fees_usd": 1.0653321730927012,
-   "gas_usd": 1.5,
-   "last_fees_cum": null,
-   "last_price": 0.001849,
-   "min_price": 0.001563,
-   "max_price": 0.001849,
-   "last_tvl": 139421.0387462375,
-   "vol_30m": 173137.02650198544,
-   "vol_prev_30m": 84308.14480610166,
-   "last_tick_ts": 1790355790.385919
-  }
- ],
+ "open": [],
  "cooldown": {
   "5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump": 1790350427.7652025,
   "5NhN6zzDkzwXFGPFqtpTopV4ttBeZ6CWy1oRL9Rkpump": 1790355166.9035125
@@ -43,14 +9,14 @@
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
  "next_id": 3,
- "closed": 1,
- "ticks": 143,
+ "closed": 2,
+ "ticks": 148,
  "last_scan": {
-  "time": "2026-09-25T17:03",
+  "time": "2026-09-25T17:13",
   "pools_total": 300,
   "after_pool_stage": 2,
   "after_token_stage": 1,
   "candidates": 1,
-  "seconds": 4.9
+  "seconds": 5.4
  }
 }
