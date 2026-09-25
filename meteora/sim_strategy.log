@@ -338,3 +338,9 @@
 2026-09-25T23:23 tick 326 equity $4,931.55 (-1.37%) open 0 closed 4 | скан: пулов 300 stage1 0 stage2 0 канд 0
 2026-09-25T23:25 tick 327 equity $4,931.55 (-1.37%) open 0 closed 4 | скан: пулов 300 stage1 0 stage2 0 канд 0
 2026-09-25T23:27 tick 328 equity $4,931.55 (-1.37%) open 0 closed 4 | скан: пулов 300 stage1 0 stage2 0 канд 0
+2026-09-25T23:29 OPEN #5 e/acc/SOL dep $147.95 price 0.001039 range -15.0% tvl $51,386 fee/tvl1h 8.25%
+2026-09-25T23:29 tick 329 equity $4,930.05 (-1.40%) open 1 closed 4 | скан: пулов 300 stage1 1 stage2 1 канд 1
+2026-09-25T23:31 tick 330 equity $4,928.10 (-1.44%) open 1 closed 4 | скан: пулов 300 stage1 1 stage2 0 канд 0
+2026-09-25T23:33 CLOSE #5 e/acc price price 0.0008595 (-17.3%) fees $0.47 net $-18.87 (-12.8%) 4 мин; капитал $4,912.68
+2026-09-25T23:33 tick 331 equity $4,912.68 (-1.75%) open 0 closed 5 | скан: пулов 300 stage1 1 stage2 0 канд 0
+2026-09-25T23:36 tick 332 equity $4,912.68 (-1.75%) open 0 closed 5 | скан: пулов 300 stage1 1 stage2 0 канд 0
