@@ -1,41 +1,7 @@
 {
- "capital": 4841.414350835683,
+ "capital": 4971.569261511575,
  "start_capital": 5000.0,
- "open": [
-  {
-   "id": 2,
-   "open_ts": 1790325111.9028158,
-   "open_utc": "2026-09-25T08:31",
-   "symbol": "STONKBLEND",
-   "quote": "SOL",
-   "pool": "5NyGX4kKCqPT8pPw7wHn2Ce2kDfaxTQ71uSLi2Vaspmj",
-   "meme_mint": "2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK",
-   "bin_step": 100,
-   "base_fee_pct": 2.0,
-   "deposit_usd": 145.45,
-   "price_entry": 0.0004667,
-   "price_low": 0.000396695,
-   "tvl_entry": 6361.313464784676,
-   "fee_tvl_1h_entry": 0.01458251882208513,
-   "vol_tvl_1h_entry": 0.6092877872240228,
-   "vol_trend_entry": 2.050982130695683,
-   "mcap_entry": 466774,
-   "age_min_entry": 776.8460952840169,
-   "txns_1h_entry": 278,
-   "top10_pct_entry": 21.44060189624689,
-   "insiders_pct_entry": 0,
-   "fees_usd": 0.30603322784880255,
-   "gas_usd": 1.5,
-   "last_fees_cum": null,
-   "last_price": 0.0004173,
-   "min_price": 0.0004023,
-   "max_price": 0.0004667,
-   "last_tvl": 6172.545793509649,
-   "vol_30m": 1986.353905655875,
-   "vol_prev_30m": 2706.9273172571175,
-   "last_tick_ts": 1790325768.6621835
-  }
- ],
+ "open": [],
  "cooldown": {
   "nDZknLvfFRp5rgUHdzTrQsmSY5NKzoavqdLjSHVpump": 1790325111.6899762,
   "2Ngvnnkwrwq5u4RYV5WYKJ2wiQoEkKaVCc4LuuhYSTNK": 1790325111.9028552
@@ -43,14 +9,14 @@
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
  "next_id": 3,
- "closed": 1,
- "ticks": 7,
+ "closed": 2,
+ "ticks": 11,
  "last_scan": {
-  "time": "2026-09-25T08:42",
+  "time": "2026-09-25T08:51",
   "pools_total": 300,
-  "after_pool_stage": 7,
+  "after_pool_stage": 6,
   "after_token_stage": 2,
   "candidates": 2,
-  "seconds": 5.8
+  "seconds": 4.9
  }
 }
