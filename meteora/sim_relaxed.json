@@ -27,13 +27,13 @@
    "fees_usd": 0.0,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.001155,
+   "last_price": 0.001793,
    "min_price": 0.0002806,
-   "max_price": 0.001159,
-   "last_tvl": 103046.9277546664,
-   "vol_30m": 402662.429209612,
-   "vol_prev_30m": 93560.92943358619,
-   "last_tick_ts": 1790367308.4398994
+   "max_price": 0.001947,
+   "last_tvl": 146066.50129354378,
+   "vol_30m": 303767.24658664496,
+   "vol_prev_30m": 338106.1272813555,
+   "last_tick_ts": 1790367944.5001001
   }
  ],
  "cooldown": {
@@ -53,13 +53,13 @@
  "day_start_capital": 5000.0,
  "next_id": 16,
  "closed": 14,
- "ticks": 226,
+ "ticks": 231,
  "last_scan": {
-  "time": "2026-09-25T20:15",
+  "time": "2026-09-25T20:25",
   "pools_total": 300,
-  "after_pool_stage": 10,
-  "after_token_stage": 1,
-  "candidates": 1,
-  "seconds": 4.4
+  "after_pool_stage": 16,
+  "after_token_stage": 6,
+  "candidates": 5,
+  "seconds": 8.4
  }
 }
