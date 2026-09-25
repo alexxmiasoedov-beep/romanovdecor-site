@@ -27,6 +27,8 @@ def main() -> None:
     a = ap.parse_args()
     py = sys.executable
     fast = {"PM_MIN_INTERVAL": "0.01"}
+    # кэш API растёт на ~10 ГБ за прогон и переполняет диск; старше суток он всё равно не используется (TTL 6 ч)
+    run("find", os.path.join(HERE, "data", "cache"), "-type", "f", "-mtime", "+0", "-delete", check=False)
     if not a.skip_collect:
         run(py, "collect_wallets.py")
         run(py, "stage1_screen.py", "--workers", "24", env=fast)
