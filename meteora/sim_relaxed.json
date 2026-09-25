@@ -1,5 +1,5 @@
 {
- "capital": 4553.01692449549,
+ "capital": 4691.309989394735,
  "start_capital": 5000.0,
  "open": [
   {
@@ -27,46 +27,13 @@
    "fees_usd": 0.0,
    "gas_usd": 1.5,
    "last_fees_cum": null,
-   "last_price": 0.0007851,
+   "last_price": 0.0008798,
    "min_price": 0.0002806,
-   "max_price": 0.000794,
-   "last_tvl": 52610.04006022769,
-   "vol_30m": 301235.3816090329,
-   "vol_prev_30m": 3762.3082195484894,
-   "last_tick_ts": 1790366159.3762634
-  },
-  {
-   "id": 15,
-   "open_ts": 1790365151.4056098,
-   "open_utc": "2026-09-25T19:39",
-   "symbol": "TTP",
-   "quote": "SOL",
-   "pool": "CteUXncHjsbvHDHx5AREFSSfLq8T28ZqACewfSyyDR2A",
-   "meme_mint": "5iqjhP5ig6JWdXQf6hYAwojZeMf11pTCvH87gCQtpump",
-   "bin_step": 100,
-   "base_fee_pct": 2.0,
-   "deposit_usd": 140.86,
-   "price_entry": 0.0003089,
-   "price_low": 0.000262565,
-   "tvl_entry": 7237.176831308954,
-   "fee_tvl_1h_entry": 0.019795472980654618,
-   "vol_tvl_1h_entry": 0.797548259830148,
-   "vol_trend_entry": 1.2521627515049556,
-   "mcap_entry": 306226,
-   "age_min_entry": 1140.6958646362305,
-   "txns_1h_entry": 1067,
-   "top10_pct_entry": 23.292749401565793,
-   "insiders_pct_entry": 0,
-   "fees_usd": 1.0312693454027646,
-   "gas_usd": 1.5,
-   "last_fees_cum": null,
-   "last_price": 0.0002966,
-   "min_price": 0.0002685,
-   "max_price": 0.0003099,
-   "last_tvl": 7173.381239138826,
-   "vol_30m": 3217.9845893939746,
-   "vol_prev_30m": 2848.042333597872,
-   "last_tick_ts": 1790366159.8079958
+   "max_price": 0.0008798,
+   "last_tvl": 62982.0816005362,
+   "vol_30m": 352673.65323096304,
+   "vol_prev_30m": 7510.327012611204,
+   "last_tick_ts": 1790366678.1804028
   }
  ],
  "cooldown": {
@@ -85,14 +52,14 @@
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
  "next_id": 16,
- "closed": 13,
- "ticks": 217,
+ "closed": 14,
+ "ticks": 221,
  "last_scan": {
-  "time": "2026-09-25T19:56",
+  "time": "2026-09-25T20:04",
   "pools_total": 300,
-  "after_pool_stage": 8,
-  "after_token_stage": 2,
-  "candidates": 1,
-  "seconds": 5.8
+  "after_pool_stage": 10,
+  "after_token_stage": 3,
+  "candidates": 2,
+  "seconds": 5.9
  }
 }
