@@ -1,22 +1,57 @@
 {
- "capital": 4959.268058735667,
+ "capital": 4808.988058735667,
  "start_capital": 5000.0,
- "open": [],
+ "open": [
+  {
+   "id": 3,
+   "open_ts": 1790363393.6727474,
+   "open_utc": "2026-09-25T19:09",
+   "symbol": "BLUEPRINT",
+   "quote": "SOL",
+   "pool": "9aCKXUkgwgawaQ3wQRXzg3wE4Krhuwf8iWLBU2FKfChE",
+   "meme_mint": "GgsSaetRZNCuP9HEWjbojtVWByRWFxpr93S1wtGFpump",
+   "bin_step": 100,
+   "base_fee_pct": 3.0,
+   "deposit_usd": 148.78,
+   "price_entry": 0.001052,
+   "price_low": 0.0008941999999999999,
+   "tvl_entry": 47934.61474571743,
+   "fee_tvl_1h_entry": 0.1655678076184917,
+   "vol_tvl_1h_entry": 3.9239626346715046,
+   "vol_trend_entry": 0.8318788457171873,
+   "mcap_entry": 1013536,
+   "age_min_entry": 114.75982030843099,
+   "txns_1h_entry": 13451,
+   "top10_pct_entry": 15.320589424348523,
+   "insiders_pct_entry": 0,
+   "fees_usd": 0.729634444890833,
+   "gas_usd": 1.5,
+   "last_fees_cum": null,
+   "last_price": 0.00104,
+   "min_price": 0.001018,
+   "max_price": 0.001052,
+   "last_tvl": 68536.66632941981,
+   "vol_30m": 54354.083614834344,
+   "vol_prev_30m": 134359.1646611341,
+   "last_tick_ts": 1790363638.3696861
+  }
+ ],
  "cooldown": {
   "5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump": 1790350427.7652025,
-  "5NhN6zzDkzwXFGPFqtpTopV4ttBeZ6CWy1oRL9Rkpump": 1790355166.9035125
+  "5NhN6zzDkzwXFGPFqtpTopV4ttBeZ6CWy1oRL9Rkpump": 1790355166.9035125,
+  "GgsSaetRZNCuP9HEWjbojtVWByRWFxpr93S1wtGFpump": 1790363393.6728005
  },
  "day": "2026-09-25",
  "day_start_capital": 5000.0,
- "next_id": 3,
+ "next_id": 4,
  "closed": 2,
- "ticks": 202,
+ "ticks": 206,
  "last_scan": {
-  "time": "2026-09-25T19:05",
+  "time": "2026-09-25T19:14",
   "pools_total": 300,
   "after_pool_stage": 1,
-  "after_token_stage": 0,
-  "candidates": 0,
-  "seconds": 3.4
+  "after_token_stage": 1,
+  "candidates": 1,
+  "seconds": 4.8
  }
 }
