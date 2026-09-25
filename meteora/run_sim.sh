@@ -4,7 +4,7 @@
 cd "$(dirname "$0")" || exit 1
 DUR=${1:-1440}
 for P in strategy relaxed; do
-  if pgrep -f "simulate.py --profile $P" >/dev/null 2>&1; then
+  if pgrep -f "^python3 simulate.py --profile $P" >/dev/null 2>&1; then
     echo "$P: уже запущена"
   else
     nohup python3 simulate.py --profile "$P" --duration "$DUR" >/dev/null 2>&1 &
