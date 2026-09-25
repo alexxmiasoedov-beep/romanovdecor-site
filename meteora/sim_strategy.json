@@ -9,13 +9,13 @@
  "day_start_capital": 5000.0,
  "next_id": 2,
  "closed": 1,
- "ticks": 133,
+ "ticks": 135,
  "last_scan": {
-  "time": "2026-09-25T16:42",
+  "time": "2026-09-25T16:46",
   "pools_total": 300,
-  "after_pool_stage": 2,
-  "after_token_stage": 2,
-  "candidates": 2,
-  "seconds": 6.9
+  "after_pool_stage": 0,
+  "after_token_stage": 0,
+  "candidates": 0,
+  "seconds": 4.0
  }
 }
