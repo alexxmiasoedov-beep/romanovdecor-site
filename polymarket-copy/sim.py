@@ -1,6 +1,7 @@
 """Бумажная симуляция копирования: $1 на каждую новую позицию кошелька, старт $100.
 
   python3 sim.py start --batch 1 --wallets 0x.. 0x.. [--tag top5] [--since-hours 0]
+  python3 sim.py enroll            # прошедшие стадию 3, кого ещё нет в симуляции → новый батч
   python3 sim.py update            # подтянуть новые сделки, резолвы, переоценку
   python3 sim.py report            # таблица → data/db/SIM_REPORT.md
   python3 sim.py review --batch 1  # разметить positive/negative по итогу батча
@@ -13,6 +14,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import sys
@@ -89,6 +91,25 @@ def cmd_start(a) -> None:
     save(s)
     print(f"батч {batch}: {len(s['batches'][batch]['wallets'])} кошельков, старт "
           f"{datetime.fromtimestamp(start_ts, timezone.utc):%Y-%m-%d %H:%M} UTC", file=sys.stderr)
+
+
+def cmd_enroll(a) -> None:
+    """Прошедшие стадию 3 (stage3.csv, pass=True), которых ещё нет в симуляции, → новый батч."""
+    s = load()
+    path = a.stage3 or os.path.join(os.path.dirname(PATH), "..", "stage3.csv")
+    with open(path, newline="", encoding="utf-8") as f:
+        passed = [r["wallet"].lower() for r in csv.DictReader(f) if r.get("pass") == "True"]
+    new = [w for w in passed if w not in s["wallets"]]
+    if not new:
+        print("enroll: новых прошедших стадию 3 нет", file=sys.stderr)
+        return
+    nums = [int(b) for b in s["batches"] if b.isdigit()]
+    a.batch = str(max(nums, default=0) + 1)
+    a.wallets = new
+    a.tag = a.tag or f"auto-{datetime.now(timezone.utc):%Y-%m-%d}"
+    a.since_hours = 0.0
+    cmd_start(a)
+    print("enroll: зачислены " + ", ".join(new), file=sys.stderr)
 
 
 def in_segment(cid: str, entry: float, live: bool, segments: set[str]) -> bool:
@@ -269,11 +290,12 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("start"); p.add_argument("--batch", required=True); p.add_argument("--wallets", nargs="+", required=True)
     p.add_argument("--tag", default=""); p.add_argument("--since-hours", type=float, default=0.0)
+    p = sub.add_parser("enroll"); p.add_argument("--stage3", default=None); p.add_argument("--tag", default="")
     p = sub.add_parser("update"); p.add_argument("--batch", default=None)
     sub.add_parser("report")
     p = sub.add_parser("review"); p.add_argument("--batch", required=True); p.add_argument("--min-closed", type=int, default=5)
     a = ap.parse_args()
-    {"start": cmd_start, "update": cmd_update, "report": cmd_report, "review": cmd_review}[a.cmd](a)
+    {"start": cmd_start, "enroll": cmd_enroll, "update": cmd_update, "report": cmd_report, "review": cmd_review}[a.cmd](a)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-"""Регулярный прогон: сбор → 3 стадии → реестр → симуляция → отчёты [→ commit/push].
+"""Регулярный прогон: сбор → 3 стадии → реестр → зачисление в симуляцию → симуляция → отчёты [→ commit/push].
 
   python3 pipeline.py            # без git
   python3 pipeline.py --push     # плюс коммит и push в текущую ветку
@@ -36,6 +36,7 @@ def main() -> None:
         run(py, "stage3_markout.py", env=fast)
         run(py, "report.py")
         run(py, "db_update.py")
+        run(py, "sim.py", "enroll")  # прошедшие стадию 3 сразу в симуляцию, новым батчем
     run(py, "sim.py", "update", env=fast)
     if a.push:
         date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
