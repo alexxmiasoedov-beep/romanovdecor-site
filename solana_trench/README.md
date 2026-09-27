@@ -11,10 +11,31 @@
 ```bash
 cd solana_trench
 pip install requests curl_cffi  # curl_cffi нужен только для GMGN
-python3 run.py                  # пулы после миграции за сегодня -> кошельки -> фильтр
-python3 run.py --max-pools 25 --max-wallets 40 --max-tx 500   # ограничить объём
+export SOLANA_RPC_URL='https://mainnet.helius-rpc.com/?api-key=...'
+
+# непрерывный режим: сбор и фильтрация по кругу, состояние накапливается
+nohup python3 daemon.py --gmgn --cycle-minutes 30 --max-analyse 40 > out/daemon.log 2>&1 &
+python3 daemon.py --once --gmgn        # один цикл и выход
+
+# разовый прогон (без накопления состояния)
+python3 run.py                         # пулы после миграции за сутки -> кошельки -> фильтр
+python3 run.py --pool-age-hours 72 --min-trade-usd 100 --max-wallets 40
 python3 run.py --wallets-file gmgn_export.txt                  # свой список (GMGN и т.п.)
-python3 run.py --gmgn           # + кандидаты из GMGN (нужны GMGN_COOKIE и GMGN_UA)
+python3 run.py --gmgn                  # + кандидаты из рейтингов GMGN и топ трейдеров по токенам
+```
+
+Демон каждый цикл берёт новые пулы и кандидатов, префильтрует только
+непроверенных (отсеянные по возрасту перепроверяются, когда дорастут до
+15 суток), анализирует до `--max-analyse` кошельков за цикл, повторно
+пересчитывает кошелёк раз в `--reanalyse-hours` (24) и держит дневной
+лимит RPC-вызовов `--daily-budget` (300 000). Состояние в
+`cache/state.sqlite`, отчёт перестраивается после каждого цикла.
+
+Посмотреть, что отобралось:
+
+```bash
+python3 -c "import json; d=json.load(open('out/passed.json')); print(d['analysed'], 'проанализировано,', len(d['passed']), 'прошли'); [print(r['wallet'], round(r['copy_pnl_sol'],2), 'SOL', r['n_closed'], 'позиций') for r in d['passed']]"
+tail -n 30 out/daemon.log
 ```
 
 Нужен **архивный RPC с полной историей** (Helius: бесплатного ключа
