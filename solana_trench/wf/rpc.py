@@ -24,10 +24,21 @@ class RateLimiter:
 
 
 class Rpc:
-    def __init__(self, url: str, rps: float = 15, cache_dir: str = "cache"):
-        self.url = url
-        self.limiter = RateLimiter(rps)
+    """Два типа узлов:
+      archive — полная история (Helius, QuickNode, Triton…): подписи кошелька и старые tx;
+      fast    — публичный узел с обрезанной историей (publicnode держит ~1,7 суток):
+                только транзакции моложе fast_hours.
+    Каждый — один адрес или несколько через запятую, запросы по кругу, у каждого свой лимит."""
+
+    def __init__(self, archive_url: str, fast_url: str = "", rps: float = 10, fast_rps: float = 15,
+                 cache_dir: str = "cache", fast_hours: float = 24):
+        self.archive = [u.strip() for u in archive_url.split(",") if u.strip()]
+        self.fast = [u.strip() for u in (fast_url or "").split(",") if u.strip()]
+        self.limiters = {u: RateLimiter(rps) for u in self.archive}
+        self.limiters.update({u: RateLimiter(fast_rps) for u in self.fast})
+        self.fast_hours = fast_hours
         self.session = requests.Session()
+        self._rr_lock = threading.Lock()
         os.makedirs(cache_dir, exist_ok=True)
         self.db_path = os.path.join(cache_dir, "cache.sqlite")
         self.db_lock = threading.Lock()
@@ -36,26 +47,35 @@ class Rpc:
             db.execute("CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT, ts REAL)")
         self.calls = 0
 
+    def _pick(self, pool):
+        """Адрес из пула, чей лимитер освободится раньше."""
+        with self._rr_lock:
+            return min(pool, key=lambda u: self.limiters[u].next_at)
+
     def _db(self):
         return sqlite3.connect(self.db_path, timeout=30)
 
-    def call(self, method, params, retries=6):
+    def call(self, method, params, retries=6, pool=None):
+        pool = pool or self.archive
         delay = 1.0
         for attempt in range(retries):
-            self.limiter.wait()
+            u = self._pick(pool)
+            self.limiters[u].wait()
             try:
-                r = self.session.post(self.url, json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params}, timeout=60)
+                r = self.session.post(u, json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params}, timeout=60)
                 self.calls += 1
             except requests.RequestException:
                 time.sleep(delay); delay *= 2
                 continue
             if r.status_code == 429 or r.status_code >= 500:
-                time.sleep(delay); delay *= 2
+                with self._rr_lock:            # этот адрес перегружен — притормозить только его
+                    self.limiters[u].next_at = time.monotonic() + delay
+                delay = min(delay * 2, 8)
                 continue
             j = r.json()
             if "error" in j:
                 code = j["error"].get("code")
-                if code in (-32005, 429):   # node busy / rate limited
+                if code in (-32005, 429):
                     time.sleep(delay); delay *= 2
                     continue
                 raise RuntimeError(f"rpc {method}: {j['error']}")
@@ -101,8 +121,15 @@ class Rpc:
         return None
 
     # --- транзакции ---
-    def transaction(self, sig):
-        return self.call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+    def transaction(self, sig, block_time=None):
+        """Свежие tx (моложе fast_hours) — с быстрого узла, остальные — с архивного."""
+        pool = self.archive
+        if self.fast and block_time and time.time() - block_time < self.fast_hours * 3600:
+            pool = self.fast
+        res = self.call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}], pool=pool)
+        if res is None and pool is not self.archive:
+            res = self.call("getTransaction", [sig, {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}])
+        return res
 
     def cached_parsed(self, sig):
         with self.db_lock, self._db() as db:

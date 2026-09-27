@@ -6,8 +6,13 @@ from dataclasses import dataclass, field, asdict
 @dataclass
 class Config:
     # --- источники данных ---
-    rpc_url: str = os.environ.get("SOLANA_RPC_URL", "https://solana-rpc.publicnode.com")
-    rpc_rps: float = float(os.environ.get("SOLANA_RPC_RPS", "15"))   # запросов/сек
+    # архивный RPC с полной историей — ОБЯЗАТЕЛЕН (Helius free-ключа достаточно, ~10 rps).
+    # Публичные узлы (publicnode, mainnet-beta) хранят ~1,7 суток и годятся только как fast.
+    rpc_url: str = os.environ.get("SOLANA_RPC_URL", "")
+    rpc_rps: float = float(os.environ.get("SOLANA_RPC_RPS", "9"))    # запросов/сек на архивный узел
+    fast_rpc_url: str = os.environ.get("SOLANA_FAST_RPC_URL", "https://solana-rpc.publicnode.com")
+    fast_rpc_rps: float = float(os.environ.get("SOLANA_FAST_RPC_RPS", "15"))
+    fast_hours: float = 24                # tx моложе N часов можно брать с быстрого узла
     rpc_threads: int = int(os.environ.get("SOLANA_RPC_THREADS", "8"))
     gecko_delay_sec: float = 2.1          # лимит GeckoTerminal ~30 запросов/мин
     cache_dir: str = "cache"
@@ -59,7 +64,10 @@ class Config:
     require_latency_robust: bool = True    # PnL > 0 при удвоенном штрафе задержки
 
     def to_dict(self):
-        return asdict(self)
+        d = asdict(self)
+        for k in ("rpc_url", "fast_rpc_url"):
+            d[k] = ",".join(u.split("?")[0] + ("?api-key=***" if "api-key" in u else "") for u in d[k].split(","))
+        return d
 
 
 PUMP_FUN = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"

@@ -17,13 +17,20 @@ python3 run.py --wallets-file gmgn_export.txt                  # свой спи
 python3 run.py --gmgn           # + кандидаты из GMGN (нужны GMGN_COOKIE и GMGN_UA)
 ```
 
-Без ключей работает на публичном RPC (`solana-rpc.publicnode.com`,
-~15 запросов/сек). С платным RPC быстрее в разы:
+Нужен **архивный RPC с полной историей** (Helius: бесплатного ключа
+достаточно, ~10 запросов/сек). Публичные узлы (`solana-rpc.publicnode.com`,
+`api.mainnet-beta.solana.com`) хранят только ~1,7 суток истории: на них
+возраст кошелька и 30-дневная история считаются неверно, поэтому они
+используются лишь как быстрый узел для транзакций моложе суток.
 
 ```bash
-export SOLANA_RPC_URL='https://mainnet.helius-rpc.com/?api-key=...'
-python3 run.py --rps 50 --threads 16
+export SOLANA_RPC_URL='https://mainnet.helius-rpc.com/?api-key=...'   # архивный, обязателен
+export SOLANA_FAST_RPC_URL='https://solana-rpc.publicnode.com'        # быстрый, по умолчанию
+python3 run.py --rps 50 --threads 16                                    # если тариф позволяет
 ```
+
+Ключ живёт только в переменной окружения: в `passed.json` он маскируется,
+в репозиторий не попадает.
 
 Результат в `out/`:
 
@@ -41,7 +48,7 @@ python3 run.py --rps 50 --threads 16
 | Что | Откуда | Ключ |
 |---|---|---|
 | Новые и активные пулы, сделки в пуле с адресами | GeckoTerminal API | нет |
-| История кошелька, разбор свопов, резервы пула | Solana JSON-RPC (`getSignaturesForAddress`, `getTransaction`) | нет / любой RPC |
+| История кошелька, разбор свопов, резервы пула | Solana JSON-RPC (`getSignaturesForAddress`, `getTransaction`) | архивный RPC (Helius free) |
 | Курс SOL по дням (для капы в $) | CoinGecko | нет |
 | Текущая цена незакрытых позиций | DexScreener | нет |
 | Рейтинг кошельков, топ трейдеров по токену | GMGN (`wf/gmgn.py`) | cookie сессии |
@@ -115,4 +122,4 @@ GMGN закрыт Cloudflare: из серверной среды отдаёт 40
 - Капа в $ считается для supply 1 млрд (стандарт pump.fun); для токенов с
   другим supply число условно, на фильтр не влияет.
 - Своп токен-в-токен и позиции, начатые до окна истории, пропускаются.
-- На публичном RPC полный прогон 40 кошельков × 500 tx занимает ~30 мин.
+- На бесплатном Helius (~10 rps) полный прогон 40 кошельков × 500 tx занимает ~30–40 мин.

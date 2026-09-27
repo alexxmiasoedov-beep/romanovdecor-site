@@ -4,7 +4,8 @@
   python3 run.py                       # сегодняшние пулы, дефолтные пороги
   python3 run.py --max-wallets 30 --max-tx 300
   python3 run.py --wallets w1,w2,w3    # проверить конкретные кошельки
-  SOLANA_RPC_URL=https://mainnet.helius-rpc.com/?api-key=... python3 run.py --rps 50 --threads 16
+  export SOLANA_RPC_URL='https://mainnet.helius-rpc.com/?api-key=...'   # обязательно: архивный узел
+  python3 run.py --rps 50 --threads 16                                    # если тариф позволяет
 """
 import argparse
 import csv
@@ -86,7 +87,10 @@ def main():
     if a.out: cfg.out_dir = a.out
     os.makedirs(cfg.out_dir, exist_ok=True)
     now = time.time()
-    rpc = Rpc(cfg.rpc_url, cfg.rpc_rps, cfg.cache_dir)
+    if not cfg.rpc_url:
+        sys.exit("Нужен архивный RPC с полной историей: export SOLANA_RPC_URL='https://mainnet.helius-rpc.com/?api-key=...'\n"
+                 "Публичные узлы хранят ~1,7 суток — на них возраст и история кошелька считаются неверно.")
+    rpc = Rpc(cfg.rpc_url, cfg.fast_rpc_url, cfg.rpc_rps, cfg.fast_rpc_rps, cfg.cache_dir, cfg.fast_hours)
     gecko = Gecko(cfg.gecko_delay_sec)
 
     # 1-2. discover + collect

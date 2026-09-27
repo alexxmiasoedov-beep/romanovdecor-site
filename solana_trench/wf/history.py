@@ -53,7 +53,7 @@ def load_swaps(rpc, wallet, sigs, cfg):
         if cached is not None:
             return cached or None
         try:
-            tx = rpc.transaction(sig)
+            tx = rpc.transaction(sig, s.get("blockTime"))
         except RuntimeError:
             return None
         swap = parse_swap(tx) if tx else None
