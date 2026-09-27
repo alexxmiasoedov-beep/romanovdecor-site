@@ -162,7 +162,7 @@ def main():
         token_prices = token_prices_native(mints) if mints else {}
         m, rows = wallet_metrics(swaps, cfg, sol_hist, sol_now, token_prices, now)
         reasons = apply_filters(m, cfg)
-        funder = funder_of(rpc, info)
+        funder = funder_of(rpc, info) if not reasons else None
         rec = {"wallet": w, "age_days": info.get("age_days"), "tx_in_window": info["tx_in_window"],
                "failed_share": round(info.get("failed_share", 0), 3), "funder": funder,
                "seen_in_pools": len(candidates[w]["pools"]), "source": "+".join(sorted(candidates[w]["src"])), **m,
