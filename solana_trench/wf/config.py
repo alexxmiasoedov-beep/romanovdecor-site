@@ -16,6 +16,7 @@ class Config:
     # --- discover: какие пулы считаем "после миграции" ---
     post_migration_dexes: tuple = ("pumpswap", "raydium", "raydium-cpmm", "meteora-damm-v2")
     pool_age_hours: float = 24.0          # пул создан не раньше чем N часов назад
+    min_trade_usd: float = 0.0            # брать из пула только сделки крупнее $N (боты сыплют пылью)
     new_pool_pages: int = 5               # страниц /new_pools (20 пулов на страницу)
     active_pool_pages: int = 3            # страниц /dexes/pumpswap/pools (самые активные)
     max_pools: int = 40

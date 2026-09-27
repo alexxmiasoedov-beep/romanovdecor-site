@@ -43,11 +43,11 @@ def discover(gecko, cfg, now):
     return pools[: cfg.max_pools]
 
 
-def collect(gecko, pools):
+def collect(gecko, pools, min_usd=0.0):
     wallets = {}
     for p in pools:
         try:
-            trades = gecko.pool_trades(p["pool"])
+            trades = gecko.pool_trades(p["pool"], min_usd)
         except Exception as e:
             log("trades failed", p["name"], e); continue
         for t in trades:
@@ -66,6 +66,8 @@ def main():
     ap.add_argument("--max-wallets", type=int)
     ap.add_argument("--max-tx", type=int)
     ap.add_argument("--max-pools", type=int)
+    ap.add_argument("--pool-age-hours", type=float)
+    ap.add_argument("--min-trade-usd", type=float)
     ap.add_argument("--copy-size", type=float)
     ap.add_argument("--rps", type=float)
     ap.add_argument("--threads", type=int)
@@ -76,6 +78,8 @@ def main():
     if a.max_wallets: cfg.max_wallets = a.max_wallets
     if a.max_tx: cfg.max_tx_per_wallet = a.max_tx
     if a.max_pools: cfg.max_pools = a.max_pools
+    if a.pool_age_hours: cfg.pool_age_hours = a.pool_age_hours
+    if a.min_trade_usd: cfg.min_trade_usd = a.min_trade_usd
     if a.copy_size: cfg.copy_size_sol = a.copy_size
     if a.rps: cfg.rpc_rps = a.rps
     if a.threads: cfg.rpc_threads = a.threads
@@ -99,7 +103,7 @@ def main():
         pools = discover(gecko, cfg, now)
         log(f"pools: {len(pools)}")
         json.dump(pools, open(os.path.join(cfg.out_dir, "pools.json"), "w"), indent=1, ensure_ascii=False)
-        for w, v in collect(gecko, pools).items():
+        for w, v in collect(gecko, pools, cfg.min_trade_usd).items():
             c = candidates.setdefault(w, blank()); c.update({k: v[k] for k in ("buys", "sells", "usd")})
             c["pools"] |= v["pools"]; c["src"].add("onchain")
     if a.gmgn:

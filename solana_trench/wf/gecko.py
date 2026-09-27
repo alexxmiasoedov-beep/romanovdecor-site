@@ -51,10 +51,11 @@ class Gecko:
     def dex_pools(self, dex, page=1):
         return [self._pool(p) for p in self.get(f"/dexes/{dex}/pools", {"page": page})["data"]]
 
-    def pool_trades(self, pool):
+    def pool_trades(self, pool, min_usd=0.0):
         """До 300 последних сделок за 24ч: кошелёк, сторона, объём."""
         out = []
-        for t in self.get(f"/pools/{pool}/trades")["data"]:
+        params = {"trade_volume_in_usd_greater_than": min_usd} if min_usd else None
+        for t in self.get(f"/pools/{pool}/trades", params)["data"]:
             a = t["attributes"]
             out.append({
                 "wallet": a["tx_from_address"],
