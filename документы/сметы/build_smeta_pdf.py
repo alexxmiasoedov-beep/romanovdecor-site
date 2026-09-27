@@ -46,7 +46,7 @@ while r <= M.max_row:
     b, c = M.cell(r, 2).value, M.cell(r, 3).value
     if c is None and b is None:
         r += 1; continue
-    if b and str(b).startswith('M'):
+    if b and str(b)[:1].isalpha() and str(b)[1:].isdigit():
         items.append(('row', b, c, M.cell(r, 4).value, M.cell(r, 5).value, M.cell(r, 6).value,
                       M.cell(r, 7).value, M.cell(r, 8).value, M.cell(r, 9).value, M.cell(r, 10).value))
     elif c == 'Итого по разделу':
@@ -70,6 +70,7 @@ for it in items:
 T_BASE = totals['Итого прямые затраты']; T_RES = totals['Запас на материалы']; T_OVH = totals['Накладные и прибыль подрядчика']
 T_DEL = totals['Доставка и подъём материалов']; T_UNF = totals['Непредвиденные']; T_TOT = totals['ИТОГО К ОПЛАТЕ, BYN']
 per_m2 = [v for k, v in totals.items() if 'на м²' in k][0][2]
+per_m2_bare = [v for k, v in totals.items() if 'без приборов' in k][0][2]
 
 # ── стили (эталон build_kp_losika.py) ──────────────────────────────────────
 B = '#cbbf9f'; GRID = f'border:1px solid {B}'; NUMS = 'font-variant-numeric:tabular-nums'
@@ -179,7 +180,7 @@ page1 = f'''<div style="{PAGE}">
 <tbody>{sum_rows}</tbody></table>
 
 <div style="text-align:right;margin:8px 0 0;letter-spacing:1px"><span style="font-size:11px;font-weight:600">ИТОГО К ОПЛАТЕ:</span> <span style="font-size:17px;font-weight:700;color:#b8965a">{u0(T_TOT[2])} руб.</span></div>
-<div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ €{u0(T_TOT[2]/RATE)} по курсу НБ РБ {u(RATE, 4)} BYN/EUR · {u0(per_m2)} руб. за м² без балкона</div>
+<div style="text-align:right;font-size:9px;color:#888;letter-spacing:1px;margin:3px 0 0">≈ €{u0(T_TOT[2]/RATE)} по курсу НБ РБ {u(RATE, 4)} BYN/EUR · {u0(per_m2)} руб. за м² всё включено · {u0(per_m2_bare)} руб. за м² без приборов и изделий раздела 12</div>
 
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 0">
   <div style="padding:10px 14px;background:#f5efe2;border:1px solid #e3d7bd;border-radius:5px">
@@ -194,7 +195,7 @@ page1 = f'''<div style="{PAGE}">
 </div>
 
 <div style="margin-top:9px;padding:6px 12px;background:#f7f5f0;border-left:2px solid #b8965a;border-radius:3px;font-size:8.2px;color:#666;line-height:1.42">
-<b style="color:#2c2c2c">Не включено.</b> {not_incl.replace('НЕ ВКЛЮЧЕНО (', '(')}<br>
+<b style="color:#2c2c2c">Не включено.</b> {not_incl.replace('НЕ ВКЛЮЧЕНО (', '(').replace('НЕ ВКЛЮЧЕНО: ', '')}<br>
 <b style="color:#2c2c2c">Условия.</b>{cond_html}
 <div style="margin-top:3px">• Цены в белорусских рублях без НДС, срез рынка Минска на {META['date'][:-3]}; евро — справочно как валютная оговорка (ст. 298 ГК). Срок действия сметы — 14 дней.</div>
 </div>

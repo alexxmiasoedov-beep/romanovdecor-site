@@ -24,7 +24,7 @@ items, totals, notes = [], {}, []
 r = 6
 while r <= M.max_row:
     b, c = M.cell(r, 2).value, M.cell(r, 3).value
-    if b and str(b).startswith('M'):
+    if b and str(b)[:1].isalpha() and str(b)[1:].isdigit():
         items.append(('row', b, c, M.cell(r, 4).value, M.cell(r, 5).value, M.cell(r, 6).value,
                       M.cell(r, 7).value, M.cell(r, 8).value, M.cell(r, 9).value, M.cell(r, 10).value))
     elif c == 'Итого по разделу':
@@ -44,6 +44,7 @@ for it in items:
 T_BASE = totals['Итого прямые затраты']; T_RES = totals['Запас на материалы']; T_OVH = totals['Накладные и прибыль подрядчика']
 T_DEL = totals['Доставка и подъём материалов']; T_UNF = totals['Непредвиденные']; T_TOT = totals['ИТОГО К ОПЛАТЕ, BYN']
 per_m2 = [v for k, v in totals.items() if 'на м²' in k][0][2]
+per_m2_bare = [v for k, v in totals.items() if 'без приборов' in k][0][2]
 work_m2 = [v for k, v in totals.items() if 'только работы' in k][0][2]
 
 CSS = '''
@@ -127,7 +128,7 @@ for it in items:
                  f'<td class="num mat">{u(mp) if mp else "—"}</td><td class="num mat">{u0(m) if m else "—"}</td>'
                  f'<td class="num work">{u(wp) if wp else "—"}</td><td class="num work">{u0(w) if w else "—"}</td><td class="num tot">{u0(t)}</td></tr>')
 
-not_incl = notes[0].replace('НЕ ВКЛЮЧЕНО (', '(') if notes else ''
+not_incl = notes[0].replace('НЕ ВКЛЮЧЕНО (', '(').replace('НЕ ВКЛЮЧЕНО: ', '') if notes else ''
 cond = ''.join(f'<p>• {e(n)}</p>' for n in notes[1:])
 
 page = f'''<title>{e(META["title"])}</title>
@@ -144,10 +145,10 @@ page = f'''<title>{e(META["title"])}</title>
 <div class="kpis">
 <div class="kpi"><div class="l">Материалы</div><div class="v">{u0(T_TOT[1])}</div></div>
 <div class="kpi"><div class="l">Работы</div><div class="v">{u0(T_TOT[0])}</div></div>
-<div class="kpi"><div class="l">За м² без балкона</div><div class="v">{u0(per_m2)}</div></div>
+<div class="kpi"><div class="l">За м² всё включено</div><div class="v">{u0(per_m2)}</div></div>
 <div class="kpi total"><div class="l">Итого, руб.</div><div class="v">{u0(T_TOT[2])}</div></div>
 </div>
-<div class="sub">≈ €{u0(T_TOT[2]/RATE)} по курсу НБ РБ {u(RATE,4)} BYN/EUR · работы {u0(work_m2)} руб. за м² · цены без НДС</div>
+<div class="sub">≈ €{u0(T_TOT[2]/RATE)} по курсу НБ РБ {u(RATE,4)} BYN/EUR · без приборов и изделий {u0(per_m2_bare)} руб. за м² · работы {u0(work_m2)} руб. за м² · цены без НДС</div>
 
 <h2>Сводка по разделам</h2>
 <div class="wrap"><table>
