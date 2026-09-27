@@ -17,7 +17,7 @@ import time
 
 from wf.config import Config
 from wf.gecko import Gecko, sol_price_history, sol_price_now, token_prices_native
-from wf.gmgn import Gmgn, read_wallets_file
+from wf.gmgn import Gmgn, RANK_TAGS, gmgn_summary, read_wallets_file
 from wf.history import prefilter_wallet, load_swaps, funder_of
 from wf.metrics import wallet_metrics, apply_filters
 from wf.rpc import Rpc
@@ -112,16 +112,16 @@ def main():
             c["pools"] |= v["pools"]; c["src"].add("onchain")
     if a.gmgn:
         gm = Gmgn()
-        if not gm.available:
-            log("GMGN: нет GMGN_COOKIE — пропускаю (см. wf/gmgn.py)")
+        if not gm.check():
+            log("GMGN недоступен отсюда (403) — пропускаю; см. wf/gmgn.py")
         n0 = len(candidates)
-        for tag in (None, "smart_degen", "pump_smart"):
+        for tag in RANK_TAGS:
             for r in gm.top_wallets("7d", tag=tag):
-                c = candidates.setdefault(r["wallet"], blank()); c["src"].add("gmgn_rank"); c["gmgn"] = r["gmgn"]
+                c = candidates.setdefault(r["wallet"], blank()); c["src"].add("gmgn_rank"); c.setdefault("gmgn", r["gmgn"])
         for p in pools:
-            for r in gm.top_traders(p["mint"]):
+            for r in gm.token_traders(p["mint"]):
                 c = candidates.setdefault(r["wallet"], blank()); c["src"].add("gmgn_top_traders"); c["pools"].add(p["pool"])
-        log(f"GMGN: +{len(candidates) - n0} кандидатов")
+        log(f"GMGN: +{len(candidates) - n0} кандидатов (всего {len(candidates)})")
     log(f"candidate wallets: {len(candidates)}")
 
     # 3. prefilter (дёшево)
@@ -166,6 +166,7 @@ def main():
         rec = {"wallet": w, "age_days": info.get("age_days"), "tx_in_window": info["tx_in_window"],
                "failed_share": round(info.get("failed_share", 0), 3), "funder": funder,
                "seen_in_pools": len(candidates[w]["pools"]), "source": "+".join(sorted(candidates[w]["src"])), **m,
+               **gmgn_summary(candidates[w].get("gmgn")),
                "pass": not reasons, "fail_reasons": ";".join(reasons)}
         results.append(rec)
         json.dump(rows, open(os.path.join(cfg.out_dir, f"positions_{w}.json"), "w"), indent=1)
