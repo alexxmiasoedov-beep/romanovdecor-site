@@ -1,164 +1,159 @@
-# Отчёт воронки, 2026-09-26 12:45 UTC
+# Отчёт воронки, 2026-09-27 05:51 UTC
 
 ## Воронка
 
 | Стадия | Кошельков |
 |---|---|
-| 0. Торговали сегодня | 7620 |
-| 0. Из них не только 5-мин крипта | 6307 |
-| 1. Прошли дешёвые отсечки | 847 из 6307 |
-| 2. Прошли по полной истории | 2 + сегментом 18 из 847 |
-| 3. Прошли реалистичный вход | 8 из 20 |
+| 0. Торговали сегодня | 7714 |
+| 0. Из них не только 5-мин крипта | 6562 |
+| 1. Прошли дешёвые отсечки | 921 из 6558 |
+| 2. Прошли по полной истории | 4 + сегментом 15 из 921 |
+| 3. Прошли реалистичный вход | 4 из 19 |
 
 ## Причины отсева, стадия 1
 
 | Причина | Кошельков |
 |---|---|
-| roi<=0 | 3162 |
-| history<90d | 1795 |
-| open_now>10 | 1460 |
-| closed<50 | 1136 |
-| entries>=0.90 | 1132 |
-| top1_concentration | 985 |
-| short_crypto | 537 |
-| profit_from<0.10 | 440 |
-| positions>5000 | 86 |
+| roi<=0 | 3297 |
+| history<90d | 2021 |
+| open_now>10 | 1359 |
+| closed<50 | 1300 |
+| entries>=0.90 | 1127 |
+| top1_concentration | 1061 |
+| short_crypto | 569 |
+| profit_from<0.10 | 403 |
+| positions>5000 | 97 |
 
 ## Причины отсева, стадия 2
 
 | Причина | Кошельков |
 |---|---|
-| drawdown | 746 |
-| concurrency_p95>8 | 714 |
-| t<2.0 | 707 |
-| unstable_halves | 527 |
-| roi_copy<=0 | 347 |
-| low_liquidity | 198 |
-| both_sides | 158 |
-| history<90d | 123 |
-| hold<1h | 64 |
-| entries>=0.90 | 47 |
-| short_crypto | 31 |
-| sniping | 21 |
-| segment_only:t<2.0 | 18 |
-| segment_only:drawdown | 13 |
+| drawdown | 785 |
+| t<2.0 | 752 |
+| concurrency_p95>8 | 740 |
+| unstable_halves | 563 |
+| roi_copy<=0 | 353 |
+| low_liquidity | 204 |
+| both_sides | 190 |
+| history<90d | 137 |
+| hold<1h | 83 |
+| entries>=0.90 | 39 |
+| short_crypto | 30 |
+| sniping | 16 |
+| segment_only:t<2.0 | 15 |
+| top1_concentration | 13 |
+| closed<50 | 12 |
+| segment_only:drawdown | 12 |
 | profit_from<0.10 | 9 |
-| top1_concentration | 9 |
-| closed<50 | 8 |
-| segment_only:unstable_halves | 8 |
-| segment_only:roi_copy<=0 | 2 |
+| segment_only:unstable_halves | 6 |
+| segment_only:roi_copy<=0 | 4 |
 
 ## Причины отсева, стадия 3
 
 | Причина | Кошельков |
 |---|---|
-| delayed_roi<=0 | 10 |
-| edge_decays_with_delay | 2 |
+| delayed_roi<=0 | 14 |
+| edge_decays_with_delay | 1 |
 
 ## Финалисты
 
 | Кошелёк | Имя | Категория | ROI/ставку | t | ROI задерж. 30 с | ROI задерж. 5 мин | Маркаут 24ч | Одноврем. p95 | Удерж., ч | Проскальз. | Утверждённые сегменты |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| `0xe478d4ca1c959e78f4ad9e563b134c54363128ea` | gmomoney | Sports | 0.1437 | 2.23 | 0.1416 | 0.1799 | 0.1657 | 7.0 | 6.49 | н/д | Sports / price=0.50-0.70 (n=106, roi=+0.21) | Sports (n=172, roi=+0.16) | Sports / Baseball / type=moneyline (n=40, roi=+0.29) | Sports / American Football / price=0.50-0.70 (n=33, roi=+0.32) |
-| `0xf68aa71cb5187d1e3ceb22fa07ca40aae7e25b13` |  | Sports | 0.0736 | 1.77 | 0.0933 | 0.1081 | 0.0631 | 5.0 | 2.95 | 0.0 | Sports / Soccer / pre (n=33, roi=+0.11) |
-| `0x56dc1f57f224d88fc988444d765ffda09c78d397` | attract | Sports | 0.0674 | 1.81 | 0.1096 | 0.1265 | 0.0882 | 5.0 | 9.75 | 0.0 | Sports / Soccer / pre (n=170, roi=+0.15) | Sports / Soccer / type=both_teams_to_score (n=34, roi=+0.33) | Sports / Soccer (n=187, roi=+0.13) | Sports (n=198, roi=+0.11) | Sports / Soccer / price=0.50-0.70 (n=78, roi=+0.15) | Sports / price=0.50-0.70 (n=80, roi=+0.14) |
-| `0x19f3ab1ed7c34f6e389ea267f27e83b87b2f4a8d` | brigandine1 | Sports | 0.126 | 1.29 | 0.0372 | 0.0543 | 0.133 | 4.0 | 4.11 | 0.0019 | Sports / price=0.50-0.70 (n=35, roi=+0.20) | Sports / Soccer / price=0.50-0.70 (n=35, roi=+0.20) |
-| `0x31550df5402226b825f900a31659a05d809d268e` | tizzles | Sports | 0.1608 | 1.46 | 0.0626 | 0.0783 | 0.0917 | 5.0 | 5.36 | 0.0 | Sports / MMA/Boxing / UFC (n=54, roi=+0.29) | Sports / MMA/Boxing / type=moneyline (n=53, roi=+0.29) | Sports / MMA/Boxing (n=61, roi=+0.26) | Sports / MMA/Boxing / pre (n=37, roi=+0.29) |
-| `0x5f4a0508541e6930f13bc679851dedeb18699484` | rubenoved | Sports | 0.0321 | 1.76 | 0.1155 | 0.1309 | 0.1218 | 8.0 | 3.18 | 0.0 | Esports / price=0.50-0.70 (n=49, roi=+0.21) | Esports / Esports / price=0.50-0.70 (n=49, roi=+0.21) | Esports / Esports / Counter Strike (n=145, roi=+0.10) |
-| `0xaab18830506d45d582007ff27cb35f3038d29678` | veys | Sports | 0.1181 | 1.08 | 0.0262 | 0.0471 | 0.0321 | 8.0 | 2.44 | н/д | Sports / Basketball / type=moneyline (n=35, roi=+0.13) |
-| `0x7714c16f86bcfdba47bfcb161dc39a2a1ff2b814` | llllllIIIIIIlIllllllIIIIIIlIllllllIIIIIIlI | Esports | 0.0444 | 1.46 | 0.0918 | 0.1101 | 0.1411 | 8.0 | 3.25 | 0.0 | Sports / Soccer (n=62, roi=+0.35) | Sports (n=89, roi=+0.25) | Sports / Soccer / live (n=36, roi=+0.35) | Sports / Soccer / type=moneyline (n=34, roi=+0.32) | Sports / Soccer / price=0.50-0.70 (n=31, roi=+0.23) | Sports / price=0.50-0.70 (n=32, roi=+0.20) |
+| `0x36567ae38757008cee2cbbcdabbf870822b16a0c` | Steijn123. | Sports | 0.1128 | 2.21 | 0.0638 | 0.0945 | 0.1692 | 5.0 | 3.6 | н/д | Sports (n=310, roi=+0.11) | Sports / Other sport (n=35, roi=+0.20) |
+| `0x7a741fb44f513f3ad715b2e98ddfc24ad3644c57` | charlo7928 | Sports | 0.2186 | 1.79 | 0.0359 | 0.0609 | 0.1527 | 8.0 | 3.25 | н/д | Sports / MMA/Boxing (n=72, roi=+0.35) | Sports / MMA/Boxing / UFC (n=72, roi=+0.35) | Sports / MMA/Boxing / type=moneyline (n=72, roi=+0.35) |
+| `0x19f3ab1ed7c34f6e389ea267f27e83b87b2f4a8d` | brigandine1 | Sports | 0.1181 | 1.24 | 0.0323 | 0.0474 | 0.1248 | 4.0 | 4.28 | 0.0107 | Sports / price=0.50-0.70 (n=37, roi=+0.21) | Sports / Soccer / price=0.50-0.70 (n=37, roi=+0.21) |
+| `0xd1e0c0db26fb636fb557704f05f7cd8ae4148913` | DjPonyboots | Sports | 0.0334 | 0.57 | 0.0358 | 0.0413 | 0.0464 | 5.0 | 7.28 | 0.0 | Sports / Basketball / price=0.50-0.70 (n=43, roi=+0.19) | Sports / Basketball / NBA 2026 (n=62, roi=+0.15) |
 
 ## Кандидаты только на сегмент
 
 | Кошелёк | Имя | ROI общий | Утверждённые сегменты | Причины |
 |---|---|---|---|---|
-| `0xf68aa71cb5187d1e3ceb22fa07ca40aae7e25b13` |  | 0.0736 | Sports / Soccer / pre (n=33, roi=+0.11) | segment_only:t<2.0 |
-| `0x56dc1f57f224d88fc988444d765ffda09c78d397` | attract | 0.0674 | Sports / Soccer / pre (n=170, roi=+0.15) | Sports / Soccer / type=both_teams_to_score (n=34, roi=+0.33) | Sports / Soccer (n=187, roi=+0.13) | Sports (n=198, roi=+0.11) | Sports / Soccer / price=0.50-0.70 (n=78, roi=+0.15) | Sports / price=0.50-0.70 (n=80, roi=+0.14) | segment_only:t<2.0;segment_only:drawdown |
-| `0x31550df5402226b825f900a31659a05d809d268e` | tizzles | 0.1608 | Sports / MMA/Boxing / UFC (n=54, roi=+0.29) | Sports / MMA/Boxing / type=moneyline (n=53, roi=+0.29) | Sports / MMA/Boxing (n=61, roi=+0.26) | Sports / MMA/Boxing / pre (n=37, roi=+0.29) | segment_only:t<2.0;segment_only:unstable_halves |
-| `0xffcb2a10ff14a1060e7767c40a7a10ea7a0ad630` |  | 0.0442 | Esports / price=0.50-0.70 (n=98, roi=+0.14) | Esports / Esports / price=0.50-0.70 (n=98, roi=+0.14) | Esports / Esports / League of Legends (n=170, roi=+0.10) | segment_only:t<2.0;segment_only:drawdown |
-| `0x19f3ab1ed7c34f6e389ea267f27e83b87b2f4a8d` | brigandine1 | 0.126 | Sports / price=0.50-0.70 (n=35, roi=+0.20) | Sports / Soccer / price=0.50-0.70 (n=35, roi=+0.20) | segment_only:t<2.0 |
-| `0x84ec5c73977668d5a140e01b0f78e4381f3f5696` | hartemma30 | 0.0821 | Sports / price=0.70-0.90 (n=32, roi=+0.16) | segment_only:t<2.0 |
-| `0x5f4a0508541e6930f13bc679851dedeb18699484` | rubenoved | 0.0321 | Esports / price=0.50-0.70 (n=49, roi=+0.21) | Esports / Esports / price=0.50-0.70 (n=49, roi=+0.21) | Esports / Esports / Counter Strike (n=145, roi=+0.10) | segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
-| `0x807fcf8fbad55fb5121941ad7f37497e7db59615` |  | -0.0302 | Sports / Baseball / type=moneyline (n=39, roi=+0.24) | segment_only:roi_copy<=0;segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
-| `0xd13e1585ab393467fe2351e6a9b4801f5b19f2d6` | Elia12 | -0.0185 | Sports / Other sport / Japan J League (n=31, roi=+0.03) | segment_only:roi_copy<=0;segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
-| `0xbbf94447dc1543d2c5fda33e29c89c2ae712d602` | EthanKoon | 0.0159 | Sports / Soccer / FIFA World Cup (n=97, roi=+0.03) | segment_only:t<2.0 |
-| `0xaab18830506d45d582007ff27cb35f3038d29678` | veys | 0.1181 | Sports / Basketball / type=moneyline (n=35, roi=+0.13) | segment_only:t<2.0;segment_only:drawdown |
-| `0x50f97e9c24050ca2cd7f0fef900df984e1d0c327` | 0x50f97e9C24050cA2cd7f0fEf900Df984e1d0c327-1759622213387 | 0.0083 | Esports / price=0.50-0.70 (n=105, roi=+0.11) | Esports / Esports / price=0.50-0.70 (n=105, roi=+0.11) | segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
-| `0x191267f5c2074ccbfe4fe3d6996797148fdfdef8` | heal1god | 0.0494 | Sports / Hockey (n=35, roi=+0.31) | Sports / Hockey / NHL 2026 (n=35, roi=+0.31) | Sports / Hockey / type=moneyline (n=30, roi=+0.29) | segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
-| `0x7714c16f86bcfdba47bfcb161dc39a2a1ff2b814` | llllllIIIIIIlIllllllIIIIIIlIllllllIIIIIIlI | 0.0444 | Sports / Soccer (n=62, roi=+0.35) | Sports (n=89, roi=+0.25) | Sports / Soccer / live (n=36, roi=+0.35) | Sports / Soccer / type=moneyline (n=34, roi=+0.32) | Sports / Soccer / price=0.50-0.70 (n=31, roi=+0.23) | Sports / price=0.50-0.70 (n=32, roi=+0.20) | segment_only:t<2.0;segment_only:drawdown |
-| `0x43fe17cf68eb58be1d40514be0e52674b71d26ee` | 0x43fE17Cf68EB58BE1d40514Be0e52674B71d26eE-1768993726139 | 0.0421 | Sports / Cricket / price=0.50-0.70 (n=146, roi=+0.13) | segment_only:t<2.0;segment_only:drawdown |
-| `0x7e3a1f95c558f39a51ff334d789e3e039b553246` | KaneAnalytics | 0.1223 | Sports / Basketball / live (n=367, roi=+0.15) | segment_only:t<2.0;segment_only:drawdown |
-| `0x82882d761b0d7f18b2cc286117d10cd8a15a5519` | Sugarina | 0.1184 | Sports / Other sport / price=0.70-0.90 (n=40, roi=+0.16) | segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
-| `0x0e9781eec995a96a253291a2a20b282336a48ffa` | Peupo012 | 0.1717 | Sports / Soccer / price=0.50-0.70 (n=112, roi=+0.14) | Sports / price=0.50-0.70 (n=115, roi=+0.14) | segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
+| `0xcdfb7564a5731d30713c91943ae395d5f815980c` | ImSmart | -0.0741 | Sports / Basketball / price=0.50-0.70 (n=37, roi=+0.15) | segment_only:roi_copy<=0;segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
+| `0xc7ff72c4e9bcb104faaffe1cb19fdf968c698a60` | zhengzh09 | 0.1208 | Sports / Soccer / price=0.50-0.70 (n=83, roi=+0.29) | Sports / Soccer (n=160, roi=+0.18) | Sports / Soccer / type=moneyline (n=41, roi=+0.31) | segment_only:t<2.0;segment_only:drawdown |
+| `0x6fe306bbc57d7586cea47730985a3ecce5f5da66` | BanditMarket | -0.0673 | Sports / Other sport (n=102, roi=+0.20) | segment_only:roi_copy<=0;segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
+| `0x7a741fb44f513f3ad715b2e98ddfc24ad3644c57` | charlo7928 | 0.2186 | Sports / MMA/Boxing (n=72, roi=+0.35) | Sports / MMA/Boxing / UFC (n=72, roi=+0.35) | Sports / MMA/Boxing / type=moneyline (n=72, roi=+0.35) | segment_only:t<2.0 |
+| `0x19f3ab1ed7c34f6e389ea267f27e83b87b2f4a8d` | brigandine1 | 0.1181 | Sports / price=0.50-0.70 (n=37, roi=+0.21) | Sports / Soccer / price=0.50-0.70 (n=37, roi=+0.21) | segment_only:t<2.0 |
+| `0xd13e1585ab393467fe2351e6a9b4801f5b19f2d6` | Elia12 | -0.018 | Sports / Other sport / Japan J League (n=31, roi=+0.03) | segment_only:roi_copy<=0;segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
+| `0xd1e0c0db26fb636fb557704f05f7cd8ae4148913` | DjPonyboots | 0.0334 | Sports / Basketball / price=0.50-0.70 (n=43, roi=+0.19) | Sports / Basketball / NBA 2026 (n=62, roi=+0.15) | segment_only:t<2.0;segment_only:drawdown |
+| `0x079a39f6d15ef5607ab19f27e75a06aa8a46d3df` | Mohammad463 | 0.009 | Sports / Soccer / Indian Premier League (n=97, roi=+0.07) | Sports / price=0.70-0.90 (n=131, roi=+0.06) | Sports / Soccer / price=0.70-0.90 (n=64, roi=+0.07) | segment_only:t<2.0;segment_only:unstable_halves |
+| `0xe906e2dea1be382fb877884e16083c460b3fdb88` | maplestory079 | -0.005 | Sports / Soccer / price=0.70-0.90 (n=132, roi=+0.09) | Sports / price=0.70-0.90 (n=161, roi=+0.07) | segment_only:roi_copy<=0;segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
+| `0x758f40d5c4a76350096f3deaa0d016ed52efdfb7` | 0nglee | 0.0128 | Sports / Soccer (n=40, roi=+0.10) | segment_only:t<2.0;segment_only:drawdown;segment_only:unstable_halves |
+| `0xf3b1c96cc1e7f4fa6a4a916dae26535eff24979a` | GenoMachino | 0.0364 | Sports / price=0.30-0.50 (n=78, roi=+0.23) | Sports (n=380, roi=+0.08) | Sports / Basketball / type=moneyline (n=32, roi=+0.20) | Sports / Basketball (n=35, roi=+0.17) | Sports / Basketball / live (n=30, roi=+0.16) | segment_only:t<2.0;segment_only:drawdown |
+| `0x37e944c698f533d3144d1175f3e846dcafb9eede` | GaoJin-GamblingGod | 0.0833 | Sports / Soccer / FIFA World Cup (n=76, roi=+0.22) | segment_only:t<2.0;segment_only:drawdown |
+| `0x3073426164206b8f9165282d0963d70b19fb3413` | conqgs | 0.081 | Esports / price=0.50-0.70 (n=112, roi=+0.18) | Esports / Esports / price=0.50-0.70 (n=112, roi=+0.18) | segment_only:t<2.0;segment_only:drawdown |
+| `0xad6a849b0139699f370d1d467c00503c8fef9dbd` | stillachance | 0.0211 | Sports / MMA/Boxing / live (n=30, roi=+0.34) | segment_only:t<2.0;segment_only:drawdown |
+| `0x7e3a1f95c558f39a51ff334d789e3e039b553246` | KaneAnalytics | 0.1089 | Sports / Basketball / live (n=367, roi=+0.15) | segment_only:t<2.0;segment_only:drawdown |
 
 ## Прошедшие стадию 2 целиком, по скору
 
 | Кошелёк | Имя | Категория | Закрытых | ROI/ставку | ROI trimmed | t | Винрейт | Одноврем. p95 | Удерж., ч | Мед. объём | Стадия 3 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| `0x12ed45d2b45259d27a7fb593e564cd269c4fc9b4` | sazzaa | Sports | 550 | 0.1911 | 0.101 | 5.64 | 0.529 | 6.0 | 6.12 | 364530 | delayed_roi<=0 |
-| `0xe478d4ca1c959e78f4ad9e563b134c54363128ea` | gmomoney | Sports | 189 | 0.1437 | 0.1342 | 2.23 | 0.64 | 7.0 | 6.49 | 276885 | прошёл |
+| `0xe0ec87e9b079493d0dbb1080d79650c7bfdaa9c4` | ATL777 | Sports | 888 | 0.3356 | 0.2493 | 10.08 | 0.745 | 8.0 | 1.05 | 34157 | delayed_roi<=0 |
+| `0x12ed45d2b45259d27a7fb593e564cd269c4fc9b4` | sazzaa | Sports | 551 | 0.1889 | 0.0994 | 5.58 | 0.528 | 6.0 | 6.07 | 364530 | delayed_roi<=0 |
+| `0xb31e41965df4ab8014de4c4d8da9deff0a6ac120` | C63AMG | Sports | 677 | 0.1166 | 0.0598 | 3.35 | 0.73 | 8.0 | 2.94 | 389189 | delayed_roi<=0 |
+| `0x36567ae38757008cee2cbbcdabbf870822b16a0c` | Steijn123. | Sports | 312 | 0.1128 | 0.0601 | 2.21 | 0.535 | 5.0 | 3.6 | 67197 | прошёл |
 
 ## Утверждённые сегменты, топ по n × ROI
 
 | Кошелёк | Сегмент | n | ROI | ROI сжатый | t | Винрейт |
 |---|---|---|---|---|---|---|
-| `0x1941ca5d…` | Sports / Other sport / price=0.00-0.10 | 818 | 2.9941 | 2.945 | 2.25 | 0.229 |
-| `0x1941ca5d…` | Sports / price=0.00-0.10 | 819 | 2.9898 | 2.9409 | 2.25 | 0.228 |
-| `0xb595d09c…` | Sports / price=0.00-0.10 | 35 | 19.7064 | 12.5906 | 2.81 | 0.257 |
-| `0x70feb53b…` | Sports / price=0.00-0.10 | 41 | 11.7778 | 8.4552 | 2.87 | 0.268 |
-| `0x76697d10…` | Sports / Basketball / price=0.00-0.10 | 52 | 10.0148 | 7.4062 | 2.85 | 0.269 |
-| `0x1941ca5d…` | Sports / Other sport | 2837 | 0.9575 | 0.9573 | 2.49 | 0.527 |
-| `0x1941ca5d…` | Sports / Other sport / type=binary | 2837 | 0.9575 | 0.9573 | 2.49 | 0.527 |
-| `0x1941ca5d…` | Sports | 2839 | 0.9569 | 0.9568 | 2.49 | 0.527 |
-| `0x76697d10…` | Sports / price=0.00-0.10 | 64 | 7.9495 | 6.2053 | 2.74 | 0.219 |
-| `0xef185339…` | Sports | 3784 | 0.7333 | 0.7333 | 22.58 | 0.695 |
-| `0x41558102…` | Sports / price=0.00-0.10 | 40 | 10.2323 | 6.9307 | 2.43 | 0.3 |
-| `0xd60c6fa3…` | Sports | 3518 | 0.6922 | 0.6922 | 20.79 | 0.69 |
-| `0x164cb85e…` | Sports / Other sport / price=0.00-0.10 | 367 | 2.1346 | 2.0444 | 3.4 | 0.286 |
-| `0x164cb85e…` | Sports / price=0.00-0.10 | 382 | 2.0746 | 1.9908 | 3.43 | 0.28 |
-| `0xef185339…` | Sports / price=0.10-0.30 | 1032 | 1.2011 | 1.1922 | 16.96 | 0.598 |
-| `0xd60c6fa3…` | Sports / price=0.10-0.30 | 883 | 1.2346 | 1.2225 | 15.94 | 0.597 |
-| `0xef185339…` | Sports / Soccer | 2548 | 0.708 | 0.7082 | 18.74 | 0.693 |
-| `0xef185339…` | Sports / Soccer / live | 2514 | 0.7084 | 0.7086 | 18.55 | 0.691 |
-| `0x1941ca5d…` | Sports / Other sport / live | 2147 | 0.7449 | 0.7467 | 3.64 | 0.57 |
-| `0xd60c6fa3…` | Sports / Soccer | 2357 | 0.6872 | 0.6873 | 16.34 | 0.69 |
-| `0xd60c6fa3…` | Sports / Soccer / live | 2314 | 0.6885 | 0.6885 | 16.13 | 0.688 |
-| `0x70feb53b…` | Sports | 309 | 1.8714 | 1.8575 | 3.2 | 0.735 |
-| `0xef185339…` | Sports / Soccer / price=0.10-0.30 | 672 | 1.2287 | 1.2144 | 13.95 | 0.609 |
-| `0xa06f5b95…` | Other | 106 | 3.5243 | 3.028 | 6.36 | 0.755 |
-| `0xa06f5b95…` | Other / ? | 106 | 3.5243 | 3.028 | 6.36 | 0.755 |
-| `0xa06f5b95…` | Other / ? / ? | 106 | 3.5243 | 3.028 | 6.36 | 0.755 |
-| `0xa06f5b95…` | Other / ? / type=binary | 106 | 3.5243 | 3.028 | 6.36 | 0.755 |
-| `0x76697d10…` | Sports / Basketball / NCAA CBB | 265 | 1.9003 | 1.8107 | 2.81 | 0.664 |
-| `0xd60c6fa3…` | Sports / Soccer / price=0.10-0.30 | 580 | 1.2395 | 1.2212 | 13.11 | 0.61 |
-| `0xef185339…` | Sports / price=0.00-0.10 | 229 | 1.9632 | 1.8643 | 5.24 | 0.485 |
-| `0x03c9e3c6…` | Sports | 980 | 0.8998 | 0.8998 | 6.99 | 0.701 |
-| `0xef185339…` | Sports / Other sport / live | 1229 | 0.7801 | 0.7794 | 12.59 | 0.697 |
+| `0x86c878cd…` | Sports / price=0.00-0.10 | 210 | 13.2015 | 12.1745 | 5.88 | 0.219 |
+| `0x86c878cd…` | Sports / Tennis / price=0.00-0.10 | 77 | 23.4349 | 18.8897 | 5.01 | 0.351 |
+| `0xe9f5c75e…` | Sports / Basketball / price=0.00-0.10 | 69 | 14.8604 | 11.7002 | 4.03 | 0.362 |
+| `0xe9f5c75e…` | Sports / price=0.00-0.10 | 84 | 12.5036 | 10.2525 | 4.03 | 0.321 |
+| `0x1941ca5d…` | Sports / Other sport / price=0.00-0.10 | 820 | 2.9655 | 2.9171 | 2.23 | 0.227 |
+| `0x1941ca5d…` | Sports / price=0.00-0.10 | 821 | 2.9613 | 2.913 | 2.23 | 0.227 |
+| `0x86c878cd…` | Sports / Tennis / type=tennis_match_totals | 131 | 8.109 | 7.2191 | 3.53 | 0.794 |
+| `0x86c878cd…` | Sports / Tennis / live | 747 | 2.5253 | 2.4957 | 4.63 | 0.659 |
+| `0x86c878cd…` | Sports | 2205 | 1.4364 | 1.436 | 6.26 | 0.635 |
+| `0x86c878cd…` | Sports / Tennis | 825 | 2.3515 | 2.3288 | 4.75 | 0.646 |
+| `0x86c878cd…` | Sports / Soccer / price=0.00-0.10 | 83 | 7.0292 | 5.9343 | 2.58 | 0.133 |
+| `0x76697d10…` | Sports / Basketball / price=0.00-0.10 | 52 | 10.0148 | 7.4034 | 2.85 | 0.269 |
+| `0xe9f5c75e…` | Sports / Basketball / live | 458 | 2.5298 | 2.4573 | 4.18 | 0.618 |
+| `0x1941ca5d…` | Sports / Other sport | 2841 | 0.9507 | 0.9506 | 2.47 | 0.53 |
+| `0x1941ca5d…` | Sports / Other sport / type=binary | 2841 | 0.9507 | 0.9506 | 2.47 | 0.53 |
+| `0x1941ca5d…` | Sports | 2843 | 0.9502 | 0.9501 | 2.47 | 0.53 |
+| `0x76697d10…` | Sports / price=0.00-0.10 | 64 | 7.9495 | 6.2029 | 2.74 | 0.219 |
+| `0x5ad5c460…` | Sports / Soccer / price=0.00-0.10 | 60 | 5.6245 | 5.8518 | 2.13 | 0.183 |
+| `0xef185339…` | Sports | 3794 | 0.7325 | 0.7325 | 22.6 | 0.695 |
+| `0x86c878cd…` | Sports / Tennis / WTA | 196 | 3.3869 | 3.2021 | 2.73 | 0.663 |
+| `0x41558102…` | Sports / price=0.00-0.10 | 40 | 10.2323 | 6.93 | 2.43 | 0.3 |
+| `0xd970693a…` | Sports / price=0.00-0.10 | 331 | 2.2968 | 2.2118 | 4.34 | 0.411 |
+| `0xd970693a…` | Sports | 2361 | 0.8061 | 0.8061 | 10.16 | 0.662 |
+| `0xe9f5c75e…` | Sports / Basketball / NBA 2026 | 532 | 1.7008 | 1.6681 | 3.61 | 0.583 |
+| `0xef185339…` | Sports / price=0.10-0.30 | 1033 | 1.2014 | 1.1925 | 16.97 | 0.597 |
+| `0x86c878cd…` | Sports / Tennis / ATP | 393 | 1.9302 | 1.9041 | 3.1 | 0.628 |
+| `0xe9f5c75e…` | Sports / Basketball | 967 | 1.2123 | 1.2039 | 4.17 | 0.56 |
+| `0x1985327e…` | Sports | 1254 | 1.0302 | 1.0302 | 2.57 | 0.719 |
+| `0xef185339…` | Sports / Soccer | 2558 | 0.707 | 0.7072 | 18.77 | 0.693 |
+| `0xef185339…` | Sports / Soccer / live | 2524 | 0.7073 | 0.7075 | 18.57 | 0.691 |
+| `0x1985327e…` | Sports / Soccer / live | 806 | 1.2474 | 1.2421 | 2.01 | 0.707 |
+| `0x1985327e…` | Sports / Soccer | 816 | 1.232 | 1.2272 | 2.01 | 0.706 |
+| `0x1941ca5d…` | Sports / Other sport / live | 2148 | 0.7361 | 0.7379 | 3.6 | 0.573 |
+| `0xbd938b88…` | Sports | 3665 | 0.5618 | 0.5618 | 2.06 | 0.704 |
+| `0x5ad5c460…` | Sports / Soccer / live | 167 | 2.11 | 2.5832 | 2.17 | 0.281 |
+| `0xed61f86b…` | Sports / price=0.10-0.30 | 799 | 1.1874 | 1.1704 | 20.29 | 0.797 |
+| `0xe9f5c75e…` | Sports | 1636 | 0.7969 | 0.7969 | 4.57 | 0.579 |
+| `0x09b045ba…` | Sports | 1590 | 0.8069 | 0.8069 | 9.68 | 0.718 |
+| `0xed61f86b…` | Sports / Soccer / price=0.10-0.30 | 505 | 1.4401 | 1.4038 | 17.66 | 0.784 |
+| `0xef185339…` | Sports / Soccer / price=0.10-0.30 | 673 | 1.2292 | 1.2148 | 13.96 | 0.608 |
+| `0xed61f86b…` | Sports | 4052 | 0.49 | 0.49 | 26.24 | 0.847 |
+| `0x5ad5c460…` | Sports / Soccer | 194 | 1.7878 | 2.2314 | 2.13 | 0.273 |
+| `0xed61f86b…` | Sports / Soccer | 2382 | 0.6111 | 0.6101 | 21.02 | 0.835 |
+| `0xd970693a…` | Sports / Soccer | 1569 | 0.7487 | 0.7494 | 8.71 | 0.664 |
+| `0xed61f86b…` | Sports / Soccer / live | 2329 | 0.6141 | 0.613 | 21.04 | 0.84 |
+| `0xd970693a…` | Sports / Soccer / live | 1548 | 0.7509 | 0.7516 | 8.63 | 0.665 |
+| `0x76697d10…` | Sports / Basketball / NCAA CBB | 265 | 1.9003 | 1.81 | 2.81 | 0.664 |
+| `0x09b045ba…` | Sports / price=0.00-0.10 | 116 | 3.0549 | 2.7241 | 2.96 | 0.405 |
+| `0xe337f5a2…` | Sports / price=0.00-0.10 | 132 | 2.8873 | 2.5395 | 2.49 | 0.356 |
+| `0x86c878cd…` | Sports / Tennis / ITF | 179 | 2.2427 | 2.157 | 2.04 | 0.659 |
+| `0xef185339…` | Sports / price=0.00-0.10 | 229 | 1.9731 | 1.8734 | 5.27 | 0.489 |
+| `0x03c9e3c6…` | Sports | 993 | 0.8947 | 0.8947 | 7.04 | 0.702 |
+| `0xd970693a…` | Sports / Other sport / price=0.00-0.10 | 112 | 2.9793 | 2.65 | 2.71 | 0.339 |
+| `0x86c878cd…` | Sports / Other sport / live | 148 | 2.4159 | 2.2938 | 2.11 | 0.75 |
+| `0xaa930fdc…` | Sports / price=0.00-0.10 | 797 | 0.9997 | 0.9834 | 2.29 | 0.099 |
+| `0xaa930fdc…` | Sports / Other sport / price=0.00-0.10 | 786 | 1.0061 | 0.9894 | 2.28 | 0.098 |
+| `0xd970693a…` | Sports / Soccer / price=0.00-0.10 | 219 | 1.9477 | 1.8522 | 3.42 | 0.447 |
+| `0xef185339…` | Sports / Other sport / live | 1229 | 0.7801 | 0.7793 | 12.59 | 0.697 |
 | `0xef185339…` | Sports / Other sport | 1230 | 0.7787 | 0.7779 | 12.57 | 0.697 |
-| `0x0df758f3…` | Sports / price=0.00-0.10 | 180 | 2.1934 | 1.99 | 2.42 | 0.128 |
-| `0x76b8356b…` | Culture / price=0.00-0.10 | 282 | 1.6563 | 1.5817 | 2.01 | 0.326 |
-| `0x41558102…` | Sports / price=0.10-0.30 | 323 | 1.5466 | 1.4755 | 11.83 | 0.604 |
-| `0x164cb85e…` | Sports / Other sport / type=binary | 2923 | 0.4741 | 0.4735 | 5.79 | 0.554 |
-| `0x03c9e3c6…` | Sports / price=0.00-0.10 | 55 | 4.3797 | 3.4518 | 2.09 | 0.345 |
-| `0x164cb85e…` | Sports / Other sport | 2947 | 0.4706 | 0.4701 | 5.79 | 0.555 |
-| `0x482acc0c…` | Sports / Soccer / price=0.00-0.10 | 214 | 1.8619 | 1.7297 | 2.08 | 0.112 |
-| `0x41558102…` | Sports | 5900 | 0.3279 | 0.3279 | 10.22 | 0.85 |
-| `0x76697d10…` | Sports / Basketball / live | 948 | 0.8039 | 0.8002 | 3.84 | 0.578 |
-| `0x76697d10…` | Sports / Basketball | 949 | 0.802 | 0.7983 | 3.84 | 0.577 |
-| `0x164cb85e…` | Sports | 3219 | 0.4303 | 0.4301 | 5.75 | 0.551 |
-| `0x76697d10…` | Sports / Basketball / type=totals | 627 | 0.9826 | 0.9715 | 3.19 | 0.558 |
-| `0x164cb85e…` | Sports / Other sport / Shanghai Daily Lowest Temperature | 285 | 1.5091 | 1.4357 | 2.22 | 0.558 |
-| `0xd60c6fa3…` | Sports / Other sport / live | 1156 | 0.7028 | 0.7026 | 13.02 | 0.69 |
-| `0x03c9e3c6…` | Sports / Soccer / live | 660 | 0.93 | 0.9291 | 5.4 | 0.682 |
-| `0xd60c6fa3…` | Sports / Other sport | 1157 | 0.7013 | 0.7012 | 13.0 | 0.69 |
-| `0x03c9e3c6…` | Sports / Soccer | 669 | 0.9218 | 0.9212 | 5.42 | 0.685 |
-| `0x03c9e3c6…` | Sports / price=0.10-0.30 | 271 | 1.4764 | 1.4368 | 10.21 | 0.653 |
-| `0xef185339…` | Sports / Soccer / type=moneyline | 517 | 1.0173 | 1.0067 | 9.68 | 0.741 |
-| `0x76697d10…` | Sports | 1322 | 0.625 | 0.6249 | 4.13 | 0.606 |
-| `0x164cb85e…` | Sports / Other sport / live | 2710 | 0.4366 | 0.4362 | 5.79 | 0.561 |
-| `0xd60c6fa3…` | Sports / price=0.00-0.10 | 197 | 1.6691 | 1.579 | 3.98 | 0.426 |
-| `0x91feec8a…` | Sports / Soccer / price=0.00-0.10 | 263 | 1.4361 | 1.353 | 2.87 | 0.118 |
-| `0x91feec8a…` | Sports / price=0.00-0.10 | 268 | 1.3907 | 1.3122 | 2.83 | 0.116 |
-| `0x91feec8a…` | Sports / Soccer / live | 2206 | 0.4588 | 0.457 | 6.84 | 0.577 |
-| `0xef185339…` | Sports / price=0.30-0.50 | 1290 | 0.586 | 0.5882 | 21.36 | 0.709 |
-| `0xd60c6fa3…` | Sports / Soccer / type=moneyline | 450 | 1.0064 | 0.993 | 7.58 | 0.74 |
+| `0xe9f5c75e…` | Sports / Basketball / type=rebounds | 53 | 4.8164 | 3.7153 | 3.07 | 0.604 |
