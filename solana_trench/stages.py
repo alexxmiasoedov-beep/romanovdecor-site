@@ -67,7 +67,7 @@ class Store:
                         (stage, reason or "", now, recheck_after, json.dumps(info) if info else None, json.dumps(result) if result else None, w))
 
     def results(self):
-        return [json.loads(r[0]) for r in self.db.execute("SELECT result FROM w WHERE result IS NOT NULL")]
+        return [json.loads(r[0]) for r in self.db.execute("SELECT result FROM w WHERE result IS NOT NULL AND stage LIKE 'full_%'")]
 
     def counts(self):
         return {f"{s}:{r}" if r else s: n for s, r, n in self.db.execute("SELECT COALESCE(stage,'<new>'), COALESCE(reason,''), COUNT(*) FROM w GROUP BY 1,2")}
@@ -113,7 +113,7 @@ def cheap_stage(rpc, wallet, now):
     if info["age_days"] < MIN_AGE_DAYS:
         return info, "too_young"
     per_day = len(ok) / WINDOW_DAYS
-    if per_day < 20:                               # 10 покупок/день = минимум ~20 tx/день (покупки + продажи)
+    if per_day < 28:                               # 10 покупок/день = минимум ~28 tx/день (покупки + продажи + прочее)
         return info, "too_few_tx"
     if per_day > 900:
         return info, "too_many_tx"
@@ -125,7 +125,10 @@ def full_stage(rpc, wallet, info, cfg, sol_hist, sol_now, now):
     swaps = [s for s in swaps if s["sol"] >= cfg.min_swap_sol]
     if not swaps:
         return None, "no_swaps"
-    days_covered = min(WINDOW_DAYS, max(1e-9, (now - min(s["time"] for s in swaps)) / 86400))
+    # частота — за всё окно 20 дней; только если история обрезана капом max_tx,
+    # считаем по реально покрытому отрезку
+    truncated = len(info["sigs"]) > cfg.max_tx_per_wallet
+    days_covered = max(1e-9, (now - min(s["time"] for s in swaps)) / 86400) if truncated else WINDOW_DAYS
     buys = [s for s in swaps if s["side"] == "buy"]
     buys_per_day = len(buys) / days_covered
 
