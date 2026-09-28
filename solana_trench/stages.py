@@ -5,8 +5,9 @@
      Требуем долю таких первых покупок >= --style-share (0.7) среди позиций,
      где капа известна (резервы пула разобраны).
   2. Кошелёк существует >= 10 дней.
-  3. Два списка по числу покупок в день за окно (20 дней):
-     A: 10-50 покупок/день, B: 50-300 покупок/день.
+  3. Два списка по числу ТОКЕНОВ, которыми торгует кошелёк, в день
+     (разные токены с покупкой за окно 20 дней / 20):
+     A: 10-50 токенов/день, B: 50-300 токенов/день.
   4. PnL за последние 20 дней > 0: реализованный по закрытым позициям +
      нереализованный по открытым по текущей цене DexScreener.
 
@@ -131,6 +132,8 @@ def full_stage(rpc, wallet, info, cfg, sol_hist, sol_now, now):
     days_covered = max(1e-9, (now - min(s["time"] for s in swaps)) / 86400) if truncated else WINDOW_DAYS
     buys = [s for s in swaps if s["side"] == "buy"]
     buys_per_day = len(buys) / days_covered
+    tokens_traded = len({s["mint"] for s in buys})
+    tokens_per_day = tokens_traded / days_covered
 
     positions = build_positions(swaps)
     style_known = style_ok = 0
@@ -168,6 +171,7 @@ def full_stage(rpc, wallet, info, cfg, sol_hist, sol_now, now):
     res = {
         "wallet": wallet, "age_days": info["age_days"], "days_covered": round(days_covered, 1),
         "tx_in_window": info["tx_in_window"], "swaps": len(swaps), "buys": len(buys),
+        "tokens_traded": tokens_traded, "tokens_per_day": round(tokens_per_day, 1),
         "buys_per_day": round(buys_per_day, 1), "positions": len(positions), "closed": n_closed,
         "style_share": None if style_share is None else round(style_share, 2), "style_known": style_known,
         "post_migration_share": m.get("post_migration_share"),
@@ -183,9 +187,9 @@ def full_stage(rpc, wallet, info, cfg, sol_hist, sol_now, now):
     reasons = []
     if style_share is None or style_share < STYLE_SHARE:
         reasons.append("style")
-    bucket = next((b for b, (lo, hi) in BUCKETS.items() if lo <= buys_per_day < hi or (b == "B" and buys_per_day == hi)), None)
+    bucket = next((b for b, (lo, hi) in BUCKETS.items() if lo <= tokens_per_day < hi or (b == "B" and tokens_per_day == hi)), None)
     if bucket is None:
-        reasons.append("buys_per_day")
+        reasons.append("tokens_per_day")
     if pnl <= 0:
         reasons.append("pnl_negative")
     res["bucket"] = bucket
@@ -279,7 +283,7 @@ def cycle(a, cfg, store, rpc, gecko, gm, now):
         store.set(w, "full_ok" if not fail else "full_fail", fail, now, result=res)
         store.db.commit()
         if res:
-            log(f"[{k+1}/{len(todo)}] {w[:8]} tx={res['tx_in_window']} buys/day={res['buys_per_day']} style={res['style_share']} "
+            log(f"[{k+1}/{len(todo)}] {w[:8]} tx={res['tx_in_window']} tokens/day={res['tokens_per_day']} buys/day={res['buys_per_day']} style={res['style_share']} "
                 f"pnl20={res['pnl_20d_sol']} -> {('LIST ' + res['bucket']) if not fail else fail} ({time.time()-t0:.0f}s, calls {rpc.calls-c0})")
     results, lists = write_report(store, cfg)
     log(f"report: analysed={len(results)} list A={len(lists['A'])} list B={len(lists['B'])}")
