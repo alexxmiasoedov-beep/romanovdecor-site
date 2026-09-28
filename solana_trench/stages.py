@@ -113,7 +113,7 @@ def cheap_stage(rpc, wallet, now):
     if info["age_days"] < MIN_AGE_DAYS:
         return info, "too_young"
     per_day = len(ok) / WINDOW_DAYS
-    if per_day < 12:                               # < 10 покупок/день невозможно при < 12 tx/день
+    if per_day < 20:                               # 10 покупок/день = минимум ~20 tx/день (покупки + продажи)
         return info, "too_few_tx"
     if per_day > 900:
         return info, "too_many_tx"
