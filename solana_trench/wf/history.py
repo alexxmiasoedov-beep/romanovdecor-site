@@ -2,7 +2,7 @@
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from .parse_tx import parse_swap, first_funder
+from .parse_tx import parse_swap, first_funder, sanitize
 
 
 def prefilter_wallet(rpc, wallet, cfg, now=None):
@@ -72,7 +72,7 @@ def load_swaps(rpc, wallet, sigs, cfg):
         sig = s["signature"]
         cached = rpc.cached_parsed(sig)
         if cached is not None:
-            return cached or None
+            return sanitize(cached) or None
         try:
             tx = rpc.transaction(sig, s.get("blockTime"))
         except RuntimeError:

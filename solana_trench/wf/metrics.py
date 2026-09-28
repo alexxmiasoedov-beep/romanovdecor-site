@@ -12,6 +12,7 @@ def _median(xs):
 
 def wallet_metrics(swaps, cfg, sol_price_by_day=None, sol_now=None, token_prices=None, now=None):
     now = now or time.time()
+    swaps = [s for s in swaps if s["sol"] >= cfg.min_swap_sol]
     positions = build_positions(swaps)
     rows = []
     for p in positions:

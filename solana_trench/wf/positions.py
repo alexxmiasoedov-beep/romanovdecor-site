@@ -75,10 +75,11 @@ def simulate_copy(p, cfg, latency_bps=None, token_price_now=None, now=None):
     lat = (cfg.latency_slippage_bps if latency_bps is None else latency_bps) / 10_000
     fee = cfg.fee_bps / 10_000
     first = p["trades"][0]
-    if not first.get("sol_res") or not first.get("tok_res"):
-        return None
     F = cfg.copy_size_sol
-    tokens = cp_buy(F * (1 - fee), first["sol_res"], first["tok_res"]) * (1 - lat)
+    if first.get("sol_res") and first.get("tok_res"):
+        tokens = cp_buy(F * (1 - fee), first["sol_res"], first["tok_res"]) * (1 - lat)
+    else:   # резервы неизвестны: цена лидера + предполагаемый импакт
+        tokens = F * (1 - fee) / (first["sol"] / first["tokens"]) * (1 - cfg.assumed_entry_impact_bps / 10_000) * (1 - lat)
     our = tokens
     sol_out = 0.0
     for t in p["trades"][1:]:

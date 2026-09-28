@@ -6,8 +6,8 @@
 postBalances/postTokenBalances (это даёт честную цену нашего входа
 сразу после сделки лидера).
 """
-from .config import (LAMPORTS, PRE_MIGRATION_PROGRAMS, POST_MIGRATION_PROGRAMS, PUMP_FUN,
-                     PUMP_VIRTUAL_SOL, PUMP_VIRTUAL_TOKENS, STABLES, WSOL)
+from .config import (CONCENTRATED_VENUES, LAMPORTS, PRE_MIGRATION_PROGRAMS, POST_MIGRATION_PROGRAMS,
+                     PUMP_FUN, PUMP_VIRTUAL_SOL, PUMP_VIRTUAL_TOKENS, STABLES, WSOL)
 
 
 def _amount(b):
@@ -15,6 +15,24 @@ def _amount(b):
     if ui.get("amount") is None:
         return 0.0
     return int(ui["amount"]) / (10 ** ui["decimals"])
+
+
+def trusted_reserves(venue, sol_amount, token_amount, sol_res, tok_res):
+    """Резервам верим только там, где пул — константное произведение, и только если
+    цена пула сходится с ценой исполнения (иначе выбрали не то хранилище)."""
+    if venue in CONCENTRATED_VENUES or not sol_res or not tok_res or sol_res <= 0 or tok_res <= 0:
+        return None, None
+    pool_px, fill_px = sol_res / tok_res, sol_amount / token_amount
+    if not (0.5 < pool_px / fill_px < 2.0):
+        return None, None
+    return sol_res, tok_res
+
+
+def sanitize(swap):
+    """Применить те же проверки к записи из кэша (разобранной старой версией)."""
+    if swap:
+        swap["sol_res"], swap["tok_res"] = trusted_reserves(swap["venue"], swap["sol"], swap["tokens"], swap.get("sol_res"), swap.get("tok_res"))
+    return swap
 
 
 def parse_swap(tx):
@@ -92,6 +110,7 @@ def parse_swap(tx):
     token_amount = abs(token_delta)
     if sol_amount <= 0 or token_amount <= 0:
         return None
+    sol_res, tok_res = trusted_reserves(venue, sol_amount, token_amount, sol_res, tok_res)
     return {
         "sig": tx["transaction"]["signatures"][0],
         "slot": tx["slot"],

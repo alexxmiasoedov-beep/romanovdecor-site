@@ -40,6 +40,8 @@ class Config:
     copy_size_sol: float = 0.5            # фиксированная сумма входа
     fee_bps: float = 125                  # комиссия пула+приоритет, на одну сторону
     latency_slippage_bps: float = 100     # штраф за то, что мы в следующем слоте
+    assumed_entry_impact_bps: float = 150 # импакт нашего входа, если резервы пула неизвестны
+    min_swap_sol: float = 0.002           # сделки мельче — пыль/скам-токены, не считаем
     dead_bag_days: float = 3.0            # незакрытая позиция старше N дней = мешок
     dead_bag_value_haircut: float = 0.5   # текущую цену мешка режем вдвое
 
@@ -89,6 +91,9 @@ POST_MIGRATION_PROGRAMS = {
     RAYDIUM_CLMM: "raydium-clmm", METEORA_DAMM2: "meteora-damm2",
     METEORA_DLMM: "meteora-dlmm", ORCA: "orca",
 }
+
+# концентрированная ликвидность: балансы хранилищ не равны резервам константного произведения
+CONCENTRATED_VENUES = {"meteora-dlmm", "raydium-clmm", "orca"}
 
 WSOL = "So11111111111111111111111111111111111111112"
 STABLES = {
