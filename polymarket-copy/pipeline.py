@@ -2,6 +2,7 @@
 
   python3 pipeline.py            # без git
   python3 pipeline.py --push     # плюс коммит и push в текущую ветку
+  python3 pipeline.py --from stage2 --push   # перезапуск с упавшей стадии
 """
 from __future__ import annotations
 
@@ -24,16 +25,24 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--push", action="store_true")
     ap.add_argument("--skip-collect", action="store_true", help="только симуляция и отчёты")
+    ap.add_argument("--from", dest="start", default="collect", choices=["collect", "stage1", "stage2", "stage3"],
+                    help="перезапуск с указанной стадии (предыдущие результаты уже на диске)")
     a = ap.parse_args()
+    order = ["collect", "stage1", "stage2", "stage3"]
+    todo = set(order[order.index(a.start):])
     py = sys.executable
     fast = {"PM_MIN_INTERVAL": "0.01"}
     # кэш API растёт на ~10 ГБ за прогон и переполняет диск; старше суток он всё равно не используется (TTL 6 ч)
     run("find", os.path.join(HERE, "data", "cache"), "-type", "f", "-mtime", "+0", "-delete", check=False)
     if not a.skip_collect:
-        run(py, "collect_wallets.py")
-        run(py, "stage1_screen.py", "--workers", "24", env=fast)
-        run(py, "stage2_analyze.py", "--workers", "16", env=fast)
-        run(py, "stage3_markout.py", env=fast)
+        if "collect" in todo:
+            run(py, "collect_wallets.py")
+        if "stage1" in todo:
+            run(py, "stage1_screen.py", "--workers", "24", env=fast)
+        if "stage2" in todo:
+            run(py, "stage2_analyze.py", "--workers", "16", env=fast)
+        if "stage3" in todo:
+            run(py, "stage3_markout.py", env=fast)
         run(py, "report.py")
         run(py, "db_update.py")
         run(py, "sim.py", "enroll")  # прошедшие стадию 3 сразу в симуляцию, новым батчем

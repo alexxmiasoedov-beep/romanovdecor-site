@@ -150,10 +150,9 @@ def check(wallet: str, name: str, stage2_row: dict) -> dict:
         elif base > 0 and keep < config.MIN_DELAYED_ROI_KEEP:
             reasons.append("edge_decays_with_delay")
     # проскальзывание по стаканам ещё идущих рынков кошелька (endDate в будущем, иначе стакан пустой)
-    mk = markets._load()
     now = time.time()
     open_eps = [e for e in data["episodes"] if not e["is_closed"]
-                and (mk.get(e["cid"], {}).get("endDate") or 0) > now][:10]
+                and (markets.get(e["cid"]).get("endDate") or 0) > now][:10]
     sl = [slippage(e["asset"], config.FIXED_STAKE_USD) for e in open_eps]
     sls = [s for s, _ in sl if s is not None]
     sps = [p for _, p in sl if p is not None]

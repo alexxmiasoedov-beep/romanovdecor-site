@@ -10,9 +10,17 @@ from datetime import datetime, timezone
 
 from . import api, config
 
-STORE = os.path.join(os.path.dirname(__file__), "..", "data", "markets.json")
+# Стор — сотни тысяч рынков. В памяти держим каждый как компактную JSON-строку (~0,5 КБ), а не dict
+# (в 8–10 раз тяжелее: 770 тыс. рынков dict'ами = ~14 ГБ и OOM-kill стадии 2, 29.09). На диске — JSONL,
+# читается построчно без пикового расхода. Наружу отдаём копии-словари через ensure()/get().
+STORE = os.path.join(os.path.dirname(__file__), "..", "data", "markets.jsonl")
+LEGACY_STORE = os.path.join(os.path.dirname(__file__), "..", "data", "markets.json")
 _lock = threading.Lock()
-_store: dict[str, dict] | None = None
+_store: dict[str, str] | None = None
+
+
+def _enc(m: dict) -> str:
+    return json.dumps(m, ensure_ascii=False, separators=(",", ":"))
 
 SPORT_BY_SERIES = [
     (r"\b(epl|la-?liga|serie-?a|bundesliga|ligue-?1|ucl|uel|uecl|mls|soccer|fifa|world-cup|eredivisie|"
@@ -37,15 +45,29 @@ CRYPTO_RE = re.compile(r"\b(btc|bitcoin|eth|ethereum|sol|solana|xrp|doge|crypto|
                        r"hyperliquid|memecoin|altcoin|stablecoin|binance|coinbase|defi|nft|airdrop)\b", re.I)
 
 
-def _load() -> dict[str, dict]:
+def _load() -> dict[str, str]:
     global _store
     if _store is None:
-        if os.path.exists(STORE):
-            with open(STORE) as f:
-                _store = json.load(f)
-        else:
-            _store = {}
+        with _lock:
+            if _store is None:
+                st: dict[str, str] = {}
+                if os.path.exists(STORE):
+                    with open(STORE, encoding="utf-8") as f:
+                        for line in f:
+                            cid, _, body = line.rstrip("\n").partition("\t")
+                            if cid and body:
+                                st[cid] = body
+                elif os.path.exists(LEGACY_STORE):  # разовая миграция старого формата (один большой JSON)
+                    with open(LEGACY_STORE) as f:
+                        st = {k: _enc(v) for k, v in json.load(f).items()}
+                _store = st
     return _store
+
+
+def get(cid: str) -> dict:
+    """Метаданные рынка из стора без обращения к API; {} если нет."""
+    body = _load().get(cid)
+    return json.loads(body) if body else {}
 
 
 _last_save = 0.0
@@ -60,11 +82,16 @@ def _maybe_save(every: float = 300) -> None:
 
 
 def save() -> None:
+    st = _load()
     with _lock:
-        tmp = STORE + ".tmp"
-        with open(tmp, "w") as f:
-            json.dump(dict(_load()), f)
-        os.replace(tmp, STORE)
+        items = list(st.items())
+    tmp = STORE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        for cid, body in items:
+            f.write(f"{cid}\t{body}\n")
+    os.replace(tmp, STORE)
+    if os.path.exists(LEGACY_STORE):
+        os.remove(LEGACY_STORE)
 
 
 def _iso(s: str | None) -> float:
@@ -107,9 +134,15 @@ def ensure(condition_ids, refresh_open_after: float = 6 * 3600) -> dict[str, dic
     """Гарантирует наличие метаданных по всем conditionId; незакрытые рынки перепрашивает."""
     st = _load()
     now = time.time()
+    def stale(c: str) -> bool:
+        body = st.get(c)
+        if body is None:
+            return True
+        m = json.loads(body)
+        return not m["closed"] and now - m["fetched"] > refresh_open_after
+
     with _lock:
-        need = [c for c in dict.fromkeys(condition_ids) if c and (
-            c not in st or (not st[c]["closed"] and now - st[c]["fetched"] > refresh_open_after))]
+        need = [c for c in dict.fromkeys(condition_ids) if c and stale(c)]
     if need:
         for i in range(0, len(need), 20):
             batch = need[i:i + 20]
@@ -123,17 +156,17 @@ def ensure(condition_ids, refresh_open_after: float = 6 * 3600) -> dict[str, dic
                                cache=False) or []
             with _lock:
                 for m in res:
-                    st[m["conditionId"]] = compact(m)
+                    st[m["conditionId"]] = _enc(compact(m))
                 for c in batch:
-                    st.setdefault(c, {"conditionId": c, "closed": False, "outcomePrices": [], "tokens": [],
-                                      "volume": 0, "liquidity": 0, "endDate": 0, "closedTime": 0,
-                                      "gameStartTime": 0, "sportsMarketType": None, "negRisk": False,
-                                      "event_id": None, "series_slug": None, "series_title": None,
-                                      "game_id": None, "question": "?", "slug": "", "fetched": now,
-                                      "missing": True})
+                    st.setdefault(c, _enc({"conditionId": c, "closed": False, "outcomePrices": [], "tokens": [],
+                                           "volume": 0, "liquidity": 0, "endDate": 0, "closedTime": 0,
+                                           "gameStartTime": 0, "sportsMarketType": None, "negRisk": False,
+                                           "event_id": None, "series_slug": None, "series_title": None,
+                                           "game_id": None, "question": "?", "slug": "", "fetched": now,
+                                           "missing": True}))
         _maybe_save()
     with _lock:
-        return {c: st[c] for c in dict.fromkeys(condition_ids) if c in st}
+        return {c: json.loads(st[c]) for c in dict.fromkeys(condition_ids) if c in st}
 
 
 _event_tags: dict[str, list[str]] = {}
