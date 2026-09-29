@@ -125,6 +125,10 @@ def cheap_stage(rpc, wallet, now):
 
 
 def full_stage(rpc, wallet, info, cfg, sol_hist, sol_now, now):
+    # проба: 60 свежих tx — если среди них почти нет свопов, это не трейдер
+    sample = load_swaps(rpc, wallet, info["sigs"][:60], cfg)
+    if len(sample) < 5:
+        return None, "no_swaps_in_sample"
     swaps = load_swaps(rpc, wallet, info["sigs"], cfg)
     swaps = [s for s in swaps if s["sol"] >= cfg.min_swap_sol]
     if not swaps:
