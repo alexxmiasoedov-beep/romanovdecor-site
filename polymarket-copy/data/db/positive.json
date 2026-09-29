@@ -1,0 +1,65 @@
+{
+ "0x149a9ec31ae097faa33b2f2ae8df659889c149d0": {
+  "name": "web3Boss",
+  "batch": "1",
+  "pnl": 3.3,
+  "closed": 11,
+  "reviewed": "2026-09-29"
+ },
+ "0x0d874197406ca18d05d49c453ca07731c8bce214": {
+  "name": "SantosFC2026",
+  "batch": "1",
+  "pnl": 1.98,
+  "closed": 6,
+  "reviewed": "2026-09-29"
+ },
+ "0x310579303783d1b3c2b33cd28d83af946e082e7e": {
+  "name": "",
+  "batch": "1",
+  "pnl": 3.98,
+  "closed": 7,
+  "reviewed": "2026-09-29"
+ },
+ "0x3689ca03139f0c48947534ab2e919f5300e909aa": {
+  "name": "0x3689cA03139f0C48947534aB2E919F5300E909aA-1781798427541",
+  "batch": "1",
+  "pnl": 0.47,
+  "closed": 19,
+  "reviewed": "2026-09-29"
+ },
+ "0xd13e1585ab393467fe2351e6a9b4801f5b19f2d6": {
+  "name": "Elia12",
+  "batch": "1",
+  "pnl": 1.6,
+  "closed": 19,
+  "reviewed": "2026-09-29"
+ },
+ "0x565bedc122552e6824098088c9158ec8179bfa9b": {
+  "name": "Piter",
+  "batch": "1",
+  "pnl": 2.67,
+  "closed": 29,
+  "reviewed": "2026-09-29"
+ },
+ "0x974091fbc1dcd95cad40cf75ae142e6d89fa38af": {
+  "name": "aminmb21",
+  "batch": "1",
+  "pnl": 0.26,
+  "closed": 9,
+  "reviewed": "2026-09-29"
+ },
+ "0x423f0b745b2952951b4a7d785c7a96e520c63993": {
+  "name": "longyi97",
+  "batch": "1",
+  "pnl": 0.17,
+  "closed": 9,
+  "reviewed": "2026-09-29"
+ },
+ "0x791e45264c99eecaeb095caea9ad863740d29bda": {
+  "name": "easymoneysniperzz",
+  "batch": "1",
+  "pnl": 2.08,
+  "closed": 9,
+  "reviewed": "2026-09-29"
+ }
+}
