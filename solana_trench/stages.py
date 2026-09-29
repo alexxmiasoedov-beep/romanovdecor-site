@@ -60,7 +60,10 @@ class Store:
         if stage == "cheap":
             q = "SELECT wallet FROM w WHERE stage IS NULL OR (recheck_after IS NOT NULL AND recheck_after < ?) ORDER BY last_seen DESC LIMIT ?"
             return [r[0] for r in self.db.execute(q, (now, limit))]
-        q = "SELECT wallet, info FROM w WHERE stage='cheap_ok' ORDER BY json_extract(info,'$.tx_in_window') ASC LIMIT ?"
+        # сначала зона списка A (800–3000 tx за 20 дней), потом остальные по возрастанию
+        q = ("SELECT wallet, info FROM w WHERE stage='cheap_ok' ORDER BY "
+             "CASE WHEN json_extract(info,'$.tx_in_window') BETWEEN 800 AND 3000 THEN 0 ELSE 1 END, "
+             "json_extract(info,'$.tx_in_window') ASC LIMIT ?")
         return [(r[0], json.loads(r[1])) for r in self.db.execute(q, (limit,))]
 
     def set(self, w, stage, reason, now, info=None, result=None, recheck_after=None):
