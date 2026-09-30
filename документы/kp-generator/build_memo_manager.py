@@ -123,8 +123,8 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
   </div>
   <div style="flex:1;padding:9px 14px;background:{BEIGE};border:1px solid #e3d7bd;border-radius:6px;font-size:10px;line-height:1.5">
     <div style="color:#8a7346;letter-spacing:1.8px;text-transform:uppercase;font-size:8px;font-weight:700;margin-bottom:3px">Если поверхностей две</div>
-    Стены и полы на одном объекте считаются вместе. Если суммарно вышло меньше
-    20 м², добираем до двадцати по той поверхности, которой больше.
+    Стены, полы и потолки на одном объекте считаются вместе: скидку всем даёт
+    общая площадь. Меньше 20 м² в сумме — добираем до двадцати по большей поверхности.
   </div>
 </div>
 

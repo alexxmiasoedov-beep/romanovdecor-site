@@ -523,11 +523,30 @@ var MC_RATES = {
 var MC_D_FROM = 35, MC_D_TO = 100, MC_MIN_M2 = 20;
 var MC_DOOR_RATE = 45;       // работа по дверному полотну, €/м² стороны
 var MC_CONSUMABLES_EUR = 80; // расходники на смету (один раз), €
+// Скидка считается от общей площади объекта: все микроцементные поверхности
+// (стены, полы, двери, фасады) берут ставку той точки кривой, куда попадает их сумма
+function mcObjectArea(){
+  var s = 0;
+  S.estimate.forEach(function(p){
+    if (p.id === '__consumables') return;
+    if (p.ui) {
+      if (p.ui.type === 'liquid') return;
+      if (p.ui.type === 'doors') {
+        p.ui.doors.forEach(function(d){ if (d.w > 0 && d.h > 0) s += d.w * d.h; });
+      } else if (p.ui.sysId) {
+        s += parseFloat(p.ui.area) || 0;
+      }
+    } else if (p.isMicrocement) {
+      s += parseFloat(p.area) || 0;
+    }
+  });
+  return s;
+}
 function mcCurve(kind, area, part){
   var R = MC_RATES[kind === 'floor' ? 'floor' : 'walls'];
   var hi = part === 'mat' ? R.matHi : R.workHi;
   var lo = part === 'mat' ? R.matLo : R.workLo;
-  var a = Math.max(area || 0, MC_MIN_M2);
+  var a = Math.max(mcObjectArea(), area || 0, MC_MIN_M2);
   if (a <= MC_D_FROM) return hi;
   if (a >= MC_D_TO) return lo;
   return Math.round((hi - (hi - lo) * (a - MC_D_FROM) / (MC_D_TO - MC_D_FROM)) * 100) / 100;
@@ -661,12 +680,14 @@ function resetMultiList(listId, unit, initialValue){
 
 function calcMicrocement(kind, area){
   var R = MC_RATES[kind === 'floor' ? 'floor' : 'walls'];
-  if (area <= MC_MIN_M2) return {total: R.fix, perM2: 0, tierLabel: 'фиксированная стоимость до 20 м²', fix: true};
+  var obj = Math.max(mcObjectArea(), area);
+  if (obj <= MC_MIN_M2) return {total: R.fix, perM2: 0, tierLabel: 'фиксированная стоимость до 20 м²', fix: true};
   var rate = mcCurve(kind, area, 'mat') + mcCurve(kind, area, 'work');
   var base = R.matHi + R.workHi;
   var disc = Math.round((base - rate) * 100) / 100;
   var pct = Math.round(disc / base * 1000) / 10;
-  var label = disc > 0 ? '<span style="color:#e05c5c;font-weight:600">скидка ' + bRate(disc) + '/м² (−' + String(pct).replace('.', ',') + '%)</span>' : '';
+  var label = disc > 0 ? '<span style="color:#e05c5c;font-weight:600">скидка ' + bRate(disc) + '/м² (−' + String(pct).replace('.', ',') + '%)'
+    + (obj > area + 0.01 ? ' · от общей площади ' + String(Math.round(obj * 100) / 100).replace('.', ',') + ' м²' : '') + '</span>' : '';
   return {total: Math.round(rate * area), perM2: Math.round(rate * 100) / 100, tierLabel: label, fix: false};
 }
 
@@ -868,9 +889,8 @@ function ensureConsumablesRow(){
 
 function removePosition(id){
   S.estimate = S.estimate.filter(function(p){return p.id !== id});
-  ensureConsumablesRow();
   renderPositions();
-  renderEstimate();
+  refreshPos();
 }
 
 function duplicatePosition(id){
@@ -1455,8 +1475,15 @@ function liquidSet(id, level, val){
   renderPositions(); refreshPos(id);
 }
 
+// Ставка зависит от общей площади объекта, поэтому правка одной позиции
+// пересчитывает цены всех остальных
 function refreshPos(id){
-  var p = posById(id); if (!p || !p.ui) return;
+  S.estimate.forEach(function(q){ if (q.ui) computePos(q); });
+  ensureConsumablesRow();
+  renderEstimate();
+  S.estimate.forEach(function(q){ if (q.ui) updateCardPrice(q); });
+}
+function computePos(p){
   var u = p.ui, sys = u.sysId ? findSystem(u.sysId) : null, area = 0, ext = null;
   if (u.type === 'doors') {
     var doors = u.doors.filter(function(d){return d.w > 0 && d.h > 0});
@@ -1496,9 +1523,6 @@ function refreshPos(id){
     p.isMicrocement = calc.isMicrocement; p.isExact = calc.isExact || false;
     p.exactBreakdown = calc.exactBreakdown || null; p.layers = calc.layers;
   }
-  ensureConsumablesRow();
-  renderEstimate();
-  updateCardPrice(p);
 }
 
 function updateCardPrice(p){
