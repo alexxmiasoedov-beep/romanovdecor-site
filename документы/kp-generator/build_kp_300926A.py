@@ -43,6 +43,9 @@ WALL_LIST = [
     (0.20, 1.43), (0.20, 1.43), (0.80, 1.43), (0.80, 1.43),
 ]
 FURN = (1.76, 0.53)    # мебельная дверь
+DOOR_W, DOOR_H = 0.7, 2.0   # дверное полотно под микроцемент, одна сторона
+DOOR_SIDES = 1
+DOOR_WORK = 63.0             # 700×2000 — €63 за сторону
 
 def measure(ps, thr=0.5):
     m2 = sq = lin = 0.0
@@ -55,10 +58,11 @@ def measure(ps, thr=0.5):
 W_M2, W_SQ, W_LIN = measure(WALL_LIST)
 FURN_AREA = FURN[0] * FURN[1]
 FURN_MP = 2 * (FURN[0] + FURN[1])
+DOOR_M2 = DOOR_W * DOOR_H * DOOR_SIDES
 
 # шкала скидки — по общей площади объекта: все поверхности берут ставку
 # той точки кривой, в которую попадает сумма площадей
-TOT_M2 = FLOOR_M2 + CEIL_M2 + W_M2 + FURN_AREA
+TOT_M2 = FLOOR_M2 + CEIL_M2 + W_M2 + FURN_AREA + DOOR_M2
 W_MAT = curve(TOT_M2, WALLS['mat_hi'], WALLS['mat_lo'])
 W_WRK = curve(TOT_M2, WALLS['wrk_hi'], WALLS['wrk_lo'])
 F_MAT = curve(TOT_M2, FLOOR['mat_hi'], FLOOR['mat_lo'])
@@ -121,6 +125,11 @@ TM += dm; TW += dw
 rows += row('Мебельная дверь (фасад)', f'{a2(FURN_AREA)} м²', u(W_MAT), u(dm),
             f'{a2(FURN_AREA)} м² + {a2(FURN_MP)} м.п.', f'{u(FURN_M2)}+{u(FURN_EDGE)}', u(dw), u(dm + dw))
 
+pm, pw = DOOR_M2 * W_MAT, DOOR_SIDES * DOOR_WORK
+TM += pm; TW += pw
+rows += row('Дверь 700×2000', f'{a2(DOOR_M2)} м²', u(W_MAT), u(pm),
+            f'{DOOR_SIDES} стор.', u(DOOR_WORK), u(pw), u(pm + pw))
+
 TM += MISC
 rows += row('Малярные расходники, валики', 'компл.', '—', u(MISC), '—', '—', '—', u(MISC))
 
@@ -131,7 +140,8 @@ rows += sub('Всего по проекту', f'{a2(TOT_M2)} м²', u(TM), '—'
 FULL = (FLOOR_M2 * (FLOOR['mat_hi'] + FLOOR['wrk_hi'])
         + W_M2 * WALLS['mat_hi'] + (W_SQ + W_LIN) * WALLS['wrk_hi']
         + CEIL_M2 * (WALLS['mat_hi'] + WALLS['wrk_hi'] * CEIL_K)
-        + FURN_AREA * WALLS['mat_hi'] + FURN_AREA * FURN_M2 + FURN_MP * FURN_EDGE + MISC)
+        + FURN_AREA * WALLS['mat_hi'] + FURN_AREA * FURN_M2 + FURN_MP * FURN_EDGE + MISC
+        + DOOR_M2 * WALLS['mat_hi'] + DOOR_SIDES * DOOR_WORK)
 SAVE = max(0.0, FULL - TOT)
 SAVE_PCT = round(SAVE / FULL * 1000) / 10 if FULL else 0
 CARD_COLS = 4 if SAVE > 0.01 else 3
