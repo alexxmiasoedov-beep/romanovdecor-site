@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# КП № 300926A — полы 124 м², потолок 5 м², стены по замерам заказчика,
+# КП № 300926A — ул. Цвирко, 67, кв. 140. Полы 124 м², потолок 5 м², стены по замерам заказчика,
 # мебельная дверь. Правила обсчёта — CLAUDE.md («Правила обсчёта объёмов»):
 # сторона меньше 0,5 м — работа погонными по длине, иначе квадратами;
 # материал — вся площадь. Полы и стены — каждая по своей шкале.
@@ -178,6 +178,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 <div style="display:flex;gap:10px;margin-bottom:6px">
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#faf6ef;border:1px solid #ece2d2">
     <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#b8965a;font-weight:600;margin-bottom:2px">Заказчик</div>
+    <div><b>Адрес объекта:</b> г. Минск, ул. Цвирко, 67, кв. 140 (5 этаж)</div>
     <div><b>Площадь по материалам:</b> {a2(TOT_M2)} м²</div>
   </div>
   <div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#2c2c2c;color:#efece7">
