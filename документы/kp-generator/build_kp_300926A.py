@@ -56,14 +56,14 @@ W_M2, W_SQ, W_LIN = measure(WALL_LIST)
 FURN_AREA = FURN[0] * FURN[1]
 FURN_MP = 2 * (FURN[0] + FURN[1])
 
-# шкала: полы — по площади полов; стены, потолок и фасад — по своей сумме
-WALL_BILL = W_M2 + CEIL_M2 + FURN_AREA
-W_MAT = curve(WALL_BILL, WALLS['mat_hi'], WALLS['mat_lo'])
-W_WRK = curve(WALL_BILL, WALLS['wrk_hi'], WALLS['wrk_lo'])
-F_MAT = curve(FLOOR_M2, FLOOR['mat_hi'], FLOOR['mat_lo'])
-F_WRK = curve(FLOOR_M2, FLOOR['wrk_hi'], FLOOR['wrk_lo'])
-C_WRK = W_WRK * CEIL_K
+# шкала скидки — по общей площади объекта: все поверхности берут ставку
+# той точки кривой, в которую попадает сумма площадей
 TOT_M2 = FLOOR_M2 + CEIL_M2 + W_M2 + FURN_AREA
+W_MAT = curve(TOT_M2, WALLS['mat_hi'], WALLS['mat_lo'])
+W_WRK = curve(TOT_M2, WALLS['wrk_hi'], WALLS['wrk_lo'])
+F_MAT = curve(TOT_M2, FLOOR['mat_hi'], FLOOR['mat_lo'])
+F_WRK = curve(TOT_M2, FLOOR['wrk_hi'], FLOOR['wrk_lo'])
+C_WRK = W_WRK * CEIL_K
 
 # ── вёрстка (эталон build_kp_losika.py) ──────────────────────────────────
 B = '#cbbf9f'; GRID = f'border:1px solid {B}'; NUM = 'font-variant-numeric:tabular-nums'
