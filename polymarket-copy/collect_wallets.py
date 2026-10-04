@@ -30,7 +30,7 @@ def is_short_crypto(title: str, slug: str) -> bool:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--since", type=float, default=None,
-                    help="часов назад (по умолчанию — с 00:00 UTC сегодня)")
+                    help="часов назад (по умолчанию — с 00:00 UTC сегодня; пайплайн передаёт 24)")
     ap.add_argument("--thresholds", default="0,50,200,1000,5000")
     ap.add_argument("--events", type=int, default=300, help="сколько топ-событий по обороту обойти")
     ap.add_argument("--markets-per-event", type=int, default=6)

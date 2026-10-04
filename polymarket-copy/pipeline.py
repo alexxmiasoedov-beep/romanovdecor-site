@@ -36,7 +36,7 @@ def main() -> None:
     run("find", os.path.join(HERE, "data", "cache"), "-type", "f", "-mtime", "+0", "-delete", check=False)
     if not a.skip_collect:
         if "collect" in todo:
-            run(py, "collect_wallets.py")
+            run(py, "collect_wallets.py", "--since", "24")  # окно 24 ч, а не «с полуночи UTC»: прогон идёт в 05:00
         if "stage1" in todo:
             run(py, "stage1_screen.py", "--workers", "24", env=fast)
         if "stage2" in todo:
