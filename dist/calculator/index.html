@@ -1036,8 +1036,6 @@ function buildPdfHtml(clientInfo){
   var num = clientInfo.kpNum || localKpNumber();
   var c = S.contacts || {};
   var phone = c.phone || '+375 33 628-04-86';
-  var email = c.email || 'info@romanovdecor.by';
-  var site = 'romanovdecor.by';
 
   var positions = S.estimate.filter(function(p){return p.id !== '__consumables'});
   var consumables = S.estimate.find(function(p){return p.id === '__consumables'});
@@ -1188,9 +1186,10 @@ function buildPdfHtml(clientInfo){
     + '</div>'
     + '<div style="flex:1;padding:6px 12px;border-radius:6px;font-size:10px;line-height:1.42;background:#2c2c2c;color:#efece7">'
       + '<div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#b8965a;font-weight:600;margin-bottom:2px">Исполнитель</div>'
-      + '<div><b>UNICORE</b></div>'
-      + '<div>' + escapeHtml(phone) + '</div>'
-      + '<div style="color:#a09a92">' + escapeHtml(email) + ' · ' + escapeHtml(site) + '</div>'
+      + '<div><b>ООО «Юникор-строй»</b> · UNICORE</div>'
+      + '<div>УНП 194045085</div>'
+      + '<div>г. Минск, ул. Притыцкого, 62, корп. 20, пом. 41</div>'
+      + '<div style="color:#a09a92">' + escapeHtml(phone) + '</div>'
     + '</div>'
   + '</div>'
 
@@ -1230,7 +1229,7 @@ function buildPdfHtml(clientInfo){
   + '<div style="margin-top:9px;padding:6px 12px;background:#f7f5f0;border-left:2px solid #b8965a;border-radius:3px;font-size:8.4px;color:#666;line-height:1.45">' + foot + '</div>'
 
   + '<div style="margin-top:12px;padding-top:8px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#888;letter-spacing:1px">'
-    + '<div>' + escapeHtml(site) + ' · ' + escapeHtml(email) + ' · ' + escapeHtml(phone) + ' · Минск</div>'
+    + '<div>ООО «Юникор-строй» · УНП 194045085 · ' + escapeHtml(phone) + ' · Минск</div>'
     + '<div style="color:#b8965a;font-weight:600">Спасибо за доверие!</div>'
   + '</div>'
   + '</div>';

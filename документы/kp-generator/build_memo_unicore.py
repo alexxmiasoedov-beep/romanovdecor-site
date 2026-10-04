@@ -153,7 +153,7 @@ html = f'''<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8">
 {two_col(FIX, AMBER)}
 
 <div style="margin-top:auto;padding-top:10px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-size:9.5px;color:#888;letter-spacing:1px">
-  <div>info@romanovdecor.by · +375 (33) 628-04-86 · Минск</div>
+  <div>ООО «Юникор-строй» · УНП 194045085 · +375 (33) 628-04-86 · Минск</div>
   <div style="color:#b8965a;font-weight:600">Цены в евро, оплата по курсу на день оплаты</div>
 </div>
 
