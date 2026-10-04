@@ -31,7 +31,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--since", type=float, default=None,
                     help="часов назад (по умолчанию — с 00:00 UTC сегодня; пайплайн передаёт 24)")
-    ap.add_argument("--thresholds", default="0,50,200,1000,5000")
+    # глубина ленты ≤ 10 000 сделок на порог: ≥$0 это ~20 мин, ≥$200 ~5 ч, ≥$1000 ~сутки.
+    # Промежуточные пороги дают мелкие сделки за больший интервал; дубли отсеиваются по tx.
+    ap.add_argument("--thresholds", default="0,10,25,50,100,150,200,300,500,750,1000,2000,5000")
     ap.add_argument("--events", type=int, default=300, help="сколько топ-событий по обороту обойти")
     ap.add_argument("--markets-per-event", type=int, default=6)
     args = ap.parse_args()
