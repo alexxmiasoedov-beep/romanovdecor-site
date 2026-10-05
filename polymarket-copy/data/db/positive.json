@@ -68,5 +68,12 @@
   "pnl": 1.22,
   "closed": 16,
   "reviewed": "2026-10-01"
+ },
+ "0xa64b1bc8f8fd581f9609b7fbe55c96f2ab9fe453": {
+  "name": "101dalmatians",
+  "batch": "5",
+  "pnl": 2.08,
+  "closed": 27,
+  "reviewed": "2026-10-05"
  }
 }
