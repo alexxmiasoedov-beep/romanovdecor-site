@@ -30,8 +30,10 @@ def main() -> None:
                     help="перезапуск с указанной стадии (предыдущие результаты уже на диске)")
     ap.add_argument("--evening", action="store_true", help="только вечерний снимок сбора → data/wallets_evening.json")
     a = ap.parse_args()
+    py = sys.executable
+    fast = {"PM_MIN_INTERVAL": "0.01"}
     if a.evening:
-        run(py, "collect_wallets.py", "--since", "12", "--out", "data/wallets_evening.json")
+        run(py, "collect_wallets.py", "--since", "12", "--out", "data/wallets_evening.json", env=fast)
         if a.push:
             run("git", "add", "data/wallets_evening.json")
             if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=HERE).returncode != 0:
@@ -43,8 +45,6 @@ def main() -> None:
         return
     order = ["collect", "stage1", "stage2", "stage3"]
     todo = set(order[order.index(a.start):])
-    py = sys.executable
-    fast = {"PM_MIN_INTERVAL": "0.01"}
     # кэш API растёт на 10–20 ГБ за прогон и переполняет диск; данные по кошелькам живут 6 ч (TTL),
     # так что всё старше 7 ч только занимает место
     run("find", os.path.join(HERE, "data", "cache"), "-type", "f", "-mmin", "+420", "-delete", check=False)
