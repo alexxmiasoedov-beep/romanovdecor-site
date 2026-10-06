@@ -5,7 +5,10 @@
      минимальной суммы сделки — так лента покрывает больший интервал времени.
   2. Сделки по самым оборотистым рынкам за сутки (Gamma top events → Data API /trades?market=).
 
-Результат: data/wallets_today.json  {wallet: {...агрегаты по сегодняшним сделкам...}}
+Результат: data/wallets_today.json  {wallet: {...агрегаты по сделкам за окно...}, tx_keys: [...]}
+Вечерний снимок: `--since 12 --out data/wallets_evening.json` (17:00 UTC); утренний прогон вливает его
+через `--merge data/wallets_evening.json` — на живых рынках лента глубже 10 000 сделок не достаёт,
+и дневные сделки к 05:00 UTC иначе теряются.
 """
 from __future__ import annotations
 
@@ -40,6 +43,9 @@ def main() -> None:
                     help="страниц ленты (по 500) для рынков с оборотом ≥ --deep-volume; потолок API — 20")
     ap.add_argument("--deep-volume", type=float, default=100_000)
     ap.add_argument("--mid-pages", type=int, default=8, help="страниц для рынков с оборотом ≥ 20 000")
+    ap.add_argument("--out", default=OUT, help="куда писать (вечерний снимок — data/wallets_evening.json)")
+    ap.add_argument("--merge", default=None,
+                    help="влить снимок (например, вечерний): его сделки не считаются дважды, кошельки объединяются")
     args = ap.parse_args()
 
     now = time.time()
@@ -52,6 +58,17 @@ def main() -> None:
     seen_tx: set[str] = set()
     W: dict[str, dict] = defaultdict(lambda: {"trades": 0, "cash": 0.0, "markets": set(), "short_crypto": 0,
                                               "first_ts": 1e12, "last_ts": 0, "name": "", "titles": set()})
+    merged = None
+    if args.merge and os.path.exists(args.merge):
+        with open(args.merge) as f:
+            merged = json.load(f)
+        if merged.get("since", 0) >= since - 3600:  # снимок внутри нашего окна — его сделки пропускаем
+            seen_tx.update(merged.get("tx_keys", []))
+            print(f"вливаем {args.merge}: {len(merged['wallets'])} кошельков, {len(merged.get('tx_keys', []))} сделок",
+                  file=sys.stderr)
+        else:
+            print(f"снимок {args.merge} устарел (since {merged.get('since')}), пропускаем", file=sys.stderr)
+            merged = None
 
     def absorb(trades: list[dict]) -> int:
         n = 0
@@ -108,15 +125,33 @@ def main() -> None:
     got = sum(absorb(r or []) for r in res)
     print(f"по рынкам: +{got} сделок, кошельков всего {len(W)}", file=sys.stderr)
 
+    if merged:
+        for w, d in merged["wallets"].items():
+            if d.get("last_ts", 0) < since:
+                continue
+            x = W[w]
+            x["trades"] += d["trades"]; x["cash"] += d["cash"]; x["short_crypto"] += d["short_crypto"]
+            x["first_ts"] = min(x["first_ts"], d["first_ts"]); x["last_ts"] = max(x["last_ts"], d["last_ts"])
+            x["name"] = x["name"] or d.get("name", "")
+            x["markets"].update(d.get("market_ids", []))
+            if isinstance(d.get("markets"), int) and not d.get("market_ids"):
+                x["markets"].update(f"{w}#{i}" for i in range(d["markets"]))  # старый снимок без списка рынков
+            for t in d.get("titles", []):
+                if len(x["titles"]) < 5:
+                    x["titles"].add(t)
+        print(f"после слияния кошельков всего {len(W)}", file=sys.stderr)
+
     out = {}
     for w, d in W.items():
-        out[w] = {**d, "markets": len(d["markets"]), "titles": sorted(d["titles"]),
+        out[w] = {**d, "markets": len(d["markets"]), "market_ids": sorted(x for x in d["markets"] if x),
+                  "titles": sorted(d["titles"]),
                   "short_crypto_share": round(d["short_crypto"] / max(d["trades"], 1), 3)}
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    with open(OUT, "w") as f:
-        json.dump({"since": since, "collected_at": now, "wallets": out}, f, ensure_ascii=False)
+    os.makedirs(os.path.dirname(args.out), exist_ok=True)
+    with open(args.out, "w") as f:
+        json.dump({"since": since, "collected_at": now, "wallets": out, "tx_keys": sorted(seen_tx)}, f,
+                  ensure_ascii=False)
     only_sc = sum(1 for d in out.values() if d["short_crypto_share"] >= 0.999)
-    print(f"итого кошельков: {len(out)}, из них только 5-мин крипта: {only_sc}; записано {OUT}", file=sys.stderr)
+    print(f"итого кошельков: {len(out)}, из них только 5-мин крипта: {only_sc}; записано {args.out}", file=sys.stderr)
 
 
 if __name__ == "__main__":

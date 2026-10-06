@@ -3,6 +3,7 @@
   python3 pipeline.py            # без git
   python3 pipeline.py --push     # плюс коммит и push в текущую ветку
   python3 pipeline.py --from stage2 --push   # перезапуск с упавшей стадии
+  python3 pipeline.py --evening --push       # вечерний снимок кошельков (17:00 UTC), без воронки
 """
 from __future__ import annotations
 
@@ -27,7 +28,19 @@ def main() -> None:
     ap.add_argument("--skip-collect", action="store_true", help="только симуляция и отчёты")
     ap.add_argument("--from", dest="start", default="collect", choices=["collect", "stage1", "stage2", "stage3"],
                     help="перезапуск с указанной стадии (предыдущие результаты уже на диске)")
+    ap.add_argument("--evening", action="store_true", help="только вечерний снимок сбора → data/wallets_evening.json")
     a = ap.parse_args()
+    if a.evening:
+        run(py, "collect_wallets.py", "--since", "12", "--out", "data/wallets_evening.json")
+        if a.push:
+            run("git", "add", "data/wallets_evening.json")
+            if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=HERE).returncode != 0:
+                run("git", "commit", "-q", "-m", f"Polymarket: вечерний снимок кошельков {datetime.now(timezone.utc):%Y-%m-%d}")
+                for i in range(5):
+                    if run("git", "push", check=False).returncode == 0:
+                        break
+                    time.sleep(2 ** (i + 1))
+        return
     order = ["collect", "stage1", "stage2", "stage3"]
     todo = set(order[order.index(a.start):])
     py = sys.executable
@@ -37,7 +50,8 @@ def main() -> None:
     run("find", os.path.join(HERE, "data", "cache"), "-type", "f", "-mmin", "+420", "-delete", check=False)
     if not a.skip_collect:
         if "collect" in todo:
-            run(py, "collect_wallets.py", "--since", "24")  # окно 24 ч, а не «с полуночи UTC»: прогон идёт в 05:00
+            # окно 24 ч (прогон в 05:00 UTC) + вечерний снимок 17:00 UTC, чтобы не терять дневные сделки
+            run(py, "collect_wallets.py", "--since", "24", "--merge", "data/wallets_evening.json")
         if "stage1" in todo:
             run(py, "stage1_screen.py", "--workers", "24", env=fast)
         if "stage2" in todo:
