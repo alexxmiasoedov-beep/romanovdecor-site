@@ -36,6 +36,10 @@ def main() -> None:
     ap.add_argument("--thresholds", default="0,10,25,50,100,150,200,300,500,750,1000,2000,5000")
     ap.add_argument("--events", type=int, default=300, help="сколько топ-событий по обороту обойти")
     ap.add_argument("--markets-per-event", type=int, default=6)
+    ap.add_argument("--deep-pages", type=int, default=20,
+                    help="страниц ленты (по 500) для рынков с оборотом ≥ --deep-volume; потолок API — 20")
+    ap.add_argument("--deep-volume", type=float, default=100_000)
+    ap.add_argument("--mid-pages", type=int, default=8, help="страниц для рынков с оборотом ≥ 20 000")
     args = ap.parse_args()
 
     now = time.time()
@@ -87,15 +91,20 @@ def main() -> None:
 
     # 2. топ-события за сутки → сделки по их рынкам
     events = api.top_events(args.events)
+    # глубина по обороту: на живом спорте 1000 сделок = минуты, на политике = сутки; листаем до `since`
     jobs = []
     for ev in events:
         ms = [m for m in ev.get("markets", []) if not is_short_crypto(m.get("question", ""), m.get("slug", ""))]
         ms.sort(key=lambda m: float(m.get("volume24hr") or 0), reverse=True)
         for m in ms[: args.markets_per_event]:
-            if float(m.get("volume24hr") or 0) > 1000 and m.get("conditionId"):
-                jobs.append(m["conditionId"])
-    print(f"рынков для обхода: {len(jobs)}", file=sys.stderr)
-    res = api.pmap(lambda cid: api.trades_market(cid, max_pages=2), jobs, workers=8, desc="market trades")
+            v = float(m.get("volume24hr") or 0)
+            if v > 1000 and m.get("conditionId"):
+                pages = args.deep_pages if v >= args.deep_volume else args.mid_pages if v >= 20_000 else 2
+                jobs.append((m["conditionId"], pages))
+    deep = sum(1 for _, p in jobs if p == args.deep_pages)
+    print(f"рынков для обхода: {len(jobs)}, из них глубоких ({args.deep_pages} стр.): {deep}", file=sys.stderr)
+    res = api.pmap(lambda j: api.trades_market(j[0], max_pages=j[1], since=since), jobs, workers=8,
+                   desc="market trades")
     got = sum(absorb(r or []) for r in res)
     print(f"по рынкам: +{got} сделок, кошельков всего {len(W)}", file=sys.stderr)
 
