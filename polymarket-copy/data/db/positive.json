@@ -75,5 +75,12 @@
   "pnl": 2.08,
   "closed": 27,
   "reviewed": "2026-10-05"
+ },
+ "0x13ce0f6f73a83a2be1eb484c91169c2bd5b935f0": {
+  "name": "mozak",
+  "batch": "6",
+  "pnl": 1.77,
+  "closed": 7,
+  "reviewed": "2026-10-06"
  }
 }
