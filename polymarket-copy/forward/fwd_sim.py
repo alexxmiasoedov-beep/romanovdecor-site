@@ -4,22 +4,35 @@
   python3 forward/fwd_sim.py enroll --strategies forward/strategies.json   # зафиксировать кошельки и их стратегии
   python3 forward/fwd_sim.py update                                        # новые сделки, резолвы → fwd.json, отчёт
 
-Правила копии (как в бэктесте strat_search): покупка — новая позиция, если проходит фильтр стратегии и его цена < 0.90;
-наш вход = его цена + 0.01; докупки не копируем; выход — пропорционально его продажам по его цене − 0.01;
-резолв — 1/0; ставка fix $1 или prop = clip(4·usd/maxusd, 1, 4), где maxusd — его максимальная позиция в окне бэктеста.
+Правила копии — как в основной симуляции (sim.py): покупка — новая позиция, если проходит фильтр стратегии;
+наш вход = аск из ленты сделок рынка через 30 с после его сделки (pm/quotes.py); если аск выше его цены больше чем на
+MAX_PRICE_DRIFT (3 цента) или ≥ 0.90 — вход не состоялся («улетело»); докупки не копируем; выход — пропорционально его
+продажам по биду через 30 с; резолв — 1/0; ставка fix $1 или prop = clip(4·usd/maxusd, 1, 4), где maxusd — его
+максимальная позиция в окне бэктеста. Ничего общего с sim.py не пишет: свой стор рынков, лента без дискового кэша.
 """
 from __future__ import annotations
 import argparse, json, os, sys, time
 from datetime import datetime, timezone
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
-from pm import api, markets, metrics
+import threading
+from pm import api, config, markets, metrics, quotes
 markets.STORE = os.path.join(HERE, "fwd_markets.jsonl")   # отдельный стор, чтобы не трогать основной
 markets.LEGACY_STORE = os.path.join(HERE, "_none.json")
 
 STATE = os.path.join(HERE, "fwd.json")
 REPORT = os.path.join(HERE, "FWD_REPORT.md")
-SLIP = 0.01; MAX_ENTRY = 0.90; START_BALANCE = 100.0
+START_BALANCE = 100.0
+_tapes: dict = {}; _tlock = threading.Lock()
+
+def tape(cid: str) -> list:
+    with _tlock:
+        if cid in _tapes: return _tapes[cid]
+    t = api.trades_market(cid, max_pages=config.TAPE_PAGES, cache=False)
+    with _tlock:
+        if len(_tapes) > 3000: _tapes.clear()
+        _tapes[cid] = t
+    return t
 
 def load():
     return json.load(open(STATE)) if os.path.exists(STATE) else {"start_ts": None, "wallets": {}}
@@ -83,20 +96,26 @@ def update_wallet(w: str, st: dict, now: float):
             cls = markets.classify(m, fetch_tags=False) if m else {"category": "?", "sub": "?", "mtype": "?"}
             live = bool(m.get("gameStartTime") and ts > m["gameStartTime"])
             st["seen"] += 1
-            if price >= MAX_ENTRY or not passes(strat, cls, live, price):
+            if price >= config.MAX_ENTRY_PRICE or not passes(strat, cls, live, price):
                 st["skipped"] += 1; continue
+            q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC, tape=tape(cid))
+            fill, src = (q["ask"], q["src"]) if q["ask"] is not None else (price + quotes.SPREAD_FALLBACK, "own+spread")
+            if fill > price + config.MAX_PRICE_DRIFT or fill >= config.MAX_ENTRY_PRICE:
+                st["drift"] = st.get("drift", 0) + 1; continue      # цена улетела — вход не состоялся
             stake = stake_for(st, price * size)
             if st["cash"] < stake: st["skipped"] += 1; continue
-            fill = price + SLIP
+            fill = fill * (1 + config.SIM_EXTRA_SLIPPAGE_REL)
             st["cash"] -= stake
             st["positions"][asset] = {"cid": cid, "oi": int(t.get("outcomeIndex") or 0), "title": t.get("title"), "opened": ts,
-                                      "his_entry": price, "fill": fill, "stake": stake, "shares": stake / fill, "shares0": stake / fill, "proceeds": 0.0}
+                                      "his_entry": price, "fill": fill, "fill_src": src, "stake": stake, "shares": stake / fill, "shares0": stake / fill, "proceeds": 0.0}
         else:
             hq = st["his_qty"].get(asset, 0.0)
             frac = min(size / hq, 1.0) if hq > 1e-9 else 0.0
             st["his_qty"][asset] = max(hq - size, 0.0)
             if pos and frac > 0:
-                sell = pos["shares"] * frac; got = sell * max(price - SLIP, 0.0)
+                q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC, tape=tape(cid))
+                bid = q["bid"] if q["bid"] is not None else max(price - quotes.SPREAD_FALLBACK, 0.001)
+                sell = pos["shares"] * frac; got = sell * bid * (1 - config.SIM_EXTRA_SLIPPAGE_REL)
                 pos["shares"] -= sell; pos["proceeds"] += got; st["cash"] += got
                 if pos["shares"] <= 1e-9:
                     _close(st, asset, pos, "sold", ts)
@@ -127,14 +146,15 @@ def cmd_update(a):
         except Exception as e: print(f"\n{w[:10]}: {e}", file=sys.stderr)
         return True
     api.pmap(work, ws, workers=16, desc="fwd")
-    markets.save(); save(s); write_report(s)
+    _tapes.clear(); markets.save(); save(s); write_report(s)
 
 def write_report(s):
     rows = []
     for w, st in s["wallets"].items():
         eq = st["history"][-1]["equity"] if st["history"] else START_BALANCE
         rows.append({"w": w, "name": st["name"], "pnl": eq - START_BALANCE, "closed": len(st["closed"]), "open": len(st["positions"]),
-                     "wins": sum(1 for c in st["closed"] if c["pnl"] > 0), "seen": st["seen"], "skipped": st["skipped"], "strategy": st["strategy"], "stake": st["stake"]})
+                     "wins": sum(1 for c in st["closed"] if c["pnl"] > 0), "seen": st["seen"], "skipped": st["skipped"], "drift": st.get("drift", 0),
+                     "strategy": st["strategy"], "stake": st["stake"]})
     rows.sort(key=lambda r: -r["pnl"])
     tot = sum(r["pnl"] for r in rows); act = [r for r in rows if r["closed"] + r["open"] > 0]
     days = (time.time() - s["start_ts"]) / 86400
@@ -142,10 +162,11 @@ def write_report(s):
            f"Старт {datetime.fromtimestamp(s['start_ts'], timezone.utc):%Y-%m-%d %H:%M} UTC, {days:.1f} дн. Кошельков {len(rows)}, с позициями {len(act)}, "
            f"в плюсе {sum(1 for r in rows if r['pnl'] > 0)}, в минусе {sum(1 for r in rows if r['pnl'] < 0)}. "
            f"Суммарный PnL {tot:+.2f} $. Закрыто позиций {sum(r['closed'] for r in rows)}, открыто {sum(r['open'] for r in rows)}, "
-           f"пропущено фильтром {sum(r['skipped'] for r in rows)} из {sum(r['seen'] for r in rows)} покупок.", "",
-           "| кошелёк | имя | PnL | закрыто | выигр. | откр. | стратегия | ставка |", "|---|---|---|---|---|---|---|---|"]
-    for r in rows[:40] + ([{"w": "…", "name": "", "pnl": 0, "closed": 0, "wins": 0, "open": 0, "strategy": "", "stake": ""}] if len(rows) > 80 else []) + rows[-40:]:
-        out.append(f"| `{r['w'][:10]}` | {r['name']} | {r['pnl']:+.2f} | {r['closed']} | {r['wins']} | {r['open']} | {r['strategy']} | {r['stake']} |")
+           f"из {sum(r['seen'] for r in rows)} его покупок: не прошли фильтр стратегии {sum(r['skipped'] for r in rows)}, "
+           f"цена улетела (аск > его цена + 3¢) {sum(r['drift'] for r in rows)}, скопировано {sum(r['closed'] + r['open'] for r in rows)}.", "",
+           "| кошелёк | имя | PnL | закрыто | выигр. | откр. | улетело | стратегия | ставка |", "|---|---|---|---|---|---|---|---|---|"]
+    for r in rows[:40] + ([{"w": "…", "name": "", "pnl": 0, "closed": 0, "wins": 0, "open": 0, "drift": 0, "strategy": "", "stake": ""}] if len(rows) > 80 else []) + rows[-40:]:
+        out.append(f"| `{r['w'][:10]}` | {r['name']} | {r['pnl']:+.2f} | {r['closed']} | {r['wins']} | {r['open']} | {r['drift']} | {r['strategy']} | {r['stake']} |")
     open(REPORT, "w").write("\n".join(out) + "\n")
     print(f"форвард: кошельков {len(rows)}, с позициями {len(act)}, PnL {tot:+.2f} $, в плюсе {sum(1 for r in rows if r['pnl'] > 0)}, в минусе {sum(1 for r in rows if r['pnl'] < 0)}", file=sys.stderr)
 
