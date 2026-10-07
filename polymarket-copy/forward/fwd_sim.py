@@ -1,4 +1,4 @@
-"""Форвард-тест стратегий по кошелькам (гипотеза владельца, 07.10). ПОЛНОСТЬЮ ОТДЕЛЬНО от sim.py и реестра:
+"""СИМУЛЯЦИЯ 2 — форвард-тест стратегий по кошелькам (гипотеза владельца, 07.10). Симуляция 1 — sim.py (с сентября). ПОЛНОСТЬЮ ОТДЕЛЬНО от sim.py и реестра:
 состояние forward/fwd.json, свой стор рынков forward/fwd_markets.jsonl, свой отчёт forward/FWD_REPORT.md.
 
   python3 forward/fwd_sim.py enroll --strategies forward/strategies.json   # зафиксировать кошельки и их стратегии
@@ -158,7 +158,7 @@ def write_report(s):
     rows.sort(key=lambda r: -r["pnl"])
     tot = sum(r["pnl"] for r in rows); act = [r for r in rows if r["closed"] + r["open"] > 0]
     days = (time.time() - s["start_ts"]) / 86400
-    out = [f"# Форвард-тест стратегий — {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC", "",
+    out = [f"# Симуляция 2 (форвард-тест стратегий) — {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC", "",
            f"Старт {datetime.fromtimestamp(s['start_ts'], timezone.utc):%Y-%m-%d %H:%M} UTC, {days:.1f} дн. Кошельков {len(rows)}, с позициями {len(act)}, "
            f"в плюсе {sum(1 for r in rows if r['pnl'] > 0)}, в минусе {sum(1 for r in rows if r['pnl'] < 0)}. "
            f"Суммарный PnL {tot:+.2f} $. Закрыто позиций {sum(r['closed'] for r in rows)}, открыто {sum(r['open'] for r in rows)}, "
@@ -168,7 +168,7 @@ def write_report(s):
     for r in rows[:40] + ([{"w": "…", "name": "", "pnl": 0, "closed": 0, "wins": 0, "open": 0, "drift": 0, "strategy": "", "stake": ""}] if len(rows) > 80 else []) + rows[-40:]:
         out.append(f"| `{r['w'][:10]}` | {r['name']} | {r['pnl']:+.2f} | {r['closed']} | {r['wins']} | {r['open']} | {r['drift']} | {r['strategy']} | {r['stake']} |")
     open(REPORT, "w").write("\n".join(out) + "\n")
-    print(f"форвард: кошельков {len(rows)}, с позициями {len(act)}, PnL {tot:+.2f} $, в плюсе {sum(1 for r in rows if r['pnl'] > 0)}, в минусе {sum(1 for r in rows if r['pnl'] < 0)}", file=sys.stderr)
+    print(f"симуляция 2: кошельков {len(rows)}, с позициями {len(act)}, PnL {tot:+.2f} $, в плюсе {sum(1 for r in rows if r['pnl'] > 0)}, в минусе {sum(1 for r in rows if r['pnl'] < 0)}", file=sys.stderr)
 
 def main():
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
