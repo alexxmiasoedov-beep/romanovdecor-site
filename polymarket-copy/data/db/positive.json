@@ -82,5 +82,12 @@
   "pnl": 1.77,
   "closed": 7,
   "reviewed": "2026-10-06"
+ },
+ "0xa6f3d2650a19386887ba4c17c672c2b0a84da946": {
+  "name": "",
+  "batch": "7",
+  "pnl": 0.27,
+  "closed": 24,
+  "reviewed": "2026-10-07"
  }
 }
