@@ -5,3 +5,4 @@ data/markets.jsonl
 data/event_tags.json
 data/*.log
 __pycache__/
+forward/fwd_markets.jsonl
