@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+from datetime import datetime, timedelta, timezone
 import os
 import sys
 import time
@@ -120,6 +121,8 @@ def screen(wallet: str, name: str = "") -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--recheck-days", type=int, default=5,
+                    help="отбракованных стадией 1 за последние N дней не перепроверять (0 — проверять всех)")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--wallets", nargs="*", help="проверить конкретные адреса")
     args = ap.parse_args()
@@ -132,6 +135,25 @@ def main() -> None:
         # сначала те, у кого сегодня не только 5-минутная крипта
         items = sorted(data.items(), key=lambda kv: (kv[1]["short_crypto_share"] >= 0.999, -kv[1]["trades"]))
         items = [(w, d.get("name", "")) for w, d in items if d["short_crypto_share"] < 0.999]
+        # не перепроверять отбракованных недавно и тех, кто уже был в симуляции (реестр)
+        if args.recheck_days > 0:
+            from pm import registry
+            db = registry.load()
+            cutoff = (datetime.now(timezone.utc) - timedelta(days=args.recheck_days)).strftime("%Y-%m-%d")
+            skipped = {"недавно отбракован": 0, "уже в симуляции/после review": 0}
+            keep = []
+            for w, name in items:
+                rec = db["wallets"].get(w)
+                if not rec:
+                    keep.append((w, name)); continue
+                if rec.get("status") in ("simulating", "positive", "negative"):
+                    skipped["уже в симуляции/после review"] += 1; continue
+                last = max((d for d, r in rec.get("runs", {}).items() if "stage1" in r), default=None)
+                if last and last >= cutoff and rec["runs"][last].get("stage1") is False:
+                    skipped["недавно отбракован"] += 1; continue
+                keep.append((w, name))
+            print(f"стадия 1: пропуск без проверки — {skipped}", file=sys.stderr)
+            items = keep
         if args.limit:
             items = items[: args.limit]
     print(f"стадия 1: {len(items)} кошельков", file=sys.stderr)

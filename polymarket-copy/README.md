@@ -5,7 +5,7 @@
 ```
 pip install requests
 python3 collect_wallets.py --since 24 # стадия 0: кошельки, торговавшие за сутки → data/wallets_today.json
-python3 stage1_screen.py --workers 24 # стадия 1: дешёвые отсечки → data/stage1.csv
+python3 stage1_screen.py --workers 24 # стадия 1: дешёвые отсечки → data/stage1.csv (отбракованных за 5 дней не перепроверяет)
 python3 stage2_analyze.py             # стадия 2: история сделок, сегменты → data/stage2.csv, segments.csv
 python3 stage3_markout.py             # стадия 3: задержка, маркаут, стакан → data/stage3.csv
 python3 report.py                     # сводка → data/REPORT.md
