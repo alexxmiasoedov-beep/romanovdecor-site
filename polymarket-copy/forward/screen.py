@@ -162,6 +162,8 @@ for w in p3:
             key = (r["pnl"] > 0 and r["h1"] > 0 and r["h2"] > 0, r["t"], r["pnl"])
             if best is None or key > best[0]: best = (key, name, mode, r)
     k, name, mode, r = best
+    if name.startswith("type=binary"):          # решение владельца 08.10: бинарные (не спорт, не negRisk) не берём
+        stats["type=binary — отброшен"] += 1; continue
     if r["pnl"] > 0 and r["h1"] > 0 and r["h2"] > 0 and r["t"] >= args.min_t:
         stats["надёжная стратегия"] += 1
         out[w] = {"name": next((t.get("name") for t in r1[w]["tr"] if t.get("name")), ""), "strategy": name, "stake": mode, "maxusd": round(maxusd, 2),

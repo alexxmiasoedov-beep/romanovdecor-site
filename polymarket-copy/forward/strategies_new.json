@@ -21,17 +21,6 @@
 "t": 2.03
 }
 },
-"0x5b5e047ddd5e553cbaee58730e39f9801de130d3": {
-"name": "Ty564r",
-"strategy": "type=binary & price=0.50-0.70+0.70-0.90",
-"stake": "prop",
-"maxusd": 1482.0,
-"backtest": {
-"n": 10,
-"pnl": 1.08,
-"t": 3.05
-}
-},
 "0xaca05b6bdb509612dfbf36d99f60dbf4021d9b86": {
 "name": "solanaenjoyer",
 "strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
