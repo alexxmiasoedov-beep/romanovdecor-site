@@ -66,15 +66,16 @@ def cmd_enroll(a):
     s = load()
     strat = json.load(open(a.strategies))
     s["start_ts"] = s.get("start_ts") or time.time()
+    now = time.time()  # у каждого нового кошелька своя дата старта
     n = 0
     for w, d in strat.items():
         w = w.lower()
         if w in s["wallets"]: continue
         s["wallets"][w] = {"name": d.get("name", ""), "strategy": d["strategy"], "stake": d["stake"], "maxusd": d["maxusd"],
-                           "backtest": d.get("backtest", {}), "start_ts": s["start_ts"], "cash": START_BALANCE,
+                           "backtest": d.get("backtest", {}), "start_ts": now, "cash": START_BALANCE,
                            "positions": {}, "closed": [], "skipped": 0, "seen": 0, "processed": [], "his_qty": {}, "history": []}
         n += 1
-    save(s); print(f"зачислено {n}, всего {len(s['wallets'])}, старт {datetime.fromtimestamp(s['start_ts'], timezone.utc):%Y-%m-%d %H:%M} UTC", file=sys.stderr)
+    save(s); print(f"зачислено {n}, всего {len(s['wallets'])}, старт новых {datetime.fromtimestamp(now, timezone.utc):%Y-%m-%d %H:%M} UTC", file=sys.stderr)
 
 def update_wallet(w: str, st: dict, now: float):
     tr = api.get(f"{api.DATA}/trades", {"user": w, "limit": 500, "offset": 0}, cache=False) or []
