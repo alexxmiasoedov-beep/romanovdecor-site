@@ -1,0 +1,68 @@
+{
+"0x121d5c665a9b3497815216b07bc0543e20cd832a": {
+"name": "Arif668",
+"strategy": "cat=Sports & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 530.0,
+"backtest": {
+"n": 11,
+"pnl": 2.59,
+"t": 10.86
+}
+},
+"0x386cc4344f27de9eb038715221cec66e62d18323": {
+"name": "yungsoleimani",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 1370.0,
+"backtest": {
+"n": 22,
+"pnl": 1.07,
+"t": 2.03
+}
+},
+"0x5b5e047ddd5e553cbaee58730e39f9801de130d3": {
+"name": "Ty564r",
+"strategy": "type=binary & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 1482.0,
+"backtest": {
+"n": 10,
+"pnl": 1.08,
+"t": 3.05
+}
+},
+"0xaca05b6bdb509612dfbf36d99f60dbf4021d9b86": {
+"name": "solanaenjoyer",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 6280.65,
+"backtest": {
+"n": 10,
+"pnl": 6.93,
+"t": 2.12
+}
+},
+"0xc0a40a708d0715c260d049761a5301874dae72ad": {
+"name": "Meyoyd",
+"strategy": "all & live & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 3262.46,
+"backtest": {
+"n": 11,
+"pnl": 3.46,
+"t": 6.03
+}
+},
+"0xe7ea1d1a60c73477ce151c03bc1a4ce4ba6b6f57": {
+"name": "",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 86.0,
+"backtest": {
+"n": 10,
+"pnl": 4.49,
+"t": 2.43
+}
+}
+}
