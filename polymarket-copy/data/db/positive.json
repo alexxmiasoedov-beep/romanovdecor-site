@@ -103,5 +103,19 @@
   "pnl": 0.09,
   "closed": 27,
   "reviewed": "2026-10-09"
+ },
+ "0xfd8ff771a52c22a8a29a3156572d9b3e47fd761d": {
+  "name": "",
+  "batch": "10",
+  "pnl": 2.45,
+  "closed": 15,
+  "reviewed": "2026-10-10"
+ },
+ "0xaa9737b3db5d88aefcee007717a7c00b0df48c9c": {
+  "name": "0xf2cbF139C52b66c568dA19EF028f085289597B0e-1777085067547",
+  "batch": "10",
+  "pnl": 8.75,
+  "closed": 7,
+  "reviewed": "2026-10-10"
  }
 }
