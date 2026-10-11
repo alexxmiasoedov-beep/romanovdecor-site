@@ -6,3 +6,7 @@ data/event_tags.json
 data/*.log
 __pycache__/
 forward/fwd_markets.jsonl
+data/wallets_today.json
+data/wallets_evening.json
+data/db/registry.json
+data/db/*.tmp

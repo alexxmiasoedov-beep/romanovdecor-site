@@ -33,15 +33,8 @@ def main() -> None:
     py = sys.executable
     fast = {"PM_MIN_INTERVAL": "0.01"}
     if a.evening:
+        # снимок живёт только на диске: сборы с 11.10 в git не храним (файлы 50–90 МБ, лимит GitHub 100 МБ)
         run(py, "collect_wallets.py", "--since", "12", "--out", "data/wallets_evening.json", env=fast)
-        if a.push:
-            run("git", "add", "data/wallets_evening.json")
-            if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=HERE).returncode != 0:
-                run("git", "commit", "-q", "-m", f"Polymarket: вечерний снимок кошельков {datetime.now(timezone.utc):%Y-%m-%d}")
-                for i in range(5):
-                    if run("git", "push", check=False).returncode == 0:
-                        break
-                    time.sleep(2 ** (i + 1))
         return
     order = ["collect", "stage1", "stage2", "stage3"]
     todo = set(order[order.index(a.start):])
@@ -65,7 +58,7 @@ def main() -> None:
     if a.push:
         date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         run("git", "add", "data/db", "data/REPORT.md", "data/stage1.csv", "data/stage2.csv", "data/stage3.csv",
-            "data/segments.csv", "data/wallets_today.json")
+            "data/segments.csv")  # wallets_today.json не коммитим — см. .gitignore
         if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=HERE).returncode != 0:
             run("git", "commit", "-q", "-m", f"Polymarket: прогон воронки и симуляции {date}")
             for i in range(5):

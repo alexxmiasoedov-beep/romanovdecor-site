@@ -4,7 +4,7 @@
 
 ```
 pip install requests
-python3 collect_wallets.py --since 24 # стадия 0: кошельки, торговавшие за сутки → data/wallets_today.json
+python3 collect_wallets.py --since 24 # стадия 0: кошельки, торговавшие за сутки → data/wallets_today.json (только на диске, в git не хранится)
 python3 stage1_screen.py --workers 24 # стадия 1: дешёвые отсечки → data/stage1.csv (отбракованных за 5 дней не перепроверяет)
 python3 stage2_analyze.py             # стадия 2: история сделок, сегменты → data/stage2.csv, segments.csv
 python3 stage3_markout.py             # стадия 3: задержка, маркаут, стакан → data/stage3.csv
@@ -24,7 +24,7 @@ python3 run_all.py                    # всё подряд
 ## Реестр, симуляция и регулярный цикл
 
 ```
-python3 db_update.py                          # результаты прогона → data/db/registry.json
+python3 db_update.py                          # результаты прогона → data/db/registry.json.gz (gzip-JSON)
 python3 sim.py start --batch 2 --wallets 0x…  # поставить кошельки на бумажную симуляцию ($1 на позицию, старт $100)
 python3 sim.py enroll                         # прошедшие стадию 3, кого ещё нет в симуляции → новый батч
 python3 sim.py update                         # подтянуть новые сделки, резолвы, переоценку → data/db/SIM_REPORT.md
