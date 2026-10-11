@@ -117,5 +117,12 @@
   "pnl": 8.75,
   "closed": 7,
   "reviewed": "2026-10-10"
+ },
+ "0x339a9ace6a1950797b8e0a50a125b5b4e23c6a00": {
+  "name": "superlarry",
+  "batch": "11",
+  "pnl": 0.43,
+  "closed": 16,
+  "reviewed": "2026-10-11"
  }
 }
