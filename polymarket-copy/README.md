@@ -48,3 +48,8 @@ python3 pipeline.py --push                    # весь цикл: сбор → 
 пропорционально $1–4. Состояние `forward/fwd.json`, стратегии `forward/strategies.json`, отчёт `forward/FWD_REPORT.md`,
 свой стор рынков. Входы и выходы по ленте сделок рынка через 30 с, правило 3 центов — как в симуляции 1.
 Обновление: `python3 forward/fwd_sim.py update` дважды в день (09:40 и 21:40 UTC).
+11.10 владелец оставил в симуляции только кошельки с реализованным PnL > 2 $ (131); убранные — `forward/fwd_pruned_*.json`,
+обратно не возвращаются. Ежедневный отбор новых (10:40 UTC): `python3 forward/daily.py --push` — `forward/screen.py`
+по дневному сбору `data/wallets_today.json` (три фильтра + бэктест стратегий, бинарные отбрасываются), память проверенных
+`forward/screened.json.gz` (повтор через 7 дней), прошедшие зачисляются (`fwd_sim.py enroll`), стратегии дня —
+`forward/strategies_<дата>.json`. Таблица плюсовых: `forward/FWD_POSITIVE.md`.

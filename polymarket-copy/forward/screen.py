@@ -1,5 +1,7 @@
 """Отбор кошельков в симуляцию 2 одной командой (гипотеза владельца, 07.10):
   python3 forward/screen.py --wallets forward/incoming_wallets.txt [--out forward/strategies_new.json]
+  python3 forward/screen.py --wallets-json data/wallets_today.json    # ежедневно, через forward/daily.py
+Память проверенных forward/screened.json.gz: повтор через 7 дней; убранные из симуляции (fwd_pruned_*.json) не возвращаются.
 
 1) три фильтра: последняя сделка ≤ 2 дней; за 30 дней 20..150 сделок; открытых (нерезолвленных) позиций ≤ 10;
    ликвидность — доля покупок со сдвигом цены >10% за ±минуту не выше 50% (минимум 5 оценённых);
@@ -7,7 +9,7 @@
    минимум 10 позиций; надёжной считается стратегия с плюсом в обеих половинах периода и t ≥ 2;
 3) результат — JSON стратегий для fwd_sim.py enroll --strategies. Ничего общего с симуляцией 1 не трогает.
 """
-import argparse, csv, json, math, os, re, sys, time
+import argparse, csv, glob, gzip, json, math, os, re, sys, time
 from collections import Counter
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pm import api, markets, metrics
@@ -15,15 +17,38 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 markets.STORE = os.path.join(HERE, "fwd_markets.jsonl"); markets.LEGACY_STORE = os.path.join(HERE, "_none.json")
 
 ap = argparse.ArgumentParser()
-ap.add_argument("--wallets", required=True, help="файл: адреса 0x… в любом виде")
+ap.add_argument("--wallets", help="файл: адреса 0x… в любом виде")
+ap.add_argument("--wallets-json", help="JSON дневного сбора (data/wallets_today.json): берём ключи-адреса")
 ap.add_argument("--out", default=os.path.join(HERE, "strategies_new.json"))
 ap.add_argument("--min-t", type=float, default=2.0)
+ap.add_argument("--memory", default=os.path.join(HERE, "screened.json.gz"),
+                help="память проверенных: {wallet: {d: дата, r: исход}}; повторно проверяем через --recheck-days")
+ap.add_argument("--recheck-days", type=int, default=7)
+ap.add_argument("--no-memory", action="store_true", help="не читать и не писать память (разовый прогон)")
 args = ap.parse_args()
-wallets = sorted({w.lower() for w in re.findall(r"0x[0-9a-fA-F]{40}", open(args.wallets).read())})
-already = set(json.load(open(os.path.join(HERE, "fwd.json")))["wallets"]) if os.path.exists(os.path.join(HERE, "fwd.json")) else set()
-print(f"адресов в файле: {len(wallets)}, уже в симуляции 2: {len(set(wallets) & already)}", file=sys.stderr)
-wallets = [w for w in wallets if w not in already]
+if args.wallets_json:
+    src = json.load(open(args.wallets_json)); src = src.get("wallets", src) if isinstance(src, dict) else {}
+    wallets = sorted({w.lower() for w in src if isinstance(w, str) and re.fullmatch(r"0x[0-9a-fA-F]{40}", w)})
+elif args.wallets:
+    wallets = sorted({w.lower() for w in re.findall(r"0x[0-9a-fA-F]{40}", open(args.wallets).read())})
+else:
+    ap.error("нужен --wallets или --wallets-json")
 now = time.time(); D2 = now - 2*86400; D30 = now - 30*86400
+already = set(json.load(open(os.path.join(HERE, "fwd.json")))["wallets"]) if os.path.exists(os.path.join(HERE, "fwd.json")) else set()
+# убранные владельцем из симуляции 2 (fwd_pruned_*.json) — не возвращаем
+pruned = set()
+for fn in glob.glob(os.path.join(HERE, "fwd_pruned_*.json")):
+    pruned |= set(json.load(open(fn)))
+memory = {}
+if not args.no_memory and os.path.exists(args.memory):
+    with gzip.open(args.memory, "rt", encoding="utf-8") as f:
+        memory = json.load(f)
+cutoff = time.strftime("%Y-%m-%d", time.gmtime(now - args.recheck_days * 86400))
+recent = {w for w, m in memory.items() if m.get("d", "") >= cutoff}
+n0 = len(wallets)
+wallets = [w for w in wallets if w not in already and w not in pruned and w not in recent]
+print(f"адресов: {n0}; в симуляции 2: {len(already)}, убранных: {len(pruned)}, проверены за {args.recheck_days} дн.: {len(recent)}; "
+      f"к проверке: {len(wallets)}", file=sys.stderr)
 
 # ---- фильтр 1 (+ сразу забираем сделки за 30 дней для бэктеста)
 KEEP = ("side","asset","conditionId","size","price","timestamp","outcomeIndex","title","name")
@@ -172,3 +197,20 @@ for w in p3:
         stats["нет надёжной"] += 1
 json.dump(out, open(args.out, "w"), ensure_ascii=False, indent=0)
 print(f"ИТОГ: файл {len(wallets)} → ф1 {len(p1)} → ф2 {len(p2)} → ф3 {len(p3)} → стратегии {dict(stats)}; записано {args.out} ({len(out)} кошельков)", file=sys.stderr)
+
+# ---- память проверенных: исход каждого кошелька, чтобы ежедневный прогон не гонял одно и то же
+if not args.no_memory:
+    today = time.strftime("%Y-%m-%d", time.gmtime(now))
+    s3 = set(p3); s2 = set(p2); s1 = set(p1)
+    for w in wallets:
+        if w in out: r = "ok"
+        elif w in s3: r = "strategy"          # <10 позиций / нет надёжной / бинарный
+        elif w in s2: r = "f3"
+        elif w in s1: r = "f2"
+        else: r = "f1:" + ((r1.get(w) or {}).get("why") or "error")
+        memory[w] = {"d": today, "r": r}
+    tmp = args.memory + ".tmp"
+    with gzip.open(tmp, "wt", encoding="utf-8") as f:
+        json.dump(memory, f, ensure_ascii=False)
+    os.replace(tmp, args.memory)
+    print(f"память: {len(memory)} кошельков → {args.memory}", file=sys.stderr)
