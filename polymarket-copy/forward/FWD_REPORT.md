@@ -1,87 +1,87 @@
-# Симуляция 2 (форвард-тест стратегий) — 2026-10-11 21:42 UTC
+# Симуляция 2 (форвард-тест стратегий) — 2026-10-12 09:42 UTC
 
-Старт 2026-10-07 13:46 UTC, 4.3 дн. Кошельков 788, с позициями 262, в плюсе 191, в минусе 67. Суммарный PnL +551.64 $. Закрыто позиций 1205, открыто 383, из 4256 его покупок: не прошли фильтр стратегии 2414, цена улетела (аск > его цена + 3¢) 254, скопировано 1588.
+Старт 2026-10-07 13:46 UTC, 4.8 дн. Кошельков 788, с позициями 343, в плюсе 233, в минусе 109. Суммарный PnL +533.13 $. Закрыто позиций 1618, открыто 270, из 5337 его покупок: не прошли фильтр стратегии 3144, цена улетела (аск > его цена + 3¢) 305, скопировано 1888.
 
 | кошелёк | имя | PnL | закрыто | выигр. | откр. | улетело | стратегия | ставка |
 |---|---|---|---|---|---|---|---|---|
-| `0x1ef8a74f` |  | +23.54 | 32 | 25 | 0 | 0 | all & price=0.50-0.70+0.70-0.90 | prop |
+| `0x1ef8a74f` |  | +19.54 | 33 | 25 | 0 | 0 | all & price=0.50-0.70+0.70-0.90 | prop |
 | `0x500084c1` | 0xaA3F67d67B355D0bC55640De17f4Ac34ED81858c-1772988796052 | +18.45 | 15 | 11 | 0 | 0 | all & price=0.30-0.50+0.50-0.70 | prop |
-| `0xfeb3ab70` | orel-reshka | +15.41 | 15 | 9 | 14 | 2 | all & pre & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
-| `0xd72f83fc` |  | +10.73 | 52 | 26 | 1 | 9 | all & live | fix |
-| `0x76bcdd68` | Efb1 | +10.39 | 22 | 10 | 10 | 3 | cat=Sports | prop |
+| `0xfeb3ab70` | orel-reshka | +16.42 | 22 | 12 | 7 | 2 | all & pre & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
+| `0x91bc7b69` | 0x91bc7B692a7087f7Cf26e597714a3430e4B028D6-1774621250910 | +13.14 | 30 | 20 | 0 | 0 | sub=Sports / American Football & price=0.30-0.50+0.50-0.70 | prop |
+| `0xbce19d6d` | botmy | +10.91 | 5 | 5 | 3 | 0 | sub=Sports / Tennis | prop |
 | `0x59606e45` |  | +10.28 | 10 | 7 | 0 | 2 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0xcc116e32` | martinakpa9_0 | +10.15 | 2 | 2 | 2 | 0 | cat=Sports & price=0.30-0.50+0.50-0.70 | prop |
-| `0x91bc7b69` | 0x91bc7B692a7087f7Cf26e597714a3430e4B028D6-1774621250910 | +10.10 | 25 | 17 | 5 | 0 | sub=Sports / American Football & price=0.30-0.50+0.50-0.70 | prop |
-| `0xcb97c0fa` | fearofmoney | +9.57 | 8 | 2 | 7 | 2 | all & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
+| `0xcc116e32` | martinakpa9_0 | +10.09 | 3 | 3 | 1 | 0 | cat=Sports & price=0.30-0.50+0.50-0.70 | prop |
+| `0xd72f83fc` |  | +10.01 | 53 | 26 | 4 | 9 | all & live | fix |
+| `0x3d2fe56a` | z1nedevil | +10.00 | 28 | 20 | 0 | 2 | cat=Sports | prop |
+| `0xcb97c0fa` | fearofmoney | +9.94 | 8 | 2 | 8 | 2 | all & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
 | `0xe21b3eb2` | rhuanx22 | +9.07 | 7 | 6 | 0 | 0 | cat=Esports | fix |
+| `0xc7d25fcc` | Impeccablehunter | +8.94 | 4 | 4 | 1 | 0 | all & live & price=0.50-0.70+0.70-0.90 | prop |
+| `0xcf627929` | cratier | +8.61 | 20 | 16 | 0 | 8 | sub=Sports / Other sport | prop |
 | `0x26887101` |  | +8.55 | 4 | 4 | 0 | 0 | all & live & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0xc7d25fcc` | Impeccablehunter | +8.23 | 4 | 4 | 1 | 0 | all & live & price=0.50-0.70+0.70-0.90 | prop |
-| `0x3356b192` | ilregista | +8.03 | 12 | 8 | 3 | 5 | all & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
-| `0x446884aa` | 0x446884aa55e3dCF7123D9A3D6243c4E34B70B165-1791060354625 | +7.88 | 16 | 11 | 1 | 0 | cat=Esports & price=0.30-0.50+0.50-0.70 | fix |
-| `0x3ebda690` | gczap3344 | +7.59 | 11 | 7 | 1 | 1 | type=moneyline | prop |
-| `0x3d2fe56a` | z1nedevil | +7.24 | 26 | 18 | 1 | 2 | cat=Sports | prop |
-| `0xb8d75741` | gangmusic | +6.77 | 4 | 3 | 2 | 0 | sub=Sports / American Football | prop |
-| `0x5b0128b0` |  | +6.54 | 6 | 4 | 5 | 0 | all & price=0.50-0.70 | prop |
+| `0x8635426f` | 0x8635426F730f3dE61a2b2E0DC743FA616AefCB1b-1773760215101 | +7.71 | 36 | 24 | 5 | 7 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | fix |
+| `0x3ebda690` | gczap3344 | +7.59 | 12 | 7 | 0 | 1 | type=moneyline | prop |
+| `0x76bcdd68` | Efb1 | +7.51 | 34 | 17 | 4 | 3 | cat=Sports | prop |
+| `0x20406120` | A155 | +7.49 | 11 | 7 | 1 | 1 | all & price=0.30-0.50+0.50-0.70 | prop |
+| `0x3356b192` | ilregista | +6.72 | 15 | 10 | 2 | 5 | all & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
+| `0x85164d78` |  | +6.69 | 27 | 17 | 2 | 3 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0x446884aa` | 0x446884aa55e3dCF7123D9A3D6243c4E34B70B165-1791060354625 | +6.60 | 17 | 12 | 5 | 0 | cat=Esports & price=0.30-0.50+0.50-0.70 | fix |
 | `0x06070f37` | LANCIENCUREDUVILLAGE | +6.49 | 2 | 2 | 0 | 0 | type=map_handicap | prop |
-| `0xcf627929` | cratier | +6.47 | 16 | 13 | 4 | 8 | sub=Sports / Other sport | prop |
-| `0x4de5d1b1` | RGSAN | +6.32 | 9 | 7 | 2 | 0 | all & price=0.50-0.70 | prop |
-| `0x56bc00a3` | Damrcoolkid | +6.28 | 6 | 3 | 1 | 0 | sub=Sports / American Football | fix |
-| `0x16e0f0ed` |  | +5.94 | 2 | 2 | 1 | 1 | all & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
-| `0x20406120` | A155 | +5.93 | 10 | 6 | 1 | 1 | all & price=0.30-0.50+0.50-0.70 | prop |
-| `0xb5171d63` | Bablu9693 | +5.89 | 4 | 4 | 2 | 2 | sub=Sports / Soccer & price=0.30-0.50+0.50-0.70 | prop |
-| `0xdcb169f2` | 30m | +5.89 | 10 | 8 | 8 | 4 | cat=Sports | prop |
+| `0x83103011` | Chucky21 | +6.31 | 7 | 6 | 0 | 0 | sub=Sports / Soccer & pre & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0x16e0f0ed` |  | +6.19 | 2 | 2 | 1 | 1 | all & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
+| `0x56bc00a3` | Damrcoolkid | +5.86 | 8 | 4 | 0 | 0 | sub=Sports / American Football | fix |
+| `0xb8d75741` | gangmusic | +5.74 | 7 | 4 | 0 | 0 | sub=Sports / American Football | prop |
 | `0x53538e9e` | 0x53538e9eb5CbeeD935108e40449CE2Ef6e09293C-1776281734832 | +5.63 | 8 | 5 | 0 | 4 | sub=Sports / Baseball | prop |
-| `0x51f52b1b` | TrarVic | +5.39 | 11 | 8 | 2 | 0 | all & price=0.50-0.70 | fix |
+| `0x4de5d1b1` | RGSAN | +5.48 | 12 | 8 | 4 | 0 | all & price=0.50-0.70 | prop |
+| `0xb5171d63` | Bablu9693 | +5.43 | 6 | 5 | 2 | 2 | sub=Sports / Soccer & price=0.30-0.50+0.50-0.70 | prop |
+| `0x51f52b1b` | TrarVic | +5.40 | 13 | 10 | 0 | 0 | all & price=0.50-0.70 | fix |
+| `0x5f89e91f` | zenpeacemind | +5.38 | 18 | 17 | 2 | 5 | all & price=0.70-0.90 | prop |
+| `0x5b0128b0` |  | +5.31 | 8 | 5 | 3 | 0 | all & price=0.50-0.70 | prop |
+| `0xd46cfd09` | organicuz | +5.18 | 11 | 10 | 0 | 0 | all & price=0.50-0.70 | prop |
 | `0xce3ec549` | 0xCe3eC549d972077d0A90ce84C5E2d8Ab0D59623b-1772235329747 | +5.17 | 2 | 2 | 0 | 0 | sub=Sports / Tennis & price=0.50-0.70+0.70-0.90 | prop |
 | `0x8061aa44` |  | +5.09 | 1 | 1 | 0 | 0 | cat=Sports & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0x4993dcb1` | pdid | +5.07 | 7 | 7 | 0 | 0 | cat=Sports & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0x6387cfb4` |  | +4.88 | 12 | 9 | 3 | 0 | sub=Sports / American Football & price=0.50-0.70 | fix |
+| `0x6387cfb4` |  | +5.09 | 15 | 11 | 0 | 0 | sub=Sports / American Football & price=0.50-0.70 | fix |
+| `0x5541697d` | yzyskipkk | +4.97 | 1 | 1 | 0 | 0 | cat=Sports & price=0.30-0.50+0.50-0.70 | prop |
+| `0x3989ff6a` | 0x3989ff6Ac74b51Dd2930799bD1a55Ffe1279F77E-1782159851689 | +4.89 | 4 | 4 | 0 | 0 | all & pre & price=0.50-0.70+0.70-0.90 | prop |
 | `0x351f87ea` | Fatiichygon | +4.83 | 5 | 4 | 0 | 12 | all & price=0.30-0.50+0.50-0.70 | fix |
-| `0xa2e3515d` | Kelvin789 | +4.70 | 5 | 5 | 0 | 0 | all & live & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
-| `0x496ddda3` |  | +4.70 | 1 | 1 | 0 | 0 | all & live & price=0.10-0.30+0.30-0.50 | prop |
-| `0x8dbea205` | WQS77 | +4.69 | 26 | 14 | 2 | 0 | all & pre & price=0.30-0.50+0.50-0.70 | fix |
-| `0xa8e998aa` | mt401 | +4.61 | 31 | 23 | 3 | 0 | type=moneyline | fix |
-| `0x0517c2d3` | 0x0517C2D31FC7427E2c2BC1734D06bF265B26F995-1781338150283 | +4.45 | 9 | 8 | 2 | 0 | all & price=0.50-0.70 | fix |
-| `0x85164d78` |  | +4.43 | 23 | 13 | 5 | 3 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0xb74f0280` | 0xB74f02807990b1a980241D8D4B72E735bB07acBb-1779994783420 | +4.38 | 7 | 6 | 3 | 1 | cat=Sports & price=0.50-0.70 | fix |
+| `0xbc4b02cc` | 812381283128 | +4.74 | 3 | 3 | 0 | 2 | cat=Sports & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
 | `…` |  | +0.00 | 0 | 0 | 0 | 0 |  |  |
-| `0x256424d1` | deportallturks | -0.14 | 0 | 0 | 1 | 0 | type=spreads | prop |
-| `0xbc4b02cc` | 812381283128 | -0.16 | 0 | 0 | 1 | 0 | cat=Sports & price=0.10-0.30+0.30-0.50+0.50-0.70 | prop |
-| `0xcb7ff0ad` | silentvector10 | -0.16 | 0 | 0 | 1 | 0 | all & price=0.50-0.70 | fix |
-| `0xbfda4d31` | satelliteignite | -0.17 | 3 | 1 | 2 | 0 | sub=Sports / Soccer & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0x3a222c64` | lin20261 | -0.25 | 0 | 0 | 5 | 4 | cat=Sports & price=0.10-0.30+0.30-0.50+0.50-0.70 | fix |
-| `0x4450fca5` |  | -0.32 | 5 | 3 | 0 | 6 | all & pre & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0xcff18fb9` | kyronn | -0.35 | 1 | 0 | 1 | 0 | type=totals | prop |
-| `0xd1780c09` | sinestia | -0.37 | 2 | 1 | 1 | 0 | all & live & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0xd4f68ce2` |  | -0.39 | 0 | 0 | 1 | 0 | all & price=0.70-0.90 | prop |
-| `0x471e7fe2` | Bwjwjwkw | -0.40 | 5 | 3 | 8 | 1 | all & price=0.70-0.90 | prop |
-| `0xb24560e6` |  | -0.44 | 0 | 0 | 1 | 0 | all & price=0.70-0.90 | prop |
-| `0x88d91463` | transl1t | -0.45 | 8 | 4 | 1 | 1 | type=child_moneyline & price=0.10-0.30+0.30-0.50+0.50-0.70 | fix |
-| `0x2887786a` | 0x2887786A6778cbCD7C972E9AEE7e53FEc3134380-1768493035552 | -0.45 | 0 | 0 | 1 | 0 | all & live & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0x4444c208` |  | -0.46 | 0 | 0 | 1 | 0 | all & price=0.70-0.90 | fix |
-| `0xd3c8ee79` | qpwoeir | -0.60 | 2 | 2 | 2 | 1 | type=child_moneyline & price=0.70-0.90 | prop |
-| `0x98f81d28` | GodYasuo | -0.65 | 6 | 3 | 1 | 0 | sub=Sports / Other sport & price=0.50-0.70 | prop |
-| `0x52bf12a2` | thparvej24 | -0.65 | 0 | 0 | 1 | 0 | sub=Sports / Soccer & price=0.50-0.70 | fix |
-| `0xb1ed7b67` |  | -0.72 | 0 | 0 | 1 | 0 | type=moneyline & price=0.70-0.90 | fix |
-| `0xdf33f5d2` | Fz22 | -0.80 | 0 | 0 | 1 | 0 | all | fix |
-| `0x5a6ad76e` | username150 | -0.88 | 2 | 1 | 0 | 1 | sub=Sports / Soccer | fix |
-| `0x6012ca82` | BibX | -1.00 | 1 | 0 | 0 | 0 | all & live & price=0.50-0.70+0.70-0.90 | fix |
-| `0xd19ec9de` | Nafizpro | -1.00 | 0 | 0 | 1 | 0 | all & price=0.50-0.70 | fix |
-| `0x0fded0ed` | Telepath-One | -1.00 | 1 | 0 | 0 | 0 | type=totals & live | prop |
-| `0x4532bf0e` | hepan | -1.00 | 1 | 0 | 0 | 0 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | fix |
-| `0x564e7eb4` | neexxan | -1.00 | 1 | 0 | 0 | 0 | all & live & price=0.30-0.50 | prop |
-| `0x6b0d16d0` | Username61 | -1.00 | 1 | 0 | 0 | 3 | all & live & price=0.30-0.50+0.50-0.70 | fix |
-| `0xaf3564f6` | lalka322 | -1.00 | 1 | 0 | 0 | 0 | all & live & price=0.50-0.70+0.70-0.90 | prop |
+| `0xb92bc3fa` | andresmo0997 | -1.00 | 1 | 0 | 0 | 0 | all & price=0.10-0.30+0.30-0.50 | fix |
+| `0xd19ec9de` | Nafizpro | -1.00 | 1 | 0 | 0 | 0 | all & price=0.50-0.70 | fix |
+| `0xd85d8d74` | biedna | -1.00 | 1 | 0 | 0 | 0 | type=spreads | fix |
 | `0xddbccce8` | rxdflxt | -1.00 | 1 | 0 | 0 | 0 | type=moneyline & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0xdfd1f51a` | SportsRecord | -1.00 | 1 | 0 | 3 | 0 | all & price=0.30-0.50+0.50-0.70 | fix |
+| `0xe65b9601` | WallStreetGamer | -1.00 | 1 | 0 | 0 | 0 | sub=Sports / American Football & price=0.10-0.30+0.30-0.50 | fix |
 | `0xfa539a60` | bntetete | -1.00 | 1 | 0 | 0 | 0 | cat=Esports & live & price=0.50-0.70+0.70-0.90 | prop |
-| `0x2ade4f54` | 0x2adE4f544d173eFbbF469DBC862F92c3bDa6179C-1791136373612 | -1.06 | 2 | 1 | 6 | 2 | cat=Sports & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
-| `0x023f3c5a` | Newface.2 | -1.34 | 1 | 0 | 1 | 0 | type=soccer_exact_score & price=0.70-0.90 | prop |
-| `0xce9e8e2f` | Jordanomar | -1.37 | 1 | 0 | 0 | 0 | type=moneyline & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0x2c2abaa2` | ziyoucui | -1.01 | 1 | 0 | 1 | 1 | type=moneyline & price=0.70-0.90 | fix |
+| `0x4253b653` | Frank8888 | -1.01 | 1 | 0 | 1 | 0 | cat=Esports & price=0.50-0.70+0.70-0.90 | prop |
+| `0xb24560e6` |  | -1.20 | 1 | 0 | 0 | 0 | all & price=0.70-0.90 | prop |
+| `0x3862187a` | niftytime | -1.21 | 1 | 0 | 0 | 0 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0xd3c8ee79` | qpwoeir | -1.22 | 4 | 3 | 0 | 1 | type=child_moneyline & price=0.70-0.90 | prop |
+| `0xf8408412` | guilleplfy | -1.24 | 3 | 1 | 0 | 0 | type=moneyline | prop |
+| `0xd3e67662` | PoliticsF | -1.30 | 0 | 0 | 1 | 0 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
 | `0x1ce3d28d` | 0x1cE3d28d82D03b294a55Cf8BFDCe0fB920912317-1780639581016 | -1.38 | 5 | 2 | 0 | 1 | sub=Sports / Soccer | fix |
+| `0xce9e8e2f` | Jordanomar | -1.39 | 1 | 0 | 1 | 0 | type=moneyline & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
 | `0x0b79969b` | loldeze | -1.46 | 3 | 1 | 0 | 0 | type=totals & live | prop |
 | `0xeb33e7da` |  | -1.53 | 2 | 0 | 0 | 1 | sub=Sports / American Football | fix |
-| `0x3f855d27` | Vkplay | -1.60 | 0 | 0 | 1 | 0 | all & pre & price=0.50-0.70+0.70-0.90 | prop |
+| `0xdcfc9521` | 0xDcFC95214554cC1C8bE16f8BC27faCD7cc2763C4-1782015962412 | -1.57 | 9 | 5 | 0 | 8 | all & price=0.30-0.50+0.50-0.70 | fix |
+| `0x3f855d27` | Vkplay | -1.61 | 1 | 0 | 1 | 0 | all & pre & price=0.50-0.70+0.70-0.90 | prop |
 | `0x7224d8d6` | naixinde | -1.91 | 2 | 0 | 0 | 0 | cat=Esports & live | fix |
-| `0x3a207bb7` |  | -1.94 | 3 | 0 | 2 | 0 | all & pre & price=0.10-0.30+0.30-0.50 | fix |
-| `0x55d43f44` | lifechange777 | -3.69 | 1 | 0 | 1 | 0 | all | prop |
-| `0x5559149a` | fumao | -4.29 | 9 | 2 | 3 | 13 | all & price=0.30-0.50+0.50-0.70 | fix |
+| `0xed09837b` | copicoyyy | -2.00 | 1 | 0 | 0 | 0 | cat=Sports & live & price=0.70-0.90 | prop |
+| `0x03852d5b` | 0x03852d5b75bF90F781fF59e8250654D3822c9070-1772966551535 | -2.00 | 2 | 0 | 0 | 0 | type=moneyline & live & price=0.10-0.30+0.30-0.50 | prop |
+| `0x120aef63` | goodkidripcity | -2.00 | 2 | 0 | 0 | 0 | all & live & price=0.50-0.70 | fix |
+| `0x2887786a` | 0x2887786A6778cbCD7C972E9AEE7e53FEc3134380-1768493035552 | -2.00 | 1 | 0 | 0 | 0 | all & live & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0x94f7faa5` | elqvixote | -2.00 | 2 | 0 | 0 | 0 | all & pre & price=0.50-0.70+0.70-0.90 | prop |
+| `0x55d43f44` | lifechange777 | -2.16 | 2 | 1 | 0 | 0 | all | prop |
+| `0x4993d878` | luesto | -2.17 | 9 | 4 | 0 | 17 | type=totals & price=0.30-0.50+0.50-0.70+0.70-0.90 | fix |
+| `0x81fbde53` | udg | -2.40 | 1 | 0 | 0 | 0 | type=moneyline & price=0.50-0.70 | prop |
+| `0x8f965041` | Frvnk1 | -2.60 | 5 | 3 | 0 | 0 | all & price=0.50-0.70+0.70-0.90 | prop |
+| `0xace41a0c` | shurise | -2.63 | 5 | 1 | 0 | 1 | all | prop |
+| `0x2ade4f54` | 0x2adE4f544d173eFbbF469DBC862F92c3bDa6179C-1791136373612 | -2.64 | 12 | 6 | 1 | 2 | cat=Sports & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0xad3f628c` |  | -2.69 | 22 | 12 | 0 | 3 | sub=Sports / American Football | prop |
+| `0x3a207bb7` |  | -3.00 | 5 | 1 | 1 | 0 | all & pre & price=0.10-0.30+0.30-0.50 | fix |
+| `0xf66e619c` |  | -3.88 | 15 | 8 | 0 | 6 | all & price=0.30-0.50+0.50-0.70+0.70-0.90 | prop |
+| `0xd5ad2f7f` | fxcougar | -4.41 | 6 | 2 | 0 | 0 | sub=Sports / American Football | prop |
+| `0xe62063a3` | Luispaia | -5.24 | 2 | 0 | 0 | 0 | all & price=0.50-0.70 | prop |
+| `0xca322b7a` | ErWi | -8.00 | 2 | 0 | 0 | 0 | type=moneyline & price=0.50-0.70+0.70-0.90 | prop |
+| `0xa54f665c` |  | -8.23 | 11 | 5 | 1 | 0 | cat=Sports & price=0.50-0.70 | prop |
+| `0x5559149a` | fumao | -8.41 | 16 | 3 | 0 | 16 | all & price=0.30-0.50+0.50-0.70 | fix |
