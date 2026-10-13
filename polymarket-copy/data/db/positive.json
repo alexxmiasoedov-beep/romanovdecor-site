@@ -138,5 +138,19 @@
   "pnl": 2.37,
   "closed": 19,
   "reviewed": "2026-10-12"
+ },
+ "0xf13dd60c30d95129690fc58e8e3784110167afc3": {
+  "name": "EdgeBot1",
+  "batch": "13",
+  "pnl": 0.6,
+  "closed": 6,
+  "reviewed": "2026-10-13"
+ },
+ "0xde0e338ed6cb3a7bf316d33b3c7b3549c8d1e5bc": {
+  "name": "kicaumania88",
+  "batch": "13",
+  "pnl": 1.53,
+  "closed": 7,
+  "reviewed": "2026-10-13"
  }
 }
