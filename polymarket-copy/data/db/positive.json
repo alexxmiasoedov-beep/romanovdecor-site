@@ -152,5 +152,40 @@
   "pnl": 1.53,
   "closed": 7,
   "reviewed": "2026-10-13"
+ },
+ "0xc0d5e31d1a5e91dc36dfa5c3d4d184e2c5a6fefe": {
+  "name": "ManiNTheMidddle",
+  "batch": "14",
+  "pnl": 1.64,
+  "closed": 9,
+  "reviewed": "2026-10-14"
+ },
+ "0xd3911bd5e070c9ad9a9519c966347802d8f3b109": {
+  "name": "lfg100k",
+  "batch": "14",
+  "pnl": 10.4,
+  "closed": 48,
+  "reviewed": "2026-10-14"
+ },
+ "0x3e691e86aefed3e9181a76c714e0c81e9ec5074b": {
+  "name": "",
+  "batch": "14",
+  "pnl": 1.49,
+  "closed": 35,
+  "reviewed": "2026-10-14"
+ },
+ "0xc406a11fccbaf0df26f380f593ab08e2a70b4deb": {
+  "name": "Galaktor",
+  "batch": "14",
+  "pnl": 2.84,
+  "closed": 19,
+  "reviewed": "2026-10-14"
+ },
+ "0x0dbe4798a1719b1fc08cd3acc2369dd77c069013": {
+  "name": "brussssss",
+  "batch": "14",
+  "pnl": 3.47,
+  "closed": 23,
+  "reviewed": "2026-10-14"
  }
 }
