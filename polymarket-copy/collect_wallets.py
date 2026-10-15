@@ -139,7 +139,10 @@ def main() -> None:
     # 3. держатели позиций по тем же рынкам
     if args.holders:
         def holders(cid):
-            return cid, (api.get(f"{api.DATA}/holders", {"market": cid, "limit": args.holders}, cache=False) or [])
+            try:
+                return cid, (api.get(f"{api.DATA}/holders", {"market": cid, "limit": args.holders}, cache=False) or [])
+            except Exception as e:   # 15.10: сбой API по одному рынку не должен валить сбор
+                print(f"держатели {cid[:10]}: {e} — пропускаю рынок", file=sys.stderr); return cid, []
         res = api.pmap(holders, [cid for cid, _ in jobs], workers=8, desc="holders")
         n = 0
         for r in res:
