@@ -46,7 +46,7 @@ def parse_strategy(name: str) -> dict:
     side=yes|no (индекс исхода 0|1), new (только первые покупки в позицию, без докупок) — последние три
     добавлены 15.10 для ручных стратегий (кошелёк Car)."""
     parts = [p.strip() for p in name.split("&")]
-    st = {"seg": "all", "live": None, "buckets": None, "range": None, "side": None, "new_only": False}
+    st = {"seg": "all", "live": None, "buckets": None, "range": None, "side": None, "new_only": False, "max_dte": None}
     for p in parts:
         if p == "all": continue
         if p in ("live", "pre"): st["live"] = (p == "live"); continue
@@ -58,10 +58,11 @@ def parse_strategy(name: str) -> dict:
             continue
         if p.startswith("side="): st["side"] = 0 if p[5:].lower() == "yes" else 1; continue
         if p == "new": st["new_only"] = True; continue
+        if p.startswith("dte<="): st["max_dte"] = float(p[5:]); continue   # до разрешения рынка не больше N дней (balthazar, 15.10)
         st["seg"] = p
     return st
 
-def passes(st: dict, cls: dict, live: bool, price: float, oi: int = 0, is_new: bool = True) -> bool:
+def passes(st: dict, cls: dict, live: bool, price: float, oi: int = 0, is_new: bool = True, dte: float | None = None) -> bool:
     seg = st["seg"]
     if seg.startswith("cat=") and cls["category"] != seg[4:]: return False
     if seg.startswith("sub=") and f'{cls["category"]} / {cls["sub"]}' != seg[4:]: return False
@@ -71,6 +72,7 @@ def passes(st: dict, cls: dict, live: bool, price: float, oi: int = 0, is_new: b
     if st["range"] and not (st["range"][0] <= price < st["range"][1]): return False
     if st["side"] is not None and oi != st["side"]: return False
     if st["new_only"] and not is_new: return False
+    if st["max_dte"] is not None and (dte is None or dte > st["max_dte"]): return False
     return True
 
 def stake_for(w: dict, usd: float, price: float = 0.5) -> float:
@@ -95,7 +97,16 @@ def cmd_enroll(a):
 
 def update_wallet(w: str, st: dict, now: float):
     addr = st.get("address") or w.split("#")[0]   # ключ может быть «адрес#метка»: один кошелёк под несколькими стратегиями
-    tr = api.get(f"{api.DATA}/trades", {"user": addr, "limit": 500, "offset": 0}, cache=False) or []
+    # постранично (лента отдаёт новые сверху): до сделок старше последней обработанной (с запасом час) или старта;
+    # кошельки вроде balthazar делают 600+ сделок в сутки, одной страницы в 500 между обновлениями не хватает
+    since = max(st["start_ts"], st.get("last_ts", 0) - 3600)
+    tr = []
+    for off in range(0, 10000, 500):
+        page = api.get(f"{api.DATA}/trades", {"user": addr, "limit": 500, "offset": off}, cache=False) or []
+        tr += page
+        if len(page) < 500 or float(page[-1].get("timestamp") or 0) < since: break
+    if tr: st["last_ts"] = max(st.get("last_ts", 0), max(float(t.get("timestamp") or 0) for t in tr))
+    if len(st["processed"]) > 6000: st["processed"] = st["processed"][-5000:]   # память дедупликации не растёт бесконечно
     proc = set(st["processed"]); strat = parse_strategy(st["strategy"])
     new = [t for t in tr if float(t.get("timestamp") or 0) >= st["start_ts"] and (t.get("transactionHash", "") + t.get("asset", "")) not in proc]
     new.sort(key=lambda t: (float(t.get("timestamp") or 0), t.get("side") != "BUY"))
@@ -115,7 +126,8 @@ def update_wallet(w: str, st: dict, now: float):
             cls = markets.classify(m, fetch_tags=False) if m else {"category": "?", "sub": "?", "mtype": "?"}
             live = bool(m.get("gameStartTime") and ts > m["gameStartTime"])
             st["seen"] += 1
-            if price >= config.MAX_ENTRY_PRICE or not passes(strat, cls, live, price, int(t.get("outcomeIndex") or 0), hq_before <= 1e-9):
+            dte = (float(m["endDate"]) - ts) / 86400 if m.get("endDate") else None
+            if price >= config.MAX_ENTRY_PRICE or not passes(strat, cls, live, price, int(t.get("outcomeIndex") or 0), hq_before <= 1e-9, dte):
                 st["skipped"] += 1; continue
             q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC, tape=tape(cid))
             fill, src = (q["ask"], q["src"]) if q["ask"] is not None else (price + quotes.SPREAD_FALLBACK, "own+spread")
