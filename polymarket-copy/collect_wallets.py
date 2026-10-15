@@ -170,8 +170,11 @@ def main() -> None:
         for window in ("1d", "7d", "30d"):
             for order in ("PNL", "VOL"):
                 for off in range(0, args.leaderboard, 50):
-                    page = api.get(f"{api.DATA}/v1/leaderboard", {"window": window, "limit": 50, "offset": off, "orderBy": order},
-                                   cache=False) or []
+                    try:
+                        page = api.get(f"{api.DATA}/v1/leaderboard", {"window": window, "limit": 50, "offset": off, "orderBy": order},
+                                       cache=False) or []
+                    except Exception as e:   # 15.10: Data API не отвечал >1 мин — лидерборды не должны валить весь сбор
+                        print(f"лидеры {window}/{order} offset {off}: {e} — пропускаю срез", file=sys.stderr); break
                     for e in page:
                         wallet = e.get("proxyWallet")
                         if not wallet:
