@@ -39,27 +39,43 @@ def load():
 def save(s):
     tmp = STATE + ".tmp"; json.dump(s, open(tmp, "w"), ensure_ascii=False); os.replace(tmp, STATE)
 
+BUCKETS = {"0.00-0.10", "0.10-0.30", "0.30-0.50", "0.50-0.70", "0.70-0.90", "0.90-1.00"}
+
 def parse_strategy(name: str) -> dict:
+    """Фильтр стратегии: сегмент (all / cat= / sub= / type=), live|pre, price=корзины через + или диапазон 0.20-0.70,
+    side=yes|no (индекс исхода 0|1), new (только первые покупки в позицию, без докупок) — последние три
+    добавлены 15.10 для ручных стратегий (кошелёк Car)."""
     parts = [p.strip() for p in name.split("&")]
-    st = {"seg": "all", "live": None, "buckets": None}
+    st = {"seg": "all", "live": None, "buckets": None, "range": None, "side": None, "new_only": False}
     for p in parts:
         if p == "all": continue
         if p in ("live", "pre"): st["live"] = (p == "live"); continue
-        if p.startswith("price="): st["buckets"] = p[6:].split("+"); continue
+        if p.startswith("price="):
+            toks = p[6:].split("+")
+            if all(t in BUCKETS for t in toks): st["buckets"] = toks
+            else:
+                lo, hi = toks[0].split("-"); st["range"] = (float(lo), float(hi))
+            continue
+        if p.startswith("side="): st["side"] = 0 if p[5:].lower() == "yes" else 1; continue
+        if p == "new": st["new_only"] = True; continue
         st["seg"] = p
     return st
 
-def passes(st: dict, cls: dict, live: bool, price: float) -> bool:
+def passes(st: dict, cls: dict, live: bool, price: float, oi: int = 0, is_new: bool = True) -> bool:
     seg = st["seg"]
     if seg.startswith("cat=") and cls["category"] != seg[4:]: return False
     if seg.startswith("sub=") and f'{cls["category"]} / {cls["sub"]}' != seg[4:]: return False
     if seg.startswith("type=") and cls["mtype"] != seg[5:]: return False
     if st["live"] is not None and live != st["live"]: return False
     if st["buckets"] and metrics.price_bucket(price) not in st["buckets"]: return False
+    if st["range"] and not (st["range"][0] <= price < st["range"][1]): return False
+    if st["side"] is not None and oi != st["side"]: return False
+    if st["new_only"] and not is_new: return False
     return True
 
-def stake_for(w: dict, usd: float) -> float:
+def stake_for(w: dict, usd: float, price: float = 0.5) -> float:
     if w["stake"] == "fix": return 1.0
+    if w["stake"] == "inv": return round(0.5 / max(price, 0.05), 4)   # обратно цене: $0.5/цена (Car, 15.10)
     return min(max(4.0 * usd / max(w["maxusd"], 1e-9), 1.0), 4.0)
 
 def cmd_enroll(a):
@@ -78,7 +94,8 @@ def cmd_enroll(a):
     save(s); print(f"зачислено {n}, всего {len(s['wallets'])}, старт новых {datetime.fromtimestamp(now, timezone.utc):%Y-%m-%d %H:%M} UTC", file=sys.stderr)
 
 def update_wallet(w: str, st: dict, now: float):
-    tr = api.get(f"{api.DATA}/trades", {"user": w, "limit": 500, "offset": 0}, cache=False) or []
+    addr = st.get("address") or w.split("#")[0]   # ключ может быть «адрес#метка»: один кошелёк под несколькими стратегиями
+    tr = api.get(f"{api.DATA}/trades", {"user": addr, "limit": 500, "offset": 0}, cache=False) or []
     proc = set(st["processed"]); strat = parse_strategy(st["strategy"])
     new = [t for t in tr if float(t.get("timestamp") or 0) >= st["start_ts"] and (t.get("transactionHash", "") + t.get("asset", "")) not in proc]
     new.sort(key=lambda t: (float(t.get("timestamp") or 0), t.get("side") != "BUY"))
@@ -91,19 +108,20 @@ def update_wallet(w: str, st: dict, now: float):
         if not asset or price <= 0 or size <= 0: continue
         pos = st["positions"].get(asset)
         if t.get("side") == "BUY":
-            st["his_qty"][asset] = st["his_qty"].get(asset, 0.0) + size
+            hq_before = st["his_qty"].get(asset, 0.0)
+            st["his_qty"][asset] = hq_before + size
             if pos: continue
             m = mk.get(cid) or {}
             cls = markets.classify(m, fetch_tags=False) if m else {"category": "?", "sub": "?", "mtype": "?"}
             live = bool(m.get("gameStartTime") and ts > m["gameStartTime"])
             st["seen"] += 1
-            if price >= config.MAX_ENTRY_PRICE or not passes(strat, cls, live, price):
+            if price >= config.MAX_ENTRY_PRICE or not passes(strat, cls, live, price, int(t.get("outcomeIndex") or 0), hq_before <= 1e-9):
                 st["skipped"] += 1; continue
             q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC, tape=tape(cid))
             fill, src = (q["ask"], q["src"]) if q["ask"] is not None else (price + quotes.SPREAD_FALLBACK, "own+spread")
             if fill > price + config.MAX_PRICE_DRIFT or fill >= config.MAX_ENTRY_PRICE:
                 st["drift"] = st.get("drift", 0) + 1; continue      # цена улетела — вход не состоялся
-            stake = stake_for(st, price * size)
+            stake = stake_for(st, price * size, price)
             if st["cash"] < stake: st["skipped"] += 1; continue
             fill = fill * (1 + config.SIM_EXTRA_SLIPPAGE_REL)
             st["cash"] -= stake

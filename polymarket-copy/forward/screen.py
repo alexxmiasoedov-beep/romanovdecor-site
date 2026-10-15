@@ -34,7 +34,7 @@ elif args.wallets:
 else:
     ap.error("нужен --wallets или --wallets-json")
 now = time.time(); D2 = now - 2*86400; D30 = now - 30*86400
-already = set(json.load(open(os.path.join(HERE, "fwd.json")))["wallets"]) if os.path.exists(os.path.join(HERE, "fwd.json")) else set()
+already = {k.split("#")[0] for k in json.load(open(os.path.join(HERE, "fwd.json")))["wallets"]} if os.path.exists(os.path.join(HERE, "fwd.json")) else set()  # ключ может быть «адрес#метка»
 # убранные владельцем из симуляции 2 (fwd_pruned_*.json) — не возвращаем
 pruned = set()
 for fn in glob.glob(os.path.join(HERE, "fwd_pruned_*.json")):
