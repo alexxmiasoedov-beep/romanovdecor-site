@@ -57,10 +57,17 @@ def main() -> None:
     run(py, "sim.py", "update", env=fast)
     if a.push:
         date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        run("git", "add", "data/db", "data/REPORT.md", "data/stage1.csv", "data/stage2.csv", "data/stage3.csv",
-            "data/segments.csv")  # wallets_today.json не коммитим — см. .gitignore
+        # индекс git может быть занят параллельным коммитом из сессии (15.10 так упал прогон) — повторяем
+        for i in range(6):
+            if run("git", "add", "data/db", "data/REPORT.md", "data/stage1.csv", "data/stage2.csv", "data/stage3.csv",
+                   "data/segments.csv", check=False).returncode == 0:   # wallets_today.json не коммитим — см. .gitignore
+                break
+            time.sleep(20)
         if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=HERE).returncode != 0:
-            run("git", "commit", "-q", "-m", f"Polymarket: прогон воронки и симуляции {date}")
+            for i in range(6):
+                if run("git", "commit", "-q", "-m", f"Polymarket: прогон воронки и симуляции {date}", check=False).returncode == 0:
+                    break
+                time.sleep(20)
             for i in range(5):
                 if run("git", "push", check=False).returncode == 0:
                     break
