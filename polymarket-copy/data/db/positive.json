@@ -187,5 +187,19 @@
   "pnl": 3.47,
   "closed": 23,
   "reviewed": "2026-10-14"
+ },
+ "0x88cf4a6cd2dc68cbb3b31893c1ed3a11692060f2": {
+  "name": "",
+  "batch": "17",
+  "pnl": 2.8,
+  "closed": 5,
+  "reviewed": "2026-10-17"
+ },
+ "0x3daaab16fb3ad3ce660b881a0700c458a972524b": {
+  "name": "0x3daAaB16fb3Ad3cE660b881A0700c458A972524b-1781488757957",
+  "batch": "17",
+  "pnl": 0.34,
+  "closed": 12,
+  "reviewed": "2026-10-17"
  }
 }
