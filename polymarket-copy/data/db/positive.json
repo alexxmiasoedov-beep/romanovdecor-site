@@ -201,5 +201,12 @@
   "pnl": 0.34,
   "closed": 12,
   "reviewed": "2026-10-17"
+ },
+ "0x3d962248fd1c8b5ca3a266dc72420b690fa3b432": {
+  "name": "DiigG",
+  "batch": "18",
+  "pnl": 1.1,
+  "closed": 15,
+  "reviewed": "2026-10-18"
  }
 }
