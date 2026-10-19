@@ -1,0 +1,226 @@
+{
+ "0x149a9ec31ae097faa33b2f2ae8df659889c149d0": {
+  "name": "web3Boss",
+  "batch": "1",
+  "pnl": 3.3,
+  "closed": 11,
+  "reviewed": "2026-09-29"
+ },
+ "0x0d874197406ca18d05d49c453ca07731c8bce214": {
+  "name": "SantosFC2026",
+  "batch": "1",
+  "pnl": 1.98,
+  "closed": 6,
+  "reviewed": "2026-09-29"
+ },
+ "0x310579303783d1b3c2b33cd28d83af946e082e7e": {
+  "name": "",
+  "batch": "1",
+  "pnl": 3.98,
+  "closed": 7,
+  "reviewed": "2026-09-29"
+ },
+ "0x3689ca03139f0c48947534ab2e919f5300e909aa": {
+  "name": "0x3689cA03139f0C48947534aB2E919F5300E909aA-1781798427541",
+  "batch": "1",
+  "pnl": 0.47,
+  "closed": 19,
+  "reviewed": "2026-09-29"
+ },
+ "0xd13e1585ab393467fe2351e6a9b4801f5b19f2d6": {
+  "name": "Elia12",
+  "batch": "1",
+  "pnl": 1.6,
+  "closed": 19,
+  "reviewed": "2026-09-29"
+ },
+ "0x565bedc122552e6824098088c9158ec8179bfa9b": {
+  "name": "Piter",
+  "batch": "1",
+  "pnl": 2.67,
+  "closed": 29,
+  "reviewed": "2026-09-29"
+ },
+ "0x974091fbc1dcd95cad40cf75ae142e6d89fa38af": {
+  "name": "aminmb21",
+  "batch": "1",
+  "pnl": 0.26,
+  "closed": 9,
+  "reviewed": "2026-09-29"
+ },
+ "0x423f0b745b2952951b4a7d785c7a96e520c63993": {
+  "name": "longyi97",
+  "batch": "1",
+  "pnl": 0.17,
+  "closed": 9,
+  "reviewed": "2026-09-29"
+ },
+ "0x791e45264c99eecaeb095caea9ad863740d29bda": {
+  "name": "easymoneysniperzz",
+  "batch": "1",
+  "pnl": 2.08,
+  "closed": 9,
+  "reviewed": "2026-09-29"
+ },
+ "0x4cb03276679d644ec1852f744668f345d41657e0": {
+  "name": "l0wkirkenuinely",
+  "batch": "2",
+  "pnl": 1.22,
+  "closed": 16,
+  "reviewed": "2026-10-01"
+ },
+ "0xa64b1bc8f8fd581f9609b7fbe55c96f2ab9fe453": {
+  "name": "101dalmatians",
+  "batch": "5",
+  "pnl": 2.08,
+  "closed": 27,
+  "reviewed": "2026-10-05"
+ },
+ "0x13ce0f6f73a83a2be1eb484c91169c2bd5b935f0": {
+  "name": "mozak",
+  "batch": "6",
+  "pnl": 1.77,
+  "closed": 7,
+  "reviewed": "2026-10-06"
+ },
+ "0xa6f3d2650a19386887ba4c17c672c2b0a84da946": {
+  "name": "",
+  "batch": "7",
+  "pnl": 0.27,
+  "closed": 24,
+  "reviewed": "2026-10-07"
+ },
+ "0xac14ffd60705eb2c3311334f1809bc406332fcaa": {
+  "name": "0xaC14ffD60705eb2C3311334F1809bC406332FcAa-1770484111054",
+  "batch": "8",
+  "pnl": 0.53,
+  "closed": 8,
+  "reviewed": "2026-10-08"
+ },
+ "0x3930b0a4ab9b69cc28ee9d071233324eeb64fbeb": {
+  "name": "",
+  "batch": "9",
+  "pnl": 0.09,
+  "closed": 27,
+  "reviewed": "2026-10-09"
+ },
+ "0xfd8ff771a52c22a8a29a3156572d9b3e47fd761d": {
+  "name": "",
+  "batch": "10",
+  "pnl": 2.45,
+  "closed": 15,
+  "reviewed": "2026-10-10"
+ },
+ "0xaa9737b3db5d88aefcee007717a7c00b0df48c9c": {
+  "name": "0xf2cbF139C52b66c568dA19EF028f085289597B0e-1777085067547",
+  "batch": "10",
+  "pnl": 8.75,
+  "closed": 7,
+  "reviewed": "2026-10-10"
+ },
+ "0x339a9ace6a1950797b8e0a50a125b5b4e23c6a00": {
+  "name": "superlarry",
+  "batch": "11",
+  "pnl": 0.43,
+  "closed": 16,
+  "reviewed": "2026-10-11"
+ },
+ "0xe3015c631605e328b39f5888da942b3078ab9bd9": {
+  "name": "Miami222",
+  "batch": "12",
+  "pnl": 1.88,
+  "closed": 12,
+  "reviewed": "2026-10-12"
+ },
+ "0xa70ff0f435600e9779627ff1b6906fcc1691143d": {
+  "name": "0xA70ff0F435600e9779627fF1b6906fCC1691143D-1775659489890",
+  "batch": "12",
+  "pnl": 2.37,
+  "closed": 19,
+  "reviewed": "2026-10-12"
+ },
+ "0xf13dd60c30d95129690fc58e8e3784110167afc3": {
+  "name": "EdgeBot1",
+  "batch": "13",
+  "pnl": 0.6,
+  "closed": 6,
+  "reviewed": "2026-10-13"
+ },
+ "0xde0e338ed6cb3a7bf316d33b3c7b3549c8d1e5bc": {
+  "name": "kicaumania88",
+  "batch": "13",
+  "pnl": 1.53,
+  "closed": 7,
+  "reviewed": "2026-10-13"
+ },
+ "0xc0d5e31d1a5e91dc36dfa5c3d4d184e2c5a6fefe": {
+  "name": "ManiNTheMidddle",
+  "batch": "14",
+  "pnl": 1.64,
+  "closed": 9,
+  "reviewed": "2026-10-14"
+ },
+ "0xd3911bd5e070c9ad9a9519c966347802d8f3b109": {
+  "name": "lfg100k",
+  "batch": "14",
+  "pnl": 10.4,
+  "closed": 48,
+  "reviewed": "2026-10-14"
+ },
+ "0x3e691e86aefed3e9181a76c714e0c81e9ec5074b": {
+  "name": "",
+  "batch": "14",
+  "pnl": 1.49,
+  "closed": 35,
+  "reviewed": "2026-10-14"
+ },
+ "0xc406a11fccbaf0df26f380f593ab08e2a70b4deb": {
+  "name": "Galaktor",
+  "batch": "14",
+  "pnl": 2.84,
+  "closed": 19,
+  "reviewed": "2026-10-14"
+ },
+ "0x0dbe4798a1719b1fc08cd3acc2369dd77c069013": {
+  "name": "brussssss",
+  "batch": "14",
+  "pnl": 3.47,
+  "closed": 23,
+  "reviewed": "2026-10-14"
+ },
+ "0x88cf4a6cd2dc68cbb3b31893c1ed3a11692060f2": {
+  "name": "",
+  "batch": "17",
+  "pnl": 2.8,
+  "closed": 5,
+  "reviewed": "2026-10-17"
+ },
+ "0x3daaab16fb3ad3ce660b881a0700c458a972524b": {
+  "name": "0x3daAaB16fb3Ad3cE660b881A0700c458A972524b-1781488757957",
+  "batch": "17",
+  "pnl": 0.34,
+  "closed": 12,
+  "reviewed": "2026-10-17"
+ },
+ "0x3d962248fd1c8b5ca3a266dc72420b690fa3b432": {
+  "name": "DiigG",
+  "batch": "18",
+  "pnl": 1.1,
+  "closed": 15,
+  "reviewed": "2026-10-18"
+ },
+ "0x234ad7ad32980d1d73a6b9e99abc8498c845a559": {
+  "name": "itisrdl",
+  "batch": "19",
+  "pnl": 4.28,
+  "closed": 9,
+  "reviewed": "2026-10-19"
+ },
+ "0x10c27abfd5561862bd99167b8e607fde0fd86406": {
+  "name": "ANDRE888",
+  "batch": "19",
+  "pnl": 14.08,
+  "closed": 47,
+  "reviewed": "2026-10-19"
+ }
+}

@@ -1,0 +1,1542 @@
+{
+"0x00c840982a21159bd108ed80e36fba9db141a75f": {
+"name": "AkjhAI",
+"strategy": "all & live & price=0.30-0.50",
+"stake": "prop",
+"maxusd": 107.6,
+"backtest": {
+"n": 22,
+"pnl": 26.26,
+"t": 2.08
+}
+},
+"0x02ecb6dfa32977253d621a8ebfa5c5937b215832": {
+"name": "LaNeraNura",
+"strategy": "cat=Esports & live",
+"stake": "prop",
+"maxusd": 27.5,
+"backtest": {
+"n": 23,
+"pnl": 13.71,
+"t": 2.08
+}
+},
+"0x04513102e072f15570a79c2cde286aef88dd3e51": {
+"name": "daisyuu",
+"strategy": "cat=Esports & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 6.0,
+"backtest": {
+"n": 26,
+"pnl": 6.55,
+"t": 2.23
+}
+},
+"0x04aa3cd3ee24e97c90b394ddbe07c5e8e0ed7916": {
+"name": "xiaokabak",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 39.78,
+"backtest": {
+"n": 10,
+"pnl": 2.9,
+"t": 9.63
+}
+},
+"0x05359552ae4ef86a778c7262140f400ed9c775cc": {
+"name": "catWOW",
+"strategy": "all & price=0.30-0.50",
+"stake": "prop",
+"maxusd": 366.0,
+"backtest": {
+"n": 10,
+"pnl": 8.79,
+"t": 2.11
+}
+},
+"0x05abd485038a7b716fb44a5d643789dd5ceaab31": {
+"name": "keilon13",
+"strategy": "all & pre & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 7.0,
+"backtest": {
+"n": 10,
+"pnl": 2.54,
+"t": 2.14
+}
+},
+"0x0b212ac35fe94b0cb624b79f3cd759b13b4e7989": {
+"name": "0x0b212AC35Fe94b0CB624b79F3Cd759b13b4e7989-1774427646568",
+"strategy": "cat=Esports & live & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "prop",
+"maxusd": 8.0,
+"backtest": {
+"n": 13,
+"pnl": 10.97,
+"t": 2.23
+}
+},
+"0x0e62cbec0f6bb938a88cc5bfcdce0c70ce030767": {
+"name": "0x0e62cBec0f6bb938a88Cc5BfcDce0C70ce030767-1761397347285",
+"strategy": "type=moneyline & live & price=0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 3.5,
+"backtest": {
+"n": 24,
+"pnl": 10.22,
+"t": 2.35
+}
+},
+"0x0e9ba4d902277d0d28de13aa471d889470b0964f": {
+"name": "0x0E9Ba4d902277d0D28de13aa471D889470b0964f-1772647324716",
+"strategy": "all",
+"stake": "fix",
+"maxusd": 34.68,
+"backtest": {
+"n": 10,
+"pnl": 5.26,
+"t": 3.24
+}
+},
+"0x1607090a57a604617ea201353c18273da59879be": {
+"name": "oshioba",
+"strategy": "all & live & price=0.10-0.30",
+"stake": "prop",
+"maxusd": 56.0,
+"backtest": {
+"n": 10,
+"pnl": 15.87,
+"t": 2.23
+}
+},
+"0x16dd0af332b1099e13841a72ba1850e87b4b8736": {
+"name": "Negrilla",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 5913.0,
+"backtest": {
+"n": 18,
+"pnl": 4.29,
+"t": 2.63
+}
+},
+"0x16de441dec79aeda351da40a72befcfd8e7d2ebd": {
+"name": "bybilsf",
+"strategy": "sub=Sports / Soccer",
+"stake": "fix",
+"maxusd": 208.89,
+"backtest": {
+"n": 12,
+"pnl": 3.93,
+"t": 6.27
+}
+},
+"0x175cd3fa3cea9b475229552e91fa84a9b5d3e90b": {
+"name": "trilloux",
+"strategy": "all & price=0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 69.4,
+"backtest": {
+"n": 11,
+"pnl": 9.43,
+"t": 3.84
+}
+},
+"0x1819b16bc00a6ffb6a42d2a74d533af6c2f7faa1": {
+"name": "",
+"strategy": "all & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 1.0,
+"backtest": {
+"n": 16,
+"pnl": 25.6,
+"t": 2.69
+}
+},
+"0x18ba6a227e43bc7b31fd098330f92f223564f577": {
+"name": "",
+"strategy": "sub=Sports / Tennis",
+"stake": "fix",
+"maxusd": 517.14,
+"backtest": {
+"n": 26,
+"pnl": 14.03,
+"t": 2.79
+}
+},
+"0x18d187c957378cbf49c5470a03698e2692bcea32": {
+"name": "",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 3294.94,
+"backtest": {
+"n": 10,
+"pnl": 5.69,
+"t": 2.05
+}
+},
+"0x1ab65e891b4581b3737b5803f85dcf103383d534": {
+"name": "Gthesssen123",
+"strategy": "cat=Esports & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 100.0,
+"backtest": {
+"n": 11,
+"pnl": 8.39,
+"t": 2.36
+}
+},
+"0x1c9cd1d1addd3b2419e8b30214ffa422b6f36469": {
+"name": "wangmingqing888",
+"strategy": "all & live & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "prop",
+"maxusd": 10.0,
+"backtest": {
+"n": 11,
+"pnl": 12.8,
+"t": 2.88
+}
+},
+"0x1d89d5fe0d915cdbc802d81ee792140dabff2b45": {
+"name": "unsuspectingmoose",
+"strategy": "type=child_moneyline & price=0.10-0.30+0.30-0.50",
+"stake": "prop",
+"maxusd": 18.56,
+"backtest": {
+"n": 11,
+"pnl": 18.72,
+"t": 3.45
+}
+},
+"0x1f83d778919db53a06122afc30b9c67bd1a1a7ad": {
+"name": "MementoFund",
+"strategy": "cat=Sports & price=0.30-0.50+0.50-0.70",
+"stake": "prop",
+"maxusd": 100.0,
+"backtest": {
+"n": 11,
+"pnl": 10.75,
+"t": 2.7
+}
+},
+"0x21675c39d2e3ddd37119b6e2392fc5f0bb0e5ded": {
+"name": "crazytestguy",
+"strategy": "type=moneyline & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 50.0,
+"backtest": {
+"n": 10,
+"pnl": 2.38,
+"t": 2.13
+}
+},
+"0x26c3f18beb125fd6e08ca07491eb67395ceae26d": {
+"name": "Thirrr",
+"strategy": "all & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 748.0,
+"backtest": {
+"n": 14,
+"pnl": 3.87,
+"t": 2.29
+}
+},
+"0x26ec7fc83d0196381d6ecd326ad6816fdb66da98": {
+"name": "jpsupert",
+"strategy": "type=moneyline & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 100.0,
+"backtest": {
+"n": 11,
+"pnl": 4.47,
+"t": 3.23
+}
+},
+"0x28125ca143822d57c6e5c3e78a1f323df1eea59f": {
+"name": "",
+"strategy": "all & live & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 1.1,
+"backtest": {
+"n": 10,
+"pnl": 4.5,
+"t": 2.64
+}
+},
+"0x2879ded7fe05df00eddbb2fba412a0d30964411a": {
+"name": "chongchong37",
+"strategy": "sub=Sports / Soccer & price=0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 1723.67,
+"backtest": {
+"n": 10,
+"pnl": 6.35,
+"t": 2.26
+}
+},
+"0x28e9c75b2d95bf0ad976b66886a9241a1f18e169": {
+"name": "BASEBASS",
+"strategy": "sub=Sports / Other sport & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 10.04,
+"backtest": {
+"n": 10,
+"pnl": 5.08,
+"t": 4.54
+}
+},
+"0x2928a12d7e6a0d0b730efb0a5dfe3d0dd67b96de": {
+"name": "HakariPlays",
+"strategy": "all & pre & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "prop",
+"maxusd": 186.75,
+"backtest": {
+"n": 12,
+"pnl": 15.94,
+"t": 2.11
+}
+},
+"0x2a4d70ad371dc6c7b19b5246ea362e72bf539eca": {
+"name": "luisgomes1205",
+"strategy": "type=moneyline & live & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 127.14,
+"backtest": {
+"n": 11,
+"pnl": 2.8,
+"t": 12.24
+}
+},
+"0x2cb887d5cc567c4a27bf9137f8917e6227cd76b4": {
+"name": "cosmid",
+"strategy": "all & pre & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 245.0,
+"backtest": {
+"n": 10,
+"pnl": 2.3,
+"t": 8.44
+}
+},
+"0x2cbf495678df119730bb9445015bac3cd2a0c134": {
+"name": "0x2Cbf495678Df119730bb9445015baC3cd2a0c134-1768145651433",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 269.3,
+"backtest": {
+"n": 10,
+"pnl": 2.46,
+"t": 7.71
+}
+},
+"0x2cf33873f4afaadfb7983f80df2180f77265de8b": {
+"name": "MCLINA",
+"strategy": "sub=Sports / Soccer & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 42.27,
+"backtest": {
+"n": 12,
+"pnl": 5.04,
+"t": 2.91
+}
+},
+"0x2de4fb429ebac56bee10dae5b84c641912457447": {
+"name": "Kingsen",
+"strategy": "type=totals",
+"stake": "prop",
+"maxusd": 328.7,
+"backtest": {
+"n": 19,
+"pnl": 6.57,
+"t": 3.03
+}
+},
+"0x30f11d145362682872b15aeced0f591c3c9de88b": {
+"name": "Duck.exe",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 12.0,
+"backtest": {
+"n": 46,
+"pnl": 4.42,
+"t": 2.24
+}
+},
+"0x32089d7b2a8db220677ac8d68fcd9f7d111607a7": {
+"name": "skippydev",
+"strategy": "all & pre & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 1624.24,
+"backtest": {
+"n": 22,
+"pnl": 23.7,
+"t": 4.0
+}
+},
+"0x326f9cbcc759620d7cc209fce907b627a63b1a19": {
+"name": "Parsaaa",
+"strategy": "type=moneyline & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 193.34,
+"backtest": {
+"n": 10,
+"pnl": 3.48,
+"t": 2.98
+}
+},
+"0x365a90ffe179dbe7551018a3482770d3a4e804f2": {
+"name": "vladz027",
+"strategy": "cat=Esports & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 10.0,
+"backtest": {
+"n": 15,
+"pnl": 4.89,
+"t": 2.05
+}
+},
+"0x3758bdeb3667170333016132b00556a8ad5e5c70": {
+"name": "123mohan",
+"strategy": "sub=Sports / Other sport & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 458.56,
+"backtest": {
+"n": 10,
+"pnl": 1.79,
+"t": 2.74
+}
+},
+"0x385c2be47524579a471ba131684f7873616b49dd": {
+"name": "",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 1.0,
+"backtest": {
+"n": 11,
+"pnl": 18.64,
+"t": 4.22
+}
+},
+"0x38f2de66652b6600646e0fe8fa57f1980c118690": {
+"name": "0x38F2DE66652B6600646e0fe8FA57F1980C118690-1772484604408",
+"strategy": "all & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 256.0,
+"backtest": {
+"n": 10,
+"pnl": 11.93,
+"t": 3.15
+}
+},
+"0x3943de87807c969cbba46eb43dc7d40addbc3c33": {
+"name": "j10alanonay",
+"strategy": "type=child_moneyline",
+"stake": "fix",
+"maxusd": 72.52,
+"backtest": {
+"n": 40,
+"pnl": 13.73,
+"t": 2.58
+}
+},
+"0x398effc0e83d4d9de57765ded19d34f26c533752": {
+"name": "bettioponomik",
+"strategy": "cat=Sports & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 15.0,
+"backtest": {
+"n": 13,
+"pnl": 1.32,
+"t": 4.67
+}
+},
+"0x3a32d6a9551f7da1c53d49c39c56a9e52be2664f": {
+"name": "egordoitnow",
+"strategy": "all & live & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 291.14,
+"backtest": {
+"n": 13,
+"pnl": 1.75,
+"t": 2.91
+}
+},
+"0x40762eaa661d319ea2252be12f461da41b768e2a": {
+"name": "methamphetamine",
+"strategy": "all & price=0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 911.95,
+"backtest": {
+"n": 11,
+"pnl": 7.91,
+"t": 2.6
+}
+},
+"0x41e2e7dda5e831c0b4465e52ef987333e8113ad5": {
+"name": "bad797",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 396.35,
+"backtest": {
+"n": 16,
+"pnl": 11.85,
+"t": 4.29
+}
+},
+"0x438a9b2ddde894595df604333d3a53c2ba8dfd91": {
+"name": "",
+"strategy": "all & live & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "prop",
+"maxusd": 1.0,
+"backtest": {
+"n": 18,
+"pnl": 52.04,
+"t": 2.61
+}
+},
+"0x466a3ae5d2c07b8d880c8100a41a001fc8f06135": {
+"name": "kokanelo",
+"strategy": "sub=Sports / Tennis & pre & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 300.0,
+"backtest": {
+"n": 10,
+"pnl": 4.16,
+"t": 2.34
+}
+},
+"0x4a1a27c4af018a874e97e551410953cb29e70208": {
+"name": "",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 9631.61,
+"backtest": {
+"n": 16,
+"pnl": 11.78,
+"t": 4.71
+}
+},
+"0x4cbb234bbefabbb46c74d39c07dc3c19eb8102a3": {
+"name": "Porymarket",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 200.0,
+"backtest": {
+"n": 12,
+"pnl": 3.78,
+"t": 3.91
+}
+},
+"0x4d1d94b64bb2ec615e76ac54d59445fe7662b968": {
+"name": "cleay",
+"strategy": "cat=Esports & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 70.0,
+"backtest": {
+"n": 34,
+"pnl": 7.47,
+"t": 2.17
+}
+},
+"0x4d3828f7f568677592894e295a76bbea15b596fd": {
+"name": "rdvnzl",
+"strategy": "cat=Sports & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 40.0,
+"backtest": {
+"n": 10,
+"pnl": 1.56,
+"t": 3.71
+}
+},
+"0x4d4815122c826e1ca6bc5d63f36e3b3a0c5c66ab": {
+"name": "deftker",
+"strategy": "all & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 1320.0,
+"backtest": {
+"n": 11,
+"pnl": 4.92,
+"t": 2.68
+}
+},
+"0x4dd25d80bec83bc40b6406acc5af78fc26099014": {
+"name": "skytrader123",
+"strategy": "sub=Sports / Basketball & live & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 300.0,
+"backtest": {
+"n": 20,
+"pnl": 6.56,
+"t": 2.37
+}
+},
+"0x4f20b24ed1b725c45cff3993a8fb9edc36158aae": {
+"name": "rubinhofurtado",
+"strategy": "sub=Sports / Soccer & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 327.97,
+"backtest": {
+"n": 14,
+"pnl": 2.25,
+"t": 10.9
+}
+},
+"0x4fae75eda4237b3ccd0d904b2e4f8112d3c424df": {
+"name": "Snmark",
+"strategy": "cat=Sports & pre",
+"stake": "fix",
+"maxusd": 693.81,
+"backtest": {
+"n": 10,
+"pnl": 4.42,
+"t": 3.07
+}
+},
+"0x5076e1d2e0b790e61f0451b618e3495dcc3fe15d": {
+"name": "xupypr95",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 121.85,
+"backtest": {
+"n": 10,
+"pnl": 2.19,
+"t": 2.97
+}
+},
+"0x512a8c4c756254444aa9f19433e785d30837121b": {
+"name": "",
+"strategy": "all & price=0.10-0.30+0.30-0.50",
+"stake": "prop",
+"maxusd": 16.4,
+"backtest": {
+"n": 17,
+"pnl": 20.98,
+"t": 2.13
+}
+},
+"0x519d8bc6b50dada268000ddf8b7dcec10b38f6f6": {
+"name": "d1straite",
+"strategy": "all & pre & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 966.99,
+"backtest": {
+"n": 10,
+"pnl": 5.99,
+"t": 2.93
+}
+},
+"0x52443c4febd50f94bd20d11bb61bcccc60574690": {
+"name": "",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 2.0,
+"backtest": {
+"n": 12,
+"pnl": 5.59,
+"t": 5.48
+}
+},
+"0x549e737bffa2495bc65dc1cc4932a6f492db7e43": {
+"name": "",
+"strategy": "all & live & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 1.0,
+"backtest": {
+"n": 10,
+"pnl": 15.46,
+"t": 2.25
+}
+},
+"0x554a1b171d969dafdd330d3a0896966ce5809d75": {
+"name": "Sgula",
+"strategy": "all",
+"stake": "prop",
+"maxusd": 1.0,
+"backtest": {
+"n": 14,
+"pnl": 30.11,
+"t": 2.02
+}
+},
+"0x55fb5fabcc31e7c8ecde3751f428a023519f1616": {
+"name": "melonjeep",
+"strategy": "all",
+"stake": "fix",
+"maxusd": 30.0,
+"backtest": {
+"n": 11,
+"pnl": 1.24,
+"t": 5.48
+}
+},
+"0x57afdfdc4dc6cf28b875f6f80e05432416e063b2": {
+"name": "",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 94.16,
+"backtest": {
+"n": 11,
+"pnl": 4.11,
+"t": 3.81
+}
+},
+"0x58b38a2f7b9ac2d6e7c8919adf0096e51f94b979": {
+"name": "",
+"strategy": "all & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 263.34,
+"backtest": {
+"n": 12,
+"pnl": 8.82,
+"t": 3.5
+}
+},
+"0x58dbf7e3a9315c3d4b2da2dd79c418ef09b1ae00": {
+"name": "kcazka2000",
+"strategy": "cat=Sports & live & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "prop",
+"maxusd": 52.71,
+"backtest": {
+"n": 11,
+"pnl": 10.67,
+"t": 4.04
+}
+},
+"0x5a8d51b398394c278e250ee618962e8b6846f736": {
+"name": "katson",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 89.0,
+"backtest": {
+"n": 11,
+"pnl": 3.65,
+"t": 2.15
+}
+},
+"0x5cb5370e28896efec04ec284cbc11ce0243c7ce9": {
+"name": "SOK0L",
+"strategy": "all & live & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 2302.0,
+"backtest": {
+"n": 11,
+"pnl": 5.24,
+"t": 2.47
+}
+},
+"0x5da6cd2742d232d8bb71d3f8e3eadc0fd567370d": {
+"name": "luckyborn",
+"strategy": "all & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 215.0,
+"backtest": {
+"n": 11,
+"pnl": 2.13,
+"t": 2.45
+}
+},
+"0x612f878a833f278a1b5a25143ddabe22bffb46bb": {
+"name": "raiden762",
+"strategy": "all & pre & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 430.24,
+"backtest": {
+"n": 10,
+"pnl": 2.87,
+"t": 5.73
+}
+},
+"0x6183af8ac1c2578a786bee8c97d0633b014c4fa8": {
+"name": "",
+"strategy": "all & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 15.0,
+"backtest": {
+"n": 10,
+"pnl": 1.58,
+"t": 2.87
+}
+},
+"0x654df05a3cb87af8ec4c6e514049298ee4bde28f": {
+"name": "Dante22",
+"strategy": "cat=Sports",
+"stake": "prop",
+"maxusd": 41.41,
+"backtest": {
+"n": 10,
+"pnl": 11.39,
+"t": 2.99
+}
+},
+"0x6a5ca57dc2e7786119f114a547d4d4ad1d4e493b": {
+"name": "MCB75",
+"strategy": "all & price=0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 2.0,
+"backtest": {
+"n": 28,
+"pnl": 16.87,
+"t": 2.75
+}
+},
+"0x6c9dd8ea180e91db924f05fffb3a58dea363d625": {
+"name": "vikinghaaland",
+"strategy": "type=moneyline & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 5.0,
+"backtest": {
+"n": 10,
+"pnl": 5.03,
+"t": 8.12
+}
+},
+"0x7146db0c4b1d110d7a5c870c5841b15e0dbfcc73": {
+"name": "jaxxx.eth",
+"strategy": "sub=Sports / Soccer & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 10.0,
+"backtest": {
+"n": 12,
+"pnl": 7.54,
+"t": 2.12
+}
+},
+"0x7673f8cafcd4b3d299b5a9744a799a88d06ffa40": {
+"name": "HELLOna",
+"strategy": "type=moneyline & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 800.0,
+"backtest": {
+"n": 11,
+"pnl": 4.55,
+"t": 5.05
+}
+},
+"0x773e5409531869c3d4c67a04770ed94296161489": {
+"name": "clarey",
+"strategy": "type=moneyline & pre & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 600.0,
+"backtest": {
+"n": 12,
+"pnl": 4.33,
+"t": 2.26
+}
+},
+"0x77a26c0f296531c41b36d221ae874adfe80e38cf": {
+"name": "frankvagin",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 241.95,
+"backtest": {
+"n": 10,
+"pnl": 2.68,
+"t": 10.19
+}
+},
+"0x77e38180b79ae5705fe21b0858122ab7235f2216": {
+"name": "sin1214",
+"strategy": "type=moneyline & live & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 54.38,
+"backtest": {
+"n": 17,
+"pnl": 6.06,
+"t": 2.92
+}
+},
+"0x78e4e2e07399e1d2d85ade10a1ad92bd82022bc0": {
+"name": "0x78E4e2e07399e1D2D85ade10a1Ad92Bd82022BC0-1771302038381",
+"strategy": "all & live",
+"stake": "prop",
+"maxusd": 3.0,
+"backtest": {
+"n": 15,
+"pnl": 16.3,
+"t": 2.52
+}
+},
+"0x81a28172ae754e5fd77d729e33a26a6dee4422d9": {
+"name": "Kaboox11",
+"strategy": "all & pre & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 20.81,
+"backtest": {
+"n": 12,
+"pnl": 4.49,
+"t": 2.84
+}
+},
+"0x8266c48476cf8972df54c25ec65f3c772a1925bb": {
+"name": "Moritz1909",
+"strategy": "sub=Sports / Soccer & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 3.0,
+"backtest": {
+"n": 10,
+"pnl": 4.85,
+"t": 2.84
+}
+},
+"0x860eda0f26b2914ad2712325708d9e1b98d6612e": {
+"name": "",
+"strategy": "all & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 1.0,
+"backtest": {
+"n": 10,
+"pnl": 10.94,
+"t": 8.47
+}
+},
+"0x8e0b4d771cb098752b43e2a9a8ca3713ed44e1e3": {
+"name": "0x8e0b4d771cb098752b43e2a9a8ca3713ed44e1e3-1791536085558",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 55.34,
+"backtest": {
+"n": 11,
+"pnl": 1.51,
+"t": 3.21
+}
+},
+"0x8e183374e4e60603cb3a572652a63432e402775b": {
+"name": "0x8E183374e4e60603CB3A572652A63432E402775B-1783309093360",
+"strategy": "type=moneyline & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 21.2,
+"backtest": {
+"n": 10,
+"pnl": 7.62,
+"t": 6.07
+}
+},
+"0x930076f1ae05b39187fc5c364ed5e2153566b42a": {
+"name": "mt1200",
+"strategy": "all & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 11.79,
+"backtest": {
+"n": 16,
+"pnl": 19.36,
+"t": 2.25
+}
+},
+"0x93bea0dc454da4990cd1e5abd238831a0a03af87": {
+"name": "0x93BeA0DC454dA4990CD1e5AbD238831A0A03AF87-1775190272577",
+"strategy": "type=moneyline & pre",
+"stake": "prop",
+"maxusd": 106.0,
+"backtest": {
+"n": 12,
+"pnl": 7.18,
+"t": 2.88
+}
+},
+"0x967df2bdcb30d3b090823463988354eb5d2fef6a": {
+"name": "786B",
+"strategy": "all & pre",
+"stake": "fix",
+"maxusd": 1000.0,
+"backtest": {
+"n": 15,
+"pnl": 2.65,
+"t": 10.26
+}
+},
+"0x98f39ae5ae174a873f60f4979620eb6d1385244d": {
+"name": "Asipbajrami",
+"strategy": "all",
+"stake": "fix",
+"maxusd": 17.47,
+"backtest": {
+"n": 10,
+"pnl": 2.52,
+"t": 2.05
+}
+},
+"0x996ca3c1692ca4ecea92df2145a272a05ae6b6ec": {
+"name": "chobits1123",
+"strategy": "type=moneyline & live & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 690.0,
+"backtest": {
+"n": 24,
+"pnl": 6.24,
+"t": 2.13
+}
+},
+"0x9dec18e915f1dea5fda2c890f43edcd63469a572": {
+"name": "PlumageAxis",
+"strategy": "all & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 60.05,
+"backtest": {
+"n": 12,
+"pnl": 8.91,
+"t": 4.63
+}
+},
+"0xa245c5a0ccd1d59766b20e560d24925295de2152": {
+"name": "danilavel",
+"strategy": "type=child_moneyline & pre & price=0.10-0.30+0.30-0.50",
+"stake": "fix",
+"maxusd": 2000.0,
+"backtest": {
+"n": 11,
+"pnl": 9.95,
+"t": 2.1
+}
+},
+"0xa28ef4607084c45cb7ecac0cc75badcdd8c01654": {
+"name": "gekuro",
+"strategy": "all & price=0.30-0.50",
+"stake": "fix",
+"maxusd": 1369.56,
+"backtest": {
+"n": 30,
+"pnl": 15.17,
+"t": 2.62
+}
+},
+"0xa317957824e0d37780973afb4aac3f5fa2f1344d": {
+"name": "alpha-bonds",
+"strategy": "all & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 1600.0,
+"backtest": {
+"n": 13,
+"pnl": 2.4,
+"t": 2.39
+}
+},
+"0xa73da13be9c13a76127c821d8ecf620ffbc02f1d": {
+"name": "",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 2.0,
+"backtest": {
+"n": 17,
+"pnl": 17.37,
+"t": 2.27
+}
+},
+"0xa7efecdc6acca0d1635bc3b8cf35e7ddc23b47d5": {
+"name": "2026sanya",
+"strategy": "all",
+"stake": "prop",
+"maxusd": 20.0,
+"backtest": {
+"n": 27,
+"pnl": 9.62,
+"t": 2.43
+}
+},
+"0xa93343d406661ee2d7c3ccc4b0337df1b07a067f": {
+"name": "",
+"strategy": "all & price=0.30-0.50+0.50-0.70",
+"stake": "prop",
+"maxusd": 110.65,
+"backtest": {
+"n": 15,
+"pnl": 4.27,
+"t": 2.74
+}
+},
+"0xab7b6b4ac0426ada55d895564bee7c26cbdaf350": {
+"name": "Kenny.Powers",
+"strategy": "type=moneyline & live & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 80.0,
+"backtest": {
+"n": 10,
+"pnl": 5.39,
+"t": 3.22
+}
+},
+"0xae0623c11184c47f556a50de78a5a80eb669be4d": {
+"name": "nannan521",
+"strategy": "type=moneyline & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 450.0,
+"backtest": {
+"n": 11,
+"pnl": 5.56,
+"t": 3.16
+}
+},
+"0xae53e52363ff16a948a9ac7ab6ac1bb05e565940": {
+"name": "flotide",
+"strategy": "sub=Sports / Baseball & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 3500.0,
+"backtest": {
+"n": 12,
+"pnl": 4.83,
+"t": 2.99
+}
+},
+"0xb06e5bc9a5fbda53b706ab53fe7229aa55e21ea2": {
+"name": "prayut",
+"strategy": "all & price=0.30-0.50",
+"stake": "fix",
+"maxusd": 49.43,
+"backtest": {
+"n": 10,
+"pnl": 11.16,
+"t": 3.01
+}
+},
+"0xb122a661fce223073ba1194a203e708b272d67f1": {
+"name": "DirtyDeedsDDC",
+"strategy": "type=child_moneyline & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 42.45,
+"backtest": {
+"n": 25,
+"pnl": 7.7,
+"t": 2.01
+}
+},
+"0xb39028a083310dcdca4cedd1346fe288049d496a": {
+"name": "",
+"strategy": "type=moneyline & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 99.84,
+"backtest": {
+"n": 20,
+"pnl": 9.57,
+"t": 2.76
+}
+},
+"0xb58167107f0fb8a7050168b0e157ebcdc84c9792": {
+"name": "0xb58167107F0FB8a7050168b0E157ebcdC84C9792-1784477873897",
+"strategy": "all",
+"stake": "fix",
+"maxusd": 117.92,
+"backtest": {
+"n": 15,
+"pnl": 7.62,
+"t": 2.24
+}
+},
+"0xb645c35734e9d22e7798a28743b95381932a0a69": {
+"name": "",
+"strategy": "all & pre & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 580.46,
+"backtest": {
+"n": 17,
+"pnl": 5.29,
+"t": 2.65
+}
+},
+"0xba3b2ab899b7202b69998a3932f9e89b94e4b741": {
+"name": "xc4040",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 894.88,
+"backtest": {
+"n": 13,
+"pnl": 12.09,
+"t": 2.54
+}
+},
+"0xbe72740753c61045cee38c87399369e1f9ba0e1f": {
+"name": "Fogao18",
+"strategy": "sub=Sports / Soccer & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 19.4,
+"backtest": {
+"n": 10,
+"pnl": 4.76,
+"t": 2.56
+}
+},
+"0xbe9c862ff205289f200e24df142bb0ced16ff9be": {
+"name": "Lightassassin",
+"strategy": "cat=Esports & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 30.0,
+"backtest": {
+"n": 11,
+"pnl": 3.47,
+"t": 2.25
+}
+},
+"0xbeca5753abf376a27edd41975c8940bb9303a1b7": {
+"name": "koriander",
+"strategy": "type=moneyline & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 11500.0,
+"backtest": {
+"n": 16,
+"pnl": 5.12,
+"t": 2.0
+}
+},
+"0xc0522c3b5bfc27a512658672fdb8ba765c3e4068": {
+"name": "Matsie1",
+"strategy": "all & live & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 10.0,
+"backtest": {
+"n": 10,
+"pnl": 7.12,
+"t": 3.42
+}
+},
+"0xc079ce0ab1b0180cf3d2e3f34c64122356bc8acc": {
+"name": "unicornpol",
+"strategy": "all & pre & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 324.0,
+"backtest": {
+"n": 11,
+"pnl": 5.48,
+"t": 2.14
+}
+},
+"0xc22ac68ac0a0e62d6118e909ecfd93507fa09cd2": {
+"name": "",
+"strategy": "type=totals & price=0.10-0.30+0.30-0.50+0.50-0.70",
+"stake": "fix",
+"maxusd": 133.72,
+"backtest": {
+"n": 11,
+"pnl": 5.58,
+"t": 29.66
+}
+},
+"0xc65325afbf63f95243da9e738aa4c7435a21300d": {
+"name": "dveply",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 1586.51,
+"backtest": {
+"n": 14,
+"pnl": 3.13,
+"t": 9.19
+}
+},
+"0xc83d1dd9c510fccb07174ad7556289af24ba6b9c": {
+"name": "fl8732therealg",
+"strategy": "all & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 300.0,
+"backtest": {
+"n": 22,
+"pnl": 7.46,
+"t": 2.29
+}
+},
+"0xc8da2c374164c6cc7a5faa91af4e0a50eca8b9c7": {
+"name": "winningbob",
+"strategy": "type=moneyline & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 28.0,
+"backtest": {
+"n": 12,
+"pnl": 5.4,
+"t": 2.12
+}
+},
+"0xc8dbeedb61db26f507fead890f3f1cf696e954e8": {
+"name": "fly110",
+"strategy": "cat=Sports",
+"stake": "prop",
+"maxusd": 92.95,
+"backtest": {
+"n": 14,
+"pnl": 5.14,
+"t": 4.7
+}
+},
+"0xcd2cf8b59b03f002cf8fa77ded11661424470c32": {
+"name": "",
+"strategy": "cat=Sports & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 5.77,
+"backtest": {
+"n": 10,
+"pnl": 2.26,
+"t": 4.3
+}
+},
+"0xd297e204916d54050c584c092bceb23291fd1178": {
+"name": "",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 2.0,
+"backtest": {
+"n": 10,
+"pnl": 2.95,
+"t": 13.64
+}
+},
+"0xd35ac982895d237fb10c390e7a0200a48e099328": {
+"name": "",
+"strategy": "type=moneyline",
+"stake": "fix",
+"maxusd": 3537.73,
+"backtest": {
+"n": 11,
+"pnl": 7.55,
+"t": 2.59
+}
+},
+"0xd55b1a61c4a16d6e085b8f1cc165e9869056a3e6": {
+"name": "",
+"strategy": "all & live & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 2.0,
+"backtest": {
+"n": 11,
+"pnl": 4.99,
+"t": 2.05
+}
+},
+"0xd62c852d4d70052471b2814b29be208c9eb3dfcc": {
+"name": "0xd62c852D4D70052471b2814B29BE208c9eb3DFcc-1790956147852",
+"strategy": "type=moneyline & live & price=0.10-0.30+0.30-0.50",
+"stake": "prop",
+"maxusd": 247.72,
+"backtest": {
+"n": 10,
+"pnl": 6.18,
+"t": 2.05
+}
+},
+"0xd67026079332e6f9d34f4585de2e6a0e1d8ab24e": {
+"name": "itwasawholething",
+"strategy": "all & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 703.15,
+"backtest": {
+"n": 11,
+"pnl": 5.04,
+"t": 3.55
+}
+},
+"0xd6773adcdbb1f16be8ea324044df445a8fcbaa0e": {
+"name": "marwan99",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 20.0,
+"backtest": {
+"n": 10,
+"pnl": 4.25,
+"t": 2.2
+}
+},
+"0xd6f7a6da1e4fa77ed8b8cb02d4ed0c44ebc53a15": {
+"name": "tuzik228",
+"strategy": "all & live & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 59.31,
+"backtest": {
+"n": 14,
+"pnl": 7.43,
+"t": 3.62
+}
+},
+"0xd817d70b67b6e2125dd23d1bdb48e91f057fda17": {
+"name": "KoKoKo-Ko-",
+"strategy": "all",
+"stake": "prop",
+"maxusd": 400.0,
+"backtest": {
+"n": 10,
+"pnl": 26.43,
+"t": 2.21
+}
+},
+"0xd8b989dc2772a23005a29f79892a847a41f35397": {
+"name": "TheShadM",
+"strategy": "all & live & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 23.77,
+"backtest": {
+"n": 12,
+"pnl": 4.65,
+"t": 2.01
+}
+},
+"0xd93a29c170a5b65fb020bb55ba4a4dadbd1ab59d": {
+"name": "TheKrysa",
+"strategy": "cat=Sports & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 98.25,
+"backtest": {
+"n": 38,
+"pnl": 5.69,
+"t": 2.39
+}
+},
+"0xdc76b0c165a0d7d6997d57fd11217e13baefd308": {
+"name": "happy1916",
+"strategy": "type=moneyline & pre & price=0.10-0.30+0.30-0.50",
+"stake": "fix",
+"maxusd": 20.0,
+"backtest": {
+"n": 10,
+"pnl": 4.86,
+"t": 3.65
+}
+},
+"0xdd5db012cb168a94983b6b751f3f415eb2f41614": {
+"name": "0xSuperRekt",
+"strategy": "all & price=0.10-0.30+0.30-0.50",
+"stake": "prop",
+"maxusd": 165.0,
+"backtest": {
+"n": 23,
+"pnl": 19.06,
+"t": 2.31
+}
+},
+"0xe0a0e8ee0d0041d8f21b32107784376ec6ee97c5": {
+"name": "teemo1",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 20.0,
+"backtest": {
+"n": 67,
+"pnl": 40.87,
+"t": 2.38
+}
+},
+"0xe1487dd4476fe646a4c8ff438e8bece59e209f95": {
+"name": "",
+"strategy": "cat=Esports & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 30.0,
+"backtest": {
+"n": 10,
+"pnl": 2.54,
+"t": 2.07
+}
+},
+"0xe20a6835a481316ed9f3bcab650bf4036595a130": {
+"name": "Makeitsimple",
+"strategy": "all & live & price=0.30-0.50",
+"stake": "fix",
+"maxusd": 2200.0,
+"backtest": {
+"n": 18,
+"pnl": 12.94,
+"t": 2.68
+}
+},
+"0xe222838a409719fcbca354f8412235f09ada6019": {
+"name": "Cwoeigj",
+"strategy": "all & price=0.50-0.70",
+"stake": "prop",
+"maxusd": 1570.75,
+"backtest": {
+"n": 10,
+"pnl": 5.12,
+"t": 2.0
+}
+},
+"0xe670ded3a70a457fa74cb8672e18dce4077fbf70": {
+"name": "kw73fgt",
+"strategy": "cat=Sports & price=0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 4.43,
+"backtest": {
+"n": 24,
+"pnl": 7.2,
+"t": 2.16
+}
+},
+"0xe6e4b7b7bcbeb2bcdd55d7d05871e52c78abce20": {
+"name": "0x7E2eca4FDc6Df066a3f50054A8824485fb3cB8d3-1777503653286",
+"strategy": "all",
+"stake": "fix",
+"maxusd": 977.39,
+"backtest": {
+"n": 15,
+"pnl": 7.19,
+"t": 2.13
+}
+},
+"0xeb7339c10140aed7975b19dd7a59fe127cead1ae": {
+"name": "Skrapt",
+"strategy": "cat=Sports & pre & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 102.22,
+"backtest": {
+"n": 15,
+"pnl": 9.6,
+"t": 2.23
+}
+},
+"0xef34794efd777d5b7d32a497b47ce1d4a70c0ff6": {
+"name": "",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 856.34,
+"backtest": {
+"n": 15,
+"pnl": 9.82,
+"t": 3.63
+}
+},
+"0xf0ef71625df56a409e16bb0f19e71be965afc822": {
+"name": "RiftLost",
+"strategy": "all & price=0.70-0.90",
+"stake": "fix",
+"maxusd": 1000.0,
+"backtest": {
+"n": 16,
+"pnl": 4.03,
+"t": 11.24
+}
+},
+"0xf1fd5089551f8c4615613f667525f671fbe2a409": {
+"name": "Cbvelho",
+"strategy": "all & price=0.30-0.50+0.50-0.70+0.70-0.90",
+"stake": "fix",
+"maxusd": 190.44,
+"backtest": {
+"n": 13,
+"pnl": 1.32,
+"t": 2.3
+}
+},
+"0xf72a72c448c0c78fd38ecdc6bd7ffc49c107afb4": {
+"name": "",
+"strategy": "all & price=0.50-0.70+0.70-0.90",
+"stake": "prop",
+"maxusd": 1.0,
+"backtest": {
+"n": 12,
+"pnl": 23.28,
+"t": 6.83
+}
+},
+"0xfc4be0253d21d0a02f1b95362e5e947a8789c865": {
+"name": "vozduhair",
+"strategy": "type=tennis_match_totals & price=0.50-0.70",
+"stake": "fix",
+"maxusd": 29.21,
+"backtest": {
+"n": 11,
+"pnl": 6.65,
+"t": 3.65
+}
+},
+"0xfc5629fc57e20e0d412c7d59e70c5f2aef42416f": {
+"name": "0xFC5629FC57e20e0D412c7d59e70c5F2Aef42416f-1775578374760",
+"strategy": "type=moneyline & price=0.70-0.90",
+"stake": "prop",
+"maxusd": 10.0,
+"backtest": {
+"n": 16,
+"pnl": 2.84,
+"t": 2.06
+}
+}
+}
