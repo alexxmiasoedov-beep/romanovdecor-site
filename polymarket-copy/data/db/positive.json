@@ -208,5 +208,19 @@
   "pnl": 1.1,
   "closed": 15,
   "reviewed": "2026-10-18"
+ },
+ "0x234ad7ad32980d1d73a6b9e99abc8498c845a559": {
+  "name": "itisrdl",
+  "batch": "19",
+  "pnl": 4.28,
+  "closed": 9,
+  "reviewed": "2026-10-19"
+ },
+ "0x10c27abfd5561862bd99167b8e607fde0fd86406": {
+  "name": "ANDRE888",
+  "batch": "19",
+  "pnl": 14.08,
+  "closed": 47,
+  "reviewed": "2026-10-19"
  }
 }
