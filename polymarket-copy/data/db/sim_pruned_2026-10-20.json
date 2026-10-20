@@ -1,0 +1,1128 @@
+{
+ "0xb75f808fd17210711157eaa9ee3800d05f56a70b": {
+  "name": "wi53of",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -1.0,
+  "closed": 1,
+  "open": 0,
+  "segments": [
+   "Sports"
+  ]
+ },
+ "0x0b78daa1212b7a3e9df1de92c8a3a2ee76ff9992": {
+  "name": "weizhengwei",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -3.25,
+  "closed": 14,
+  "open": 0,
+  "segments": [
+   "Sports / Basketball / price=0.50-0.70",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x2da245862be758df3908195772b1b06ef4808c2b": {
+  "name": "vitbash",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -9.79,
+  "closed": 30,
+  "open": 1,
+  "segments": [
+   "Esports / Esports / price=0.50-0.70",
+   "Esports / price=0.50-0.70"
+  ]
+ },
+ "0x971add7b52131edcc061529addeec1eb9d9d8e09": {
+  "name": "beth94",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -0.03,
+  "closed": 0,
+  "open": 1,
+  "segments": [
+   "Sports / Soccer / type=moneyline"
+  ]
+ },
+ "0x5f4a0508541e6930f13bc679851dedeb18699484": {
+  "name": "rubenoved",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -7.53,
+  "closed": 56,
+  "open": 2,
+  "segments": [
+   "Esports / Esports / Counter Strike",
+   "Esports / Esports / price=0.50-0.70",
+   "Esports / price=0.50-0.70"
+  ]
+ },
+ "0x3689ca03139f0c48947534ab2e919f5300e909aa": {
+  "name": "0x3689cA03139f0C48947534aB2E919F5300E909aA-1781798427541",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -1.78,
+  "closed": 172,
+  "open": 0,
+  "segments": [
+   "Sports / price=0.70-0.90"
+  ]
+ },
+ "0x0f903bf898c30d42c455613ae7102ac1ba1ca39f": {
+  "name": "0X037",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -2.48,
+  "closed": 12,
+  "open": 2,
+  "segments": [
+   "Esports / Esports / price=0.70-0.90",
+   "Esports / price=0.70-0.90"
+  ]
+ },
+ "0xf34bbd65039f653889d863729b419cc974ffbcb3": {
+  "name": "margin-wise",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -12.89,
+  "closed": 85,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / type=child_moneyline"
+  ]
+ },
+ "0xdd517b727b1445d9744d23bba5856dd06e5f1041": {
+  "name": "0xdd517b727B1445d9744D23BBa5856dd06E5F1041-1776442164856",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -5.46,
+  "closed": 13,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / La Liga 2025"
+  ]
+ },
+ "0xaab18830506d45d582007ff27cb35f3038d29678": {
+  "name": "veys",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -3.29,
+  "closed": 67,
+  "open": 0,
+  "segments": [
+   "Sports / Basketball / price=0.70-0.90",
+   "Sports / Basketball / type=moneyline"
+  ]
+ },
+ "0xd13e1585ab393467fe2351e6a9b4801f5b19f2d6": {
+  "name": "Elia12",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -7.58,
+  "closed": 93,
+  "open": 0,
+  "segments": [
+   "Sports / Other sport / Japan J League"
+  ]
+ },
+ "0x565bedc122552e6824098088c9158ec8179bfa9b": {
+  "name": "Piter",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -4.51,
+  "closed": 46,
+  "open": 0,
+  "segments": [
+   "Sports / American Football / NFL",
+   "Sports / Soccer / La Liga 2025"
+  ]
+ },
+ "0x974091fbc1dcd95cad40cf75ae142e6d89fa38af": {
+  "name": "aminmb21",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -5.9,
+  "closed": 45,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / pre"
+  ]
+ },
+ "0xf7dbb3d567fea98e1bf59538e1461f741eb0d23a": {
+  "name": "Brian88888",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -0.07,
+  "closed": 102,
+  "open": 3,
+  "segments": [
+   "Sports / Tennis / ATP",
+   "Sports / Tennis / price=0.50-0.70"
+  ]
+ },
+ "0x423f0b745b2952951b4a7d785c7a96e520c63993": {
+  "name": "longyi97",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -1.94,
+  "closed": 29,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0xbf39c303bb8b7f061e3721fa14bf781a590f3394": {
+  "name": "parlq",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -5.32,
+  "closed": 224,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / price=0.70-0.90",
+   "Esports / price=0.70-0.90"
+  ]
+ },
+ "0x61a81cff39f833a84cdff8cb68b86b08733c519d": {
+  "name": "jean01101",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -17.22,
+  "closed": 65,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / League of Legends",
+   "Sports / Tennis / League of Legends"
+  ]
+ },
+ "0x791e45264c99eecaeb095caea9ad863740d29bda": {
+  "name": "easymoneysniperzz",
+  "batch": "1",
+  "days": 28.3,
+  "pnl": -4.36,
+  "closed": 40,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / type=map_handicap"
+  ]
+ },
+ "0x4a1b8e8d38aecdc9687bb0f601801d59fa44724f": {
+  "name": "ox1star84",
+  "batch": "2",
+  "days": 26.3,
+  "pnl": -4.91,
+  "closed": 10,
+  "open": 1,
+  "segments": [
+   "Sports",
+   "Sports / MMA/Boxing",
+   "Sports / MMA/Boxing / UFC",
+   "Sports / MMA/Boxing / pre",
+   "Sports / MMA/Boxing / price=0.70-0.90",
+   "Sports / MMA/Boxing / type=moneyline"
+  ]
+ },
+ "0xc3f119fe0be9b7c3631332b2bc0ead67311e8391": {
+  "name": "whataretheoddss",
+  "batch": "2",
+  "days": 26.3,
+  "pnl": -0.83,
+  "closed": 20,
+  "open": 1,
+  "segments": [
+   "Esports / Esports / price=0.50-0.70",
+   "Esports / price=0.50-0.70"
+  ]
+ },
+ "0xe478d4ca1c959e78f4ad9e563b134c54363128ea": {
+  "name": "gmomoney",
+  "batch": "3",
+  "days": 24.1,
+  "pnl": -2.13,
+  "closed": 11,
+  "open": 16,
+  "segments": [
+   "Sports",
+   "Sports / American Football / price=0.50-0.70",
+   "Sports / Baseball / type=moneyline",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x56dc1f57f224d88fc988444d765ffda09c78d397": {
+  "name": "attract",
+  "batch": "3",
+  "days": 24.1,
+  "pnl": -3.23,
+  "closed": 31,
+  "open": 2,
+  "segments": [
+   "Sports",
+   "Sports / Soccer",
+   "Sports / Soccer / pre",
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / Soccer / type=both_teams_to_score",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x19f3ab1ed7c34f6e389ea267f27e83b87b2f4a8d": {
+  "name": "brigandine1",
+  "batch": "3",
+  "days": 24.1,
+  "pnl": -4.55,
+  "closed": 32,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x7714c16f86bcfdba47bfcb161dc39a2a1ff2b814": {
+  "name": "llllllIIIIIIlIllllllIIIIIIlIllllllIIIIIIlI",
+  "batch": "3",
+  "days": 24.1,
+  "pnl": -1.87,
+  "closed": 176,
+  "open": 9,
+  "segments": [
+   "Sports",
+   "Sports / Soccer",
+   "Sports / Soccer / live",
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / Soccer / type=moneyline",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x36567ae38757008cee2cbbcdabbf870822b16a0c": {
+  "name": "Steijn123.",
+  "batch": "4",
+  "days": 23.4,
+  "pnl": -15.23,
+  "closed": 76,
+  "open": 0,
+  "segments": [
+   "Sports",
+   "Sports / Other sport"
+  ]
+ },
+ "0x7a741fb44f513f3ad715b2e98ddfc24ad3644c57": {
+  "name": "charlo7928",
+  "batch": "4",
+  "days": 23.4,
+  "pnl": -3.92,
+  "closed": 7,
+  "open": 0,
+  "segments": [
+   "Sports / MMA/Boxing",
+   "Sports / MMA/Boxing / UFC",
+   "Sports / MMA/Boxing / type=moneyline"
+  ]
+ },
+ "0xaa903818f3f2d6fb6790cc55672bb99ab734c709": {
+  "name": "Giannis34x",
+  "batch": "5",
+  "days": 22.4,
+  "pnl": -11.94,
+  "closed": 39,
+  "open": 4,
+  "segments": [
+   "Sports",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0xa64b1bc8f8fd581f9609b7fbe55c96f2ab9fe453": {
+  "name": "101dalmatians",
+  "batch": "5",
+  "days": 22.4,
+  "pnl": -8.5,
+  "closed": 53,
+  "open": 1,
+  "segments": [
+   "Esports",
+   "Esports / Esports",
+   "Esports / Esports / Counter Strike",
+   "Esports / Esports / live",
+   "Esports / Esports / price=0.30-0.50",
+   "Esports / price=0.30-0.50"
+  ]
+ },
+ "0xcb7ff0ad390ca732ff9d54f5f6da58888046824b": {
+  "name": "silentvector10",
+  "batch": "5",
+  "days": 22.4,
+  "pnl": -2.59,
+  "closed": 25,
+  "open": 1,
+  "segments": [
+   "Sports / American Football / type=moneyline",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0xd38ad20037839959d89165cf448568d584b28d26": {
+  "name": "johnny234",
+  "batch": "5",
+  "days": 22.4,
+  "pnl": -0.06,
+  "closed": 21,
+  "open": 0,
+  "segments": [
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x13ce0f6f73a83a2be1eb484c91169c2bd5b935f0": {
+  "name": "mozak",
+  "batch": "6",
+  "days": 21.4,
+  "pnl": -1.3,
+  "closed": 16,
+  "open": 1,
+  "segments": [
+   "Sports / Tennis / price=0.70-0.90"
+  ]
+ },
+ "0x776713e6791578ffa93fb6cc81da941dd4334fb2": {
+  "name": "0x776713E6791578FFA93Fb6cc81da941dD4334fB2-1769702052456",
+  "batch": "6",
+  "days": 21.4,
+  "pnl": -13.88,
+  "closed": 39,
+  "open": 0,
+  "segments": [
+   "Esports",
+   "Esports / Esports",
+   "Esports / Esports / live",
+   "Esports / Esports / type=moneyline"
+  ]
+ },
+ "0x2edd21765f4ec11beb6e36b02324a6f6f33ce968": {
+  "name": "wally77777",
+  "batch": "7",
+  "days": 20.4,
+  "pnl": -1.51,
+  "closed": 3,
+  "open": 0,
+  "segments": [
+   "Sports",
+   "Sports / Baseball",
+   "Sports / Baseball / MLB",
+   "Sports / Baseball / price=0.30-0.50",
+   "Sports / Baseball / type=moneyline",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0x44d682939eb6a4a1349fa50411531876a6089858": {
+  "name": "BobMcAdoo",
+  "batch": "7",
+  "days": 20.4,
+  "pnl": -0.5,
+  "closed": 5,
+  "open": 0,
+  "segments": [
+   "Sports / Hockey",
+   "Sports / Hockey / NHL 2026",
+   "Sports / Hockey / pre"
+  ]
+ },
+ "0xa6f3d2650a19386887ba4c17c672c2b0a84da946": {
+  "name": "",
+  "batch": "7",
+  "days": 20.4,
+  "pnl": -7.84,
+  "closed": 64,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / Counter Strike",
+   "Sports / Soccer / type=moneyline"
+  ]
+ },
+ "0x6580ee60b526c9f7e3c3418faec466824caa96e5": {
+  "name": "Staticglasshouse",
+  "batch": "7",
+  "days": 20.4,
+  "pnl": -1.24,
+  "closed": 17,
+  "open": 5,
+  "segments": [
+   "Sports / Other sport / Elon Tweets 48H"
+  ]
+ },
+ "0x9fd0170e55c00ffb1bf7218ccdbfc4d9048afe4f": {
+  "name": "0x9Fd0170e55C00FFb1bF7218CCDbFC4D9048afe4F-1780308598736",
+  "batch": "7",
+  "days": 20.4,
+  "pnl": -2.38,
+  "closed": 31,
+  "open": 0,
+  "segments": [
+   "Sports / price=0.70-0.90"
+  ]
+ },
+ "0x63808949537e0a49ada6e63a9ef54a3334f7e633": {
+  "name": "",
+  "batch": "8",
+  "days": 19.4,
+  "pnl": -0.31,
+  "closed": 9,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer",
+   "Sports / Soccer / pre",
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / Soccer / type=moneyline",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x1a3d2bfc95e79a6fa8baf0716f4feddc8c12a116": {
+  "name": "Moo11",
+  "batch": "9",
+  "days": 18.4,
+  "pnl": -0.93,
+  "closed": 43,
+  "open": 5,
+  "segments": [
+   "Sports",
+   "Sports / Soccer",
+   "Sports / Soccer / pre",
+   "Sports / Soccer / type=moneyline"
+  ]
+ },
+ "0x7472de5417d6fbfa4a432721a9bf7cf006175349": {
+  "name": "muyou813",
+  "batch": "9",
+  "days": 18.4,
+  "pnl": -2.34,
+  "closed": 12,
+  "open": 0,
+  "segments": [
+   "Esports",
+   "Esports / Esports",
+   "Esports / Esports / League of Legends",
+   "Esports / Esports / live"
+  ]
+ },
+ "0xfd8ff771a52c22a8a29a3156572d9b3e47fd761d": {
+  "name": "",
+  "batch": "10",
+  "days": 17.4,
+  "pnl": -1.59,
+  "closed": 40,
+  "open": 0,
+  "segments": [
+   "Sports / American Football / type=spreads"
+  ]
+ },
+ "0x097bc96aa01bdc70705b8bdc86c9527265582907": {
+  "name": "acey17",
+  "batch": "10",
+  "days": 17.4,
+  "pnl": -4.22,
+  "closed": 15,
+  "open": 0,
+  "segments": [
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0x83b89593ff4dc69543ee87bdd2717e4c22c1c300": {
+  "name": "0x83b89593fF4Dc69543Ee87BDD2717e4c22C1c300-1759035755012",
+  "batch": "11",
+  "days": 16.4,
+  "pnl": -0.51,
+  "closed": 5,
+  "open": 1,
+  "segments": [
+   "Sports",
+   "Sports / MMA/Boxing",
+   "Sports / MMA/Boxing / UFC"
+  ]
+ },
+ "0x339a9ace6a1950797b8e0a50a125b5b4e23c6a00": {
+  "name": "superlarry",
+  "batch": "11",
+  "days": 16.4,
+  "pnl": -2.34,
+  "closed": 34,
+  "open": 2,
+  "segments": [
+   "Sports / Tennis / pre"
+  ]
+ },
+ "0x224b16b3c67ad51f6302eab010a9e8f540a88927": {
+  "name": "hitaobicho",
+  "batch": "11",
+  "days": 16.4,
+  "pnl": -3.41,
+  "closed": 6,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / pre",
+   "Esports / Esports / type=map_handicap"
+  ]
+ },
+ "0x3c14d6729861ea0dd9a7cd246a79280a0ceca20a": {
+  "name": "KVBA7",
+  "batch": "12",
+  "days": 15.3,
+  "pnl": -0.97,
+  "closed": 3,
+  "open": 0,
+  "segments": [
+   "Sports",
+   "Sports / Other sport",
+   "Sports / Other sport / live",
+   "Sports / Other sport / type=binary",
+   "Sports / Soccer",
+   "Sports / price=0.70-0.90"
+  ]
+ },
+ "0xf13dd60c30d95129690fc58e8e3784110167afc3": {
+  "name": "EdgeBot1",
+  "batch": "13",
+  "days": 14.3,
+  "pnl": -5.17,
+  "closed": 15,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer",
+   "Sports / Soccer / pre"
+  ]
+ },
+ "0x52bf12a2afc2e161120563352faa8aa251c93e9f": {
+  "name": "thparvej24",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -2.95,
+  "closed": 10,
+  "open": 0,
+  "segments": [
+   "Sports",
+   "Sports / Soccer",
+   "Sports / Soccer / live",
+   "Sports / Soccer / type=moneyline",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0xc0d5e31d1a5e91dc36dfa5c3d4d184e2c5a6fefe": {
+  "name": "ManiNTheMidddle",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -4.52,
+  "closed": 23,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / price=0.30-0.50",
+   "Esports / price=0.30-0.50"
+  ]
+ },
+ "0xe645f56c0c355567c59ad3ba045568017b8101d3": {
+  "name": "",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -2.98,
+  "closed": 12,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / pre",
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x346403e31069abc77d4341be9690b23def01890d": {
+  "name": "PaDeH",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -2.69,
+  "closed": 3,
+  "open": 0,
+  "segments": [
+   "Sports / Other sport / price=0.10-0.30"
+  ]
+ },
+ "0x093506de4a173bd4ea393a7cf5393495df14d9ef": {
+  "name": "xxyr",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -4.04,
+  "closed": 38,
+  "open": 0,
+  "segments": [
+   "Sports / price=0.70-0.90"
+  ]
+ },
+ "0xfe233dda1ca840ca86808d6f43f54ea84ed85072": {
+  "name": "Tom5737",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -0.27,
+  "closed": 7,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / type=totals"
+  ]
+ },
+ "0xcfae0acbdaa00028945da2df935496d7d35074e3": {
+  "name": "0xcfae0acBdaa00028945Da2dF935496D7d35074E3-1776430522638",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -1.71,
+  "closed": 15,
+  "open": 1,
+  "segments": [
+   "Sports",
+   "Sports / Soccer",
+   "Sports / Soccer / pre",
+   "Sports / Soccer / type=moneyline"
+  ]
+ },
+ "0x758f40d5c4a76350096f3deaa0d016ed52efdfb7": {
+  "name": "0nglee",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -3.23,
+  "closed": 39,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / type=moneyline"
+  ]
+ },
+ "0x2d51fbb5706bfe7ab7d21853fc054f0a17d4d971": {
+  "name": "fFffffFFFfFFFfFFFFfjjh",
+  "batch": "14",
+  "days": 13.3,
+  "pnl": -1.0,
+  "closed": 6,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / price=0.30-0.50",
+   "Esports / price=0.30-0.50"
+  ]
+ },
+ "0xe504ebaecb472a5860ea78b2171c1d19c0182f29": {
+  "name": "AchanM",
+  "batch": "15",
+  "days": 12.3,
+  "pnl": -1.49,
+  "closed": 7,
+  "open": 0,
+  "segments": [
+   "Esports",
+   "Esports / Esports",
+   "Esports / Esports / Counter Strike",
+   "Esports / Esports / type=moneyline"
+  ]
+ },
+ "0x0f1879b51ce62999d9685111c2505ff2fe7bae1f": {
+  "name": "",
+  "batch": "15",
+  "days": 12.3,
+  "pnl": -0.43,
+  "closed": 4,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / Dota 2",
+   "Esports / Esports / live",
+   "Esports / Esports / type=child_moneyline"
+  ]
+ },
+ "0x9a0382d40710ad33818307a4c9213bc424b786dc": {
+  "name": "touxie",
+  "batch": "15",
+  "days": 12.3,
+  "pnl": -0.13,
+  "closed": 7,
+  "open": 0,
+  "segments": [
+   "Politics / Tweet Markets / price=0.70-0.90",
+   "Politics / price=0.70-0.90"
+  ]
+ },
+ "0x87b51dda6918015dd1cf9837be13bf604f698395": {
+  "name": "0x87b51DdA6918015dD1Cf9837bE13BF604f698395-1772022034279",
+  "batch": "15",
+  "days": 12.3,
+  "pnl": -7.86,
+  "closed": 111,
+  "open": 0,
+  "segments": [
+   "Sports / Other sport",
+   "Sports / Other sport / price=0.70-0.90",
+   "Sports / Other sport / type=totals"
+  ]
+ },
+ "0xe990e8a448f937cd24c07f204fa33b92750bd17b": {
+  "name": "petryan-639",
+  "batch": "16",
+  "days": 11.3,
+  "pnl": -14.02,
+  "closed": 88,
+  "open": 0,
+  "segments": [
+   "Esports",
+   "Esports / Esports",
+   "Esports / Esports / Dota 2",
+   "Esports / Esports / live",
+   "Esports / Esports / type=moneyline"
+  ]
+ },
+ "0x7f816f5263e107c7995eac8cfbce4920161c6083": {
+  "name": "",
+  "batch": "16",
+  "days": 11.3,
+  "pnl": -0.7,
+  "closed": 2,
+  "open": 0,
+  "segments": [
+   "Esports / Esports / Dota 2"
+  ]
+ },
+ "0xb569786bcb19be651f97d420dd956c5f27f56fe0": {
+  "name": "SemperFi2k",
+  "batch": "16",
+  "days": 11.3,
+  "pnl": -0.21,
+  "closed": 5,
+  "open": 1,
+  "segments": [
+   "Esports / Esports / type=child_moneyline"
+  ]
+ },
+ "0xa4e37c28e82775164a1523ed96b98365a40b34e6": {
+  "name": "cryptocrazySR",
+  "batch": "17",
+  "days": 10.3,
+  "pnl": -1.26,
+  "closed": 4,
+  "open": 2,
+  "segments": [
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0x3daaab16fb3ad3ce660b881a0700c458a972524b": {
+  "name": "0x3daAaB16fb3Ad3cE660b881A0700c458A972524b-1781488757957",
+  "batch": "17",
+  "days": 10.3,
+  "pnl": -1.23,
+  "closed": 23,
+  "open": 0,
+  "segments": [
+   "Sports / Tennis / price=0.50-0.70"
+  ]
+ },
+ "0xdfe23feed07253802f68688506218be25cc97e2b": {
+  "name": "Slimshabi",
+  "batch": "17",
+  "days": 10.3,
+  "pnl": -0.01,
+  "closed": 15,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / pre"
+  ]
+ },
+ "0x9438993c2dee5269b59db70eab3a04abd1243d6a": {
+  "name": "dddxdd",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -0.72,
+  "closed": 2,
+  "open": 0,
+  "segments": [
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x44f6ee918b166a82b0f5f06db40f397e759f2c1e": {
+  "name": "poxxiy",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -3.53,
+  "closed": 14,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / price=0.30-0.50",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0xa906e4dee4c8e67e77aca6efe36ba06d2039ff14": {
+  "name": "mugendivincent312",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -2.1,
+  "closed": 14,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / price=0.30-0.50",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0xacfff0dfbd37a70b35b213ecfcdf4526e67a4176": {
+  "name": "sotamiz1122",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -3.53,
+  "closed": 14,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / FIFA World Cup"
+  ]
+ },
+ "0xa0961a0809562ca384a5ac8f9e6acbc2109b31d6": {
+  "name": "szpengbobob",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -3.1,
+  "closed": 15,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / FIFA World Cup",
+   "Sports / Soccer / price=0.30-0.50",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0xd523d04220b43a41555424346fb088342751ce65": {
+  "name": "lalji2h",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -3.1,
+  "closed": 15,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / price=0.30-0.50",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0x43e510779f7944eddf67a64fd8bf523e51ec118c": {
+  "name": "kwa632462",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -2.12,
+  "closed": 14,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / price=0.30-0.50",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0x45e0891e84cdcbf2451cad0100b8787aaeda9586": {
+  "name": "tulaevyoqub06",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -2.08,
+  "closed": 14,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer / price=0.30-0.50",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0x6170dc7e7b7db8676d37edc3843304d2e49af3fd": {
+  "name": "lustra123",
+  "batch": "18",
+  "days": 9.3,
+  "pnl": -1.0,
+  "closed": 1,
+  "open": 0,
+  "segments": [
+   "Sports",
+   "Sports / Tennis",
+   "Sports / Tennis / ATP",
+   "Sports / Tennis / live",
+   "Sports / Tennis / price=0.30-0.50",
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0xf52427c34c4042665863515f89c5b3f638125b3a": {
+  "name": "AgataNetwork",
+  "batch": "19",
+  "days": 8.3,
+  "pnl": -1.2,
+  "closed": 4,
+  "open": 0,
+  "segments": [
+   "Sports / Basketball / pre"
+  ]
+ },
+ "0xe628f2663ad073f77c6ea67867f90d27fa2a0024": {
+  "name": "thb9037",
+  "batch": "19",
+  "days": 8.3,
+  "pnl": -4.32,
+  "closed": 37,
+  "open": 2,
+  "segments": [
+   "Esports / Esports / Valorant"
+  ]
+ },
+ "0xf765ab3b0652bf5919267dfb34b0a735d0f5752c": {
+  "name": "peliasf7",
+  "batch": "20",
+  "days": 7.3,
+  "pnl": -0.6,
+  "closed": 3,
+  "open": 1,
+  "segments": [
+   "Crypto",
+   "Crypto / Bitcoin",
+   "Crypto / Bitcoin / BTC Multi Strikes Weekly",
+   "Crypto / Bitcoin / price=0.50-0.70",
+   "Crypto / Bitcoin / type=binary",
+   "Crypto / price=0.50-0.70"
+  ]
+ },
+ "0x85164d78aa4c8c2431ad451f9ee96faa97a62957": {
+  "name": "",
+  "batch": "20",
+  "days": 7.3,
+  "pnl": -1.42,
+  "closed": 26,
+  "open": 0,
+  "segments": []
+ },
+ "0x75eec3edfdb7ffdcbdf80356eecffdf84ef576e1": {
+  "name": "0x4E4791190A23380576033adD5459a09fd41aa72A-1771581891454",
+  "batch": "20",
+  "days": 7.3,
+  "pnl": -0.03,
+  "closed": 0,
+  "open": 1,
+  "segments": [
+   "Sports / price=0.30-0.50"
+  ]
+ },
+ "0x9e7dcedc785d7f5497e715bca0335a9673e24368": {
+  "name": "vinbot2",
+  "batch": "20",
+  "days": 7.3,
+  "pnl": -1.81,
+  "closed": 8,
+  "open": 1,
+  "segments": [
+   "Sports / Basketball / pre"
+  ]
+ },
+ "0x49175d7f0ebdb4cae1a8e57141a6643c5e40d7c8": {
+  "name": "yiuiyu",
+  "batch": "20",
+  "days": 7.3,
+  "pnl": -0.3,
+  "closed": 3,
+  "open": 0,
+  "segments": [
+   "Sports / Baseball",
+   "Sports / Baseball / MLB",
+   "Sports / Baseball / type=moneyline"
+  ]
+ },
+ "0x2763960f48eeedbea5796a55337b960815c386dd": {
+  "name": "Ricardo30",
+  "batch": "20",
+  "days": 7.3,
+  "pnl": -2.53,
+  "closed": 4,
+  "open": 3,
+  "segments": [
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x68c26f360fb90ee2a44a7507c893a14acb7ec7e6": {
+  "name": "yui6776",
+  "batch": "20",
+  "days": 7.3,
+  "pnl": -2.42,
+  "closed": 5,
+  "open": 0,
+  "segments": [
+   "Sports / Baseball",
+   "Sports / Baseball / MLB"
+  ]
+ },
+ "0xf4435bf20e74ce1264951578e921e8d0ed0d1ea1": {
+  "name": "zp8269",
+  "batch": "21",
+  "days": 6.3,
+  "pnl": -0.73,
+  "closed": 12,
+  "open": 0,
+  "segments": [
+   "Sports / Soccer",
+   "Sports / Soccer / pre",
+   "Sports / Soccer / type=moneyline"
+  ]
+ },
+ "0x9246043ac062d160f1c8ee96872a3ccb2db59195": {
+  "name": "0x9246043AC062D160F1C8ee96872a3CCB2DB59195-1775834612409",
+  "batch": "21",
+  "days": 6.3,
+  "pnl": -2.29,
+  "closed": 16,
+  "open": 0,
+  "segments": [
+   "Sports",
+   "Sports / Soccer",
+   "Sports / Soccer / Premier League 2025",
+   "Sports / Soccer / price=0.50-0.70",
+   "Sports / Soccer / type=moneyline",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0x30b71da3a01edcd3c3e5e2430048d80948ca1fb7": {
+  "name": "uty76",
+  "batch": "21",
+  "days": 6.3,
+  "pnl": -3.0,
+  "closed": 3,
+  "open": 0,
+  "segments": [
+   "Sports / Tennis / price=0.70-0.90",
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0xd9f91fe605f1fb2ad72f0b586029ea212a7f47c7": {
+  "name": "0xd9F91fE605F1fB2AD72F0b586029eA212A7f47C7-1782975475013",
+  "batch": "22",
+  "days": 5.3,
+  "pnl": -1.0,
+  "closed": 1,
+  "open": 0,
+  "segments": [
+   "Sports",
+   "Sports / Soccer",
+   "Sports / Soccer / FIFA World Cup",
+   "Sports / Soccer / pre"
+  ]
+ },
+ "0x336ea8af5a4462d01304026af7bc8fd31673cae9": {
+  "name": "",
+  "batch": "22",
+  "days": 5.3,
+  "pnl": -2.15,
+  "closed": 8,
+  "open": 1,
+  "segments": [
+   "Sports / price=0.50-0.70"
+  ]
+ },
+ "0xadf3fe81c99923655ab4953a242a6b12342e7916": {
+  "name": "0xadf3fE81c99923655AB4953a242A6B12342e7916-1774966799507",
+  "batch": "22",
+  "days": 5.3,
+  "pnl": -0.68,
+  "closed": 11,
+  "open": 1,
+  "segments": [
+   "Sports / Soccer / pre"
+  ]
+ },
+ "0xbbac81bb1c0e3ec89ea86f1067ecdbb93bc838d0": {
+  "name": "josephsmithlds",
+  "batch": "22",
+  "days": 5.3,
+  "pnl": -0.9,
+  "closed": 20,
+  "open": 0,
+  "segments": [
+   "Sports / American Football / CFB 2026",
+   "Sports / American Football / live"
+  ]
+ }
+}
