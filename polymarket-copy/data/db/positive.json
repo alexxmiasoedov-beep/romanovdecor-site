@@ -222,5 +222,12 @@
   "pnl": 14.08,
   "closed": 47,
   "reviewed": "2026-10-19"
+ },
+ "0x6a5ca57dc2e7786119f114a547d4d4ad1d4e493b": {
+  "name": "MCB75",
+  "batch": "20",
+  "pnl": 9.41,
+  "closed": 25,
+  "reviewed": "2026-10-20"
  }
 }
