@@ -44,9 +44,10 @@ BUCKETS = {"0.00-0.10", "0.10-0.30", "0.30-0.50", "0.50-0.70", "0.70-0.90", "0.9
 def parse_strategy(name: str) -> dict:
     """Фильтр стратегии: сегмент (all / cat= / sub= / type=), live|pre, price=корзины через + или диапазон 0.20-0.70,
     side=yes|no (индекс исхода 0|1), new (только первые покупки в позицию, без докупок) — последние три
-    добавлены 15.10 для ручных стратегий (кошелёк Car)."""
+    добавлены 15.10 для ручных стратегий (кошелёк Car); -title=слово — исключить рынки, в заголовке которых есть слово
+    (balthazar без погоды, 22.10)."""
     parts = [p.strip() for p in name.split("&")]
-    st = {"seg": "all", "live": None, "buckets": None, "range": None, "side": None, "new_only": False, "max_dte": None}
+    st = {"seg": "all", "live": None, "buckets": None, "range": None, "side": None, "new_only": False, "max_dte": None, "not_title": []}
     for p in parts:
         if p == "all": continue
         if p in ("live", "pre"): st["live"] = (p == "live"); continue
@@ -59,11 +60,13 @@ def parse_strategy(name: str) -> dict:
         if p.startswith("side="): st["side"] = 0 if p[5:].lower() == "yes" else 1; continue
         if p == "new": st["new_only"] = True; continue
         if p.startswith("dte<="): st["max_dte"] = float(p[5:]); continue   # до разрешения рынка не больше N дней (balthazar, 15.10)
+        if p.startswith("-title="): st["not_title"].append(p[7:].lower()); continue   # исключить рынки со словом в заголовке (balthazar без погоды, 22.10)
         st["seg"] = p
     return st
 
-def passes(st: dict, cls: dict, live: bool, price: float, oi: int = 0, is_new: bool = True, dte: float | None = None) -> bool:
+def passes(st: dict, cls: dict, live: bool, price: float, oi: int = 0, is_new: bool = True, dte: float | None = None, title: str = "") -> bool:
     seg = st["seg"]
+    if st.get("not_title") and any(w in (title or "").lower() for w in st["not_title"]): return False
     if seg.startswith("cat=") and cls["category"] != seg[4:]: return False
     if seg.startswith("sub=") and f'{cls["category"]} / {cls["sub"]}' != seg[4:]: return False
     if seg.startswith("type=") and cls["mtype"] != seg[5:]: return False
@@ -127,7 +130,7 @@ def update_wallet(w: str, st: dict, now: float):
             live = bool(m.get("gameStartTime") and ts > m["gameStartTime"])
             st["seen"] += 1
             dte = (float(m["endDate"]) - ts) / 86400 if m.get("endDate") else None
-            if price >= config.MAX_ENTRY_PRICE or not passes(strat, cls, live, price, int(t.get("outcomeIndex") or 0), hq_before <= 1e-9, dte):
+            if price >= config.MAX_ENTRY_PRICE or not passes(strat, cls, live, price, int(t.get("outcomeIndex") or 0), hq_before <= 1e-9, dte, t.get("title") or ""):
                 st["skipped"] += 1; continue
             q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC, tape=tape(cid))
             fill, src = (q["ask"], q["src"]) if q["ask"] is not None else (price + quotes.SPREAD_FALLBACK, "own+spread")
