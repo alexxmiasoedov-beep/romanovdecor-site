@@ -236,5 +236,26 @@
   "pnl": 2.16,
   "closed": 13,
   "reviewed": "2026-10-21"
+ },
+ "0x958d1624fdd019d0e78cad7042fcc5a8713ca6d0": {
+  "name": "Amam43",
+  "batch": "22",
+  "pnl": 6.35,
+  "closed": 11,
+  "reviewed": "2026-10-22"
+ },
+ "0x54afa8b03ffcf582df8959d0f44b21d89d536629": {
+  "name": "",
+  "batch": "22",
+  "pnl": 3.53,
+  "closed": 7,
+  "reviewed": "2026-10-22"
+ },
+ "0x326763399be9a0a81c47c01f942e8b27f4aa2f71": {
+  "name": "pabilao",
+  "batch": "22",
+  "pnl": 5.85,
+  "closed": 13,
+  "reviewed": "2026-10-22"
  }
 }
