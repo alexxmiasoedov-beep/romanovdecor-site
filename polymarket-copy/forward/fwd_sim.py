@@ -23,6 +23,14 @@ markets.LEGACY_STORE = os.path.join(HERE, "_none.json")
 STATE = os.path.join(HERE, "fwd.json")
 REPORT = os.path.join(HERE, "FWD_REPORT.md")
 START_BALANCE = 100.0
+FEE_RATE = 0.05   # комиссия Polymarket: 5% × цена × (1 − цена) × доли на покупку и продажу (подобрано по реальным позициям владельца, 23.10); на части рынков (NBA и др.) комиссии нет — считаем консервативно везде
+
+def fee(price: float, shares: float) -> float:
+    return FEE_RATE * price * (1 - price) * shares
+
+def payout(px: float) -> float:
+    """Выплата за долю по резолву: 1 или 0, а отменённые рынки (0,5/0,5) — по 0,5. До 23.10 всё ≥ 0,5 считалось выигрышем — ошибка."""
+    return 1.0 if px >= 0.99 else 0.0 if px <= 0.01 else px
 _tapes: dict = {}; _tlock = threading.Lock()
 
 def tape(cid: str) -> list:
@@ -139,9 +147,10 @@ def update_wallet(w: str, st: dict, now: float):
             stake = stake_for(st, price * size, price)
             if st["cash"] < stake: st["skipped"] += 1; continue
             fill = fill * (1 + config.SIM_EXTRA_SLIPPAGE_REL)
-            st["cash"] -= stake
+            f = fee(fill, stake / fill)
+            st["cash"] -= stake + f
             st["positions"][asset] = {"cid": cid, "oi": int(t.get("outcomeIndex") or 0), "title": t.get("title"), "opened": ts,
-                                      "his_entry": price, "fill": fill, "fill_src": src, "stake": stake, "shares": stake / fill, "shares0": stake / fill, "proceeds": 0.0}
+                                      "his_entry": price, "fill": fill, "fill_src": src, "stake": stake, "shares": stake / fill, "shares0": stake / fill, "proceeds": 0.0, "fee": f}
         else:
             hq = st["his_qty"].get(asset, 0.0)
             frac = min(size / hq, 1.0) if hq > 1e-9 else 0.0
@@ -149,7 +158,8 @@ def update_wallet(w: str, st: dict, now: float):
             if pos and frac > 0:
                 q = quotes.quote(cid, asset, ts + config.COPY_DELAY_SEC, tape=tape(cid))
                 bid = q["bid"] if q["bid"] is not None else max(price - quotes.SPREAD_FALLBACK, 0.001)
-                sell = pos["shares"] * frac; got = sell * bid * (1 - config.SIM_EXTRA_SLIPPAGE_REL)
+                sell = pos["shares"] * frac; got = sell * bid * (1 - config.SIM_EXTRA_SLIPPAGE_REL) - fee(bid, sell)
+                pos["fee"] = pos.get("fee", 0.0) + fee(bid, sell)
                 pos["shares"] -= sell; pos["proceeds"] += got; st["cash"] += got
                 if pos["shares"] <= 1e-9:
                     _close(st, asset, pos, "sold", ts)
@@ -160,7 +170,7 @@ def update_wallet(w: str, st: dict, now: float):
         prices = m.get("outcomePrices") or []
         px = float(prices[pos["oi"]]) if pos["oi"] < len(prices) else None
         if m.get("closed") and px is not None:
-            res = 1.0 if px >= 0.5 else 0.0
+            res = payout(px)
             pos["proceeds"] += pos["shares"] * res; st["cash"] += pos["shares"] * res; pos["shares"] = 0.0
             _close(st, asset, pos, "resolve", now); continue
         value += pos["shares"] * (px if px is not None else pos["fill"])
@@ -168,7 +178,7 @@ def update_wallet(w: str, st: dict, now: float):
     st["processed"] = st["processed"][-3000:]
 
 def _close(st, asset, pos, how, ts):
-    pos["closed"] = ts; pos["how"] = how; pos["pnl"] = round(pos["proceeds"] - pos["stake"], 4)
+    pos["closed"] = ts; pos["how"] = how; pos["pnl"] = round(pos["proceeds"] - pos["stake"] - pos.get("fee", 0.0), 4)
     st["closed"].append(pos); st["positions"].pop(asset, None)
 
 def cmd_update(a):

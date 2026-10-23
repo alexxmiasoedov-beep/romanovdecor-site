@@ -100,7 +100,7 @@ for i in range(0, len(cids), 500):
         mk[c] = {"closed": bool(m.get("closed")), "prices": m.get("outcomePrices") or [], "gst": m.get("gameStartTime") or 0,
                  "cat": cls["category"], "sub": cls["sub"], "mtype": cls["mtype"], "missing": bool(m.get("missing"))}
 markets.save()
-SLIP = 0.01; MAX_ENTRY = 0.90
+SLIP = 0.01; MAX_ENTRY = 0.90; FEE_RATE = 0.05
 
 def positions(tr):
     """Позиции кошелька за окно: cost, proceeds, остаток × итоговая цена → ROI его позиции."""
@@ -121,12 +121,12 @@ def positions(tr):
         m = mk.get(p["cid"])
         if not m or m.get("missing") or not m["prices"] or p["oi"] >= len(m["prices"]): continue
         fin = float(m["prices"][p["oi"]])
-        if m["closed"]: fin = 1.0 if fin >= 0.5 else 0.0
+        if m["closed"]: fin = 1.0 if fin >= 0.99 else 0.0 if fin <= 0.01 else fin   # отменённые рынки резолвятся 0,5/0,5 (исправлено 23.10)
         entry = p["cost"]/p["sh"]
         if entry >= MAX_ENTRY: continue
         value = p["proc"] + (p["sh"] - p["sold"]) * fin
         roi_his = value/p["cost"] - 1
-        roi_copy = (roi_his + 1) * entry/(entry + SLIP) - 1
+        roi_copy = (roi_his + 1) * entry/(entry + SLIP + FEE_RATE * entry * (1 - entry)) - 1   # + комиссия входа Polymarket 5%·p·(1−p) (23.10)
         live = bool(m["gst"] and p["ts"] > m["gst"])
         out.append({"ts": p["ts"], "usd": p["cost"], "entry": entry, "roi": roi_copy, "resolved": m["closed"],
                     "cat": m["cat"], "sub": f'{m["cat"]} / {m["sub"]}', "mtype": m["mtype"], "live": live,
