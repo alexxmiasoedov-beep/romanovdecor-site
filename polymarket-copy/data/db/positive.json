@@ -257,5 +257,26 @@
   "pnl": 5.85,
   "closed": 13,
   "reviewed": "2026-10-22"
+ },
+ "0x49bceb9fa38ae72bf16d645b12c9dc76c7348e3c": {
+  "name": "casituancui",
+  "batch": "23",
+  "pnl": 4.61,
+  "closed": 22,
+  "reviewed": "2026-10-23"
+ },
+ "0xe4cbe31ee2fbe6a98946e20b9c964e3ea9bfea19": {
+  "name": "0xE4cBe31eE2fBE6a98946E20b9C964E3ea9BFea19-1771289534227",
+  "batch": "23",
+  "pnl": 0.56,
+  "closed": 5,
+  "reviewed": "2026-10-23"
+ },
+ "0x1e52bbdf389526f57abc62641d518868f4c5eb43": {
+  "name": "dsasdaas",
+  "batch": "23",
+  "pnl": 3.55,
+  "closed": 18,
+  "reviewed": "2026-10-23"
  }
 }
